@@ -6,11 +6,11 @@ export default function Home() {
 	const products = [
 		{
 			id: "bpc-157",
-			name: "BPC-157 5mg",
+			name: "BPC-157 10mg",
 			description: "Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.",
 			price: 89.99,
 			originalPrice: 119.99,
-			image: "/placeholder.jpg",
+			image: "/products/bpc-157/e290418c-41c2-4a52-aef7-d921f7619935 copy.png",
 			rating: 5,
 			reviews: 127,
 			badge: "Best Seller"
@@ -21,7 +21,7 @@ export default function Home() {
 			description: "Thymosin Beta-4 fragment for research applications. Premium quality peptide.",
 			price: 149.99,
 			originalPrice: 199.99,
-			image: "/placeholder.jpg",
+			image: "/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png",
 			rating: 5,
 			reviews: 89,
 			badge: "Sale"
@@ -32,7 +32,7 @@ export default function Home() {
 			description: "Premium peptide blend combining BPC-157, GHK-Cu, and TB-500 for comprehensive research.",
 			price: 299.99,
 			originalPrice: 399.99,
-			image: "/placeholder.jpg",
+			image: "/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png",
 			rating: 5,
 			reviews: 45,
 			badge: "New"

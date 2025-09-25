@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { ShoppingCart, Star } from 'lucide-react'
 import PlaceholderImage from './PlaceholderImage'
 import { useCart } from '@/contexts/CartContext'
@@ -44,12 +45,22 @@ export default function ProductCard({
 		<div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
 			{/* Product Image */}
 			<div className="relative">
-				<PlaceholderImage
-					width={300}
-					height={200}
-					text={name}
-					className="w-full h-48"
-				/>
+				{image && image !== "/placeholder.jpg" ? (
+					<Image
+						src={image}
+						alt={name}
+						width={300}
+						height={200}
+						className="w-full h-48 object-cover"
+					/>
+				) : (
+					<PlaceholderImage
+						width={300}
+						height={200}
+						text={name}
+						className="w-full h-48"
+					/>
+				)}
 				{badge && (
 					<div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold">
 						{badge}
