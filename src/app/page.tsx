@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard"
 import { Shield, Truck, Award, Lock } from "lucide-react"
+import Link from "next/link"
 
 export default function Home() {
 	const products = [
@@ -89,9 +90,9 @@ export default function Home() {
 								Delivering High Quality At Affordable Prices
 							</p>
 							
-							<button className="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors uppercase tracking-wide">
+							<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors uppercase tracking-wide">
 								Shop Now!
-							</button>
+							</Link>
 						</div>
 						
 					</div>
@@ -147,9 +148,9 @@ export default function Home() {
 							))}
 						</div>
 						<div className="text-center mt-12">
-							<button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+							<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
 								View All Products
-							</button>
+							</Link>
 						</div>
 					</div>
 				</div>
