@@ -80,17 +80,17 @@ export default function Home() {
 								))}
 							</div>
 							
-							<h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-gradient">
+							<h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
 								Five Star Quality
 								<br />
 								in Research Supply
 							</h1>
 							
-							<p className="text-xl text-cyan-300 mb-8 font-medium neon-text">
+							<p className="text-xl text-blue-700 mb-8 font-medium">
 								Delivering High Quality At Affordable Prices
 							</p>
 							
-							<Link href="/products" className="inline-block scientific-glow text-white px-8 py-4 rounded-lg font-bold text-lg hover:scale-105 transition-all duration-300 uppercase tracking-wide glow-effect">
+							<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300 uppercase tracking-wide">
 								Shop Now!
 							</Link>
 						</div>
@@ -104,23 +104,23 @@ export default function Home() {
 				<div className="relative z-10">
 					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="text-center mb-12">
-							<h2 className="text-3xl font-bold text-white mb-4 text-gradient">
+							<h2 className="text-3xl font-bold text-gray-900 mb-4">
 								Why Choose Enhanced Chem?
 							</h2>
-							<p className="text-lg text-cyan-200 neon-text">
+							<p className="text-lg text-gray-700">
 								We provide the highest quality research peptides with exceptional service
 							</p>
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 							{features.map((feature, index) => (
-								<div key={index} className="text-center glass-card hover-lift p-6 cyber-border">
-									<div className="bg-gradient-to-r from-blue-500 to-cyan-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+								<div key={index} className="text-center bg-white/90 backdrop-blur-sm hover-lift p-6 rounded-lg shadow-lg border border-blue-200">
+									<div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
 										<feature.icon className="h-8 w-8 text-white" />
 									</div>
-									<h3 className="text-xl font-semibold text-white mb-2 text-gradient">
+									<h3 className="text-xl font-semibold text-gray-900 mb-2">
 										{feature.title}
 									</h3>
-									<p className="text-cyan-100">
+									<p className="text-gray-700">
 										{feature.description}
 									</p>
 								</div>
@@ -135,10 +135,10 @@ export default function Home() {
 				<div className="relative z-10">
 					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="text-center mb-12">
-							<h2 className="text-3xl font-bold text-white mb-4 text-gradient">
+							<h2 className="text-3xl font-bold text-gray-900 mb-4">
 								Our Featured Products
 							</h2>
-							<p className="text-lg text-cyan-200 neon-text">
+							<p className="text-lg text-gray-700">
 								Premium quality peptides for scientific research purposes only
 							</p>
 						</div>
@@ -150,7 +150,7 @@ export default function Home() {
 							))}
 						</div>
 						<div className="text-center mt-12">
-							<Link href="/products" className="inline-block scientific-glow text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 glow-effect">
+							<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 hover:scale-105 transition-all duration-300">
 								View All Products
 							</Link>
 						</div>

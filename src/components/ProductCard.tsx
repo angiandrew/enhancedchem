@@ -42,7 +42,7 @@ export default function ProductCard({
 	}
 
 	return (
-		<div className="glass-card hover-lift overflow-hidden cyber-border">
+		<div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden hover-lift">
 			{/* Product Image */}
 			<div className="relative">
 				{image && image !== "/placeholder.jpg" ? (
@@ -62,12 +62,12 @@ export default function ProductCard({
 					/>
 				)}
 				{badge && (
-					<div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded text-sm font-semibold glow-effect">
+					<div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold">
 						{badge}
 					</div>
 				)}
 				{discount > 0 && (
-					<div className="absolute top-2 right-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded text-sm font-semibold glow-effect">
+					<div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-sm font-semibold">
 						-{discount}%
 					</div>
 				)}
@@ -76,29 +76,29 @@ export default function ProductCard({
 			{/* Product Info */}
 			<div className="p-4">
 				<Link href={`/products/${id}`}>
-					<h3 className="text-lg font-semibold text-white hover:text-cyan-300 transition-colors mb-2 text-gradient">
+					<h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors mb-2">
 						{name}
 					</h3>
 				</Link>
 				
-				<p className="text-cyan-100 text-sm mb-3 line-clamp-2">
+				<p className="text-gray-600 text-sm mb-3 line-clamp-2">
 					{description}
 				</p>
 
 				{/* Rating */}
 				{rating > 0 && (
 					<div className="flex items-center mb-3">
-						<div className="flex items-center glow-effect">
+						<div className="flex items-center">
 							{[...Array(5)].map((_, i) => (
 								<Star
 									key={i}
 									className={`h-4 w-4 ${
-										i < rating ? 'text-yellow-400 fill-current' : 'text-cyan-500/50'
+										i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
 									}`}
 								/>
 							))}
 						</div>
-						<span className="text-sm text-cyan-200 ml-2">
+						<span className="text-sm text-gray-600 ml-2">
 							{rating} ({reviews} reviews)
 						</span>
 					</div>
@@ -107,11 +107,11 @@ export default function ProductCard({
 				{/* Price */}
 				<div className="flex items-center justify-between mb-4">
 					<div className="flex items-center space-x-2">
-						<span className="text-2xl font-bold text-white text-gradient">
+						<span className="text-2xl font-bold text-gray-900">
 							${price.toFixed(2)}
 						</span>
 						{originalPrice && (
-							<span className="text-lg text-cyan-300 line-through">
+							<span className="text-lg text-gray-500 line-through">
 								${originalPrice.toFixed(2)}
 							</span>
 						)}
@@ -121,7 +121,7 @@ export default function ProductCard({
 				{/* Add to Cart Button */}
 				<button 
 					onClick={handleAddToCart}
-					className="w-full scientific-glow text-white py-2 px-4 rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 glow-effect"
+					className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
 				>
 					<ShoppingCart className="h-4 w-4" />
 					<span>Add to Cart</span>
