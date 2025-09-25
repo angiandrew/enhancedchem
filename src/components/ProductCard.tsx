@@ -51,14 +51,14 @@ export default function ProductCard({
 						alt={name}
 						width={300}
 						height={200}
-						className="w-full h-48 object-cover"
+						className="w-full h-56 object-contain"
 					/>
 				) : (
 					<PlaceholderImage
 						width={300}
 						height={200}
 						text={name}
-						className="w-full h-48"
+						className="w-full h-56"
 					/>
 				)}
 				{badge && (
