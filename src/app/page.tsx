@@ -62,10 +62,10 @@ export default function Home() {
 		}
 	]
 
-	return (
+  return (
 		<div className="min-h-screen">
 			{/* Hero Section */}
-			<section className="scientific-theme py-20 relative overflow-hidden">
+			<section className="scientific-theme particle-bg py-20 relative overflow-hidden">
 				
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -74,23 +74,23 @@ export default function Home() {
 							{/* Five Star Rating */}
 							<div className="flex justify-center lg:justify-start mb-4">
 								{[...Array(5)].map((_, i) => (
-									<svg key={i} className="w-6 h-6 text-yellow-400 fill-current" viewBox="0 0 20 20">
+									<svg key={i} className="w-6 h-6 text-yellow-400 fill-current glow-effect" viewBox="0 0 20 20">
 										<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
 									</svg>
 								))}
 							</div>
 							
-							<h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 drop-shadow-sm">
+							<h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-gradient">
 								Five Star Quality
 								<br />
 								in Research Supply
 							</h1>
 							
-							<p className="text-xl text-blue-700 mb-8 font-medium drop-shadow-sm">
+							<p className="text-xl text-cyan-300 mb-8 font-medium neon-text">
 								Delivering High Quality At Affordable Prices
 							</p>
 							
-							<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors uppercase tracking-wide">
+							<Link href="/products" className="inline-block scientific-glow text-white px-8 py-4 rounded-lg font-bold text-lg hover:scale-105 transition-all duration-300 uppercase tracking-wide glow-effect">
 								Shop Now!
 							</Link>
 						</div>
@@ -100,27 +100,27 @@ export default function Home() {
 			</section>
 
 			{/* Features Section */}
-			<section className="py-16 scientific-theme relative">
+			<section className="py-16 scientific-theme particle-bg relative">
 				<div className="relative z-10">
 					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="text-center mb-12">
-							<h2 className="text-3xl font-bold text-gray-900 mb-4 drop-shadow-sm">
+							<h2 className="text-3xl font-bold text-white mb-4 text-gradient">
 								Why Choose Enhanced Chem?
 							</h2>
-							<p className="text-lg text-gray-700 drop-shadow-sm">
+							<p className="text-lg text-cyan-200 neon-text">
 								We provide the highest quality research peptides with exceptional service
 							</p>
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 							{features.map((feature, index) => (
-								<div key={index} className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-									<div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-										<feature.icon className="h-8 w-8 text-blue-600" />
+								<div key={index} className="text-center glass-card hover-lift p-6 cyber-border">
+									<div className="bg-gradient-to-r from-blue-500 to-cyan-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+										<feature.icon className="h-8 w-8 text-white" />
 									</div>
-									<h3 className="text-xl font-semibold text-gray-900 mb-2">
+									<h3 className="text-xl font-semibold text-white mb-2 text-gradient">
 										{feature.title}
 									</h3>
-									<p className="text-gray-700">
+									<p className="text-cyan-100">
 										{feature.description}
 									</p>
 								</div>
@@ -131,24 +131,26 @@ export default function Home() {
 			</section>
 
 			{/* Products Section */}
-			<section className="py-16 scientific-theme relative">
+			<section className="py-16 scientific-theme particle-bg relative">
 				<div className="relative z-10">
 					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="text-center mb-12">
-							<h2 className="text-3xl font-bold text-gray-900 mb-4">
+							<h2 className="text-3xl font-bold text-white mb-4 text-gradient">
 								Our Featured Products
 							</h2>
-							<p className="text-lg text-gray-600">
+							<p className="text-lg text-cyan-200 neon-text">
 								Premium quality peptides for scientific research purposes only
 							</p>
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 							{products.map((product) => (
-								<ProductCard key={product.id} {...product} />
+								<div key={product.id} className="hover-lift">
+									<ProductCard {...product} />
+								</div>
 							))}
 						</div>
 						<div className="text-center mt-12">
-							<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+							<Link href="/products" className="inline-block scientific-glow text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 glow-effect">
 								View All Products
 							</Link>
 						</div>
@@ -170,8 +172,8 @@ export default function Home() {
 							legitimate research purposes in accordance with applicable laws and regulations.
 						</p>
 					</div>
-				</div>
+        </div>
 			</section>
-		</div>
+    </div>
 	)
 }
