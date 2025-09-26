@@ -66,10 +66,10 @@ export default function Home() {
   return (
 		<div className="min-h-screen">
 			{/* Hero Section - Clean Professional Layout */}
-			<section className="relative w-full h-[72vh] bg-white overflow-hidden">
+			<section className="relative w-full h-[75vh] bg-white overflow-hidden">
 				{/* Background with subtle pattern */}
-				<div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 transition-all duration-500"></div>
-				<div className="absolute inset-0 opacity-5 transition-opacity duration-500">
+				<div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 transition-all duration-1000"></div>
+				<div className="absolute inset-0 opacity-5 transition-opacity duration-1000">
 					<div className="absolute inset-0" style={{
 						backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E")`,
 					}}></div>
@@ -77,37 +77,37 @@ export default function Home() {
 				
 				<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
 					<div className="flex items-center h-full">
-						{/* Left Content - 45% width */}
-						<div className="w-full lg:w-[45%] pr-8 transition-all duration-500 ease-out">
+						{/* Left Content */}
+						<div className="w-full lg:w-2/5 pr-8 transition-all duration-700 ease-out">
 							<div className="max-w-lg">
-								<h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight transition-all duration-500 ease-out transform hover:scale-102">
+								<h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight transition-all duration-700 ease-out transform hover:scale-105">
 									Same-Day Shipping on USA Orders*
 								</h1>
-								<div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 transition-all duration-500 ease-out">
-									<div className="flex items-center text-lg text-gray-700 transition-all duration-400 hover:text-green-600">
-										<div className="w-3 h-3 bg-green-500 rounded-full mr-3 transition-all duration-400 hover:scale-110"></div>
+								<div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 transition-all duration-700 ease-out">
+									<div className="flex items-center text-lg text-gray-700 transition-all duration-500 hover:text-green-600">
+										<div className="w-3 h-3 bg-green-500 rounded-full mr-3 transition-all duration-500 hover:scale-125"></div>
 										<span className="font-semibold">99% Purity Guaranteed</span>
 									</div>
-									<div className="flex items-center text-lg text-gray-700 transition-all duration-400 hover:text-blue-600">
-										<div className="w-3 h-3 bg-blue-500 rounded-full mr-3 transition-all duration-400 hover:scale-110"></div>
+									<div className="flex items-center text-lg text-gray-700 transition-all duration-500 hover:text-blue-600">
+										<div className="w-3 h-3 bg-blue-500 rounded-full mr-3 transition-all duration-500 hover:scale-125"></div>
 										<span className="font-semibold">Safe & Secure</span>
 									</div>
 								</div>
-								<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all duration-400 shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-0.5">
+								<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all duration-500 shadow-lg hover:shadow-2xl transform hover:scale-110 hover:-translate-y-1">
 									Shop Now
 								</Link>
 							</div>
 						</div>
 						
-						{/* Right Image - 55% width */}
-						<div className="hidden lg:block w-[55%] pl-8 transition-all duration-500 ease-out">
-							<div className="relative transform hover:scale-102 transition-all duration-500 ease-out">
+						{/* Right Image - Bigger */}
+						<div className="hidden lg:block w-3/5 pl-8 transition-all duration-700 ease-out">
+							<div className="relative transform hover:scale-105 transition-all duration-700 ease-out">
 								<img 
 									src="/hero-image.png" 
 									alt="Enhanced Chem Research Peptides"
-									className="w-full h-auto object-contain drop-shadow-2xl transition-all duration-500 ease-out"
+									className="w-full h-auto object-contain drop-shadow-2xl transition-all duration-700 ease-out"
 								/>
-								<div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-blue-100 opacity-0 hover:opacity-15 transition-opacity duration-500"></div>
+								<div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-blue-100 opacity-0 hover:opacity-20 transition-opacity duration-700"></div>
 							</div>
 						</div>
 					</div>

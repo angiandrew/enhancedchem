@@ -14,8 +14,16 @@ export default function Header() {
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
 					{/* Logo */}
-					<Link href="/" className="flex items-center">
-						<div className="text-2xl font-bold text-blue-600">
+					<Link href="/" className="flex items-center space-x-3 group hover:scale-105 transition-all duration-300">
+						<div className="relative">
+							<img 
+								src="/transparent logo copy.png" 
+								alt="Enhanced Chem Logo" 
+								className="h-10 w-10 object-contain filter drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300"
+							/>
+							<div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-10 rounded-full transition-opacity duration-300"></div>
+						</div>
+						<div className="text-2xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
 							Enhanced Chem
 						</div>
 					</Link>
