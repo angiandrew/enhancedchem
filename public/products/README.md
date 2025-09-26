@@ -27,3 +27,5 @@ Or in Next.js Image component:
 import Image from 'next/image'
 <Image src="/products/bpc-157/bpc-157-main.jpg" alt="BPC-157 Product" width={400} height={300} />
 ```
+
+

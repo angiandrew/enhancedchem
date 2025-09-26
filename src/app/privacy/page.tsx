@@ -9,7 +9,7 @@ export default function PrivacyPage() {
 				<div className="bg-white rounded-lg shadow-sm p-8">
 					<div className="prose max-w-none">
 						<p className="text-gray-600 mb-6">
-							This Privacy Policy describes how Enhanced Chem ("we," "our," or "us") collects, 
+							This Privacy Policy describes how Enhanced Chem (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) collects, 
 							uses, and protects your personal information when you visit our website or make 
 							purchases from us.
 						</p>
