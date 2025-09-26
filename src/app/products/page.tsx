@@ -1,5 +1,4 @@
 import ProductCard from '@/components/ProductCard'
-import { Filter, Search } from 'lucide-react'
 
 export default function ProductsPage() {
 	const products = [

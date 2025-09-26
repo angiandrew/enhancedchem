@@ -1,5 +1,6 @@
 import { ShoppingCart, Star, Shield, Truck, Award } from 'lucide-react'
 import PlaceholderImage from '@/components/PlaceholderImage'
+import Link from 'next/link'
 
 export default function MixPeptidePage() {
 	return (
@@ -8,9 +9,9 @@ export default function MixPeptidePage() {
 				{/* Breadcrumb */}
 				<nav className="mb-8">
 					<ol className="flex items-center space-x-2 text-sm text-gray-500">
-						<li><a href="/" className="hover:text-blue-600">Home</a></li>
-						<li>/</li>
-						<li><a href="/products" className="hover:text-blue-600">Products</a></li>
+					<li><Link href="/" className="hover:text-blue-600">Home</Link></li>
+					<li>/</li>
+					<li><Link href="/products" className="hover:text-blue-600">Products</Link></li>
 						<li>/</li>
 						<li className="text-gray-900">BPC-157 + GHK-Cu + TB-500 Mix</li>
 					</ol>

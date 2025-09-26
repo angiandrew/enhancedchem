@@ -13,7 +13,7 @@ export default function TermsPage() {
 						</h2>
 						
 						<p className="text-gray-600 mb-6">
-							Welcome to Enhanced Chem. These Terms of Service ("Terms") govern your use of our 
+							Welcome to Enhanced Chem. These Terms of Service (&quot;Terms&quot;) govern your use of our 
 							website and services. By accessing or using our website, you agree to be bound by 
 							these Terms.
 						</p>
