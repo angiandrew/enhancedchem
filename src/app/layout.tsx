@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Enhanced Chem - Premium Research Peptides",
-  description: "High-quality research peptides for scientific purposes. BPC-157, TB-500, and specialized peptide blends available.",
+  description: "High-quality research peptides for scientific purposes. BPC-157, TB-500, and specialized peptide blends available. Fast shipping and research-grade quality.",
 };
 
 export default function RootLayout({
@@ -41,4 +41,3 @@ export default function RootLayout({
     </html>
   );
 }
-<!-- Force deployment -->
