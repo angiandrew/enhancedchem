@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, User } from 'lucide-react'
+import { Menu, X, User, ShoppingCart } from 'lucide-react'
+import { useCart } from '@/contexts/CartContext'
 
 export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const { totalItems } = useCart()
 
 	return (
 		<header className="bg-white shadow-lg sticky top-0 z-50">
@@ -46,6 +48,14 @@ export default function Header() {
 					<div className="flex items-center space-x-4">
 						<Link href="/account" className="text-gray-700 hover:text-blue-600 transition-colors">
 							<User className="h-6 w-6" />
+						</Link>
+						<Link href="/checkout" className="relative text-gray-700 hover:text-blue-600 transition-colors">
+							<ShoppingCart className="h-6 w-6" />
+							{totalItems > 0 && (
+								<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+									{totalItems}
+								</span>
+							)}
 						</Link>
 						
 						{/* Mobile menu button */}
