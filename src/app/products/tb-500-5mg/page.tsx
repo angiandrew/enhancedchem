@@ -31,7 +31,6 @@ export default function TB5005mgPage() {
 				image: currentImage
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (

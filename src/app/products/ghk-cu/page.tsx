@@ -31,7 +31,6 @@ export default function GHKCuPage() {
 				image: currentImage
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (

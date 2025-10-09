@@ -31,7 +31,6 @@ export default function BPC157Page() {
 				image: '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png'
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (

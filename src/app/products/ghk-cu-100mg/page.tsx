@@ -31,7 +31,6 @@ export default function GHKCu100mgPage() {
 				image: currentImage
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (

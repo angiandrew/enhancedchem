@@ -31,7 +31,6 @@ export default function BPC1575mgPage() {
 				image: currentImage
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (

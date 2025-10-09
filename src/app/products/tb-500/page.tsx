@@ -31,7 +31,6 @@ export default function TB500Page() {
 				image: '/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png'
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (

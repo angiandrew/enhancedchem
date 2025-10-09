@@ -24,7 +24,6 @@ export default function MixPeptidePage() {
 				image: '/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png'
 			})
 		}
-		router.push('/checkout')
 	}
 
 	return (
