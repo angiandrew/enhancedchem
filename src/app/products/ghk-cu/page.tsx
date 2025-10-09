@@ -4,14 +4,12 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
 
 export default function GHKCuPage() {
 	const [selectedMG, setSelectedMG] = useState('50mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
-	const router = useRouter()
 
 	const mgOptions = [
 		{ value: '50mg', price: 199.99, originalPrice: 249.99, image: '/products/ghk-cu/GHK-CU_50MG.png' },

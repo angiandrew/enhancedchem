@@ -4,14 +4,12 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
 
 export default function TB500Page() {
 	const [selectedMG, setSelectedMG] = useState('10mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
-	const router = useRouter()
 
 	const mgOptions = [
 		{ value: '5mg', price: 99.99, originalPrice: 129.99 },

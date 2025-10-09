@@ -98,7 +98,7 @@ export default function ProductsPage() {
 			product.description.toLowerCase().includes(searchLower) ||
 			product.badge?.toLowerCase().includes(searchLower)
 		)
-	}, [searchTerm])
+	}, [searchTerm, products])
 
 	return (
 		<div className="min-h-screen bg-white">
@@ -134,7 +134,7 @@ export default function ProductsPage() {
 				{searchTerm && (
 					<div className="mb-6">
 						<p className="text-gray-600">
-							{filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found for "{searchTerm}"
+							{filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found for &ldquo;{searchTerm}&rdquo;
 						</p>
 					</div>
 				)}

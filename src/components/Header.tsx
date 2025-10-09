@@ -40,9 +40,11 @@ export default function Header() {
 					{/* Logo */}
 					<Link href="/" className="flex items-center space-x-3 group hover:scale-105 transition-all duration-300">
 						<div className="relative">
-							<img 
+							<Image 
 								src="/transparent logo copy.png" 
 								alt="Enhanced Chem Logo" 
+								width={40}
+								height={40}
 								className="h-10 w-10 object-contain filter drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300"
 							/>
 							<div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-10 rounded-full transition-opacity duration-300"></div>
