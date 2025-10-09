@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
 
 export default function BPC157Page() {
 	const [selectedMG, setSelectedMG] = useState('10mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
+	const router = useRouter()
 
 	const mgOptions = [
 		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157_5mg.png' },
@@ -29,6 +31,7 @@ export default function BPC157Page() {
 				image: '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png'
 			})
 		}
+		router.push('/checkout')
 	}
 
 	return (

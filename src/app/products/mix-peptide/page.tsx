@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
 
 export default function MixPeptidePage() {
 	const [selectedMG, setSelectedMG] = useState('10mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
+	const router = useRouter()
 
 	const mgOptions = [
 		{ value: '5mg', price: 199.99, originalPrice: 249.99 },
@@ -29,6 +31,7 @@ export default function MixPeptidePage() {
 				image: '/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png'
 			})
 		}
+		router.push('/checkout')
 	}
 
 	return (
