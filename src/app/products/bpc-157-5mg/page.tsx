@@ -7,21 +7,28 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
 
-export default function MixPeptidePage() {
+export default function BPC1575mgPage() {
+	const [selectedMG, setSelectedMG] = useState('5mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 	const router = useRouter()
 
-	const currentPrice = 299.99
-	const currentOriginalPrice = 399.99
+	const mgOptions = [
+		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157_5mg.png' },
+		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png' }
+	]
+
+	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 49.99
+	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 89.99
+	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-157/BPC-157_5mg.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: 'mix-peptide',
-				name: 'GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix',
+				id: `bpc-157-${selectedMG}`,
+				name: `BPC-157 ${selectedMG}`,
 				price: currentPrice,
-				image: '/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png'
+				image: currentImage
 			})
 		}
 		router.push('/checkout')
@@ -35,9 +42,9 @@ export default function MixPeptidePage() {
 					<ol className="flex items-center space-x-2 text-sm text-gray-500">
 						<li><Link href="/" className="hover:text-blue-600">Home</Link></li>
 						<li>/</li>
-						<li><Link href="/products" className="hover:text-blue-600">Best Sellers</Link></li>
+						<li><Link href="/products" className="hover:text-blue-600">Products</Link></li>
 						<li>/</li>
-						<li className="text-gray-900">GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix</li>
+						<li className="text-gray-900">BPC-157 {selectedMG}</li>
 					</ol>
 				</nav>
 
@@ -46,8 +53,8 @@ export default function MixPeptidePage() {
 					<div className="flex justify-center">
 						<div className="relative w-full max-w-md">
 							<Image
-								src="/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png"
-								alt="GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix"
+								src={currentImage}
+								alt={`BPC-157 ${selectedMG}`}
 								width={400}
 								height={400}
 								className="w-full h-auto object-contain"
@@ -61,8 +68,8 @@ export default function MixPeptidePage() {
 						<p className="text-sm text-gray-600">Availability: <span className="text-green-600 font-semibold">In stock</span></p>
 
 						{/* Product Name */}
-						<h1 className="text-2xl font-bold text-gray-900">
-							GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix
+						<h1 className="text-4xl font-bold text-gray-900">
+							BPC-157 {selectedMG}
 						</h1>
 
 						{/* Price */}
@@ -77,6 +84,27 @@ export default function MixPeptidePage() {
 							)}
 						</div>
 
+						{/* MG Selection */}
+						<div>
+							<label className="block text-sm font-medium text-gray-700 mb-2">
+								Select Strength:
+							</label>
+							<div className="flex space-x-3">
+								{mgOptions.map((option) => (
+								<button
+									key={option.value}
+									onClick={() => setSelectedMG(option.value)}
+									className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
+										selectedMG === option.value
+											? 'border-blue-600 bg-blue-50 text-blue-600'
+											: 'border-gray-400 bg-gray-200 text-gray-700 hover:border-gray-500 hover:bg-gray-300'
+									}`}
+								>
+										{option.value}
+									</button>
+								))}
+							</div>
+						</div>
 
 						{/* Quantity Selector */}
 						<div>
@@ -84,22 +112,22 @@ export default function MixPeptidePage() {
 								Quantity:
 							</label>
 							<div className="flex items-center space-x-3">
-										<button
-											onClick={() => setQuantity(Math.max(1, quantity - 1))}
-											className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
-										>
-											-
-										</button>
-										<input
-											type="number"
-											value={quantity}
-											onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-											className="w-20 h-10 text-center border border-gray-400 bg-gray-200 text-gray-700 rounded-lg"
-											min="1"
-										/>
-										<button
-											onClick={() => setQuantity(quantity + 1)}
-											className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
+								<button
+									onClick={() => setQuantity(Math.max(1, quantity - 1))}
+									className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
+								>
+									-
+								</button>
+								<input
+									type="number"
+									value={quantity}
+									onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+									className="w-20 h-10 text-center border border-gray-400 bg-gray-200 text-gray-700 rounded-lg"
+									min="1"
+								/>
+								<button
+									onClick={() => setQuantity(quantity + 1)}
+									className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
 								>
 									+
 								</button>
@@ -114,7 +142,6 @@ export default function MixPeptidePage() {
 							<ShoppingCart className="h-6 w-6" />
 							<span>ADD TO CART</span>
 						</button>
-
 
 						{/* Trust Badges */}
 						<div className="grid grid-cols-1 gap-4">
@@ -173,11 +200,11 @@ export default function MixPeptidePage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Cas No:</span>
-								<span className="text-gray-600">Multiple compounds</span>
+								<span className="text-gray-600">137525-51-0</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">Mixed peptide blend</span>
+								<span className="text-gray-600">C₆₂H₉₈N₁₆O₂₂</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>
@@ -197,9 +224,9 @@ export default function MixPeptidePage() {
 							For research purposes only.
 						</p>
 						<p className="text-gray-600 leading-relaxed">
-							This premium peptide blend combines GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) 
-							for comprehensive research applications. Each component is carefully selected for 
-							its research-grade quality and scientific properties.
+							BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from 
+							body protection compound found in gastric juice. This research-grade peptide 
+							is designed for scientific studies and laboratory research purposes only.
 						</p>
 					</div>
 				</div>

@@ -14,6 +14,17 @@ export default function ProductsPage() {
 			badge: "Best Seller"
 		},
 		{
+			id: "bpc-157-5mg",
+			name: "BPC-157 5mg",
+			description: "Body Protection Compound-157 in smaller dosage for research purposes. High purity peptide for scientific studies.",
+			price: 49.99,
+			originalPrice: 89.99,
+			image: "/products/bpc-157/BPC-157_5mg.png",
+			rating: 5,
+			reviews: 89,
+			badge: "Popular"
+		},
+		{
 			id: "tb-500",
 			name: "TB-500 10mg",
 			description: "Thymosin Beta-4 fragment for research applications. Premium quality peptide.",
@@ -26,14 +37,47 @@ export default function ProductsPage() {
 		},
 		{
 			id: "mix-peptide",
-			name: "BPC-157 + GHK-Cu + TB-500 Mix",
-			description: "Premium peptide blend combining BPC-157, GHK-Cu, and TB-500 for comprehensive research.",
+			name: "GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix",
+			description: "Premium peptide blend combining GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) for comprehensive research.",
 			price: 299.99,
 			originalPrice: 399.99,
 			image: "/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png",
 			rating: 5,
 			reviews: 45,
 			badge: "New"
+		},
+		{
+			id: "ghk-cu",
+			name: "GHK-Cu 50mg",
+			description: "Copper peptide GHK-Cu for research applications. Known for its regenerative properties in scientific studies.",
+			price: 199.99,
+			originalPrice: 249.99,
+			image: "/products/ghk-cu/GHK-CU_50MG.png",
+			rating: 5,
+			reviews: 67,
+			badge: "Featured"
+		},
+		{
+			id: "tb-500-5mg",
+			name: "TB-500 5mg",
+			description: "Thymosin Beta-4 fragment in smaller dosage for research applications. Premium quality peptide.",
+			price: 89.99,
+			originalPrice: 119.99,
+			image: "/products/tb-500/Tb-500_5MG.png",
+			rating: 5,
+			reviews: 34,
+			badge: "Limited"
+		},
+		{
+			id: "ghk-cu-100mg",
+			name: "GHK-Cu 100mg",
+			description: "Higher concentration copper peptide GHK-Cu for advanced research applications. Known for its regenerative properties in scientific studies.",
+			price: 349.99,
+			originalPrice: 449.99,
+			image: "/products/ghk-cu/GHK-CU_100MG.png",
+			rating: 5,
+			reviews: 23,
+			badge: "Premium"
 		}
 	]
 
