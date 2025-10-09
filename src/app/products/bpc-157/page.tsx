@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Star, Shield, Truck, Award, Lock, Headphones } from 'lucide-react'
+import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
@@ -21,13 +21,14 @@ export default function BPC157Page() {
 	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png'
 
 	const handleAddToCart = () => {
-		addItem({
-			id: `bpc-157-${selectedMG}`,
-			name: `BPC-157 ${selectedMG}`,
-			price: currentPrice,
-			quantity: quantity,
-			image: '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png'
-		})
+		for (let i = 0; i < quantity; i++) {
+			addItem({
+				id: `bpc-157-${selectedMG}`,
+				name: `BPC-157 ${selectedMG}`,
+				price: currentPrice,
+				image: '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png'
+			})
+		}
 	}
 
 	return (

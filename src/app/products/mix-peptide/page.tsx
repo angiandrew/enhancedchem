@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Star, Shield, Truck, Award, Lock, Headphones } from 'lucide-react'
+import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
@@ -21,13 +21,14 @@ export default function MixPeptidePage() {
 	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 399.99
 
 	const handleAddToCart = () => {
-		addItem({
-			id: `mix-peptide-${selectedMG}`,
-			name: `BPC-157 + GHK-Cu + TB-500 Mix ${selectedMG}`,
-			price: currentPrice,
-			quantity: quantity,
-			image: '/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png'
-		})
+		for (let i = 0; i < quantity; i++) {
+			addItem({
+				id: `mix-peptide-${selectedMG}`,
+				name: `BPC-157 + GHK-Cu + TB-500 Mix ${selectedMG}`,
+				price: currentPrice,
+				image: '/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png'
+			})
+		}
 	}
 
 	return (

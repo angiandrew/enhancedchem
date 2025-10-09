@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Star, Shield, Truck, Award, Lock, Headphones } from 'lucide-react'
+import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
@@ -21,13 +21,14 @@ export default function TB500Page() {
 	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 199.99
 
 	const handleAddToCart = () => {
-		addItem({
-			id: `tb-500-${selectedMG}`,
-			name: `TB-500 ${selectedMG}`,
-			price: currentPrice,
-			quantity: quantity,
-			image: '/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png'
-		})
+		for (let i = 0; i < quantity; i++) {
+			addItem({
+				id: `tb-500-${selectedMG}`,
+				name: `TB-500 ${selectedMG}`,
+				price: currentPrice,
+				image: '/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png'
+			})
+		}
 	}
 
 	return (
