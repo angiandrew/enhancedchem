@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
 import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check } from 'lucide-react'
 import Link from 'next/link'
@@ -11,6 +11,7 @@ export default function CheckoutPage() {
 	const [ageVerified, setAgeVerified] = useState(false)
 	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
+	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
 
 	const institutionOptions = [
 		'University laboratory',
@@ -22,6 +23,16 @@ export default function CheckoutPage() {
 
 	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified
 	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified
+	
+	// Auto-collapse verification when completed
+	useEffect(() => {
+		if (isVerificationComplete && !isVerificationCollapsed) {
+			const timer = setTimeout(() => {
+				setIsVerificationCollapsed(true)
+			}, 500)
+			return () => clearTimeout(timer)
+		}
+	}, [isVerificationComplete, isVerificationCollapsed])
 
 	if (items.length === 0) {
 		return (
@@ -122,7 +133,7 @@ export default function CheckoutPage() {
 												<option value="" className="text-gray-500">Select your institution type...</option>
 												{institutionOptions.map((option, index) => (
 													<option key={index} value={option} className="text-gray-900">
-														{index + 1}. {option}
+														{option}
 													</option>
 												))}
 											</select>
@@ -173,7 +184,7 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="Enter full name"
 									/>
 								</div>
@@ -183,7 +194,7 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="Street address"
 									/>
 								</div>
@@ -193,7 +204,7 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="Apartment, suite, etc."
 									/>
 								</div>
@@ -203,7 +214,7 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="City"
 									/>
 								</div>
@@ -213,7 +224,7 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="State"
 									/>
 								</div>
@@ -223,7 +234,7 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="ZIP code"
 									/>
 								</div>
@@ -232,7 +243,7 @@ export default function CheckoutPage() {
 										Country
 									</label>
 									<select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-										<option value="">Select Country</option>
+										<option value="" className="text-gray-600">Select Country</option>
 										<option value="US">United States</option>
 										<option value="CA">Canada</option>
 										<option value="UK">United Kingdom</option>
@@ -245,60 +256,202 @@ export default function CheckoutPage() {
 						{/* Payment Method */}
 						<div className="bg-white rounded-lg shadow-sm p-6">
 							<h2 className="text-xl font-semibold text-gray-900 mb-4">
-								Payment Method
+								Payment
 							</h2>
+							<p className="text-sm text-gray-600 mb-6">All transactions are secure and encrypted.</p>
+							
 							<div className="space-y-4">
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										Card Number
-									</label>
-									<input
-										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="1234 5678 9012 3456"
-									/>
-								</div>
-								<div className="grid grid-cols-2 gap-4">
-									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-2">
-											Expiry Date
-										</label>
+								{/* Credit Card */}
+								<div className="border border-gray-200 rounded-lg">
+									<label className="flex items-center p-4 cursor-pointer hover:bg-gray-50">
 										<input
-											type="text"
-											className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-											placeholder="MM/YY"
+											type="radio"
+											name="paymentMethod"
+											value="credit-card"
+											checked={selectedPaymentMethod === 'credit-card'}
+											onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+											className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
 										/>
-									</div>
-									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-2">
-											CVV
-										</label>
+										<div className="ml-3 flex items-center space-x-3">
+											<span className="text-gray-900 font-medium">Credit card</span>
+											<div className="flex space-x-2">
+												<div className="w-8 h-5 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">V</div>
+												<div className="w-8 h-5 bg-red-600 rounded text-white text-xs flex items-center justify-center font-bold">M</div>
+											</div>
+										</div>
+									</label>
+									{selectedPaymentMethod === 'credit-card' && (
+										<div className="px-4 pb-4 border-t border-gray-200 bg-gray-50">
+											<div className="pt-4 space-y-4">
+												<div>
+													<label className="block text-sm font-medium text-gray-700 mb-2">
+														Card number
+													</label>
+													<div className="relative">
+														<input
+															type="text"
+															className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
+															placeholder="1234 5678 9012 3456"
+															autoComplete="cc-number"
+														/>
+														<div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+															<div className="w-4 h-4 bg-gray-400 rounded"></div>
+														</div>
+													</div>
+												</div>
+												<div className="grid grid-cols-2 gap-4">
+													<div>
+														<label className="block text-sm font-medium text-gray-700 mb-2">
+															Expiration date (MM / YY)
+														</label>
+														<input
+															type="text"
+															className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
+															placeholder="MM / YY"
+															autoComplete="cc-exp"
+														/>
+													</div>
+													<div>
+														<label className="block text-sm font-medium text-gray-700 mb-2">
+															Security code
+														</label>
+														<div className="relative">
+															<input
+																type="text"
+																className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
+																placeholder="123"
+																autoComplete="cc-csc"
+															/>
+															<div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+																<div className="w-4 h-4 bg-gray-400 rounded-full text-white text-xs flex items-center justify-center">?</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div>
+													<label className="block text-sm font-medium text-gray-700 mb-2">
+														Name on card
+													</label>
+													<input
+														type="text"
+														className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
+														placeholder="Name on card"
+														autoComplete="cc-name"
+													/>
+												</div>
+												<div className="flex items-start space-x-3">
+													<input
+														type="checkbox"
+														id="billingSameAsShipping"
+														className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+													/>
+													<label htmlFor="billingSameAsShipping" className="text-sm text-gray-700">
+														Use shipping address as billing address
+													</label>
+												</div>
+											</div>
+										</div>
+									)}
+								</div>
+
+								{/* Alternative Payments */}
+								<div className="border border-gray-200 rounded-lg">
+									<label className="flex items-center p-4 cursor-pointer hover:bg-gray-50">
 										<input
-											type="text"
-											className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-											placeholder="123"
+											type="radio"
+											name="paymentMethod"
+											value="alternative"
+											checked={selectedPaymentMethod === 'alternative'}
+											onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+											className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
 										/>
-									</div>
-								</div>
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										Cardholder Name
+										<span className="ml-3 text-gray-900 font-medium">Alternative Payments</span>
 									</label>
-									<input
-										type="text"
-										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-										placeholder="Name on card"
-									/>
+									{selectedPaymentMethod === 'alternative' && (
+										<div className="px-4 pb-4 border-t border-gray-200 bg-gray-50">
+											<div className="pt-4 space-y-4">
+												<div className="grid grid-cols-2 gap-4">
+													<button className="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-center">
+														<div className="text-sm font-medium text-gray-900">Zelle</div>
+														<div className="text-xs text-gray-500 mt-1">Instant transfer</div>
+													</button>
+													<button className="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-center">
+														<div className="text-sm font-medium text-gray-900">Bitcoin</div>
+														<div className="text-xs text-gray-500 mt-1">Cryptocurrency</div>
+													</button>
+												</div>
+											</div>
+										</div>
+									)}
 								</div>
-								<div className="flex items-start space-x-3">
-									<input
-										type="checkbox"
-										id="billingSameAsShipping"
-										className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-									/>
-									<label htmlFor="billingSameAsShipping" className="text-sm text-gray-700">
-										Billing address is the same as shipping address
+
+								{/* Bitcoin */}
+								<div className="border border-gray-200 rounded-lg">
+									<label className="flex items-center p-4 cursor-pointer hover:bg-gray-50">
+										<input
+											type="radio"
+											name="paymentMethod"
+											value="bitcoin"
+											checked={selectedPaymentMethod === 'bitcoin'}
+											onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+											className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+										/>
+										<div className="ml-3 flex items-center space-x-3">
+											<span className="text-gray-900 font-medium">Bitcoin</span>
+											<div className="w-6 h-6 bg-orange-500 rounded text-white text-xs flex items-center justify-center font-bold">₿</div>
+										</div>
 									</label>
+									{selectedPaymentMethod === 'bitcoin' && (
+										<div className="px-4 pb-4 border-t border-gray-200 bg-gray-50">
+											<div className="pt-4 space-y-4">
+												<div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+													<p className="text-sm text-orange-800">
+														Send Bitcoin to the address below. Payment will be confirmed once we receive 3 confirmations on the blockchain.
+													</p>
+												</div>
+												<div>
+													<label className="block text-sm font-medium text-gray-700 mb-2">
+														Bitcoin Address
+													</label>
+													<input
+														type="text"
+														className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+														value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+														readOnly
+													/>
+												</div>
+											</div>
+										</div>
+									)}
+								</div>
+
+								{/* Bank Transfer */}
+								<div className="border border-gray-200 rounded-lg">
+									<label className="flex items-center p-4 cursor-pointer hover:bg-gray-50">
+										<input
+											type="radio"
+											name="paymentMethod"
+											value="bank-transfer"
+											checked={selectedPaymentMethod === 'bank-transfer'}
+											onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+											className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+										/>
+										<span className="ml-3 text-gray-900 font-medium">Bank Transfer via Plaid</span>
+									</label>
+									{selectedPaymentMethod === 'bank-transfer' && (
+										<div className="px-4 pb-4 border-t border-gray-200 bg-gray-50">
+											<div className="pt-4 space-y-4">
+												<div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+													<p className="text-sm text-blue-800">
+														Securely connect your bank account through Plaid for instant verification and payment.
+													</p>
+												</div>
+												<button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+													Connect Bank Account
+												</button>
+											</div>
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
