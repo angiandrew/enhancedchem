@@ -108,28 +108,31 @@ export default function CartPage() {
 							
 							<div className="space-y-3 mb-6">
 								<div className="flex justify-between">
-									<span className="text-gray-600">Subtotal ({totalItems} items)</span>
-									<span className="font-semibold">${totalPrice.toFixed(2)}</span>
+									<span className="text-gray-800">Subtotal ({totalItems} items)</span>
+									<span className="font-semibold text-gray-900">${totalPrice.toFixed(2)}</span>
 								</div>
 								<div className="flex justify-between">
-									<span className="text-gray-600">Shipping</span>
-									<span className="font-semibold">$9.99</span>
+									<span className="text-gray-800">Shipping</span>
+									<span className="font-semibold text-gray-900">$9.99</span>
 								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-600">Tax</span>
-									<span className="font-semibold">${(totalPrice * 0.08).toFixed(2)}</span>
-								</div>
-								<div className="border-t pt-3">
-									<div className="flex justify-between text-lg font-bold">
-										<span>Total</span>
-										<span>${(totalPrice + 9.99 + (totalPrice * 0.08)).toFixed(2)}</span>
-									</div>
+							<div className="flex justify-between">
+								<span className="text-gray-800">Tax</span>
+								<span className="font-semibold text-gray-900">${(totalPrice * 0.07).toFixed(2)}</span>
+							</div>
+							<div className="border-t pt-3">
+								<div className="flex justify-between text-lg font-bold">
+									<span className="text-gray-900">Total</span>
+									<span className="text-gray-900">${(totalPrice + 9.99 + (totalPrice * 0.07)).toFixed(2)}</span>
 								</div>
 							</div>
+							</div>
 
-							<button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-4">
+							<Link 
+								href="/checkout"
+								className="block w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-4 text-center"
+							>
 								Proceed to Checkout
-							</button>
+							</Link>
 
 							<Link 
 								href="/products"

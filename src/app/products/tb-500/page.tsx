@@ -1,147 +1,230 @@
-import { ShoppingCart, Star, Shield, Truck, Award } from 'lucide-react'
-import PlaceholderImage from '@/components/PlaceholderImage'
+'use client'
+
+import { useState } from 'react'
+import { ShoppingCart, Star, Shield, Truck, Award, Lock, Headphones } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { useCart } from '@/contexts/CartContext'
 
 export default function TB500Page() {
+	const [selectedMG, setSelectedMG] = useState('10mg')
+	const [quantity, setQuantity] = useState(1)
+	const { addItem } = useCart()
+
+	const mgOptions = [
+		{ value: '5mg', price: 99.99, originalPrice: 129.99 },
+		{ value: '10mg', price: 149.99, originalPrice: 199.99 },
+		{ value: '20mg', price: 279.99, originalPrice: 349.99 }
+	]
+
+	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 149.99
+	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 199.99
+
+	const handleAddToCart = () => {
+		addItem({
+			id: `tb-500-${selectedMG}`,
+			name: `TB-500 ${selectedMG}`,
+			price: currentPrice,
+			quantity: quantity,
+			image: '/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png'
+		})
+	}
+
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen bg-white">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 				{/* Breadcrumb */}
 				<nav className="mb-8">
 					<ol className="flex items-center space-x-2 text-sm text-gray-500">
-					<li><Link href="/" className="hover:text-blue-600">Home</Link></li>
-					<li>/</li>
-					<li><Link href="/products" className="hover:text-blue-600">Products</Link></li>
+						<li><Link href="/" className="hover:text-blue-600">Home</Link></li>
 						<li>/</li>
-						<li className="text-gray-900">TB-500 10mg</li>
+						<li><Link href="/products" className="hover:text-blue-600">Best Sellers</Link></li>
+						<li>/</li>
+						<li className="text-gray-900">TB-500 {selectedMG}</li>
 					</ol>
 				</nav>
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 					{/* Product Image */}
-					<div>
-						<PlaceholderImage
-							width={500}
-							height={400}
-							text="TB-500 10mg"
-							className="w-full h-96 rounded-lg"
-						/>
+					<div className="flex justify-center">
+						<div className="relative w-full max-w-md">
+							<Image
+								src="/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png"
+								alt={`TB-500 ${selectedMG}`}
+								width={400}
+								height={400}
+								className="w-full h-auto object-contain"
+							/>
+						</div>
 					</div>
 
 					{/* Product Info */}
-					<div>
-						<div className="mb-4">
-							<span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-								Sale
-							</span>
-						</div>
-						
-						<h1 className="text-3xl font-bold text-gray-900 mb-4">
-							TB-500 10mg
+					<div className="space-y-6">
+						{/* Availability */}
+						<p className="text-sm text-gray-600">Availability: <span className="text-green-600 font-semibold">In stock</span></p>
+
+						{/* Product Name */}
+						<h1 className="text-4xl font-bold text-gray-900">
+							TB-500 {selectedMG}
 						</h1>
-						
-						<div className="flex items-center mb-4">
-							<div className="flex items-center">
-								{[...Array(5)].map((_, i) => (
-									<Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+
+						{/* Price */}
+						<div className="flex items-center space-x-4">
+							<span className="text-4xl font-bold text-blue-600">
+								${currentPrice}
+							</span>
+							{currentOriginalPrice > currentPrice && (
+								<span className="text-xl text-gray-500 line-through">
+									${currentOriginalPrice}
+								</span>
+							)}
+						</div>
+
+						{/* MG Selection */}
+						<div>
+							<label className="block text-sm font-medium text-gray-700 mb-2">
+								Select Strength:
+							</label>
+							<div className="flex space-x-3">
+								{mgOptions.map((option) => (
+										<button
+											key={option.value}
+											onClick={() => setSelectedMG(option.value)}
+											className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
+												selectedMG === option.value
+													? 'border-blue-600 bg-blue-50 text-blue-600'
+													: 'border-gray-400 bg-gray-200 text-gray-700 hover:border-gray-500 hover:bg-gray-300'
+											}`}
+										>
+										{option.value}
+									</button>
 								))}
 							</div>
-							<span className="text-sm text-gray-600 ml-2">
-								5.0 (89 reviews)
-							</span>
 						</div>
 
-						<div className="mb-6">
-							<div className="flex items-center space-x-4">
-								<span className="text-3xl font-bold text-blue-600">
-									$149.99
-								</span>
-								<span className="text-xl text-gray-500 line-through">
-									$199.99
-								</span>
-								<span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-semibold">
-									Save 25%
-								</span>
+						{/* Quantity Selector */}
+						<div>
+							<label className="block text-sm font-medium text-gray-700 mb-2">
+								Quantity:
+							</label>
+							<div className="flex items-center space-x-3">
+										<button
+											onClick={() => setQuantity(Math.max(1, quantity - 1))}
+											className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
+										>
+											-
+										</button>
+										<input
+											type="number"
+											value={quantity}
+											onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+											className="w-20 h-10 text-center border border-gray-400 bg-gray-200 text-gray-700 rounded-lg"
+											min="1"
+										/>
+										<button
+											onClick={() => setQuantity(quantity + 1)}
+											className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
+								>
+									+
+								</button>
 							</div>
 						</div>
 
-						<div className="mb-6">
-							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								Product Description
-							</h3>
-							<p className="text-gray-600 leading-relaxed">
-								TB-500 (Thymosin Beta-4) is a synthetic peptide fragment of the naturally 
-								occurring thymosin beta-4 protein. This research-grade peptide is designed 
-								for scientific studies and laboratory research purposes only.
-							</p>
-						</div>
+						{/* Add to Cart Button */}
+						<button
+							onClick={handleAddToCart}
+							className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-3"
+						>
+							<ShoppingCart className="h-6 w-6" />
+							<span>ADD TO CART</span>
+						</button>
 
-						<div className="mb-6">
-							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								Key Features
-							</h3>
-							<ul className="space-y-2 text-gray-600">
-								<li>• High purity research-grade peptide</li>
-								<li>• Third-party tested for quality assurance</li>
-								<li>• Lyophilized powder form</li>
-								<li>• Certificate of Analysis included</li>
-								<li>• Temperature-controlled storage</li>
-							</ul>
-						</div>
 
-						<div className="mb-6">
-							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								Specifications
-							</h3>
-							<div className="bg-gray-100 rounded-lg p-4">
-								<div className="grid grid-cols-2 gap-4 text-sm">
-									<div>
-										<span className="font-semibold">Purity:</span> ≥98%
-									</div>
-									<div>
-										<span className="font-semibold">Molecular Weight:</span> 496.65 Da
-									</div>
-									<div>
-										<span className="font-semibold">Sequence:</span> Ac-Ser-Asp-Lys-Pro-Asp-Met-Ala-Glu-Ile-Glu-Lys-Phe-Asp-Lys-Ser-Lys-Leu-Lys-Lys-Thr-Glu-Thr-Gln-Glu-Lys-Asn-Pro-Leu-Pro-Ser-Lys-Glu-Thr-Ile-Glu-Gln-Glu-Lys-Gln-Ala-Gly-Glu-Ser-OH
-									</div>
-									<div>
-										<span className="font-semibold">Storage:</span> -20°C
-									</div>
+						{/* Trust Badges */}
+						<div className="grid grid-cols-1 gap-4">
+							<div className="flex items-center space-x-3">
+								<div className="bg-blue-100 p-2 rounded-lg">
+									<Truck className="h-5 w-5 text-blue-600" />
+								</div>
+								<div>
+									<p className="text-sm font-semibold text-gray-900">Free Shipping on Orders Over $150</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3">
+								<div className="bg-blue-100 p-2 rounded-lg">
+									<Award className="h-5 w-5 text-blue-600" />
+								</div>
+								<div>
+									<p className="text-sm font-semibold text-gray-900">High grade purity Premium quality</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3">
+								<div className="bg-blue-100 p-2 rounded-lg">
+									<Headphones className="h-5 w-5 text-blue-600" />
+								</div>
+								<div>
+									<p className="text-sm font-semibold text-gray-900">Customer Happiness 100% Guaranteed</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3">
+								<div className="bg-blue-100 p-2 rounded-lg">
+									<Lock className="h-5 w-5 text-blue-600" />
+								</div>
+								<div>
+									<p className="text-sm font-semibold text-gray-900">256-Bit SSL Encryption 100% Privacy Assurance</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3">
+								<div className="bg-blue-100 p-2 rounded-lg">
+									<Headphones className="h-5 w-5 text-blue-600" />
+								</div>
+								<div>
+									<p className="text-sm font-semibold text-gray-900">Exceptional Support Team is Here to Help</p>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
 
-						<div className="flex space-x-4 mb-6">
-							<button className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
-								<ShoppingCart className="h-5 w-5" />
-								<span>Add to Cart</span>
-							</button>
-							<button className="bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
-								Wishlist
-							</button>
-						</div>
-
-						{/* Features */}
-						<div className="grid grid-cols-3 gap-4">
-							<div className="text-center">
-								<div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-									<Shield className="h-6 w-6 text-blue-600" />
-								</div>
-								<p className="text-sm text-gray-600">Premium Quality</p>
+				{/* Product Description */}
+				<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+					<div>
+						<h2 className="text-2xl font-bold text-gray-900 mb-6">DESCRIPTION</h2>
+						<div className="space-y-4">
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Appearance:</span>
+								<span className="text-gray-600">White powder</span>
 							</div>
-							<div className="text-center">
-								<div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-									<Truck className="h-6 w-6 text-blue-600" />
-								</div>
-								<p className="text-sm text-gray-600">Fast Shipping</p>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Cas No:</span>
+								<span className="text-gray-600">77591-33-4</span>
 							</div>
-							<div className="text-center">
-								<div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
-									<Award className="h-6 w-6 text-blue-600" />
-								</div>
-								<p className="text-sm text-gray-600">Research Grade</p>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Molecular Formula:</span>
+								<span className="text-gray-600">C212H350N56O78S</span>
+							</div>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Physical State:</span>
+								<span className="text-gray-600">Lyophilized powder</span>
+							</div>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Storage:</span>
+								<span className="text-gray-600">Room Temperature</span>
 							</div>
 						</div>
+					</div>
+					
+					<div>
+						<h2 className="text-2xl font-bold text-gray-900 mb-6">STORAGE</h2>
+						<p className="text-gray-600 leading-relaxed mb-4">
+							Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
+							For research purposes only.
+						</p>
+						<p className="text-gray-600 leading-relaxed">
+							TB-500 (Thymosin Beta-4 fragment) is a synthetic peptide that represents a fragment 
+							of thymosin beta-4. This research-grade peptide is designed for scientific studies 
+							and laboratory research purposes only.
+						</p>
 					</div>
 				</div>
 

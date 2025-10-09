@@ -7,11 +7,11 @@ export default function Home() {
 	const products = [
 		{
 			id: "bpc-157",
-			name: "BPC-157 10mg",
+			name: "BPC-157 5mg",
 			description: "Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.",
-			price: 89.99,
-			originalPrice: 119.99,
-			image: "/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png",
+			price: 49.99,
+			originalPrice: 89.99,
+			image: "/products/bpc-157/BPC-157_5mg.png",
 			rating: 5,
 			reviews: 127,
 			badge: "Best Seller"
