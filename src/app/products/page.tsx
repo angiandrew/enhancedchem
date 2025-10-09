@@ -1,6 +1,11 @@
+'use client'
+
+import { useState, useMemo } from 'react'
 import ProductCard from '@/components/ProductCard'
+import { Search } from 'lucide-react'
 
 export default function ProductsPage() {
+	const [searchTerm, setSearchTerm] = useState('')
 	const products = [
 		{
 			id: "bpc-157",
@@ -81,40 +86,93 @@ export default function ProductsPage() {
 		}
 	]
 
+	// Filter products based on search term
+	const filteredProducts = useMemo(() => {
+		if (!searchTerm.trim()) {
+			return products
+		}
+		
+		const searchLower = searchTerm.toLowerCase()
+		return products.filter(product => 
+			product.name.toLowerCase().includes(searchLower) ||
+			product.description.toLowerCase().includes(searchLower) ||
+			product.badge?.toLowerCase().includes(searchLower)
+		)
+	}, [searchTerm])
+
 	return (
-		<div className="min-h-screen scientific-theme relative">
-			<div className="relative z-10">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					{/* Header */}
-					<div className="mb-8">
-						<h1 className="text-3xl font-bold text-gray-900 mb-4">
+		<div className="min-h-screen bg-white">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+				{/* Header with Search */}
+				<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-16">
+					<div className="text-center lg:text-left mb-8 lg:mb-0">
+						<h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 bg-clip-text text-transparent">
 							Research Peptides
 						</h1>
-						<p className="text-lg text-gray-600">
+						<p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
 							Premium quality peptides for scientific research purposes only
 						</p>
+						<div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto lg:mx-0 mt-6 rounded-full"></div>
 					</div>
+					
+					{/* Search Bar */}
+					<div className="relative max-w-md mx-auto lg:mx-0">
+						<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							<Search className="h-5 w-5 text-gray-400" />
+						</div>
+						<input
+							type="text"
+							placeholder="Search products..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl leading-5 bg-white text-gray-700 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+						/>
+					</div>
+				</div>
 
+				{/* Search Results Count */}
+				{searchTerm && (
+					<div className="mb-6">
+						<p className="text-gray-600">
+							{filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found for "{searchTerm}"
+						</p>
+					</div>
+				)}
 
-					{/* Products Grid */}
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{products.map((product) => (
+				{/* Products Grid */}
+				{filteredProducts.length > 0 ? (
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+						{filteredProducts.map((product) => (
 							<ProductCard key={product.id} {...product} />
 						))}
 					</div>
-
-					{/* Research Disclaimer */}
-					<div className="mt-12 bg-red-50 border border-red-200 rounded-lg p-6">
-						<h3 className="text-lg font-semibold text-red-800 mb-2">
-							⚠️ Research Purposes Only
-						</h3>
-						<p className="text-red-700">
-							All products are sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing our products, 
-							you certify that you are 18+ years of age and agree to use these products only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
-						</p>
+				) : (
+					<div className="text-center py-12">
+						<div className="text-gray-400 mb-4">
+							<Search className="h-16 w-16 mx-auto" />
+						</div>
+						<h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
+						<p className="text-gray-600">Try adjusting your search terms or browse all products</p>
+						<button
+							onClick={() => setSearchTerm('')}
+							className="mt-4 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+						>
+							Clear search
+						</button>
 					</div>
+				)}
+
+				{/* Research Disclaimer */}
+				<div className="mt-12 bg-red-50 border border-red-200 rounded-lg p-6">
+					<h3 className="text-lg font-semibold text-red-800 mb-2">
+						⚠️ Research Purposes Only
+					</h3>
+					<p className="text-red-700">
+						All products are sold for research purposes only. Not for human consumption, 
+						diagnosis, treatment, cure, or prevention of any disease. By purchasing our products, 
+						you certify that you are 18+ years of age and agree to use these products only for 
+						legitimate research purposes in accordance with applicable laws and regulations.
+					</p>
 				</div>
 			</div>
 		</div>

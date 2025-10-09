@@ -18,12 +18,15 @@ interface CartContextType {
 	clearCart: () => void
 	totalItems: number
 	totalPrice: number
+	lastAddedItem: CartItem | null
+	clearLastAddedItem: () => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: ReactNode }) {
 	const [items, setItems] = useState<CartItem[]>([])
+	const [lastAddedItem, setLastAddedItem] = useState<CartItem | null>(null)
 
 	// Load cart from localStorage on mount
 	useEffect(() => {
@@ -46,14 +49,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
 		setItems(prevItems => {
 			const existingItem = prevItems.find(item => item.id === newItem.id)
 			if (existingItem) {
-				return prevItems.map(item =>
+				const updatedItems = prevItems.map(item =>
 					item.id === newItem.id
 						? { ...item, quantity: item.quantity + 1 }
 						: item
 				)
+				setLastAddedItem({ ...newItem, quantity: existingItem.quantity + 1 })
+				return updatedItems
 			}
-			return [...prevItems, { ...newItem, quantity: 1 }]
+			const newCartItem = { ...newItem, quantity: 1 }
+			setLastAddedItem(newCartItem)
+			return [...prevItems, newCartItem]
 		})
+	}
+
+	const clearLastAddedItem = () => {
+		setLastAddedItem(null)
 	}
 
 	const removeItem = (id: string) => {
@@ -88,7 +99,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 				updateQuantity,
 				clearCart,
 				totalItems,
-				totalPrice
+				totalPrice,
+				lastAddedItem,
+				clearLastAddedItem
 			}}
 		>
 			{children}

@@ -172,6 +172,59 @@ export default function CheckoutPage() {
 							)}
 						</div>
 
+						{/* Order Items */}
+						<div className="bg-white rounded-lg shadow-sm p-6">
+							<h2 className="text-xl font-semibold text-gray-900 mb-4">
+								Order Items
+							</h2>
+							<div className="space-y-4">
+								{items.map((item) => (
+									<div key={item.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+										<div className="flex items-center space-x-4">
+											<div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+												<span className="text-gray-500 text-xs">{item.name}</span>
+											</div>
+											<div>
+												<h3 className="font-semibold text-gray-900">{item.name}</h3>
+												<p className="text-gray-600">${item.price.toFixed(2)} each</p>
+											</div>
+										</div>
+										<div className="flex items-center space-x-4">
+											{/* Quantity Controls */}
+											<div className="flex items-center space-x-2">
+												<button
+													onClick={() => updateQuantity(item.id, item.quantity - 1)}
+													className="w-8 h-8 rounded-full border border-gray-300 bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 hover:border-gray-400 transition-colors"
+												>
+													<Minus className="h-4 w-4" />
+												</button>
+												<span className="w-8 text-center font-semibold text-gray-900">
+													{item.quantity}
+												</span>
+												<button
+													onClick={() => updateQuantity(item.id, item.quantity + 1)}
+													className="w-8 h-8 rounded-full border border-gray-300 bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 hover:border-gray-400 transition-colors"
+												>
+													<Plus className="h-4 w-4" />
+												</button>
+											</div>
+											{/* Remove Button */}
+											<button
+												onClick={() => removeItem(item.id)}
+												className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+											>
+												<Trash2 className="h-4 w-4" />
+											</button>
+											{/* Total Price */}
+											<span className="font-bold text-gray-900 min-w-[80px] text-right">
+												${(item.price * item.quantity).toFixed(2)}
+											</span>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+
 						{/* Shipping Address */}
 						<div className="bg-white rounded-lg shadow-sm p-6">
 							<h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -456,58 +509,6 @@ export default function CheckoutPage() {
 							</div>
 						</div>
 
-						{/* Order Items */}
-						<div className="bg-white rounded-lg shadow-sm p-6">
-							<h2 className="text-xl font-semibold text-gray-900 mb-4">
-								Order Items
-							</h2>
-							<div className="space-y-4">
-								{items.map((item) => (
-									<div key={item.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-										<div className="flex items-center space-x-4">
-											<div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-												<span className="text-gray-500 text-xs">{item.name}</span>
-											</div>
-											<div>
-												<h3 className="font-semibold text-gray-900">{item.name}</h3>
-												<p className="text-gray-600">${item.price.toFixed(2)} each</p>
-											</div>
-										</div>
-										<div className="flex items-center space-x-4">
-											{/* Quantity Controls */}
-											<div className="flex items-center space-x-2">
-												<button
-													onClick={() => updateQuantity(item.id, item.quantity - 1)}
-													className="w-8 h-8 rounded-full border border-gray-300 bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 hover:border-gray-400 transition-colors"
-												>
-													<Minus className="h-4 w-4" />
-												</button>
-												<span className="w-8 text-center font-semibold text-gray-900">
-													{item.quantity}
-												</span>
-												<button
-													onClick={() => updateQuantity(item.id, item.quantity + 1)}
-													className="w-8 h-8 rounded-full border border-gray-300 bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-gray-200 hover:border-gray-400 transition-colors"
-												>
-													<Plus className="h-4 w-4" />
-												</button>
-											</div>
-											{/* Remove Button */}
-											<button
-												onClick={() => removeItem(item.id)}
-												className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
-											>
-												<Trash2 className="h-4 w-4" />
-											</button>
-											{/* Total Price */}
-											<span className="font-bold text-gray-900 min-w-[80px] text-right">
-												${(item.price * item.quantity).toFixed(2)}
-											</span>
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
 					</div>
 
 					{/* Order Summary */}
