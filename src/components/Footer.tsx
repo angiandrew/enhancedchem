@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Mail, Phone } from 'lucide-react'
+import { Mail, Instagram } from 'lucide-react'
 
 export default function Footer() {
 	return (
@@ -16,13 +16,18 @@ export default function Footer() {
 							High-quality products with fast shipping and exceptional customer service.
 						</p>
 						<div className="flex space-x-4">
-							<div className="flex items-center text-gray-300">
-								<Phone className="h-4 w-4 mr-2" />
-								<span>1-800-ENHANCED</span>
-							</div>
+							<Link 
+								href="https://www.instagram.com/enhancedchem/" 
+								target="_blank" 
+								rel="noopener noreferrer"
+								className="flex items-center text-gray-300 hover:text-pink-400 transition-colors"
+							>
+								<Instagram className="h-4 w-4 mr-2" />
+								<span>@enhancedchem</span>
+							</Link>
 							<div className="flex items-center text-gray-300">
 								<Mail className="h-4 w-4 mr-2" />
-								<span>support@enhancedchem.com</span>
+								<span>info@enhancedchem.com</span>
 							</div>
 						</div>
 					</div>
