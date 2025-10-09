@@ -8,7 +8,7 @@ export default function ProductsPage() {
 			description: "Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.",
 			price: 89.99,
 			originalPrice: 119.99,
-			image: "/products/bpc-157/e290418c-41c2-4a52-aef7-d921f7619935 copy.png",
+			image: "/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png",
 			rating: 5,
 			reviews: 127,
 			badge: "Best Seller"
