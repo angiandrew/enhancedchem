@@ -1,5 +1,5 @@
 import ProductCard from "@/components/ProductCard"
-import { Shield, Truck, Award, Lock } from "lucide-react"
+import { Shield, Truck, Award, Lock, Microscope, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -65,49 +65,67 @@ export default function Home() {
 
   return (
 		<div className="min-h-screen">
-			{/* Hero Section - Clean Professional Layout */}
-			<section className="relative w-full h-[72vh] bg-white overflow-hidden">
-				{/* Background with subtle pattern */}
-				<div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 transition-all duration-500"></div>
-				<div className="absolute inset-0 opacity-5 transition-opacity duration-500">
-					<div className="absolute inset-0" style={{
-						backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E")`,
-					}}></div>
-				</div>
+			{/* Hero Section - Professional Research Theme */}
+			<section className="relative w-full min-h-[90vh] overflow-hidden">
+				{/* Background Image with Dark Blue Gradient Overlay */}
+				<div 
+					className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+					style={{
+						backgroundImage: `linear-gradient(rgba(30, 58, 138, 0.7), rgba(30, 58, 138, 0.7)), url('/hero-lab.jpg')`
+					}}
+				></div>
 				
-				<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-					<div className="flex items-center h-full">
-						{/* Left Content - 45% width */}
-						<div className="w-full lg:w-[45%] pr-8 transition-all duration-500 ease-out">
-							<div className="max-w-lg">
-								<h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight transition-all duration-500 ease-out transform hover:scale-102">
-									Same-Day Shipping on USA Orders*
-								</h1>
-								<div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 transition-all duration-500 ease-out">
-									<div className="flex items-center text-lg text-gray-700 transition-all duration-400 hover:text-green-600">
-										<div className="w-3 h-3 bg-green-500 rounded-full mr-3 transition-all duration-400 hover:scale-110"></div>
-										<span className="font-semibold">99% Purity Guaranteed</span>
-									</div>
-									<div className="flex items-center text-lg text-gray-700 transition-all duration-400 hover:text-blue-600">
-										<div className="w-3 h-3 bg-blue-500 rounded-full mr-3 transition-all duration-400 hover:scale-110"></div>
-										<span className="font-semibold">Safe & Secure</span>
-									</div>
-								</div>
-								<Link href="/products" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all duration-400 shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-0.5">
-									Shop Now
-								</Link>
-							</div>
+				{/* Content Container */}
+				<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full min-h-[90vh] flex items-center justify-center">
+					<div className="text-center max-w-5xl mx-auto animate-fade-in">
+						{/* Badge */}
+						<div className="inline-flex items-center bg-blue-500/10 border border-blue-400/20 rounded-full px-6 py-2 mb-8">
+							<Microscope className="h-4 w-4 text-blue-400 mr-2" />
+							<span className="text-blue-400 text-sm font-medium">Research-Grade Therapeutic Peptides</span>
 						</div>
-						
-						{/* Right Image - 55% width */}
-						<div className="hidden lg:block w-[55%] pl-8 transition-all duration-500 ease-out">
-							<div className="relative transform hover:scale-102 transition-all duration-500 ease-out">
-								<img 
-									src="/hero-image.png" 
-									alt="Enhanced Chem Research Peptides"
-									className="w-full h-auto object-contain drop-shadow-2xl transition-all duration-500 ease-out"
-								/>
-								<div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-blue-100 opacity-0 hover:opacity-15 transition-opacity duration-500"></div>
+
+						{/* Main Heading */}
+						<h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+							Advanced Peptide Solutions
+							<br />
+							<span className="text-cyan-400">For Medical Professionals</span>
+						</h1>
+
+						{/* Subheading */}
+						<p className="text-xl md:text-2xl text-white/90 font-light max-w-3xl mx-auto mb-12">
+							Pharmaceutical-grade GHK-CU, BPC-157, and TB-500 with certified purity standards and comprehensive scientific documentation.
+						</p>
+
+						{/* CTA Buttons */}
+						<div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+							<Link 
+								href="/products" 
+								className="inline-flex items-center bg-cyan-500 hover:bg-cyan-400 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+							>
+								View Products
+								<ArrowRight className="ml-2 h-5 w-5" />
+							</Link>
+							<Link 
+								href="/about" 
+								className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
+							>
+								Scientific Documentation
+							</Link>
+						</div>
+
+						{/* Trust Indicators */}
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+							<div className="text-center">
+								<div className="text-4xl font-bold text-cyan-400 mb-2">99.9%+</div>
+								<div className="text-white/80 text-sm">Purity Certified</div>
+							</div>
+							<div className="text-center">
+								<div className="text-4xl font-bold text-cyan-400 mb-2">GMP</div>
+								<div className="text-white/80 text-sm">Compliant Facility</div>
+							</div>
+							<div className="text-center">
+								<div className="text-4xl font-bold text-cyan-400 mb-2">3rd Party</div>
+								<div className="text-white/80 text-sm">Lab Tested</div>
 							</div>
 						</div>
 					</div>

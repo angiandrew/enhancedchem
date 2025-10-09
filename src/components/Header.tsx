@@ -39,9 +39,6 @@ export default function Header() {
 						<Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
 							About
 						</Link>
-						<Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
-							Contact
-						</Link>
 					</nav>
 
 					{/* Right side icons */}
@@ -80,9 +77,6 @@ export default function Header() {
 							</Link>
 							<Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">
 								About
-							</Link>
-							<Link href="/contact" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">
-								Contact
 							</Link>
 						</div>
 					</div>
