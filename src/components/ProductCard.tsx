@@ -42,7 +42,7 @@ export default function ProductCard({
 	}
 
 	return (
-		<div className="group relative bg-blue-50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100/50 shadow-[0_0_20px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-200/50">
+		<div className="group relative bg-blue-50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100/50 shadow-[0_0_20px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-200/50" style={{backgroundColor: '#eff6ff'}}>
 			
 			<Link href={`/products/${id}`} className="block relative z-10">
 				{/* Product Image */}
@@ -54,7 +54,7 @@ export default function ProductCard({
 							width={300}
 							height={200}
 							className={`w-full object-contain transition-transform duration-300 group-hover:scale-105 ${
-								id === 'bpc-157' || id === 'bpc-157-5mg' || id === 'tb-500-5mg' || id === 'tb-500' || id === 'kpv' ? 'h-72' : 'h-48'
+								id === 'bpc-157' || id === 'bpc-157-5mg' || id === 'tb-500-5mg' || id === 'tb-500' || id === 'kpv' || id === 'ghk-cu' || id === 'ghk-cu-100mg' || id === 'semax' || id === 'mix-peptide' || id === 'bpc-tb-mix' || id === 'bpc-tb-mix-10mg' ? 'h-72' : 'h-48'
 							}`}
 						/>
 					) : (
@@ -63,7 +63,7 @@ export default function ProductCard({
 							height={200}
 							text={name}
 							className={`w-full transition-transform duration-300 group-hover:scale-105 ${
-								id === 'bpc-157' || id === 'bpc-157-5mg' || id === 'tb-500-5mg' || id === 'tb-500' || id === 'kpv' ? 'h-72' : 'h-48'
+								id === 'bpc-157' || id === 'bpc-157-5mg' || id === 'tb-500-5mg' || id === 'tb-500' || id === 'kpv' || id === 'ghk-cu' || id === 'ghk-cu-100mg' || id === 'semax' || id === 'mix-peptide' || id === 'bpc-tb-mix' || id === 'bpc-tb-mix-10mg' ? 'h-72' : 'h-48'
 							}`}
 						/>
 					)}

@@ -12,13 +12,13 @@ export default function GHKCu100mgPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '50mg', price: 199.99, originalPrice: 249.99, image: '/products/ghk-cu/GHK-CU_50MG.png' },
-		{ value: '100mg', price: 349.99, originalPrice: 449.99, image: '/products/ghk-cu/GHK-CU_100MG.png' }
+		{ value: '50mg', price: 199.99, originalPrice: 249.99, image: '/products/ghk-cu/GHK-Cu 100MG_neww.png' },
+		{ value: '100mg', price: 349.99, originalPrice: 449.99, image: '/products/ghk-cu/GHK-Cu 100MG_neww.png' }
 	]
 
 	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 349.99
 	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 449.99
-	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/ghk-cu/GHK-CU_100MG.png'
+	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/ghk-cu/GHK-Cu 100MG_neww.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {

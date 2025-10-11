@@ -29,11 +29,11 @@ export default function Home() {
 		},
 		{
 			id: "mix-peptide",
-			name: "BPC-157 + GHK-Cu + TB-500 Mix",
-			description: "Premium peptide blend combining BPC-157, GHK-Cu, and TB-500 for comprehensive research.",
+			name: "GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) Mix",
+			description: "Premium peptide blend combining GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) for comprehensive research.",
 			price: 299.99,
 			originalPrice: 399.99,
-			image: "/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png",
+			image: "/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png",
 			rating: 5,
 			reviews: 45,
 			badge: "New"

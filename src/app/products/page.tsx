@@ -8,17 +8,6 @@ export default function ProductsPage() {
 	const [searchTerm, setSearchTerm] = useState('')
 	const products = [
 		{
-			id: "bpc-157",
-			name: "BPC-157 10mg",
-			description: "Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.",
-			price: 89.99,
-			originalPrice: 119.99,
-			image: "/products/bpc-157/BPC-157_new.png",
-			rating: 5,
-			reviews: 127,
-			badge: "Best Seller"
-		},
-		{
 			id: "bpc-157-5mg",
 			name: "BPC-157 5mg",
 			description: "Body Protection Compound-157 in smaller dosage for research purposes. High purity peptide for scientific studies.",
@@ -30,37 +19,15 @@ export default function ProductsPage() {
 			badge: "Popular"
 		},
 		{
-			id: "tb-500",
-			name: "TB-500 10mg",
-			description: "Thymosin Beta-4 fragment for research applications. Premium quality peptide.",
-			price: 149.99,
-			originalPrice: 199.99,
-			image: "/products/tb-500/TB 500_10MG_new.png",
+			id: "bpc-157",
+			name: "BPC-157 10mg",
+			description: "Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.",
+			price: 89.99,
+			originalPrice: 119.99,
+			image: "/products/bpc-157/BPC-157_new.png",
 			rating: 5,
-			reviews: 89,
-			badge: "Sale"
-		},
-		{
-			id: "mix-peptide",
-			name: "GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix",
-			description: "Premium peptide blend combining GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) for comprehensive research.",
-			price: 299.99,
-			originalPrice: 399.99,
-			image: "/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png",
-			rating: 5,
-			reviews: 45,
-			badge: "New"
-		},
-		{
-			id: "ghk-cu",
-			name: "GHK-Cu 50mg",
-			description: "Copper peptide GHK-Cu for research applications. Known for its regenerative properties in scientific studies.",
-			price: 199.99,
-			originalPrice: 249.99,
-			image: "/products/ghk-cu/GHK-CU_50MG.png",
-			rating: 5,
-			reviews: 67,
-			badge: "Featured"
+			reviews: 127,
+			badge: "Best Seller"
 		},
 		{
 			id: "tb-500-5mg",
@@ -74,12 +41,34 @@ export default function ProductsPage() {
 			badge: "Limited"
 		},
 		{
+			id: "tb-500",
+			name: "TB-500 10mg",
+			description: "Thymosin Beta-4 fragment for research applications. Premium quality peptide.",
+			price: 149.99,
+			originalPrice: 199.99,
+			image: "/products/tb-500/TB 500_10MG_new.png",
+			rating: 5,
+			reviews: 89,
+			badge: "Sale"
+		},
+		{
+			id: "ghk-cu",
+			name: "GHK-Cu 50mg",
+			description: "Copper peptide GHK-Cu for research applications. Known for its regenerative properties in scientific studies.",
+			price: 199.99,
+			originalPrice: 249.99,
+			image: "/products/ghk-cu/GHK-Cu-50MG_new.png",
+			rating: 5,
+			reviews: 67,
+			badge: "Featured"
+		},
+		{
 			id: "ghk-cu-100mg",
 			name: "GHK-Cu 100mg",
 			description: "Higher concentration copper peptide GHK-Cu for advanced research applications. Known for its regenerative properties in scientific studies.",
 			price: 349.99,
 			originalPrice: 449.99,
-			image: "/products/ghk-cu/GHK-CU_100MG.png",
+			image: "/products/ghk-cu/GHK-Cu 100MG_neww.png",
 			rating: 5,
 			reviews: 23,
 			badge: "Premium"
@@ -91,6 +80,50 @@ export default function ProductsPage() {
 			price: 79.99,
 			originalPrice: 99.99,
 			image: "/products/KPV/KPV_10M.png",
+			rating: 5,
+			reviews: 45,
+			badge: "New"
+		},
+		{
+			id: "semax",
+			name: "Semax 10mg",
+			description: "Synthetic peptide for research applications. Known for its neuroprotective properties in scientific studies.",
+			price: 129.99,
+			originalPrice: 159.99,
+			image: "/products/Semax/Semax.png",
+			rating: 5,
+			reviews: 38,
+			badge: "Premium"
+		},
+		{
+			id: "bpc-tb-mix",
+			name: "BPC-157 (5MG) + TB-500 (5MG) Mix",
+			description: "Premium peptide blend combining BPC-157 (5MG) and TB-500 (5MG) for comprehensive research applications.",
+			price: 149.99,
+			originalPrice: 199.99,
+			image: "/products/bpc-tb-mix/BPC:TB 5:5.png",
+			rating: 5,
+			reviews: 32,
+			badge: "New"
+		},
+		{
+			id: "bpc-tb-mix-10mg",
+			name: "BPC-157 (10MG) + TB-500 (10MG) Mix",
+			description: "Premium peptide blend combining BPC-157 (10MG) and TB-500 (10MG) for comprehensive research applications.",
+			price: 199.99,
+			originalPrice: 249.99,
+			image: "/products/bpc-tb-ghk-mix/BPC-Tb-10-10Mix.png",
+			rating: 5,
+			reviews: 28,
+			badge: "Premium"
+		},
+		{
+			id: "mix-peptide",
+			name: "GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix",
+			description: "Premium peptide blend combining GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) for comprehensive research.",
+			price: 299.99,
+			originalPrice: 399.99,
+			image: "/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png",
 			rating: 5,
 			reviews: 45,
 			badge: "New"
