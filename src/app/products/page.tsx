@@ -13,7 +13,7 @@ export default function ProductsPage() {
 			description: "Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.",
 			price: 89.99,
 			originalPrice: 119.99,
-			image: "/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png",
+			image: "/products/bpc-157/BPC-157_new.png",
 			rating: 5,
 			reviews: 127,
 			badge: "Best Seller"
@@ -24,7 +24,7 @@ export default function ProductsPage() {
 			description: "Body Protection Compound-157 in smaller dosage for research purposes. High purity peptide for scientific studies.",
 			price: 49.99,
 			originalPrice: 89.99,
-			image: "/products/bpc-157/BPC-157_5mg.png",
+			image: "/products/bpc-157/BPC-157_5MG_new.png",
 			rating: 5,
 			reviews: 89,
 			badge: "Popular"
@@ -35,7 +35,7 @@ export default function ProductsPage() {
 			description: "Thymosin Beta-4 fragment for research applications. Premium quality peptide.",
 			price: 149.99,
 			originalPrice: 199.99,
-			image: "/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png",
+			image: "/products/tb-500/TB 500_10MG_new.png",
 			rating: 5,
 			reviews: 89,
 			badge: "Sale"
@@ -68,7 +68,7 @@ export default function ProductsPage() {
 			description: "Thymosin Beta-4 fragment in smaller dosage for research applications. Premium quality peptide.",
 			price: 89.99,
 			originalPrice: 119.99,
-			image: "/products/tb-500/Tb-500_5MG.png",
+			image: "/products/tb-500/TB 500_5MG_new.png",
 			rating: 5,
 			reviews: 34,
 			badge: "Limited"
@@ -83,6 +83,17 @@ export default function ProductsPage() {
 			rating: 5,
 			reviews: 23,
 			badge: "Premium"
+		},
+		{
+			id: "kpv",
+			name: "KPV 10mg",
+			description: "Lysine-Proline-Valine peptide for research applications. Known for its anti-inflammatory properties in scientific studies.",
+			price: 79.99,
+			originalPrice: 99.99,
+			image: "/products/KPV/KPV_10M.png",
+			rating: 5,
+			reviews: 45,
+			badge: "New"
 		}
 	]
 

@@ -26,7 +26,7 @@ export default function TB500Page() {
 				id: `tb-500-${selectedMG}`,
 				name: `TB-500 ${selectedMG}`,
 				price: currentPrice,
-				image: '/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png'
+				image: '/products/tb-500/TB 500_10MG_new.png'
 			})
 		}
 	}
@@ -50,7 +50,7 @@ export default function TB500Page() {
 					<div className="flex justify-center">
 						<div className="relative w-full max-w-md">
 							<Image
-								src="/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png"
+								src="/products/tb-500/TB 500_10MG_new.png"
 								alt={`TB-500 ${selectedMG}`}
 								width={400}
 								height={400}

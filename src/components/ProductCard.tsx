@@ -42,25 +42,29 @@ export default function ProductCard({
 	}
 
 	return (
-		<div className="group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100/50 shadow-[0_0_20px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-200/50">
+		<div className="group relative bg-blue-50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100/50 shadow-[0_0_20px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-200/50">
 			
 			<Link href={`/products/${id}`} className="block relative z-10">
 				{/* Product Image */}
-				<div className="relative bg-white p-6">
+				<div className="relative bg-blue-50 p-4">
 					{image && image !== "/placeholder.jpg" ? (
 						<Image
 							src={image}
 							alt={name}
 							width={300}
 							height={200}
-							className="w-full h-48 object-contain transition-transform duration-300 group-hover:scale-105"
+							className={`w-full object-contain transition-transform duration-300 group-hover:scale-105 ${
+								id === 'bpc-157' || id === 'bpc-157-5mg' || id === 'tb-500-5mg' || id === 'tb-500' || id === 'kpv' ? 'h-72' : 'h-48'
+							}`}
 						/>
 					) : (
 						<PlaceholderImage
 							width={300}
 							height={200}
 							text={name}
-							className="w-full h-48 transition-transform duration-300 group-hover:scale-105"
+							className={`w-full transition-transform duration-300 group-hover:scale-105 ${
+								id === 'bpc-157' || id === 'bpc-157-5mg' || id === 'tb-500-5mg' || id === 'tb-500' || id === 'kpv' ? 'h-72' : 'h-48'
+							}`}
 						/>
 					)}
 					
@@ -78,7 +82,7 @@ export default function ProductCard({
 				</div>
 
 				{/* Product Info */}
-				<div className="p-6 space-y-3">
+				<div className="p-4 space-y-3">
 					<h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
 						{name}
 					</h3>
@@ -123,7 +127,7 @@ export default function ProductCard({
 			</Link>
 
 			{/* Add to Cart Button */}
-			<div className="p-6 pt-0 relative z-10">
+			<div className="p-4 pt-0 relative z-10">
 				<button 
 					onClick={handleAddToCart}
 					className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"

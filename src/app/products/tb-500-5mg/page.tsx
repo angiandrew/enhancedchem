@@ -12,13 +12,13 @@ export default function TB5005mgPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 89.99, originalPrice: 119.99, image: '/products/tb-500/Tb-500_5MG.png' },
-		{ value: '10mg', price: 149.99, originalPrice: 199.99, image: '/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png' }
+		{ value: '5mg', price: 89.99, originalPrice: 119.99, image: '/products/tb-500/TB 500_5MG_new.png' },
+		{ value: '10mg', price: 149.99, originalPrice: 199.99, image: '/products/tb-500/TB 500_10MG_new.png' }
 	]
 
 	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 89.99
 	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 119.99
-	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/tb-500/Tb-500_5MG.png'
+	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/tb-500/TB 500_5MG_new.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {

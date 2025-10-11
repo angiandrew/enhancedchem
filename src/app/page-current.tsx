@@ -22,7 +22,7 @@ export default function Home() {
 			description: "Thymosin Beta-4 fragment for research applications. Premium quality peptide.",
 			price: 149.99,
 			originalPrice: 199.99,
-			image: "/products/tb-500/3019f3ef-7005-4530-85ad-a5d75c56fce0 copy.png",
+			image: "/products/tb-500/TB 500_10MG_new.png",
 			rating: 5,
 			reviews: 89,
 			badge: "Sale"

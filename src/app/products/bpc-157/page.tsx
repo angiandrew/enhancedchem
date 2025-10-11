@@ -14,7 +14,7 @@ export default function BPC157Page() {
 	const router = useRouter()
 
 	const mgOptions = [
-		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157_5mg.png' },
+		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157_5MG_new.png' },
 		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/4ba41c3c-29b9-4162-91c1-456b643512d4 copy.png' }
 	]
 
