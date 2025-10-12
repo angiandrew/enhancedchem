@@ -117,8 +117,7 @@ export default function EquipmentPage() {
 		const searchLower = searchTerm.toLowerCase()
 		return products.filter(product => 
 			product.name.toLowerCase().includes(searchLower) ||
-			product.description.toLowerCase().includes(searchLower) ||
-			product.badge?.toLowerCase().includes(searchLower)
+			product.description.toLowerCase().includes(searchLower)
 		)
 	}, [searchTerm, products])
 
