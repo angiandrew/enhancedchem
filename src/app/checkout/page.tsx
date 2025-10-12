@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
 import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function CheckoutPage() {
 	const { items, updateQuantity, removeItem, totalPrice, totalItems } = useCart()
@@ -181,8 +182,14 @@ export default function CheckoutPage() {
 								{items.map((item) => (
 									<div key={item.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
 										<div className="flex items-center space-x-4">
-											<div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-												<span className="text-gray-500 text-xs">{item.name}</span>
+											<div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center border border-gray-200">
+												<Image
+													src={item.image}
+													alt={item.name}
+													width={64}
+													height={64}
+													className="object-contain rounded-lg"
+												/>
 											</div>
 											<div>
 												<h3 className="font-semibold text-gray-900">{item.name}</h3>
