@@ -142,7 +142,7 @@ export default function ProductsPage() {
 			product.description.toLowerCase().includes(searchLower) ||
 			product.badge?.toLowerCase().includes(searchLower)
 		)
-	}, [searchTerm])
+	}, [searchTerm, products])
 
 	return (
 		<div className="min-h-screen bg-white">

@@ -1,7 +1,6 @@
 import ProductCard from "@/components/ProductCard"
 import { Shield, Truck, Award, Lock, Microscope, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function Home() {
 	const products = [
