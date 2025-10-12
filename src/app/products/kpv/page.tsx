@@ -4,31 +4,22 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
 
-export default function BPC1575mgPage() {
-	const [selectedMG, setSelectedMG] = useState('5mg')
+export default function KPVPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
-	const router = useRouter()
 
-	const mgOptions = [
-		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157_5MG_new.png' },
-		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/BPC-157_new.png' }
-	]
-
-	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 49.99
-	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 89.99
-	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-157/BPC-157_5MG_new.png'
+	const currentPrice = 79.99
+	const currentOriginalPrice = 99.99
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `bpc-157-${selectedMG}`,
-				name: `BPC-157 ${selectedMG}`,
+				id: 'kpv',
+				name: 'KPV 10mg',
 				price: currentPrice,
-				image: currentImage
+				image: '/products/KPV/KPV_10M.png'
 			})
 		}
 	}
@@ -43,7 +34,7 @@ export default function BPC1575mgPage() {
 						<li>/</li>
 						<li><Link href="/products" className="hover:text-blue-600">Products</Link></li>
 						<li>/</li>
-						<li className="text-gray-900">BPC-157 {selectedMG}</li>
+						<li className="text-gray-900">KPV 10mg</li>
 					</ol>
 				</nav>
 
@@ -52,8 +43,8 @@ export default function BPC1575mgPage() {
 					<div className="flex justify-center">
 						<div className="relative w-full max-w-md">
 							<Image
-								src={currentImage}
-								alt={`BPC-157 ${selectedMG}`}
+								src="/products/KPV/KPV_10M.png"
+								alt="KPV 10mg"
 								width={400}
 								height={400}
 								className="w-full h-auto object-contain"
@@ -68,7 +59,7 @@ export default function BPC1575mgPage() {
 
 						{/* Product Name */}
 						<h1 className="text-4xl font-bold text-gray-900">
-							BPC-157 {selectedMG}
+							KPV 10mg
 						</h1>
 
 						{/* Price */}
@@ -81,28 +72,6 @@ export default function BPC1575mgPage() {
 									${currentOriginalPrice}
 								</span>
 							)}
-						</div>
-
-						{/* MG Selection */}
-						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Select Strength:
-							</label>
-							<div className="flex space-x-3">
-								{mgOptions.map((option) => (
-								<button
-									key={option.value}
-									onClick={() => setSelectedMG(option.value)}
-									className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
-										selectedMG === option.value
-											? 'border-blue-600 bg-blue-50 text-blue-600'
-											: 'border-gray-400 bg-gray-200 text-gray-700 hover:border-gray-500 hover:bg-gray-300'
-									}`}
-								>
-										{option.value}
-									</button>
-								))}
-							</div>
 						</div>
 
 						{/* Quantity Selector */}
@@ -199,11 +168,11 @@ export default function BPC1575mgPage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Cas No:</span>
-								<span className="text-gray-600">137525-51-0</span>
+								<span className="text-gray-600">Not applicable</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">C₆₂H₉₈N₁₆O₂₂</span>
+								<span className="text-gray-600">Lys-Pro-Val</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>
@@ -223,9 +192,8 @@ export default function BPC1575mgPage() {
 							For research purposes only.
 						</p>
 						<p className="text-gray-600 leading-relaxed">
-							BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from 
-							body protection compound found in gastric juice. This research-grade peptide 
-							is designed for scientific studies and laboratory research purposes only.
+							KPV (Lysine-Proline-Valine) is a tripeptide known for its anti-inflammatory properties. 
+							This research-grade peptide is designed for scientific studies and laboratory research purposes only.
 						</p>
 					</div>
 				</div>

@@ -19,7 +19,7 @@ export default function MixPeptidePage() {
 				id: 'mix-peptide',
 				name: 'GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix',
 				price: currentPrice,
-				image: '/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png'
+				image: '/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png'
 			})
 		}
 	}
@@ -43,7 +43,7 @@ export default function MixPeptidePage() {
 					<div className="flex justify-center">
 						<div className="relative w-full max-w-md">
 							<Image
-								src="/products/mix-peptide/4bf12ccf-4897-4ae6-9a56-22cf47adf0b4 copy.png"
+								src="/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png"
 								alt="GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix"
 								width={400}
 								height={400}

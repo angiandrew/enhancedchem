@@ -10,6 +10,7 @@ import { useCart } from '@/contexts/CartContext'
 export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [searchTerm, setSearchTerm] = useState('')
+	const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false)
 	const { totalItems, lastAddedItem, clearLastAddedItem } = useCart()
 	const router = useRouter()
 
@@ -59,9 +60,36 @@ export default function Header() {
 						<Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">
 							Home
 						</Link>
-						<Link href="/products" className="text-gray-700 hover:text-blue-600 transition-colors">
-							Products
-						</Link>
+						<div 
+							className="relative"
+							onMouseEnter={() => setIsProductsDropdownOpen(true)}
+							onMouseLeave={() => setIsProductsDropdownOpen(false)}
+						>
+							<Link href="/products" className="text-gray-700 hover:text-blue-600 transition-colors">
+								Products
+							</Link>
+							{/* Dropdown Menu */}
+							{isProductsDropdownOpen && (
+								<div 
+									className="absolute top-full left-0 mt-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+									onMouseEnter={() => setIsProductsDropdownOpen(true)}
+									onMouseLeave={() => setIsProductsDropdownOpen(false)}
+								>
+									<Link 
+										href="/products" 
+										className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+									>
+										Peptides
+									</Link>
+									<Link 
+										href="/equipment" 
+										className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+									>
+										Equipment
+									</Link>
+								</div>
+							)}
+						</div>
 						<Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
 							About
 						</Link>
@@ -142,7 +170,10 @@ export default function Header() {
 								Home
 							</Link>
 							<Link href="/products" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">
-								Products
+								Peptides
+							</Link>
+							<Link href="/equipment" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+								Equipment
 							</Link>
 							<Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">
 								About

@@ -22,7 +22,7 @@ export default function TermsPage() {
 							Age Requirement
 						</h3>
 						<p className="text-gray-600 mb-6">
-							You must be at least 18 years of age to purchase products from our website. 
+							You must be at least 21 years of age to purchase products from our website. 
 							By making a purchase, you certify that you meet this age requirement.
 						</p>
 

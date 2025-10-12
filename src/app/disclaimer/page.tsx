@@ -41,7 +41,7 @@ export default function DisclaimerPage() {
 							By purchasing products from Enhanced Chem, you certify that:
 						</p>
 						<ul className="list-disc list-inside text-gray-600 mb-6 space-y-2">
-							<li>You are at least 18 years of age</li>
+							<li>You are at least 21 years of age</li>
 							<li>You are a qualified researcher or scientist</li>
 							<li>You have the necessary training and equipment to handle these products safely</li>
 							<li>You will use these products only for legitimate research purposes</li>

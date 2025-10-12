@@ -89,7 +89,7 @@ export default function Footer() {
 						<p className="text-gray-300 text-sm">
 							All products are sold for research purposes only. Not for human consumption, 
 							diagnosis, treatment, cure, or prevention of any disease. By purchasing our products, 
-							you certify that you are 18+ years of age and agree to use these products only for 
+							you certify that you are 21+ years of age and agree to use these products only for 
 							legitimate research purposes in accordance with applicable laws and regulations.
 						</p>
 					</div>

@@ -101,7 +101,7 @@ export default function ProductsPage() {
 			description: "Premium peptide blend combining BPC-157 (5MG) and TB-500 (5MG) for comprehensive research applications.",
 			price: 149.99,
 			originalPrice: 199.99,
-			image: "/products/bpc-tb-mix/BPC:TB 5:5.png",
+			image: "/products/bpc-tb-mix/Bpc-tb-5MG.png",
 			rating: 5,
 			reviews: 32,
 			badge: "New"
@@ -112,7 +112,7 @@ export default function ProductsPage() {
 			description: "Premium peptide blend combining BPC-157 (10MG) and TB-500 (10MG) for comprehensive research applications.",
 			price: 199.99,
 			originalPrice: 249.99,
-			image: "/products/bpc-tb-ghk-mix/BPC-Tb-10-10Mix.png",
+			image: "/products/bpc-tb-mix/BPC:Tb_10MG mix.png",
 			rating: 5,
 			reviews: 28,
 			badge: "Premium"
@@ -146,17 +146,40 @@ export default function ProductsPage() {
 
 	return (
 		<div className="min-h-screen bg-white">
+			{/* Hero Section */}
+			<section className="relative w-full h-80 md:h-96 overflow-hidden">
+				{/* Background Image with Gradient Overlay */}
+				<div 
+					className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+					style={{
+						backgroundImage: `linear-gradient(rgba(30, 58, 138, 0.6), rgba(30, 58, 138, 0.6)), url('/hero-lab.jpg')`
+					}}
+				></div>
+				
+				{/* Content */}
+				<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+					<div className="text-center w-full">
+						<h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+							Research Peptides
+						</h1>
+						<p className="text-xl md:text-2xl text-white/90 font-light max-w-3xl mx-auto">
+							Premium quality peptides for scientific research purposes only
+						</p>
+						<div className="w-32 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto mt-6 rounded-full"></div>
+					</div>
+				</div>
+			</section>
+
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 				{/* Header with Search */}
 				<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-16">
 					<div className="text-center lg:text-left mb-8 lg:mb-0">
-						<h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 bg-clip-text text-transparent">
-							Research Peptides
-						</h1>
-						<p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
-							Premium quality peptides for scientific research purposes only
+						<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+							Our Products
+						</h2>
+						<p className="text-lg text-gray-600 max-w-2xl leading-relaxed">
+							Browse our comprehensive collection of research-grade peptides
 						</p>
-						<div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto lg:mx-0 mt-6 rounded-full"></div>
 					</div>
 					
 					{/* Search Bar */}
@@ -214,7 +237,7 @@ export default function ProductsPage() {
 					<p className="text-red-700">
 						All products are sold for research purposes only. Not for human consumption, 
 						diagnosis, treatment, cure, or prevention of any disease. By purchasing our products, 
-						you certify that you are 18+ years of age and agree to use these products only for 
+						you certify that you are 21+ years of age and agree to use these products only for 
 						legitimate research purposes in accordance with applicable laws and regulations.
 					</p>
 				</div>

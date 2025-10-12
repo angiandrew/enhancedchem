@@ -102,7 +102,7 @@ export default function CheckoutPage() {
 										<div className="flex-1">
 											<p className="text-sm font-medium text-green-800">Verification Complete</p>
 											<p className="text-xs text-green-700">
-												{selectedInstitution} • Age 18+ • Research Purposes Only
+												{selectedInstitution} • Age 21+ • Research Purposes Only
 											</p>
 										</div>
 										<button
@@ -150,7 +150,7 @@ export default function CheckoutPage() {
 													className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 												/>
 												<label htmlFor="ageVerification" className="text-sm text-gray-700">
-													I certify that I am 18+ years of age
+													I certify that I am 21+ years of age
 												</label>
 											</div>
 
@@ -567,7 +567,7 @@ export default function CheckoutPage() {
 					<p className="text-red-700">
 						All products are sold for research purposes only. Not for human consumption, 
 						diagnosis, treatment, cure, or prevention of any disease. By proceeding with your purchase, 
-						you certify that you are 18+ years of age and agree to use these products only for 
+						you certify that you are 21+ years of age and agree to use these products only for 
 						legitimate research purposes in accordance with applicable laws and regulations.
 					</p>
 				</div>
