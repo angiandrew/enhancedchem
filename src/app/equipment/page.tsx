@@ -6,7 +6,7 @@ import { Search } from 'lucide-react'
 
 export default function EquipmentPage() {
 	const [searchTerm, setSearchTerm] = useState('')
-	const products = [
+	const products = useMemo(() => [
 		{
 			id: "luer-lock-syringe-1ml",
 			name: "1mL Luer Lock Syringe - For Liquid Measurement and Transfer",
@@ -106,7 +106,7 @@ export default function EquipmentPage() {
 			rating: 5,
 			reviews: 18
 		}
-	]
+	], [])
 
 	// Filter products based on search term
 	const filteredProducts = useMemo(() => {

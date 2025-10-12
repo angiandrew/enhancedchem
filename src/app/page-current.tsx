@@ -102,9 +102,11 @@ export default function Home() {
 						{/* Right Image - Bigger */}
 						<div className="hidden lg:block w-3/5 pl-8 transition-all duration-700 ease-out">
 							<div className="relative transform hover:scale-105 transition-all duration-700 ease-out">
-								<img 
+								<Image 
 									src="/hero-image.png" 
 									alt="Enhanced Chem Research Peptides"
+									width={600}
+									height={400}
 									className="w-full h-auto object-contain drop-shadow-2xl transition-all duration-700 ease-out"
 								/>
 								<div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-blue-100 opacity-0 hover:opacity-20 transition-opacity duration-700"></div>

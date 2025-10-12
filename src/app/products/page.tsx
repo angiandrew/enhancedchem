@@ -6,7 +6,7 @@ import { Search } from 'lucide-react'
 
 export default function ProductsPage() {
 	const [searchTerm, setSearchTerm] = useState('')
-	const products = [
+	const products = useMemo(() => [
 		{
 			id: "bpc-157-5mg",
 			name: "BPC-157 5mg",
@@ -128,7 +128,7 @@ export default function ProductsPage() {
 			reviews: 45,
 			badge: "New"
 		}
-	]
+	], [])
 
 	// Filter products based on search term
 	const filteredProducts = useMemo(() => {
