@@ -8,6 +8,11 @@ import Image from 'next/image'
 
 export default function CheckoutPage() {
 	const { items, updateQuantity, removeItem, totalPrice, totalItems } = useCart()
+
+	// Helper function to format numbers with commas
+	const formatPrice = (price: number) => {
+		return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+	}
 	const [selectedInstitution, setSelectedInstitution] = useState('')
 	const [ageVerified, setAgeVerified] = useState(false)
 	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
@@ -149,7 +154,7 @@ export default function CheckoutPage() {
 													id="ageVerification"
 													checked={ageVerified}
 													onChange={(e) => setAgeVerified(e.target.checked)}
-													className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+													className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 												/>
 												<label htmlFor="ageVerification" className="text-sm text-gray-700">
 													I certify that I am 21+ years of age
@@ -162,7 +167,7 @@ export default function CheckoutPage() {
 													id="researchPurposes"
 													checked={researchPurposesVerified}
 													onChange={(e) => setResearchPurposesVerified(e.target.checked)}
-													className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+													className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 												/>
 												<label htmlFor="researchPurposes" className="text-sm text-gray-700">
 													I agree that all purchases are strictly for in-vitro laboratory research purposes only. These products are not for human or animal use, diagnosis, treatment, cure, or prevention of any disease.
@@ -175,7 +180,7 @@ export default function CheckoutPage() {
 													id="termsAccepted"
 													checked={termsAccepted}
 													onChange={(e) => setTermsAccepted(e.target.checked)}
-													className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+													className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 												/>
 												<label htmlFor="termsAccepted" className="text-sm text-gray-700">
 													I have read and agree to the{' '}
@@ -214,7 +219,7 @@ export default function CheckoutPage() {
 											</div>
 											<div>
 												<h3 className="font-semibold text-gray-900">{item.name}</h3>
-												<p className="text-gray-600">${item.price.toFixed(2)} each</p>
+												<p className="text-gray-600">${formatPrice(item.price)} each</p>
 											</div>
 										</div>
 										<div className="flex items-center space-x-4">
@@ -245,7 +250,7 @@ export default function CheckoutPage() {
 											</button>
 											{/* Total Price */}
 											<span className="font-bold text-gray-900 min-w-[80px] text-right">
-												${(item.price * item.quantity).toFixed(2)}
+												${formatPrice(item.price * item.quantity)}
 											</span>
 										</div>
 									</div>
@@ -549,7 +554,7 @@ export default function CheckoutPage() {
 							<div className="space-y-3 mb-6">
 								<div className="flex justify-between">
 									<span className="text-gray-800">Subtotal ({totalItems} items)</span>
-									<span className="font-semibold text-gray-900">${totalPrice.toFixed(2)}</span>
+									<span className="font-semibold text-gray-900">${formatPrice(totalPrice)}</span>
 								</div>
 								<div className="flex justify-between">
 									<span className="text-gray-800">Shipping</span>
@@ -557,12 +562,12 @@ export default function CheckoutPage() {
 								</div>
 							<div className="flex justify-between">
 								<span className="text-gray-800">Tax</span>
-								<span className="font-semibold text-gray-900">${(totalPrice * 0.07).toFixed(2)}</span>
+								<span className="font-semibold text-gray-900">${formatPrice(totalPrice * 0.07)}</span>
 							</div>
 							<div className="border-t pt-3">
 								<div className="flex justify-between text-lg font-bold">
 									<span className="text-gray-900">Total</span>
-									<span className="text-gray-900">${(totalPrice + 9.99 + (totalPrice * 0.07)).toFixed(2)}</span>
+									<span className="text-gray-900">${formatPrice(totalPrice + 9.99 + (totalPrice * 0.07))}</span>
 								</div>
 							</div>
 							</div>

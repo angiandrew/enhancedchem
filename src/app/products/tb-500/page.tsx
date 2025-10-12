@@ -13,8 +13,7 @@ export default function TB500Page() {
 
 	const mgOptions = [
 		{ value: '5mg', price: 99.99, originalPrice: 129.99 },
-		{ value: '10mg', price: 149.99, originalPrice: 199.99 },
-		{ value: '20mg', price: 279.99, originalPrice: 349.99 }
+		{ value: '10mg', price: 149.99, originalPrice: 199.99 }
 	]
 
 	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 149.99
