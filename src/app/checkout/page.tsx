@@ -11,6 +11,7 @@ export default function CheckoutPage() {
 	const [selectedInstitution, setSelectedInstitution] = useState('')
 	const [ageVerified, setAgeVerified] = useState(false)
 	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
+	const [termsAccepted, setTermsAccepted] = useState(false)
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
 
@@ -22,8 +23,8 @@ export default function CheckoutPage() {
 		'Government or public research institute'
 	]
 
-	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified
-	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified
+	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified && termsAccepted
+	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified && termsAccepted
 	
 	// Auto-collapse verification when completed
 	useEffect(() => {
@@ -148,7 +149,7 @@ export default function CheckoutPage() {
 													id="ageVerification"
 													checked={ageVerified}
 													onChange={(e) => setAgeVerified(e.target.checked)}
-													className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+													className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 												/>
 												<label htmlFor="ageVerification" className="text-sm text-gray-700">
 													I certify that I am 21+ years of age
@@ -161,10 +162,30 @@ export default function CheckoutPage() {
 													id="researchPurposes"
 													checked={researchPurposesVerified}
 													onChange={(e) => setResearchPurposesVerified(e.target.checked)}
-													className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+													className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 												/>
 												<label htmlFor="researchPurposes" className="text-sm text-gray-700">
 													I agree that all purchases are strictly for in-vitro laboratory research purposes only. These products are not for human or animal use, diagnosis, treatment, cure, or prevention of any disease.
+												</label>
+											</div>
+
+											<div className="flex items-start space-x-3">
+												<input
+													type="checkbox"
+													id="termsAccepted"
+													checked={termsAccepted}
+													onChange={(e) => setTermsAccepted(e.target.checked)}
+													className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+												/>
+												<label htmlFor="termsAccepted" className="text-sm text-gray-700">
+													I have read and agree to the{' '}
+													<Link href="/terms" className="text-blue-600 hover:text-blue-700 underline">
+														Terms of Service
+													</Link>
+													{' '}and{' '}
+													<Link href="/privacy" className="text-blue-600 hover:text-blue-700 underline">
+														Privacy Policy
+													</Link>
 												</label>
 											</div>
 										</div>
