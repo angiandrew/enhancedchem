@@ -174,7 +174,11 @@ export default function MixPeptidePage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">Mixed peptide blend</span>
+								<div className="text-gray-600 text-right">
+									<div>BPC-157: C<sub>62</sub>H<sub>98</sub>N<sub>16</sub>O<sub>22</sub></div>
+									<div>TB-500: C<sub>212</sub>H<sub>350</sub>N<sub>56</sub>O<sub>78</sub>S</div>
+									<div>GHK-Cu: C<sub>14</sub>H<sub>24</sub>N<sub>6</sub>O<sub>4</sub></div>
+								</div>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>

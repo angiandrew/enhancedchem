@@ -16,6 +16,7 @@ export default function CheckoutPage() {
 	const [selectedInstitution, setSelectedInstitution] = useState('')
 	const [ageVerified, setAgeVerified] = useState(false)
 	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
+	const [researchLimitationsVerified, setResearchLimitationsVerified] = useState(false)
 	const [termsAccepted, setTermsAccepted] = useState(false)
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
@@ -28,10 +29,10 @@ export default function CheckoutPage() {
 		'Government or public research institute'
 	]
 
-	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified && termsAccepted
-	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified && termsAccepted
+	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted
+	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted
 	
-	// Auto-collapse verification when completed
+	// Auto-collapse verification when completed (only once)
 	useEffect(() => {
 		if (isVerificationComplete && !isVerificationCollapsed) {
 			const timer = setTimeout(() => {
@@ -39,7 +40,7 @@ export default function CheckoutPage() {
 			}, 500)
 			return () => clearTimeout(timer)
 		}
-	}, [isVerificationComplete, isVerificationCollapsed])
+	}, [isVerificationComplete]) // Removed isVerificationCollapsed dependency to prevent re-triggering
 
 	if (items.length === 0) {
 		return (
@@ -72,11 +73,11 @@ export default function CheckoutPage() {
 					Checkout
 				</h1>
 
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 					{/* Checkout Form */}
-					<div className="lg:col-span-2 space-y-8">
+					<div className="lg:col-span-2">
 						{/* Institutional Verification */}
-						<div className="bg-white rounded-lg shadow-sm p-6">
+						<div className="bg-white rounded-lg shadow-sm p-6 h-[400px] flex flex-col mb-8">
 							<div className="flex items-center justify-between mb-4">
 								<h2 className="text-xl font-semibold text-gray-900">
 									Institutional Verification
@@ -101,106 +102,121 @@ export default function CheckoutPage() {
 								)}
 							</div>
 
-							{isVerificationCollapsed ? (
-								/* Collapsed Summary */
-								<div className="bg-green-50 border border-green-200 rounded-lg p-4">
-									<div className="flex items-center space-x-3">
-										<Check className="h-5 w-5 text-green-600" />
-										<div className="flex-1">
-											<p className="text-sm font-medium text-green-800">Verification Complete</p>
+							<div className="flex-1 overflow-y-auto">
+								{isVerificationCollapsed ? (
+									/* Collapsed Summary */
+									<div className="bg-green-50 border border-green-200 rounded-lg p-4">
+										<div className="flex items-center space-x-3">
+											<Check className="h-5 w-5 text-green-600" />
+											<div className="flex-1">
+												<p className="text-sm font-medium text-green-800">Verification Complete</p>
 											<p className="text-xs text-green-700">
-												{selectedInstitution} • Age 21+ • Research Purposes Only
+												{selectedInstitution} • Age 21+ • Research Purposes Only • Not for Human/Animal Use
 											</p>
-										</div>
-										<button
-											onClick={() => setIsVerificationCollapsed(false)}
-											className="text-blue-600 hover:text-blue-700 transition-colors"
-										>
-											<Edit3 className="h-4 w-4" />
-										</button>
-									</div>
-								</div>
-							) : (
-								/* Full Form */
-								<>
-									<p className="text-gray-700 mb-6 leading-relaxed">
-										To complete checkout, you must verify your institutional affiliation and agree that all purchases are strictly for in-vitro laboratory research purposes only. These products are not for human or animal use.
-									</p>
-
-									<div className="space-y-4">
-										<div>
-											<label className="block text-sm font-medium text-gray-700 mb-2">
-												I verify that I am affiliated with or purchasing on behalf of:
-											</label>
-											<select
-												value={selectedInstitution}
-												onChange={(e) => setSelectedInstitution(e.target.value)}
-												className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white"
+											</div>
+											<button
+												onClick={() => setIsVerificationCollapsed(false)}
+												className="text-blue-600 hover:text-blue-700 transition-colors"
 											>
-												<option value="" className="text-gray-500">Select your institution type...</option>
-												{institutionOptions.map((option, index) => (
-													<option key={index} value={option} className="text-gray-900">
-														{option}
-													</option>
-												))}
-											</select>
-										</div>
-
-										{/* Verification Checkboxes */}
-										<div className="space-y-4 pt-4 border-t border-gray-200">
-											<div className="flex items-start space-x-3">
-												<input
-													type="checkbox"
-													id="ageVerification"
-													checked={ageVerified}
-													onChange={(e) => setAgeVerified(e.target.checked)}
-													className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-												/>
-												<label htmlFor="ageVerification" className="text-sm text-gray-700">
-													I certify that I am 21+ years of age
-												</label>
-											</div>
-
-											<div className="flex items-start space-x-3">
-												<input
-													type="checkbox"
-													id="researchPurposes"
-													checked={researchPurposesVerified}
-													onChange={(e) => setResearchPurposesVerified(e.target.checked)}
-													className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-												/>
-												<label htmlFor="researchPurposes" className="text-sm text-gray-700">
-													I agree that all purchases are strictly for in-vitro laboratory research purposes only. These products are not for human or animal use, diagnosis, treatment, cure, or prevention of any disease.
-												</label>
-											</div>
-
-											<div className="flex items-start space-x-3">
-												<input
-													type="checkbox"
-													id="termsAccepted"
-													checked={termsAccepted}
-													onChange={(e) => setTermsAccepted(e.target.checked)}
-													className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-												/>
-												<label htmlFor="termsAccepted" className="text-sm text-gray-700">
-													I have read and agree to the{' '}
-													<Link href="/terms" className="text-blue-600 hover:text-blue-700 underline">
-														Terms of Service
-													</Link>
-													{' '}and{' '}
-													<Link href="/privacy" className="text-blue-600 hover:text-blue-700 underline">
-														Privacy Policy
-													</Link>
-												</label>
-											</div>
+												<Edit3 className="h-4 w-4" />
+											</button>
 										</div>
 									</div>
-								</>
-							)}
+								) : (
+									/* Full Form */
+									<>
+										<p className="text-gray-700 mb-6 leading-relaxed">
+											To complete checkout, you must verify your institutional affiliation and agree that all purchases are strictly for in-vitro laboratory research purposes only. These products are not for human or animal use.
+										</p>
+
+										<div className="space-y-4">
+											<div>
+												<label className="block text-sm font-medium text-gray-700 mb-2">
+													I verify that I am affiliated with or purchasing on behalf of:
+												</label>
+												<select
+													value={selectedInstitution}
+													onChange={(e) => setSelectedInstitution(e.target.value)}
+													className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white"
+												>
+													<option value="" className="text-gray-500">Select your institution type...</option>
+													{institutionOptions.map((option, index) => (
+														<option key={index} value={option} className="text-gray-900">
+															{option}
+														</option>
+													))}
+												</select>
+											</div>
+
+											{/* Verification Checkboxes */}
+											<div className="space-y-4 pt-4 pl-2 border-t border-gray-200">
+												<div className="flex items-start space-x-3">
+													<input
+														type="checkbox"
+														id="ageVerification"
+														checked={ageVerified}
+														onChange={(e) => setAgeVerified(e.target.checked)}
+														className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-2 border-gray-400 rounded"
+													/>
+													<label htmlFor="ageVerification" className="text-sm text-gray-700">
+														I certify that I am 21+ years of age
+													</label>
+												</div>
+
+												<div className="flex items-start space-x-3">
+													<input
+														type="checkbox"
+														id="researchPurposes"
+														checked={researchPurposesVerified}
+														onChange={(e) => setResearchPurposesVerified(e.target.checked)}
+														className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-2 border-gray-400 rounded"
+													/>
+													<label htmlFor="researchPurposes" className="text-sm text-gray-700">
+														I agree that all purchases are strictly for in-vitro laboratory research purposes only.
+													</label>
+												</div>
+
+												<div className="flex items-start space-x-3">
+													<input
+														type="checkbox"
+														id="researchLimitations"
+														checked={researchLimitationsVerified}
+														onChange={(e) => setResearchLimitationsVerified(e.target.checked)}
+														className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-2 border-gray-400 rounded"
+													/>
+													<label htmlFor="researchLimitations" className="text-sm text-gray-700">
+														These products are not for human or animal use, diagnosis, treatment, cure, or prevention of any disease.
+													</label>
+												</div>
+
+												<div className="flex items-start space-x-3">
+													<input
+														type="checkbox"
+														id="termsAccepted"
+														checked={termsAccepted}
+														onChange={(e) => setTermsAccepted(e.target.checked)}
+														className="h-5 w-5 mt-0.5 text-blue-600 focus:ring-blue-500 border-2 border-gray-400 rounded"
+													/>
+													<label htmlFor="termsAccepted" className="text-sm text-gray-700">
+														I have read and agree to the{' '}
+														<Link href="/terms" className="text-blue-600 hover:text-blue-700 underline">
+															Terms of Service
+														</Link>
+														{' '}and{' '}
+														<Link href="/privacy" className="text-blue-600 hover:text-blue-700 underline">
+															Privacy Policy
+														</Link>
+													</label>
+												</div>
+											</div>
+										</div>
+									</>
+								)}
+							</div>
 						</div>
 
 						{/* Order Items */}
-						<div className="bg-white rounded-lg shadow-sm p-6">
+						<div className="bg-white rounded-lg shadow-sm p-6 mb-8">
 							<h2 className="text-xl font-semibold text-gray-900 mb-4">
 								Order Items
 							</h2>
@@ -361,8 +377,26 @@ export default function CheckoutPage() {
 										<div className="ml-3 flex items-center space-x-3">
 											<span className="text-gray-900 font-medium">Credit card</span>
 											<div className="flex space-x-2">
-												<div className="w-8 h-5 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">V</div>
-												<div className="w-8 h-5 bg-red-600 rounded text-white text-xs flex items-center justify-center font-bold">M</div>
+												{/* Visa Logo */}
+												<div className="w-8 h-5 bg-white border border-gray-300 rounded flex items-center justify-center">
+													<Image
+														src="/logos/visa logo.png"
+														alt="Visa"
+														width={32}
+														height={20}
+														className="object-contain"
+													/>
+												</div>
+												{/* Mastercard Logo */}
+												<div className="w-8 h-5 bg-white border border-gray-300 rounded flex items-center justify-center">
+													<Image
+														src="/logos/mastercard logo.png"
+														alt="Mastercard"
+														width={32}
+														height={20}
+														className="object-contain"
+													/>
+												</div>
 											</div>
 										</div>
 									</label>
@@ -546,48 +580,52 @@ export default function CheckoutPage() {
 
 					{/* Order Summary */}
 					<div className="lg:col-span-1">
-						<div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
-							<h2 className="text-xl font-semibold text-gray-900 mb-4">
-								Order Summary
-							</h2>
-							
-							<div className="space-y-3 mb-6">
-								<div className="flex justify-between">
-									<span className="text-gray-800">Subtotal ({totalItems} items)</span>
-									<span className="font-semibold text-gray-900">${formatPrice(totalPrice)}</span>
+						<div className="bg-white rounded-lg shadow-sm p-6 sticky top-4 h-[400px] flex flex-col">
+							<div>
+								<h2 className="text-xl font-semibold text-gray-900 mb-4">
+									Order Summary
+								</h2>
+								
+								<div className="space-y-3 mb-6">
+									<div className="flex justify-between">
+										<span className="text-gray-800">Subtotal ({totalItems} items)</span>
+										<span className="font-semibold text-gray-900">${formatPrice(totalPrice)}</span>
+									</div>
+									<div className="flex justify-between">
+										<span className="text-gray-800">Shipping</span>
+										<span className="font-semibold text-gray-900">$9.99</span>
+									</div>
+									<div className="flex justify-between">
+										<span className="text-gray-800">Tax</span>
+										<span className="font-semibold text-gray-900">${formatPrice(totalPrice * 0.07)}</span>
+									</div>
+									<div className="border-t pt-3">
+										<div className="flex justify-between text-lg font-bold">
+											<span className="text-gray-900">Total</span>
+											<span className="text-gray-900">${formatPrice(totalPrice + 9.99 + (totalPrice * 0.07))}</span>
+										</div>
+									</div>
 								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-800">Shipping</span>
-									<span className="font-semibold text-gray-900">$9.99</span>
-								</div>
-							<div className="flex justify-between">
-								<span className="text-gray-800">Tax</span>
-								<span className="font-semibold text-gray-900">${formatPrice(totalPrice * 0.07)}</span>
-							</div>
-							<div className="border-t pt-3">
-								<div className="flex justify-between text-lg font-bold">
-									<span className="text-gray-900">Total</span>
-									<span className="text-gray-900">${formatPrice(totalPrice + 9.99 + (totalPrice * 0.07))}</span>
-								</div>
-							</div>
 							</div>
 
-							<button 
-								disabled={!canProceed}
-								className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors mb-4 ${
-									canProceed 
-										? 'bg-blue-600 text-white hover:bg-blue-700' 
-										: 'bg-gray-300 text-gray-500 cursor-not-allowed'
-								}`}
-							>
-								Complete Purchase
-							</button>
+							<div className="mt-auto">
+								<button 
+									disabled={!canProceed}
+									className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors mb-4 ${
+										canProceed 
+											? 'bg-blue-600 text-white hover:bg-blue-700' 
+											: 'bg-gray-300 text-gray-500 cursor-not-allowed'
+									}`}
+								>
+									Complete Purchase
+								</button>
 
-							{!canProceed && (
-								<p className="text-sm text-gray-500 text-center">
-									Please complete all verification requirements to proceed
-								</p>
-							)}
+								{!canProceed && (
+									<p className="text-sm text-gray-500 text-center">
+										Please complete all verification requirements to proceed
+									</p>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>

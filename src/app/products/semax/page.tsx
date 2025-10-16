@@ -172,7 +172,7 @@ export default function SemaxPage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">Met-Glu-His-Phe-Pro-Gly-Pro</span>
+								<span className="text-gray-600">C<sub>37</sub>H<sub>51</sub>N<sub>9</sub>O<sub>10</sub>S</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>
@@ -215,3 +215,6 @@ export default function SemaxPage() {
 		</div>
 	)
 }
+
+
+

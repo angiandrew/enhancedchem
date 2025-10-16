@@ -172,7 +172,7 @@ export default function KPVPage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">Lys-Pro-Val</span>
+								<span className="text-gray-600">C<sub>16</sub>H<sub>30</sub>N<sub>4</sub>O<sub>4</sub></span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>
@@ -214,3 +214,6 @@ export default function KPVPage() {
 		</div>
 	)
 }
+
+
+

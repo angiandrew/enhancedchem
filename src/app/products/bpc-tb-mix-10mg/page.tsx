@@ -6,25 +6,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
 
-export default function GHKCu100mgPage() {
-	const [selectedMG, setSelectedMG] = useState('100mg')
+export default function BpcTbMix10mgPage() {
+	const [selectedMG, setSelectedMG] = useState('5mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '50mg', price: 199.99, originalPrice: 249.99, image: '/products/ghk-cu/GHK-Cu 100MG_neww.png' },
-		{ value: '100mg', price: 349.99, originalPrice: 449.99, image: '/products/ghk-cu/GHK-Cu 100MG_neww.png' }
+		{ value: '5mg', price: 149.99, originalPrice: 199.99, image: '/products/bpc-tb-mix/Bpc-tb-5MG.png' },
+		{ value: '10mg', price: 199.99, originalPrice: 249.99, image: '/products/bpc-tb-mix/BPC:Tb_10MG mix.png' }
 	]
 
-	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 349.99
-	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 449.99
-	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/ghk-cu/GHK-Cu 100MG_neww.png'
+	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 149.99
+	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 199.99
+	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-tb-mix/Bpc-tb-5MG.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `ghk-cu-${selectedMG}`,
-				name: `GHK-Cu ${selectedMG}`,
+				id: `bpc-tb-mix-${selectedMG}`,
+				name: `BPC-157 + TB-500 Mix ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
 			})
@@ -39,9 +39,9 @@ export default function GHKCu100mgPage() {
 					<ol className="flex items-center space-x-2 text-sm text-gray-500">
 						<li><Link href="/" className="hover:text-blue-600">Home</Link></li>
 						<li>/</li>
-						<li><Link href="/products" className="hover:text-blue-600">Products</Link></li>
+						<li><Link href="/products" className="hover:text-blue-600">Best Sellers</Link></li>
 						<li>/</li>
-						<li className="text-gray-900">GHK-Cu {selectedMG}</li>
+						<li className="text-gray-900">BPC-157 + TB-500 Mix {selectedMG}</li>
 					</ol>
 				</nav>
 
@@ -51,7 +51,7 @@ export default function GHKCu100mgPage() {
 						<div className="relative w-full max-w-md">
 							<Image
 								src={currentImage}
-								alt={`GHK-Cu ${selectedMG}`}
+								alt={`BPC-157 + TB-500 Mix ${selectedMG}`}
 								width={400}
 								height={400}
 								className="w-full h-auto object-contain"
@@ -66,7 +66,7 @@ export default function GHKCu100mgPage() {
 
 						{/* Product Name */}
 						<h1 className="text-4xl font-bold text-gray-900">
-							GHK-Cu {selectedMG}
+							BPC-157 + TB-500 Mix {selectedMG}
 						</h1>
 
 						{/* Price */}
@@ -103,7 +103,7 @@ export default function GHKCu100mgPage() {
 							</div>
 						</div>
 
-						{/* Quantity Selector */}
+						{/* Quantity Selection */}
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">
 								Quantity:
@@ -118,7 +118,7 @@ export default function GHKCu100mgPage() {
 								<input
 									type="number"
 									value={quantity}
-									onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+									onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
 									className="w-20 h-10 text-center border border-gray-400 bg-gray-200 text-gray-700 rounded-lg"
 									min="1"
 								/>
@@ -134,20 +134,20 @@ export default function GHKCu100mgPage() {
 						{/* Add to Cart Button */}
 						<button
 							onClick={handleAddToCart}
-							className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-3"
+							className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 text-lg"
 						>
-							<ShoppingCart className="h-6 w-6" />
-							<span>ADD TO CART</span>
+							<ShoppingCart className="w-6 h-6" />
+							<span>Add to Cart</span>
 						</button>
 
-						{/* Trust Badges */}
-						<div className="grid grid-cols-1 gap-4">
+						{/* Trust Indicators */}
+						<div className="space-y-4">
 							<div className="flex items-center space-x-3">
 								<div className="bg-blue-100 p-2 rounded-lg">
 									<Truck className="h-5 w-5 text-blue-600" />
 								</div>
 								<div>
-									<p className="text-sm font-semibold text-gray-900">Free Shipping on Orders Over $150</p>
+									<p className="text-sm font-semibold text-gray-900">Fast & Free Shipping on Orders Over $100</p>
 								</div>
 							</div>
 							<div className="flex items-center space-x-3">
@@ -155,7 +155,7 @@ export default function GHKCu100mgPage() {
 									<Award className="h-5 w-5 text-blue-600" />
 								</div>
 								<div>
-									<p className="text-sm font-semibold text-gray-900">High grade purity Premium quality</p>
+									<p className="text-sm font-semibold text-gray-900">Premium Quality Guarantee</p>
 								</div>
 							</div>
 							<div className="flex items-center space-x-3">
@@ -193,15 +193,18 @@ export default function GHKCu100mgPage() {
 						<div className="space-y-4">
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Appearance:</span>
-								<span className="text-gray-600">Blue powder</span>
+								<span className="text-gray-600">White powder</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Cas No:</span>
-								<span className="text-gray-600">130120-57-9</span>
+								<span className="text-gray-600">Multiple compounds</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">C<sub>14</sub>H<sub>24</sub>N<sub>6</sub>O<sub>4</sub></span>
+								<div className="text-gray-600 text-right">
+									<div>BPC-157: C<sub>62</sub>H<sub>98</sub>N<sub>16</sub>O<sub>22</sub></div>
+									<div>TB-500: C<sub>212</sub>H<sub>350</sub>N<sub>56</sub>O<sub>78</sub>S</div>
+								</div>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>
@@ -209,35 +212,53 @@ export default function GHKCu100mgPage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Storage:</span>
-								<span className="text-gray-600">Room Temperature</span>
+								<span className="text-gray-600">Store at -20°C</span>
+							</div>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Purity:</span>
+								<span className="text-gray-600">≥98%</span>
+							</div>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Molecular Weight:</span>
+								<span className="text-gray-600">Mixed blend</span>
+							</div>
+							<div className="flex justify-between">
+								<span className="font-semibold text-gray-700">Solubility:</span>
+								<span className="text-gray-600">Water soluble</span>
 							</div>
 						</div>
 					</div>
-					
+
 					<div>
-						<h2 className="text-2xl font-bold text-gray-900 mb-6">STORAGE</h2>
-						<p className="text-gray-600 leading-relaxed mb-4">
-							Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
-							For research purposes only.
-						</p>
-						<p className="text-gray-600 leading-relaxed">
-							GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper) is a copper peptide known for its regenerative 
-							properties. This research-grade peptide is designed for scientific studies and laboratory 
-							research purposes only.
-						</p>
+						<h2 className="text-2xl font-bold text-gray-900 mb-6">RESEARCH APPLICATIONS</h2>
+						<div className="space-y-4">
+							<div className="bg-blue-50 rounded-lg p-4">
+								<h3 className="font-semibold text-blue-900 mb-2">Laboratory Studies</h3>
+								<p className="text-sm text-blue-800">
+									This peptide blend is designed for comprehensive laboratory research applications, 
+									combining the synergistic effects of BPC-157 and TB-500 for enhanced research outcomes.
+								</p>
+							</div>
+							<div className="bg-green-50 rounded-lg p-4">
+								<h3 className="font-semibold text-green-900 mb-2">Quality Assurance</h3>
+								<p className="text-sm text-green-800">
+									Each batch undergoes rigorous quality testing to ensure purity and consistency 
+									for reliable research results.
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 
 				{/* Research Disclaimer */}
-				<div className="mt-12 bg-red-50 border border-red-200 rounded-lg p-6">
-					<h3 className="text-lg font-semibold text-red-800 mb-2">
-						⚠️ Research Purposes Only
-					</h3>
-					<p className="text-red-700">
-						This product is sold for research purposes only. Not for human consumption, 
-						diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-						you certify that you are 18+ years of age and agree to use this product only for 
-						legitimate research purposes in accordance with applicable laws and regulations.
+				<div className="mt-16 bg-red-50 border border-red-200 rounded-lg p-6">
+					<h3 className="text-lg font-semibold text-red-900 mb-3">Research Use Only</h3>
+					<p className="text-sm text-red-800 leading-relaxed">
+						<strong>Important:</strong> This product is intended solely for research purposes in laboratory settings. 
+						It is not intended for human consumption, diagnostic use, or therapeutic applications. 
+						Researchers must ensure compliance with all applicable local, state, and federal regulations 
+						regarding the handling and use of research chemicals. Please consult with your institutional 
+						review board or regulatory compliance office before use.
 					</p>
 				</div>
 			</div>

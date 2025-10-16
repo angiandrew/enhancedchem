@@ -47,10 +47,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 	const addItem = (newItem: Omit<CartItem, 'quantity'>) => {
 		setItems(prevItems => {
-			const existingItem = prevItems.find(item => item.id === newItem.id)
+			// First try to find by exact ID match
+			let existingItem = prevItems.find(item => item.id === newItem.id)
+			
+			// If no exact ID match, try to find by name and price (for same products with different IDs)
+			if (!existingItem) {
+				existingItem = prevItems.find(item => 
+					item.name === newItem.name && item.price === newItem.price
+				)
+			}
+			
 			if (existingItem) {
 				const updatedItems = prevItems.map(item =>
-					item.id === newItem.id
+					item.id === existingItem!.id
 						? { ...item, quantity: item.quantity + 1 }
 						: item
 				)

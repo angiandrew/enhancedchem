@@ -201,7 +201,7 @@ export default function TB5005mgPage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">C212H350N56O78S</span>
+								<span className="text-gray-600">C<sub>212</sub>H<sub>350</sub>N<sub>56</sub>O<sub>78</sub>S</span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>

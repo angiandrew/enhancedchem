@@ -7,8 +7,8 @@ const rateLimitMap = new Map<string, { count: number; lastReset: number }>()
 // Rate limiting configuration
 const RATE_LIMIT = {
   windowMs: 60 * 1000, // 1 minute
-  maxRequests: 30, // 30 requests per minute per IP
-  maxRequestsPerHour: 1000, // 1000 requests per hour per IP
+  maxRequests: process.env.NODE_ENV === 'development' ? 1000 : 30, // Much higher limit in development
+  maxRequestsPerHour: process.env.NODE_ENV === 'development' ? 10000 : 1000, // Much higher limit in development
 }
 
 // Bot detection patterns
@@ -48,7 +48,12 @@ function getRateLimitKey(request: NextRequest): string {
   return ip
 }
 
-function isBot(userAgent: string): boolean {
+function isBot(userAgent: string, isDevelopment: boolean): boolean {
+  // In development mode, don't block requests
+  if (isDevelopment) {
+    return false
+  }
+  
   // Check against bot patterns
   if (BOT_PATTERNS.some(pattern => pattern.test(userAgent))) {
     return true
@@ -60,7 +65,8 @@ function isBot(userAgent: string): boolean {
   }
   
   // Check for empty or very short user agents (often bots)
-  if (!userAgent || userAgent.length < 10) {
+  // But allow if userAgent is empty (internal requests)
+  if (userAgent && userAgent.length > 0 && userAgent.length < 10) {
     return true
   }
   
@@ -131,9 +137,10 @@ function isSuspiciousRequest(request: NextRequest): boolean {
 export function middleware(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') || ''
   const ip = getRateLimitKey(request)
+  const isDevelopment = process.env.NODE_ENV === 'development'
   
   // Block bots
-  if (isBot(userAgent)) {
+  if (isBot(userAgent, isDevelopment)) {
     console.log(`Blocked bot: ${ip} - ${userAgent}`)
     return new NextResponse('Access Denied', { 
       status: 403,
@@ -154,20 +161,23 @@ export function middleware(request: NextRequest) {
     })
   }
   
-  // Rate limiting
-  const rateLimit = checkRateLimit(ip)
-  if (!rateLimit.allowed) {
-    console.log(`Rate limit exceeded: ${ip}`)
-    return new NextResponse('Rate limit exceeded. Please try again later.', { 
-      status: 429,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Retry-After': '60',
-        'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
-        'X-RateLimit-Remaining': '0',
-        'X-RateLimit-Reset': new Date(Date.now() + RATE_LIMIT.windowMs).toISOString(),
-      }
-    })
+  // Rate limiting (disabled in development)
+  let rateLimit = { allowed: true, remaining: RATE_LIMIT.maxRequests }
+  if (!isDevelopment) {
+    rateLimit = checkRateLimit(ip)
+    if (!rateLimit.allowed) {
+      console.log(`Rate limit exceeded: ${ip}`)
+      return new NextResponse('Rate limit exceeded. Please try again later.', { 
+        status: 429,
+        headers: {
+          'Content-Type': 'text/plain',
+          'Retry-After': '60',
+          'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': new Date(Date.now() + RATE_LIMIT.windowMs).toISOString(),
+        }
+      })
+    }
   }
   
   // Add security headers

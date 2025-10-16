@@ -201,7 +201,7 @@ export default function GHKCuPage() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">C₁₄H₂₄N₆O₄Cu</span>
+								<span className="text-gray-600">C<sub>14</sub>H<sub>24</sub>N<sub>6</sub>O<sub>4</sub></span>
 							</div>
 							<div className="flex justify-between">
 								<span className="font-semibold text-gray-700">Physical State:</span>
