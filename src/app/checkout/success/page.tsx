@@ -34,7 +34,7 @@ export default function CheckoutSuccessPage() {
 							</h2>
 						</div>
 						<p className="text-blue-800 text-sm leading-relaxed">
-							We've sent detailed payment instructions and order confirmation to your email address. 
+							We&apos;ve sent detailed payment instructions and order confirmation to your email address. 
 							Please check your inbox (and spam folder) for the next steps to complete your purchase.
 						</p>
 					</div>
@@ -69,7 +69,7 @@ export default function CheckoutSuccessPage() {
 									<span className="text-white text-xs font-bold">3</span>
 								</div>
 								<p className="text-sm text-gray-700">
-									You'll receive tracking information once your order ships
+									You&apos;ll receive tracking information once your order ships
 								</p>
 							</div>
 						</div>

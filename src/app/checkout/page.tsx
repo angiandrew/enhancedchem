@@ -53,7 +53,7 @@ export default function CheckoutPage() {
 			}, 500)
 			return () => clearTimeout(timer)
 		}
-	}, [isVerificationComplete]) // Removed isVerificationCollapsed dependency to prevent re-triggering
+	}, [isVerificationComplete, isVerificationCollapsed]) // Include all dependencies
 
 	const handleCompletePurchase = async () => {
 		if (!canProceed) return
@@ -73,10 +73,6 @@ export default function CheckoutPage() {
 				console.log('Selected payment method:', selectedAlternativeMethod)
 				// TODO: Integrate with email service (SendGrid, etc.)
 				// Pass payment method info to success page
-				const paymentInfo = {
-					method: selectedAlternativeMethod,
-					email: customerEmail
-				}
 				router.push(`/checkout/success?method=${selectedAlternativeMethod}&email=${encodeURIComponent(customerEmail)}`)
 			} else {
 				// Clear the cart
@@ -571,7 +567,7 @@ export default function CheckoutPage() {
 														required
 													/>
 													<p className="text-xs text-gray-500 mt-1">
-														We'll send payment instructions to this email address
+														We&apos;ll send payment instructions to this email address
 													</p>
 												</div>
 												{/* Zelle */}
