@@ -5,9 +5,11 @@ import { useCart } from '@/contexts/CartContext'
 import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function CheckoutPage() {
-	const { items, updateQuantity, removeItem, totalPrice, totalItems } = useCart()
+	const { items, updateQuantity, removeItem, totalPrice, totalItems, clearCart } = useCart()
+	const router = useRouter()
 
 	// Helper function to format numbers with commas
 	const formatPrice = (price: number) => {
@@ -18,6 +20,12 @@ export default function CheckoutPage() {
 	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
 	const [researchLimitationsVerified, setResearchLimitationsVerified] = useState(false)
 	const [termsAccepted, setTermsAccepted] = useState(false)
+	const [customerEmail, setCustomerEmail] = useState('')
+	const [selectedAlternativeMethod, setSelectedAlternativeMethod] = useState('')
+	const [cardNumber, setCardNumber] = useState('')
+	const [expiryDate, setExpiryDate] = useState('')
+	const [securityCode, setSecurityCode] = useState('')
+	const [cardName, setCardName] = useState('')
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
 
@@ -29,7 +37,12 @@ export default function CheckoutPage() {
 		'Government or public research institute'
 	]
 
-	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted
+	const isAlternativePayment = selectedPaymentMethod === 'alternative'
+	const isCreditCardComplete = selectedPaymentMethod === 'credit-card' && cardNumber.trim() !== '' && expiryDate.trim() !== '' && securityCode.trim() !== '' && cardName.trim() !== ''
+	const isBankTransferComplete = selectedPaymentMethod === 'bank-transfer'
+	const isAlternativeComplete = isAlternativePayment && customerEmail.trim() !== '' && selectedAlternativeMethod !== ''
+	
+	const canProceed = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted && (isCreditCardComplete || isBankTransferComplete || isAlternativeComplete)
 	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted
 	
 	// Auto-collapse verification when completed (only once)
@@ -41,6 +54,42 @@ export default function CheckoutPage() {
 			return () => clearTimeout(timer)
 		}
 	}, [isVerificationComplete]) // Removed isVerificationCollapsed dependency to prevent re-triggering
+
+	const handleCompletePurchase = async () => {
+		if (!canProceed) return
+
+		// Here you would typically:
+		// 1. Process the payment (if credit card/bank transfer)
+		// 2. Send email with payment instructions (if alternative payment)
+		// 3. Create order record in database
+		// 4. Clear cart
+		// 5. Redirect to success page
+
+		// For now, we'll simulate the process
+		try {
+			if (isAlternativePayment) {
+				// Send email with payment instructions
+				console.log('Sending payment instructions to:', customerEmail)
+				console.log('Selected payment method:', selectedAlternativeMethod)
+				// TODO: Integrate with email service (SendGrid, etc.)
+				// Pass payment method info to success page
+				const paymentInfo = {
+					method: selectedAlternativeMethod,
+					email: customerEmail
+				}
+				router.push(`/checkout/success?method=${selectedAlternativeMethod}&email=${encodeURIComponent(customerEmail)}`)
+			} else {
+				// Clear the cart
+				clearCart()
+				
+				// Redirect to success page
+				router.push('/checkout/success')
+			}
+		} catch (error) {
+			console.error('Order processing failed:', error)
+			// Handle error (show toast, etc.)
+		}
+	}
 
 	if (items.length === 0) {
 		return (
@@ -77,7 +126,7 @@ export default function CheckoutPage() {
 					{/* Checkout Form */}
 					<div className="lg:col-span-2">
 						{/* Institutional Verification */}
-						<div className="bg-white rounded-lg shadow-sm p-6 h-[400px] flex flex-col mb-8">
+                    <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
 							<div className="flex items-center justify-between mb-4">
 								<h2 className="text-xl font-semibold text-gray-900">
 									Institutional Verification
@@ -102,7 +151,7 @@ export default function CheckoutPage() {
 								)}
 							</div>
 
-							<div className="flex-1 overflow-y-auto">
+                        <div>
 								{isVerificationCollapsed ? (
 									/* Collapsed Summary */
 									<div className="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -224,15 +273,15 @@ export default function CheckoutPage() {
 								{items.map((item) => (
 									<div key={item.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
 										<div className="flex items-center space-x-4">
-											<div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center border border-gray-200">
-												<Image
-													src={item.image}
-													alt={item.name}
-													width={64}
-													height={64}
-													className="object-contain rounded-lg"
-												/>
-											</div>
+                                            <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center border border-gray-200 overflow-hidden">
+                                                <Image
+                                                    src={item.image}
+                                                    alt={item.name}
+                                                    width={80}
+                                                    height={80}
+                                                    className="object-contain rounded-lg max-w-full max-h-full"
+                                                />
+                                            </div>
 											<div>
 												<h3 className="font-semibold text-gray-900">{item.name}</h3>
 												<p className="text-gray-600">${formatPrice(item.price)} each</p>
@@ -410,6 +459,8 @@ export default function CheckoutPage() {
 													<div className="relative">
 														<input
 															type="text"
+															value={cardNumber}
+															onChange={(e) => setCardNumber(e.target.value)}
 															className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 															placeholder="1234 5678 9012 3456"
 															autoComplete="cc-number"
@@ -426,6 +477,8 @@ export default function CheckoutPage() {
 														</label>
 														<input
 															type="text"
+															value={expiryDate}
+															onChange={(e) => setExpiryDate(e.target.value)}
 															className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 															placeholder="MM / YY"
 															autoComplete="cc-exp"
@@ -436,12 +489,14 @@ export default function CheckoutPage() {
 															Security code
 														</label>
 														<div className="relative">
-															<input
-																type="text"
-																className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
-																placeholder="123"
-																autoComplete="cc-csc"
-															/>
+														<input
+															type="text"
+															value={securityCode}
+															onChange={(e) => setSecurityCode(e.target.value)}
+															className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
+															placeholder="123"
+															autoComplete="cc-csc"
+														/>
 															<div className="absolute inset-y-0 right-0 pr-3 flex items-center">
 																<div className="w-4 h-4 bg-gray-400 rounded-full text-white text-xs flex items-center justify-center">?</div>
 															</div>
@@ -454,6 +509,8 @@ export default function CheckoutPage() {
 													</label>
 													<input
 														type="text"
+														value={cardName}
+														onChange={(e) => setCardName(e.target.value)}
 														className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 														placeholder="Name on card"
 														autoComplete="cc-name"
@@ -485,65 +542,148 @@ export default function CheckoutPage() {
 											onChange={(e) => setSelectedPaymentMethod(e.target.value)}
 											className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
 										/>
-										<span className="ml-3 text-gray-900 font-medium">Alternative Payments</span>
+										<div className="ml-3 flex items-center space-x-3">
+											<span className="text-gray-900 font-medium">Alternative Payments</span>
+											<div className="flex space-x-2">
+												{/* Zelle Logo */}
+												<div className="w-6 h-6 bg-purple-600 rounded text-white text-xs flex items-center justify-center font-bold">Z</div>
+												{/* Bitcoin Logo */}
+												<div className="w-6 h-6 bg-orange-500 rounded text-white text-xs flex items-center justify-center font-bold">₿</div>
+												{/* Venmo Logo */}
+												<div className="w-6 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">V</div>
+											</div>
+										</div>
 									</label>
 									{selectedPaymentMethod === 'alternative' && (
 										<div className="px-4 pb-4 border-t border-gray-200 bg-gray-50">
 											<div className="pt-4 space-y-4">
-												<div className="grid grid-cols-2 gap-4">
-													<button className="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-center">
-														<div className="text-sm font-medium text-gray-900">Zelle</div>
-														<div className="text-xs text-gray-500 mt-1">Instant transfer</div>
-													</button>
-													<button className="p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-center">
-														<div className="text-sm font-medium text-gray-900">Bitcoin</div>
-														<div className="text-xs text-gray-500 mt-1">Cryptocurrency</div>
-													</button>
+												{/* Email Input */}
+												<div className="bg-white border border-gray-300 rounded-lg p-4">
+													<label className="block text-sm font-medium text-gray-700 mb-2">
+														Your Email Address *
+													</label>
+													<input
+														type="email"
+														value={customerEmail}
+														onChange={(e) => setCustomerEmail(e.target.value)}
+														className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600 text-gray-900"
+														placeholder="Enter your email address"
+														required
+													/>
+													<p className="text-xs text-gray-500 mt-1">
+														We'll send payment instructions to this email address
+													</p>
+												</div>
+												{/* Zelle */}
+												<div 
+													onClick={() => setSelectedAlternativeMethod('zelle')}
+													className={`border rounded-lg p-4 cursor-pointer transition-all ${
+														selectedAlternativeMethod === 'zelle' 
+															? 'border-purple-500 bg-purple-50' 
+															: 'border-gray-300 hover:border-purple-300 hover:bg-purple-25'
+													}`}
+												>
+													<div className="flex items-center space-x-3 mb-3">
+														{/* Radio Button */}
+														<div className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+															{selectedAlternativeMethod === 'zelle' && (
+																<div className="w-3 h-3 bg-purple-600 rounded-full"></div>
+															)}
+														</div>
+														{/* Zelle Icon */}
+														<div className="w-6 h-6 bg-purple-600 rounded text-white text-xs flex items-center justify-center font-bold">Z</div>
+														<span className="font-medium text-gray-900">Zelle</span>
+														<span className="text-xs text-gray-500">Instant transfer</span>
+													</div>
+													<div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+														<p className="text-sm text-purple-800">
+															Send payment to enhancedchem@email.com via Zelle. Include your order number in the memo.
+														</p>
+													</div>
+												</div>
+
+												{/* Bitcoin */}
+												<div 
+													onClick={() => setSelectedAlternativeMethod('bitcoin')}
+													className={`border rounded-lg p-4 cursor-pointer transition-all ${
+														selectedAlternativeMethod === 'bitcoin' 
+															? 'border-orange-500 bg-orange-50' 
+															: 'border-gray-300 hover:border-orange-300 hover:bg-orange-25'
+													}`}
+												>
+													<div className="flex items-center space-x-3 mb-3">
+														{/* Radio Button */}
+														<div className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+															{selectedAlternativeMethod === 'bitcoin' && (
+																<div className="w-3 h-3 bg-orange-600 rounded-full"></div>
+															)}
+														</div>
+														{/* Bitcoin Icon */}
+														<div className="w-6 h-6 bg-orange-500 rounded text-white text-xs flex items-center justify-center font-bold">₿</div>
+														<span className="font-medium text-gray-900">Bitcoin</span>
+														<span className="text-xs text-gray-500">Cryptocurrency</span>
+													</div>
+													<div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-3">
+														<p className="text-sm text-orange-800">
+															Send Bitcoin to the address below. Payment will be confirmed once we receive 3 confirmations on the blockchain.
+														</p>
+													</div>
+													<div>
+														<label className="block text-sm font-medium text-gray-700 mb-2">
+															Bitcoin Address
+														</label>
+														<input
+															type="text"
+															className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-100 text-sm text-gray-900 font-mono"
+															value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+															readOnly
+														/>
+													</div>
+												</div>
+
+												{/* Venmo */}
+												<div 
+													onClick={() => setSelectedAlternativeMethod('venmo')}
+													className={`border rounded-lg p-4 cursor-pointer transition-all ${
+														selectedAlternativeMethod === 'venmo' 
+															? 'border-blue-500 bg-blue-50' 
+															: 'border-gray-300 hover:border-blue-300 hover:bg-blue-25'
+													}`}
+												>
+													<div className="flex items-center space-x-3 mb-3">
+														{/* Radio Button */}
+														<div className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+															{selectedAlternativeMethod === 'venmo' && (
+																<div className="w-3 h-3 bg-blue-600 rounded-full"></div>
+															)}
+														</div>
+														{/* Venmo Icon */}
+														<div className="w-6 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">V</div>
+														<span className="font-medium text-gray-900">Venmo</span>
+														<span className="text-xs text-gray-500">Mobile payment</span>
+													</div>
+													<div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+														<p className="text-sm text-blue-800">
+															Send payment to @EnhancedChem on Venmo. Please include your order number in the payment note.
+														</p>
+													</div>
+													<div>
+														<label className="block text-sm font-medium text-gray-700 mb-2">
+															Venmo Username
+														</label>
+														<input
+															type="text"
+															className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-100 text-sm text-gray-900"
+															value="@EnhancedChem"
+															readOnly
+														/>
+													</div>
 												</div>
 											</div>
 										</div>
 									)}
 								</div>
 
-								{/* Bitcoin */}
-								<div className="border border-gray-200 rounded-lg">
-									<label className="flex items-center p-4 cursor-pointer hover:bg-gray-50">
-										<input
-											type="radio"
-											name="paymentMethod"
-											value="bitcoin"
-											checked={selectedPaymentMethod === 'bitcoin'}
-											onChange={(e) => setSelectedPaymentMethod(e.target.value)}
-											className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-										/>
-										<div className="ml-3 flex items-center space-x-3">
-											<span className="text-gray-900 font-medium">Bitcoin</span>
-											<div className="w-6 h-6 bg-orange-500 rounded text-white text-xs flex items-center justify-center font-bold">₿</div>
-										</div>
-									</label>
-									{selectedPaymentMethod === 'bitcoin' && (
-										<div className="px-4 pb-4 border-t border-gray-200 bg-gray-50">
-											<div className="pt-4 space-y-4">
-												<div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-													<p className="text-sm text-orange-800">
-														Send Bitcoin to the address below. Payment will be confirmed once we receive 3 confirmations on the blockchain.
-													</p>
-												</div>
-												<div>
-													<label className="block text-sm font-medium text-gray-700 mb-2">
-														Bitcoin Address
-													</label>
-													<input
-														type="text"
-														className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
-														value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
-														readOnly
-													/>
-												</div>
-											</div>
-										</div>
-									)}
-								</div>
 
 								{/* Bank Transfer */}
 								<div className="border border-gray-200 rounded-lg">
@@ -580,7 +720,7 @@ export default function CheckoutPage() {
 
 					{/* Order Summary */}
 					<div className="lg:col-span-1">
-						<div className="bg-white rounded-lg shadow-sm p-6 sticky top-4 h-[400px] flex flex-col">
+                        <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
 							<div>
 								<h2 className="text-xl font-semibold text-gray-900 mb-4">
 									Order Summary
@@ -608,17 +748,18 @@ export default function CheckoutPage() {
 								</div>
 							</div>
 
-							<div className="mt-auto">
-								<button 
-									disabled={!canProceed}
-									className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors mb-4 ${
-										canProceed 
-											? 'bg-blue-600 text-white hover:bg-blue-700' 
-											: 'bg-gray-300 text-gray-500 cursor-not-allowed'
-									}`}
-								>
-									Complete Purchase
-								</button>
+                        <div className="mt-6">
+							<button 
+								onClick={handleCompletePurchase}
+								disabled={!canProceed}
+								className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors mb-4 ${
+									canProceed 
+										? 'bg-blue-600 text-white hover:bg-blue-700' 
+										: 'bg-gray-300 text-gray-500 cursor-not-allowed'
+								}`}
+							>
+								Complete Purchase
+							</button>
 
 								{!canProceed && (
 									<p className="text-sm text-gray-500 text-center">
