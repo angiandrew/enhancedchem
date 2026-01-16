@@ -1,18 +1,33 @@
 // Order tracking utilities
 // Note: For production, this should use a database (PostgreSQL, MongoDB, etc.)
-// For now, using a simple JSON file approach
+// For now, using a simple JSON file approach (works locally only)
+// On Vercel/serverless, file writes are not possible, so we use fallback methods
 
 import fs from 'fs'
 import path from 'path'
 
-// Use absolute path for data directory
-// This ensures it works in both development and production
-const ORDERS_FILE = path.resolve(process.cwd(), 'data', 'orders.json')
-const ORDERS_DIR = path.resolve(process.cwd(), 'data')
+// Check if we're in a serverless environment (Vercel)
+const isServerless = process.env.VERCEL === '1' || !fs.existsSync || typeof fs.mkdirSync === 'undefined'
 
-// Ensure data directory exists
-if (!fs.existsSync(ORDERS_DIR)) {
-	fs.mkdirSync(ORDERS_DIR, { recursive: true })
+// Use absolute path for data directory (only works locally)
+const ORDERS_FILE = isServerless ? null : path.resolve(process.cwd(), 'data', 'orders.json')
+const ORDERS_DIR = isServerless ? null : path.resolve(process.cwd(), 'data')
+
+// In-memory fallback for serverless environments
+const inMemoryOrders: { lastOrderNumber: number; orders: Order[] } = {
+	lastOrderNumber: 999,
+	orders: []
+}
+
+// Ensure data directory exists (only locally)
+if (!isServerless && ORDERS_DIR) {
+	try {
+		if (!fs.existsSync(ORDERS_DIR)) {
+			fs.mkdirSync(ORDERS_DIR, { recursive: true })
+		}
+	} catch (error) {
+		console.warn('Could not create data directory, using in-memory storage')
+	}
 }
 
 export interface Order {
@@ -25,8 +40,12 @@ export interface Order {
 	status: 'pending' | 'paid' | 'shipped' | 'completed'
 }
 
-// Initialize orders file if it doesn't exist
+// Initialize orders file if it doesn't exist (local only)
 function initializeOrdersFile() {
+	if (isServerless || !ORDERS_FILE || !ORDERS_DIR) {
+		return // Skip file operations in serverless
+	}
+	
 	try {
 		// Ensure directory exists
 		if (!fs.existsSync(ORDERS_DIR)) {
@@ -41,17 +60,29 @@ function initializeOrdersFile() {
 			}
 			fs.writeFileSync(ORDERS_FILE, JSON.stringify(initialData, null, 2), { mode: 0o644 })
 		}
-	} catch (error) {
-		console.error('Error initializing orders file:', error)
-		throw error
+	} catch {
+		console.warn('Could not initialize orders file, using in-memory storage')
+		// Don't throw - fall back to in-memory
 	}
 }
 
 // Get next order number
 export function getNextOrderNumber(): string {
+	if (isServerless || !ORDERS_FILE) {
+		// Use in-memory counter for serverless
+		inMemoryOrders.lastOrderNumber += 1
+		return `#${inMemoryOrders.lastOrderNumber}`
+	}
+	
 	initializeOrdersFile()
 	
 	try {
+		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
+			// Fallback to in-memory
+			inMemoryOrders.lastOrderNumber += 1
+			return `#${inMemoryOrders.lastOrderNumber}`
+		}
+		
 		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
 		const nextNumber = data.lastOrderNumber + 1
 		
@@ -61,46 +92,63 @@ export function getNextOrderNumber(): string {
 		
 		return `#${nextNumber}`
 	} catch (error) {
-		console.error('Error getting next order number:', error)
-		// Fallback: start from 1000
-		const fallbackData = {
-			lastOrderNumber: 1000,
-			orders: []
-		}
-		fs.writeFileSync(ORDERS_FILE, JSON.stringify(fallbackData, null, 2))
-		return '#1000'
+		console.warn('Error getting next order number, using in-memory:', error)
+		// Fallback to in-memory
+		inMemoryOrders.lastOrderNumber += 1
+		return `#${inMemoryOrders.lastOrderNumber}`
 	}
 }
 
 // Save order
 export function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Order {
+	const newOrder: Order = {
+		...order,
+		timestamp: new Date().toISOString(),
+		status: 'pending'
+	}
+	
+	if (isServerless || !ORDERS_FILE) {
+		// Use in-memory storage for serverless
+		inMemoryOrders.orders.push(newOrder)
+		console.warn('Order saved to in-memory storage (not persistent in serverless)')
+		return newOrder
+	}
+	
 	initializeOrdersFile()
 	
 	try {
-		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
-		
-		const newOrder: Order = {
-			...order,
-			timestamp: new Date().toISOString(),
-			status: 'pending'
+		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
+			// Fallback to in-memory
+			inMemoryOrders.orders.push(newOrder)
+			return newOrder
 		}
 		
+		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
 		data.orders.push(newOrder)
 		fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
 		
 		return newOrder
 	} catch (error) {
-		console.error('Error saving order:', error)
-		throw error
+		console.warn('Error saving order to file, using in-memory:', error)
+		// Fallback to in-memory - don't throw
+		inMemoryOrders.orders.push(newOrder)
+		return newOrder
 	}
 }
 
 // Get all orders
 export function getAllOrders(): Order[] {
+	if (isServerless || !ORDERS_FILE) {
+		// Return in-memory orders for serverless
+		return inMemoryOrders.orders.sort((a: Order, b: Order) => 
+			new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+		)
+	}
+	
 	try {
 		initializeOrdersFile()
 		
-		if (!fs.existsSync(ORDERS_FILE)) {
+		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
 			return []
 		}
 		
@@ -112,9 +160,11 @@ export function getAllOrders(): Order[] {
 			new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
 		)
 	} catch (error) {
-		console.error('Error getting orders:', error)
-		// Return empty array on error instead of crashing
-		return []
+		console.warn('Error getting orders, using in-memory:', error)
+		// Return in-memory orders as fallback
+		return inMemoryOrders.orders.sort((a: Order, b: Order) => 
+			new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+		)
 	}
 }
 
@@ -126,9 +176,29 @@ export function getOrderByNumber(orderNumber: string): Order | null {
 
 // Update order status
 export function updateOrderStatus(orderNumber: string, status: Order['status']): boolean {
+	if (isServerless || !ORDERS_FILE) {
+		// Update in-memory orders
+		const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+		if (orderIndex !== -1) {
+			inMemoryOrders.orders[orderIndex].status = status
+			return true
+		}
+		return false
+	}
+	
 	initializeOrdersFile()
 	
 	try {
+		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
+			// Fallback to in-memory
+			const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+			if (orderIndex !== -1) {
+				inMemoryOrders.orders[orderIndex].status = status
+				return true
+			}
+			return false
+		}
+		
 		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
 		const orderIndex = data.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
 		
@@ -139,7 +209,13 @@ export function updateOrderStatus(orderNumber: string, status: Order['status']):
 		}
 		return false
 	} catch (error) {
-		console.error('Error updating order status:', error)
+		console.warn('Error updating order status, using in-memory:', error)
+		// Fallback to in-memory
+		const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+		if (orderIndex !== -1) {
+			inMemoryOrders.orders[orderIndex].status = status
+			return true
+		}
 		return false
 	}
 }
