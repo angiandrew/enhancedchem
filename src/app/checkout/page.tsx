@@ -68,12 +68,32 @@ export default function CheckoutPage() {
 		// For now, we'll simulate the process
 		try {
 			if (isAlternativePayment) {
-				// Send email with payment instructions
-				console.log('Sending payment instructions to:', customerEmail)
-				console.log('Selected payment method:', selectedAlternativeMethod)
-				// TODO: Integrate with email service (SendGrid, etc.)
-				// Pass payment method info to success page
-				router.push(`/checkout/success?method=${selectedAlternativeMethod}&email=${encodeURIComponent(customerEmail)}`)
+				// Send email with payment instructions IMMEDIATELY
+				const response = await fetch('/api/send-payment-email', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						email: customerEmail,
+						paymentMethod: selectedAlternativeMethod,
+						orderTotal: totalPrice + 9.99 + (totalPrice * 0.07),
+						items: items.map(item => ({
+							name: item.name,
+							quantity: item.quantity,
+							price: item.price
+						}))
+					}),
+				})
+
+				const result = await response.json()
+
+				if (!response.ok) {
+					throw new Error(result.error || 'Failed to send payment email')
+				}
+
+				// Pass order number and payment method info to success page
+				router.push(`/checkout/success?method=${selectedAlternativeMethod}&email=${encodeURIComponent(customerEmail)}&orderNumber=${encodeURIComponent(result.orderNumber)}`)
 			} else {
 				// Clear the cart
 				clearCart()
@@ -83,6 +103,7 @@ export default function CheckoutPage() {
 			}
 		} catch (error) {
 			console.error('Order processing failed:', error)
+			alert('There was an error processing your order. Please try again or contact support.')
 			// Handle error (show toast, etc.)
 		}
 	}

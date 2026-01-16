@@ -2,8 +2,12 @@
 
 import { CheckCircle, Mail, Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 export default function CheckoutSuccessPage() {
+	const searchParams = useSearchParams()
+	const orderNumber = searchParams.get('orderNumber')
+	const paymentMethod = searchParams.get('method')
 	return (
 		<div className="min-h-screen bg-gray-50">
 			<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -19,6 +23,13 @@ export default function CheckoutSuccessPage() {
 					<h1 className="text-2xl font-bold text-gray-900 mb-4">
 						Order Successfully Placed!
 					</h1>
+					
+					{orderNumber && (
+						<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+							<p className="text-sm text-blue-800 mb-1">Your Order Number:</p>
+							<p className="text-2xl font-bold text-blue-900">{orderNumber}</p>
+						</div>
+					)}
 					
 					<p className="text-gray-600 mb-8 leading-relaxed">
 						Your order has been processed and is currently being prepared for shipment. 
