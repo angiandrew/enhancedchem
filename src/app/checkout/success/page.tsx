@@ -1,13 +1,13 @@
 'use client'
 
+import { Suspense } from 'react'
 import { CheckCircle, Mail, Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessContent() {
 	const searchParams = useSearchParams()
 	const orderNumber = searchParams.get('orderNumber')
-	const paymentMethod = searchParams.get('method')
 	return (
 		<div className="min-h-screen bg-gray-50">
 			<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -119,5 +119,17 @@ export default function CheckoutSuccessPage() {
 				</div>
 			</div>
 		</div>
+	)
+}
+
+export default function CheckoutSuccessPage() {
+	return (
+		<Suspense fallback={
+			<div className="min-h-screen bg-gray-50 flex items-center justify-center">
+				<div className="text-gray-600">Loading...</div>
+			</div>
+		}>
+			<CheckoutSuccessContent />
+		</Suspense>
 	)
 }

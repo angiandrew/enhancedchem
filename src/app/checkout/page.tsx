@@ -137,9 +137,9 @@ export default function CheckoutPage() {
 				clearCart()
 				router.push('/checkout/success')
 			}
-		} catch (error: any) {
+		} catch (error) {
 			console.error('Order processing failed:', error)
-			const errorMessage = error?.message || 'Unknown error occurred'
+			const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 			alert(`There was an error processing your order: ${errorMessage}. Please try again or contact support.`)
 			// Handle error (show toast, etc.)
 		}

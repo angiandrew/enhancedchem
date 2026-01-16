@@ -12,7 +12,7 @@ async function getResendClient() {
 	try {
 		const { Resend } = await import('resend')
 		return new Resend(process.env.RESEND_API_KEY || '')
-	} catch (error) {
+	} catch {
 		console.warn('Resend not installed. Run: npm install resend')
 		return null
 	}
@@ -269,7 +269,7 @@ export async function POST(request: NextRequest) {
 		let emailError = null
 		
 		try {
-			const { data, error } = await resend.emails.send({
+			const { error } = await resend.emails.send({
 				from: fromEmail,
 				to: email,
 				subject: subject,
@@ -283,9 +283,9 @@ export async function POST(request: NextRequest) {
 			} else {
 				emailSent = true
 			}
-		} catch (err: any) {
+		} catch (err) {
 			console.error('Exception sending email:', err)
-			emailError = err
+			emailError = err as Error
 		}
 
 		// Always return success with order number, even if email failed
