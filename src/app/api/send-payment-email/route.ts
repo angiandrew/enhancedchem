@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getNextOrderNumber, saveOrder } from '@/lib/orders'
 
 // Note: To enable email sending, you need to:
 // 1. Install Resend: npm install resend
@@ -17,15 +18,25 @@ async function getResendClient() {
 	}
 }
 
-// Generate order number
-function generateOrderNumber(): string {
-	const timestamp = Date.now().toString(36).toUpperCase()
-	const random = Math.random().toString(36).substring(2, 6).toUpperCase()
-	return `EC-${timestamp}-${random}`
-}
+// Order number generation is now handled by getNextOrderNumber() from @/lib/orders
 
 // Email templates for each payment method
-function getPaymentInstructions(method: string, orderNumber: string) {
+function getPaymentInstructions(method: string, orderNumber: string, orderTotal: number, items: Array<{name: string, quantity: number, price: number}>) {
+	const formatPrice = (price: number) => price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+	const totalFormatted = formatPrice(orderTotal)
+	
+	// Build order items list HTML
+	const itemsListHTML = items.map(item => {
+		const itemTotal = item.price * item.quantity
+		return `
+			<tr style="border-bottom: 1px solid #e5e7eb;">
+				<td style="padding: 8px 0; color: #333;">${item.name}</td>
+				<td style="padding: 8px 0; text-align: center; color: #666;">${item.quantity}</td>
+				<td style="padding: 8px 0; text-align: right; color: #333; font-weight: 600;">$${formatPrice(itemTotal)}</td>
+			</tr>
+		`
+	}).join('')
+	
 	const templates = {
 		zelle: {
 			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
@@ -37,18 +48,40 @@ function getPaymentInstructions(method: string, orderNumber: string) {
 					<p style="font-size: 16px; color: #333; margin-top: 20px;">
 						Thank you for your order! Your order number is: <strong style="color: #9333ea;">${orderNumber}</strong>
 					</p>
+					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+						<h2 style="color: #9333ea; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+							<thead>
+								<tr style="border-bottom: 2px solid #9333ea;">
+									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
+									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
+									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								${itemsListHTML}
+							</tbody>
+						</table>
+						<div style="border-top: 2px solid #9333ea; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #9333ea;">
+								<span>Total Amount Due:</span>
+								<span>$${totalFormatted}</span>
+							</div>
+						</div>
+					</div>
+					
 					<div style="background-color: #f3f4f6; border-left: 4px solid #9333ea; padding: 15px; margin: 20px 0;">
 						<h2 style="color: #9333ea; margin-top: 0;">How to Complete Your Payment:</h2>
 						<ol style="color: #333; line-height: 1.8;">
 							<li>Open your Zelle app or log into your bank&apos;s Zelle service</li>
-							<li>Send payment to: <strong>enhancedchem@email.com</strong></li>
-							<li>Include your order number <strong>${orderNumber}</strong> in the memo/note field</li>
-							<li>Send the exact amount shown during checkout</li>
+							<li>Send payment to: <strong>enhancedchem4@gmail.com</strong></li>
+							<li>Include your order number <strong>${orderNumber}</strong> in the memo/note field. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li>Send the exact amount: <strong style="color: #9333ea;">$${totalFormatted}</strong></li>
 						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
-							<strong>Important:</strong> Please include your order number in the memo to ensure prompt processing.
+							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the memo and send exactly <strong>$${totalFormatted}</strong> to ensure prompt processing.
 						</p>
 					</div>
 					<p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -71,6 +104,28 @@ function getPaymentInstructions(method: string, orderNumber: string) {
 					<p style="font-size: 16px; color: #333; margin-top: 20px;">
 						Thank you for your order! Your order number is: <strong style="color: #f97316;">${orderNumber}</strong>
 					</p>
+					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+						<h2 style="color: #f97316; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+							<thead>
+								<tr style="border-bottom: 2px solid #f97316;">
+									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
+									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
+									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								${itemsListHTML}
+							</tbody>
+						</table>
+						<div style="border-top: 2px solid #f97316; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #f97316;">
+								<span>Total Amount Due:</span>
+								<span>$${totalFormatted}</span>
+							</div>
+						</div>
+					</div>
+					
 					<div style="background-color: #f3f4f6; border-left: 4px solid #f97316; padding: 15px; margin: 20px 0;">
 						<h2 style="color: #f97316; margin-top: 0;">Bitcoin Payment Address:</h2>
 						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px;">
@@ -81,9 +136,9 @@ function getPaymentInstructions(method: string, orderNumber: string) {
 						<p style="margin: 0; color: #92400e;">
 							<strong>Important:</strong> 
 							<ul style="margin: 10px 0; padding-left: 20px; color: #92400e;">
-								<li>Send the exact amount shown during checkout</li>
+								<li>Send the exact amount: <strong>$${totalFormatted}</strong></li>
 								<li>Payment will be confirmed once we receive 3 confirmations on the blockchain</li>
-								<li>Your order number is: <strong>${orderNumber}</strong></li>
+								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
 							</ul>
 						</p>
 					</div>
@@ -107,18 +162,40 @@ function getPaymentInstructions(method: string, orderNumber: string) {
 					<p style="font-size: 16px; color: #333; margin-top: 20px;">
 						Thank you for your order! Your order number is: <strong style="color: #3b82f6;">${orderNumber}</strong>
 					</p>
+					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+						<h2 style="color: #3b82f6; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+							<thead>
+								<tr style="border-bottom: 2px solid #3b82f6;">
+									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
+									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
+									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								${itemsListHTML}
+							</tbody>
+						</table>
+						<div style="border-top: 2px solid #3b82f6; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #3b82f6;">
+								<span>Total Amount Due:</span>
+								<span>$${totalFormatted}</span>
+							</div>
+						</div>
+					</div>
+					
 					<div style="background-color: #f3f4f6; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
 						<h2 style="color: #3b82f6; margin-top: 0;">How to Complete Your Payment:</h2>
 						<ol style="color: #333; line-height: 1.8;">
 							<li>Open your Venmo app</li>
 							<li>Search for: <strong>@EnhancedChem</strong></li>
-							<li>Send payment for the exact amount shown during checkout</li>
-							<li>Include your order number <strong>${orderNumber}</strong> in the payment note</li>
+							<li>Send payment for the exact amount: <strong style="color: #3b82f6;">$${totalFormatted}</strong></li>
+							<li>Include your order number <strong>${orderNumber}</strong> in the payment note. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
 						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
-							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the payment note to ensure prompt processing.
+							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the payment note and send exactly <strong>$${totalFormatted}</strong> to ensure prompt processing.
 						</p>
 					</div>
 					<p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -148,11 +225,25 @@ export async function POST(request: NextRequest) {
 			)
 		}
 
-		// Generate order number
-		const orderNumber = generateOrderNumber()
+		// Generate sequential order number starting from #1000
+		const orderNumber = getNextOrderNumber()
+
+		// Save order to database/file storage
+		try {
+			saveOrder({
+				orderNumber: orderNumber,
+				email: email,
+				paymentMethod: paymentMethod,
+				orderTotal: orderTotal,
+				items: items
+			})
+		} catch (error) {
+			console.error('Error saving order:', error)
+			// Continue anyway - order number already generated
+		}
 
 		// Get payment instructions template
-		const { subject, html } = getPaymentInstructions(paymentMethod, orderNumber)
+		const { subject, html } = getPaymentInstructions(paymentMethod, orderNumber, orderTotal, items)
 
 		// Get Resend client
 		const resend = await getResendClient()
@@ -169,25 +260,41 @@ export async function POST(request: NextRequest) {
 		}
 
 		// Send email using Resend
-		const { data, error } = await resend.emails.send({
-			from: process.env.RESEND_FROM_EMAIL || 'Enhanced Chem <onboarding@resend.dev>',
-			to: email,
-			subject: subject,
-			html: html,
-		})
+		// For testing: Use onboarding@resend.dev and only send to verified email
+		// For production: Verify your domain in Resend
+		const fromEmail = process.env.RESEND_FROM_EMAIL || 'Enhanced Chem <onboarding@resend.dev>'
+		
+		// Try to send email, but don't fail the order if email fails
+		let emailSent = false
+		let emailError = null
+		
+		try {
+			const { data, error } = await resend.emails.send({
+				from: fromEmail,
+				to: email,
+				subject: subject,
+				html: html,
+			})
 
-		if (error) {
-			console.error('Error sending email:', error)
-			return NextResponse.json(
-				{ error: 'Failed to send email', details: error },
-				{ status: 500 }
-			)
+			if (error) {
+				console.error('Error sending email:', error)
+				emailError = error
+				// Don't throw - still return success with order number
+			} else {
+				emailSent = true
+			}
+		} catch (err: any) {
+			console.error('Exception sending email:', err)
+			emailError = err
 		}
 
+		// Always return success with order number, even if email failed
+		// The order is still created, email is just a convenience
 		return NextResponse.json({
 			success: true,
 			orderNumber: orderNumber,
-			emailId: data?.id
+			emailSent: emailSent,
+			...(emailError && { emailWarning: 'Email could not be sent. Please contact support for payment instructions.' })
 		})
 
 	} catch (error) {

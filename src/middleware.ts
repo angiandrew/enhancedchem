@@ -123,9 +123,15 @@ function isSuspiciousRequest(request: NextRequest): boolean {
     return true
   }
   
-  // Check for suspicious paths
+  // Check for suspicious paths (excluding /admin/orders which is our legitimate admin page)
   const pathname = request.nextUrl.pathname
-  const suspiciousPaths = ['/admin', '/wp-admin', '/phpmyadmin', '/.env', '/config', '/backup']
+  
+  // Allow our admin orders page
+  if (pathname.startsWith('/admin/orders')) {
+    return false
+  }
+  
+  const suspiciousPaths = ['/wp-admin', '/phpmyadmin', '/.env', '/config', '/backup']
   
   if (suspiciousPaths.some(path => pathname.toLowerCase().includes(path))) {
     return true
@@ -165,18 +171,18 @@ export function middleware(request: NextRequest) {
   let rateLimit = { allowed: true, remaining: RATE_LIMIT.maxRequests }
   if (!isDevelopment) {
     rateLimit = checkRateLimit(ip)
-    if (!rateLimit.allowed) {
-      console.log(`Rate limit exceeded: ${ip}`)
-      return new NextResponse('Rate limit exceeded. Please try again later.', { 
-        status: 429,
-        headers: {
-          'Content-Type': 'text/plain',
-          'Retry-After': '60',
-          'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
-          'X-RateLimit-Remaining': '0',
-          'X-RateLimit-Reset': new Date(Date.now() + RATE_LIMIT.windowMs).toISOString(),
-        }
-      })
+  if (!rateLimit.allowed) {
+    console.log(`Rate limit exceeded: ${ip}`)
+    return new NextResponse('Rate limit exceeded. Please try again later.', { 
+      status: 429,
+      headers: {
+        'Content-Type': 'text/plain',
+        'Retry-After': '60',
+        'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
+        'X-RateLimit-Remaining': '0',
+        'X-RateLimit-Reset': new Date(Date.now() + RATE_LIMIT.windowMs).toISOString(),
+      }
+    })
     }
   }
   

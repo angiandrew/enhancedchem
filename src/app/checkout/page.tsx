@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check } from 'lucide-react'
+import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check, CheckCircle, Mail } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -28,6 +28,9 @@ export default function CheckoutPage() {
 	const [cardName, setCardName] = useState('')
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
+	const [orderCompleted, setOrderCompleted] = useState(false)
+	const [orderNumber, setOrderNumber] = useState('')
+	const [emailWarning, setEmailWarning] = useState('')
 
 	const institutionOptions = [
 		'University laboratory',
@@ -56,7 +59,10 @@ export default function CheckoutPage() {
 	}, [isVerificationComplete, isVerificationCollapsed]) // Include all dependencies
 
 	const handleCompletePurchase = async () => {
-		if (!canProceed) return
+		if (!canProceed) {
+			alert('Please complete all required fields before proceeding.')
+			return
+		}
 
 		// Here you would typically:
 		// 1. Process the payment (if credit card/bank transfer)
@@ -68,6 +74,12 @@ export default function CheckoutPage() {
 		// For now, we'll simulate the process
 		try {
 			if (isAlternativePayment) {
+				// Validate alternative payment details
+				if (!customerEmail.trim() || !selectedAlternativeMethod) {
+					alert('Please enter your email address and select a payment method.')
+					return
+				}
+
 				// Send email with payment instructions IMMEDIATELY
 				const response = await fetch('/api/send-payment-email', {
 					method: 'POST',
@@ -86,24 +98,49 @@ export default function CheckoutPage() {
 					}),
 				})
 
-				const result = await response.json()
-
-				if (!response.ok) {
-					throw new Error(result.error || 'Failed to send payment email')
+				let result
+				try {
+					result = await response.json()
+				} catch (jsonError) {
+					// If JSON parsing fails, still try to complete the order
+					console.error('Failed to parse API response:', jsonError)
+					// Generate a fallback order number
+					const fallbackOrderNumber = `EC-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+					setOrderNumber(fallbackOrderNumber)
+					setEmailWarning('Email service temporarily unavailable. Please contact support for payment instructions.')
+					setOrderCompleted(true)
+					clearCart()
+					return
 				}
 
-				// Pass order number and payment method info to success page
-				router.push(`/checkout/success?method=${selectedAlternativeMethod}&email=${encodeURIComponent(customerEmail)}&orderNumber=${encodeURIComponent(result.orderNumber)}`)
+				// API always returns success with order number (even if email fails)
+				console.log('API Response:', result)
+				if (result.orderNumber) {
+					console.log('Setting order as completed with order number:', result.orderNumber)
+					setOrderNumber(result.orderNumber)
+					if (result.emailWarning) {
+						setEmailWarning(result.emailWarning)
+					}
+					setOrderCompleted(true)
+					clearCart()
+				} else {
+					// Fallback: generate order number even if API didn't return one
+					console.log('No order number in response, generating fallback')
+					const fallbackOrderNumber = `EC-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+					setOrderNumber(fallbackOrderNumber)
+					setEmailWarning('Please contact support with your order number for payment instructions.')
+					setOrderCompleted(true)
+					clearCart()
+				}
 			} else {
-				// Clear the cart
+				// For credit card/bank transfer, redirect to success page
 				clearCart()
-				
-				// Redirect to success page
 				router.push('/checkout/success')
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.error('Order processing failed:', error)
-			alert('There was an error processing your order. Please try again or contact support.')
+			const errorMessage = error?.message || 'Unknown error occurred'
+			alert(`There was an error processing your order: ${errorMessage}. Please try again or contact support.`)
 			// Handle error (show toast, etc.)
 		}
 	}
@@ -735,55 +772,113 @@ export default function CheckoutPage() {
 
 					</div>
 
-					{/* Order Summary */}
+					{/* Order Summary or Success Message */}
 					<div className="lg:col-span-1">
                         <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
-							<div>
-								<h2 className="text-xl font-semibold text-gray-900 mb-4">
-									Order Summary
-								</h2>
-								
-								<div className="space-y-3 mb-6">
-									<div className="flex justify-between">
-										<span className="text-gray-800">Subtotal ({totalItems} items)</span>
-										<span className="font-semibold text-gray-900">${formatPrice(totalPrice)}</span>
-									</div>
-									<div className="flex justify-between">
-										<span className="text-gray-800">Shipping</span>
-										<span className="font-semibold text-gray-900">$9.99</span>
-									</div>
-									<div className="flex justify-between">
-										<span className="text-gray-800">Tax</span>
-										<span className="font-semibold text-gray-900">${formatPrice(totalPrice * 0.07)}</span>
-									</div>
-									<div className="border-t pt-3">
-										<div className="flex justify-between text-lg font-bold">
-											<span className="text-gray-900">Total</span>
-											<span className="text-gray-900">${formatPrice(totalPrice + 9.99 + (totalPrice * 0.07))}</span>
+							{orderCompleted ? (
+								// Success Message
+								<div className="text-center">
+									<div className="flex justify-center mb-4">
+										<div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+											<CheckCircle className="w-8 h-8 text-green-600" />
 										</div>
 									</div>
+									
+									<h2 className="text-xl font-semibold text-gray-900 mb-2">
+										Order Submitted Successfully!
+									</h2>
+									
+									{orderNumber && (
+										<div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+											<p className="text-sm text-blue-800 mb-1">Your Order Number:</p>
+											<p className="text-lg font-bold text-blue-900">{orderNumber}</p>
+										</div>
+									)}
+									
+									{emailWarning ? (
+										<div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+											<p className="text-sm text-yellow-800 mb-2">
+												<strong>Note:</strong> {emailWarning}
+											</p>
+											<p className="text-sm text-yellow-800">
+												Please contact support at <strong>support@enhancedchem.com</strong> with your order number to receive payment instructions.
+											</p>
+										</div>
+									) : (
+										<>
+											<div className="flex items-start justify-center mb-4">
+												<Mail className="w-5 h-5 text-blue-600 mt-0.5 mr-2" />
+												<p className="text-gray-700 text-left">
+													Please check your email <strong>({customerEmail})</strong> for payment instructions and next steps to finalize your payment.
+												</p>
+											</div>
+											
+											<div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4">
+												<p className="text-sm text-gray-600">
+													We&apos;ve sent detailed payment instructions to your email address. Follow the steps in the email to complete your payment.
+												</p>
+											</div>
+										</>
+									)}
+									
+									<Link
+										href="/products"
+										className="mt-6 inline-block w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+									>
+										Continue Shopping
+									</Link>
 								</div>
-							</div>
+							) : (
+								// Order Summary
+								<>
+									<div>
+										<h2 className="text-xl font-semibold text-gray-900 mb-4">
+											Order Summary
+										</h2>
+										
+										<div className="space-y-3 mb-6">
+											<div className="flex justify-between">
+												<span className="text-gray-800">Subtotal ({totalItems} items)</span>
+												<span className="font-semibold text-gray-900">${formatPrice(totalPrice)}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-800">Shipping</span>
+												<span className="font-semibold text-gray-900">$9.99</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-800">Tax</span>
+												<span className="font-semibold text-gray-900">${formatPrice(totalPrice * 0.07)}</span>
+											</div>
+											<div className="border-t pt-3">
+												<div className="flex justify-between text-lg font-bold">
+													<span className="text-gray-900">Total</span>
+													<span className="text-gray-900">${formatPrice(totalPrice + 9.99 + (totalPrice * 0.07))}</span>
+												</div>
+											</div>
+										</div>
+									</div>
 
-                        <div className="mt-6">
-							<button 
-								onClick={handleCompletePurchase}
-								disabled={!canProceed}
-								className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors mb-4 ${
-									canProceed 
-										? 'bg-blue-600 text-white hover:bg-blue-700' 
-										: 'bg-gray-300 text-gray-500 cursor-not-allowed'
-								}`}
-							>
-								Complete Purchase
-							</button>
+									<div className="mt-6">
+										<button 
+											onClick={handleCompletePurchase}
+											disabled={!canProceed}
+											className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors mb-4 ${
+												canProceed 
+													? 'bg-blue-600 text-white hover:bg-blue-700' 
+													: 'bg-gray-300 text-gray-500 cursor-not-allowed'
+											}`}
+										>
+											Complete Purchase
+										</button>
 
-								{!canProceed && (
-									<p className="text-sm text-gray-500 text-center">
-										Please complete all verification requirements to proceed
-									</p>
-								)}
-							</div>
+										{!canProceed && (
+											<p className="text-sm text-gray-500 text-center">
+												Please complete all verification requirements to proceed
+											</p>
+										)}
+									</div>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
