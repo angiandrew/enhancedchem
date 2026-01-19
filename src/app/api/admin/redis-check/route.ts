@@ -38,13 +38,34 @@ export async function GET(request: NextRequest) {
 		// Try to connect and get data
 		try {
 			const Redis = (await import('ioredis')).default
-			const redis = new Redis(process.env.REDIS_URL!)
+			const redis = new Redis(process.env.REDIS_URL!, {
+				connectTimeout: 5000, // 5 second timeout
+				commandTimeout: 5000, // 5 second timeout per command
+				retryStrategy: () => null, // Don't retry on failure
+			})
 
-			// Get the last order number
-			const lastOrderNumber = await redis.get('lastOrderNumber')
+			// Set timeout for connection
+			const connectionPromise = redis.connect()
+			const timeoutPromise = new Promise((_, reject) => 
+				setTimeout(() => reject(new Error('Redis connection timeout')), 5000)
+			)
 			
-			// Get orders (limit to last 10 for display)
-			const ordersStr = await redis.get('orders')
+			await Promise.race([connectionPromise, timeoutPromise])
+
+			// Get the last order number with timeout
+			const lastOrderNumberPromise = redis.get('lastOrderNumber')
+			const lastOrderNumber = await Promise.race([
+				lastOrderNumberPromise,
+				new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000))
+			])
+			
+			// Get orders with timeout
+			const ordersStrPromise = redis.get('orders')
+			const ordersStr = await Promise.race([
+				ordersStrPromise,
+				new Promise<string | null>((resolve) => setTimeout(() => resolve(null), 5000))
+			]) as string | null
+			
 			const orders: Array<{orderNumber: string, email: string, timestamp: string, status: string}> = ordersStr ? JSON.parse(ordersStr) : []
 			const recentOrders = orders.slice(-10) // Last 10 orders
 			
