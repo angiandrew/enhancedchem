@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check, CheckCircle, Mail } from 'lucide-react'
+import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -30,7 +30,6 @@ export default function CheckoutPage() {
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
 	const [orderCompleted, setOrderCompleted] = useState(false)
 	const [orderNumber, setOrderNumber] = useState('')
-	const [emailWarning, setEmailWarning] = useState('')
 
 	const institutionOptions = [
 		'University laboratory',
@@ -107,7 +106,6 @@ export default function CheckoutPage() {
 					// Generate a fallback order number
 					const fallbackOrderNumber = `EC-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
 					setOrderNumber(fallbackOrderNumber)
-					setEmailWarning('Email service temporarily unavailable. Please contact support for payment instructions.')
 					setOrderCompleted(true)
 					clearCart()
 					return
@@ -118,9 +116,6 @@ export default function CheckoutPage() {
 				if (result.orderNumber) {
 					console.log('Setting order as completed with order number:', result.orderNumber)
 					setOrderNumber(result.orderNumber)
-					if (result.emailWarning) {
-						setEmailWarning(result.emailWarning)
-					}
 					setOrderCompleted(true)
 					clearCart()
 				} else {
@@ -128,7 +123,6 @@ export default function CheckoutPage() {
 					console.log('No order number in response, generating fallback')
 					const fallbackOrderNumber = `EC-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
 					setOrderNumber(fallbackOrderNumber)
-					setEmailWarning('Please contact support with your order number for payment instructions.')
 					setOrderCompleted(true)
 					clearCart()
 				}

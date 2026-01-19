@@ -10,13 +10,21 @@ import path from 'path'
 let kv: typeof import('@vercel/kv').kv | null = null
 const kvConfigured = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
 
-// Try to initialize KV if configured
-if (kvConfigured) {
+// Get KV client lazily (only when needed)
+async function getKVClient() {
+	if (!kvConfigured || kv !== null) {
+		return kv
+	}
+	
 	try {
-		kv = require('@vercel/kv').kv
-	} catch (error) {
+		// Use dynamic import instead of require
+		const kvModule = await import('@vercel/kv')
+		kv = kvModule.kv
+		return kv
+	} catch {
 		console.warn('Vercel KV not available, will use fallback storage')
 		kv = null
+		return null
 	}
 }
 
@@ -39,7 +47,7 @@ if (!isServerless && ORDERS_DIR) {
 		if (!fs.existsSync(ORDERS_DIR)) {
 			fs.mkdirSync(ORDERS_DIR, { recursive: true })
 		}
-	} catch (error) {
+	} catch {
 		console.warn('Could not create data directory, using in-memory storage')
 	}
 }
@@ -83,22 +91,25 @@ function initializeOrdersFile() {
 // Get next order number
 export async function getNextOrderNumber(): Promise<string> {
 	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured && kv) {
-		try {
-			// Get current order number from KV, or start at 999 (next will be 1000)
-			let lastOrderNumber = await kv.get<number>('lastOrderNumber')
-			if (lastOrderNumber === null || lastOrderNumber === undefined) {
-				lastOrderNumber = 999
+	if (kvConfigured) {
+		const kvClient = await getKVClient()
+		if (kvClient) {
+			try {
+				// Get current order number from KV, or start at 999 (next will be 1000)
+				let lastOrderNumber = await kvClient.get<number>('lastOrderNumber')
+				if (lastOrderNumber === null || lastOrderNumber === undefined) {
+					lastOrderNumber = 999
+				}
+				
+				// Increment and save back to KV
+				const nextNumber = lastOrderNumber + 1
+				await kvClient.set('lastOrderNumber', nextNumber)
+				
+				return `#${nextNumber}`
+			} catch (error) {
+				console.warn('Error using Vercel KV for order number, falling back:', error)
+				// Fall through to file-based or in-memory
 			}
-			
-			// Increment and save back to KV
-			const nextNumber = lastOrderNumber + 1
-			await kv.set('lastOrderNumber', nextNumber)
-			
-			return `#${nextNumber}`
-		} catch (error) {
-			console.warn('Error using Vercel KV for order number, falling back:', error)
-			// Fall through to file-based or in-memory
 		}
 	}
 	
@@ -141,18 +152,21 @@ export async function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Pro
 	}
 	
 	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured && kv) {
-		try {
-			// Get existing orders from KV
-			const existingOrders = await kv.get<Order[]>('orders') || []
-			existingOrders.push(newOrder)
-			// Store orders in KV (limit to last 1000 orders to avoid size issues)
-			const ordersToStore = existingOrders.slice(-1000)
-			await kv.set('orders', ordersToStore)
-			return newOrder
-		} catch (error) {
-			console.warn('Error saving order to Vercel KV, falling back:', error)
-			// Fall through to file-based or in-memory
+	if (kvConfigured) {
+		const kvClient = await getKVClient()
+		if (kvClient) {
+			try {
+				// Get existing orders from KV
+				const existingOrders = await kvClient.get<Order[]>('orders') || []
+				existingOrders.push(newOrder)
+				// Store orders in KV (limit to last 1000 orders to avoid size issues)
+				const ordersToStore = existingOrders.slice(-1000)
+				await kvClient.set('orders', ordersToStore)
+				return newOrder
+			} catch (error) {
+				console.warn('Error saving order to Vercel KV, falling back:', error)
+				// Fall through to file-based or in-memory
+			}
 		}
 	}
 	
@@ -187,15 +201,18 @@ export async function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Pro
 // Get all orders
 export async function getAllOrders(): Promise<Order[]> {
 	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured && kv) {
-		try {
-			const orders = await kv.get<Order[]>('orders') || []
-			return orders.sort((a: Order, b: Order) => 
-				new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-			)
-		} catch (error) {
-			console.warn('Error getting orders from Vercel KV, falling back:', error)
-			// Fall through to file-based or in-memory
+	if (kvConfigured) {
+		const kvClient = await getKVClient()
+		if (kvClient) {
+			try {
+				const orders = await kvClient.get<Order[]>('orders') || []
+				return orders.sort((a: Order, b: Order) => 
+					new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+				)
+			} catch (error) {
+				console.warn('Error getting orders from Vercel KV, falling back:', error)
+				// Fall through to file-based or in-memory
+			}
 		}
 	}
 	
@@ -236,20 +253,23 @@ export async function getOrderByNumber(orderNumber: string): Promise<Order | nul
 // Update order status
 export async function updateOrderStatus(orderNumber: string, status: Order['status']): Promise<boolean> {
 	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured && kv) {
-		try {
-			const orders = await kv.get<Order[]>('orders') || []
-			const orderIndex = orders.findIndex((o: Order) => o.orderNumber === orderNumber)
-			
-			if (orderIndex !== -1) {
-				orders[orderIndex].status = status
-				await kv.set('orders', orders)
-				return true
+	if (kvConfigured) {
+		const kvClient = await getKVClient()
+		if (kvClient) {
+			try {
+				const orders = await kvClient.get<Order[]>('orders') || []
+				const orderIndex = orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+				
+				if (orderIndex !== -1) {
+					orders[orderIndex].status = status
+					await kvClient.set('orders', orders)
+					return true
+				}
+				return false
+			} catch (error) {
+				console.warn('Error updating order status in Vercel KV, falling back:', error)
+				// Fall through to file-based or in-memory
 			}
-			return false
-		} catch (error) {
-			console.warn('Error updating order status in Vercel KV, falling back:', error)
-			// Fall through to file-based or in-memory
 		}
 	}
 	
