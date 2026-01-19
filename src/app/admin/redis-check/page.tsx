@@ -37,6 +37,7 @@ export default function RedisCheckPage() {
 		// Test authentication
 		try {
 			setLoading(true)
+			setError('')
 			const response = await fetch('/api/admin/redis-check', {
 				headers: {
 					'Authorization': `Bearer ${password}`
@@ -44,18 +45,24 @@ export default function RedisCheckPage() {
 			})
 
 			if (response.status === 401) {
-				setError('Incorrect password')
+				setError('Incorrect password. Please check your ADMIN_PASSWORD environment variable.')
+				setLoading(false)
+				return
+			}
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+				setError(`Error: ${errorData.error || 'Failed to authenticate'}`)
 				setLoading(false)
 				return
 			}
 
 			const result = await response.json()
-			if (response.ok) {
-				setAuthenticated(true)
-				setData(result)
-			}
+			setAuthenticated(true)
+			setData(result)
 		} catch (err) {
-			setError('Authentication failed')
+			console.error('Login error:', err)
+			setError(`Authentication failed: ${err instanceof Error ? err.message : 'Unknown error'}`)
 		} finally {
 			setLoading(false)
 		}

@@ -7,10 +7,20 @@ export async function GET(request: NextRequest) {
 	const authHeader = request.headers.get('authorization')
 	const providedPassword = authHeader?.replace('Bearer ', '')
 	
+	// Debug logging (remove in production if needed)
+	if (process.env.NODE_ENV === 'development') {
+		console.log('Admin password check:', {
+			hasEnvVar: !!process.env.ADMIN_PASSWORD,
+			envVarLength: process.env.ADMIN_PASSWORD?.length,
+			providedLength: providedPassword?.length,
+			match: providedPassword === adminPassword
+		})
+	}
+	
 	// Check password (simple authentication)
 	if (!providedPassword || providedPassword !== adminPassword) {
 		return NextResponse.json(
-			{ error: 'Unauthorized - Admin password required' },
+			{ error: 'Unauthorized - Admin password required or incorrect' },
 			{ status: 401 }
 		)
 	}
