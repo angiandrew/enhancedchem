@@ -34,55 +34,14 @@ export default function RedisCheckPage() {
 			return
 		}
 
-		// Test authentication
-		try {
-			setLoading(true)
-			setError('')
-			
-			// Add timeout to prevent infinite loading
-			const controller = new AbortController()
-			const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-			
-			console.log('Attempting login...')
-			
-			const response = await fetch('/api/admin/redis-check', {
-				headers: {
-					'Authorization': `Bearer ${password}`
-				},
-				signal: controller.signal
-			})
-			
-			clearTimeout(timeoutId)
-			
-			console.log('Response status:', response.status)
-
-			if (response.status === 401) {
-				setError('Incorrect password. Please check your ADMIN_PASSWORD environment variable.')
-				setLoading(false)
-				return
-			}
-
-			if (!response.ok) {
-				const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
-				setError(`Error: ${errorData.error || 'Failed to authenticate'} (Status: ${response.status})`)
-				setLoading(false)
-				return
-			}
-
-			const result = await response.json()
-			console.log('Login successful, data:', result)
-			setAuthenticated(true)
-			setData(result)
-		} catch (err) {
-			console.error('Login error:', err)
-			if (err instanceof Error && err.name === 'AbortError') {
-				setError('Request timed out. Please check your network connection or try again.')
-			} else {
-				setError(`Authentication failed: ${err instanceof Error ? err.message : 'Unknown error'}`)
-			}
-		} finally {
-			setLoading(false)
-		}
+		// Just set authenticated immediately - don't check with API for login
+		// We'll verify when loading Redis data
+		setAuthenticated(true)
+		setLoading(false)
+		// Fetch data after setting authenticated
+		setTimeout(() => {
+			fetchRedisData()
+		}, 100)
 	}
 
 	const fetchRedisData = async () => {
@@ -134,11 +93,7 @@ export default function RedisCheckPage() {
 		}
 	}
 
-	useEffect(() => {
-		if (authenticated) {
-			fetchRedisData()
-		}
-	}, [authenticated])
+	// Don't auto-fetch on mount - let user login first
 
 	// Show login form if not authenticated
 	if (!authenticated) {

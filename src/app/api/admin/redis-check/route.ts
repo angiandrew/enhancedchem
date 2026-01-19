@@ -2,22 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Simple endpoint to check Redis connection and view stored data
 export async function GET(request: NextRequest) {
-	// Password protection
+	// Password protection - CHECK FIRST, RETURN IMMEDIATELY IF WRONG
 	const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
 	const authHeader = request.headers.get('authorization')
 	const providedPassword = authHeader?.replace('Bearer ', '')
 	
-	// Debug logging (remove in production if needed)
-	if (process.env.NODE_ENV === 'development') {
-		console.log('Admin password check:', {
-			hasEnvVar: !!process.env.ADMIN_PASSWORD,
-			envVarLength: process.env.ADMIN_PASSWORD?.length,
-			providedLength: providedPassword?.length,
-			match: providedPassword === adminPassword
-		})
-	}
-	
-	// Check password (simple authentication)
+	// Check password FIRST - don't do anything else if wrong
 	if (!providedPassword || providedPassword !== adminPassword) {
 		return NextResponse.json(
 			{ error: 'Unauthorized - Admin password required or incorrect' },
