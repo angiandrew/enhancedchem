@@ -1,6 +1,6 @@
 # Vercel KV Setup Guide - Persistent Order Numbers
 
-✅ **Status**: KV database connected successfully!
+✅ **Status**: Redis database connected and working!
 
 This guide will help you set up Vercel KV (Redis) to store order numbers persistently across deployments.
 
