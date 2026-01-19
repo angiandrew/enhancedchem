@@ -7,7 +7,7 @@ import fs from 'fs'
 import path from 'path'
 
 // Dynamically import Redis client (only if configured)
-let redisClient: any = null
+let redisClient: typeof import('ioredis').default | null = null
 const redisConfigured = !!process.env.REDIS_URL
 
 // Get Redis client lazily (only when needed)

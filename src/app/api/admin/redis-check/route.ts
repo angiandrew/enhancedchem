@@ -23,7 +23,7 @@ export async function GET() {
 			
 			// Get orders (limit to last 10 for display)
 			const ordersStr = await redis.get('orders')
-			const orders = ordersStr ? JSON.parse(ordersStr) : []
+			const orders: Array<{orderNumber: string, email: string, timestamp: string, status: string}> = ordersStr ? JSON.parse(ordersStr) : []
 			const recentOrders = orders.slice(-10) // Last 10 orders
 			
 			// Close connection
@@ -35,7 +35,7 @@ export async function GET() {
 				data: {
 					lastOrderNumber: lastOrderNumber || 'Not set (will start at #1000)',
 					totalOrders: orders.length,
-					recentOrders: recentOrders.map((order: any) => ({
+					recentOrders: recentOrders.map((order) => ({
 						orderNumber: order.orderNumber,
 						email: order.email,
 						timestamp: order.timestamp,
@@ -51,10 +51,10 @@ export async function GET() {
 				data: null
 			})
 		}
-	} catch (error) {
-		return NextResponse.json(
-			{ error: 'Internal server error' },
-			{ status: 500 }
-		)
-	}
+		} catch {
+			return NextResponse.json(
+				{ error: 'Internal server error' },
+				{ status: 500 }
+			)
+		}
 }
