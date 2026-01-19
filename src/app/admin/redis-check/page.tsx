@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CheckCircle, XCircle, Loader2 } from 'lucide-react'
+import { CheckCircle, XCircle, Loader2, Lock } from 'lucide-react'
 
 interface RedisData {
 	connected: boolean
@@ -21,15 +21,61 @@ interface RedisData {
 export default function RedisCheckPage() {
 	const [data, setData] = useState<RedisData | null>(null)
 	const [loading, setLoading] = useState(true)
+	const [password, setPassword] = useState('')
+	const [authenticated, setAuthenticated] = useState(false)
+	const [error, setError] = useState('')
 
-	useEffect(() => {
-		fetchRedisData()
-	}, [])
+	const handleLogin = async (e: React.FormEvent) => {
+		e.preventDefault()
+		setError('')
+		
+		if (!password) {
+			setError('Please enter a password')
+			return
+		}
+
+		// Test authentication
+		try {
+			setLoading(true)
+			const response = await fetch('/api/admin/redis-check', {
+				headers: {
+					'Authorization': `Bearer ${password}`
+				}
+			})
+
+			if (response.status === 401) {
+				setError('Incorrect password')
+				setLoading(false)
+				return
+			}
+
+			const result = await response.json()
+			if (response.ok) {
+				setAuthenticated(true)
+				setData(result)
+			}
+		} catch (err) {
+			setError('Authentication failed')
+		} finally {
+			setLoading(false)
+		}
+	}
 
 	const fetchRedisData = async () => {
 		try {
 			setLoading(true)
-			const response = await fetch('/api/admin/redis-check')
+			const response = await fetch('/api/admin/redis-check', {
+				headers: {
+					'Authorization': `Bearer ${password}`
+				}
+			})
+			
+			if (response.status === 401) {
+				setAuthenticated(false)
+				setLoading(false)
+				return
+			}
+
 			const result = await response.json()
 			setData(result)
 		} catch (error) {
@@ -44,13 +90,91 @@ export default function RedisCheckPage() {
 		}
 	}
 
+	useEffect(() => {
+		if (authenticated) {
+			fetchRedisData()
+		}
+	}, [authenticated])
+
+	// Show login form if not authenticated
+	if (!authenticated) {
+		return (
+			<div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+				<div className="max-w-md mx-auto">
+					<div className="bg-white rounded-lg shadow-sm p-6">
+						<div className="flex items-center justify-center mb-6">
+							<div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+								<Lock className="w-6 h-6 text-red-600" />
+							</div>
+						</div>
+						<h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+							Admin Access Required
+						</h1>
+						<p className="text-gray-600 text-center mb-6">
+							Please enter the admin password to continue
+						</p>
+						
+						<form onSubmit={handleLogin}>
+							<div className="mb-4">
+								<label className="block text-sm font-medium text-gray-700 mb-2">
+									Password
+								</label>
+								<input
+									type="password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									placeholder="Enter admin password"
+									autoFocus
+								/>
+							</div>
+							
+							{error && (
+								<div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+									<p className="text-sm text-red-800">{error}</p>
+								</div>
+							)}
+							
+							<button
+								type="submit"
+								disabled={loading}
+								className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+							>
+								{loading ? (
+									<span className="flex items-center justify-center">
+										<Loader2 className="w-4 h-4 mr-2 animate-spin" />
+										Checking...
+									</span>
+								) : (
+									'Login'
+								)}
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
 	return (
 		<div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto">
 				<div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-					<h1 className="text-2xl font-bold text-gray-900 mb-4">
-						Redis Connection Status
-					</h1>
+					<div className="flex items-center justify-between mb-4">
+						<h1 className="text-2xl font-bold text-gray-900">
+							Redis Connection Status
+						</h1>
+						<button
+							onClick={() => {
+								setAuthenticated(false)
+								setPassword('')
+								setData(null)
+							}}
+							className="text-sm text-gray-600 hover:text-gray-900"
+						>
+							Logout
+						</button>
+					</div>
 					
 					<button
 						onClick={fetchRedisData}

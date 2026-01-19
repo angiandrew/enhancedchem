@@ -1,7 +1,19 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Simple endpoint to check Redis connection and view stored data
-export async function GET() {
+export async function GET(request: NextRequest) {
+	// Password protection
+	const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+	const authHeader = request.headers.get('authorization')
+	const providedPassword = authHeader?.replace('Bearer ', '')
+	
+	// Check password (simple authentication)
+	if (!providedPassword || providedPassword !== adminPassword) {
+		return NextResponse.json(
+			{ error: 'Unauthorized - Admin password required' },
+			{ status: 401 }
+		)
+	}
 	try {
 		const redisConfigured = !!process.env.REDIS_URL
 		
