@@ -20,12 +20,12 @@ interface RedisData {
 
 export default function RedisCheckPage() {
 	const [data, setData] = useState<RedisData | null>(null)
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(false)
 	const [password, setPassword] = useState('')
 	const [authenticated, setAuthenticated] = useState(false)
 	const [error, setError] = useState('')
 
-	const handleLogin = async (e: React.FormEvent) => {
+	const handleLogin = (e: React.FormEvent) => {
 		e.preventDefault()
 		setError('')
 		
@@ -34,14 +34,11 @@ export default function RedisCheckPage() {
 			return
 		}
 
-		// Just set authenticated immediately - don't check with API for login
-		// We'll verify when loading Redis data
+		// Just authenticate immediately - password check happens when fetching data
 		setAuthenticated(true)
 		setLoading(false)
-		// Fetch data after setting authenticated
-		setTimeout(() => {
-			fetchRedisData()
-		}, 100)
+		// Fetch data separately
+		fetchRedisData()
 	}
 
 	const fetchRedisData = async () => {
