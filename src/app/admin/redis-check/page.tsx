@@ -299,11 +299,11 @@ export default function RedisCheckPage() {
 														Previous
 													</button>
 													<span className="text-sm text-gray-600">
-														Showing {((currentPage - 1) * ordersPerPage) + 1} - {Math.min(currentPage * ordersPerPage, data.data.recentOrders.length)} of {data.data.recentOrders.length}
+														Showing {((currentPage - 1) * ordersPerPage) + 1} - {Math.min(currentPage * ordersPerPage, data.data!.recentOrders.length)} of {data.data!.recentOrders.length}
 													</span>
 													<button
-														onClick={() => setCurrentPage(prev => Math.min(Math.ceil(data.data.recentOrders.length / ordersPerPage), prev + 1))}
-														disabled={currentPage >= Math.ceil(data.data.recentOrders.length / ordersPerPage)}
+														onClick={() => setCurrentPage(prev => Math.min(Math.ceil(data.data!.recentOrders.length / ordersPerPage), prev + 1))}
+														disabled={currentPage >= Math.ceil(data.data!.recentOrders.length / ordersPerPage)}
 														className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
 													>
 														Next
