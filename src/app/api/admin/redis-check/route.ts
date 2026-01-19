@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
 			]) as string | null
 			
 			const orders: Array<{orderNumber: string, email: string, timestamp: string, status: string}> = ordersStr ? JSON.parse(ordersStr) : []
-			const recentOrders = orders.slice(-10) // Last 10 orders
+			// Return all orders (already sorted by newest first)
 			
 			// Close connection
 			await redis.quit()
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
 				data: {
 					lastOrderNumber: lastOrderNumber || 'Not set (will start at #1000)',
 					totalOrders: orders.length,
-					recentOrders: recentOrders.map((order) => ({
+					recentOrders: orders.map((order) => ({
 						orderNumber: order.orderNumber,
 						email: order.email,
 						timestamp: order.timestamp,
