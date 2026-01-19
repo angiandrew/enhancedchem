@@ -279,15 +279,17 @@ export default function RedisCheckPage() {
 										<div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
 											<div className="flex items-center justify-between mb-3">
 												<h2 className="font-semibold text-gray-900">
-													All Orders ({data.data.recentOrders.length} total)
+													All Orders ({data.data?.recentOrders.length || 0} total)
 												</h2>
-												<div className="text-sm text-gray-600">
-													Page {currentPage} of {Math.ceil(data.data.recentOrders.length / ordersPerPage)}
-												</div>
+												{data.data && data.data.recentOrders.length > 0 && (
+													<div className="text-sm text-gray-600">
+														Page {currentPage} of {Math.ceil(data.data.recentOrders.length / ordersPerPage)}
+													</div>
+												)}
 											</div>
 											
 											{/* Pagination Controls */}
-											{data.data.recentOrders.length > ordersPerPage && (
+											{data.data && data.data.recentOrders.length > ordersPerPage && (
 												<div className="flex items-center justify-between mb-4">
 													<button
 														onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
@@ -310,7 +312,7 @@ export default function RedisCheckPage() {
 											)}
 											
 											<div className="space-y-3">
-												{data.data.recentOrders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage).map((order, index) => (
+												{data.data?.recentOrders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage).map((order, index) => (
 													<div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
 														<div className="flex justify-between items-start mb-3">
 															<div className="flex-1">
