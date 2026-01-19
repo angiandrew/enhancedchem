@@ -145,7 +145,9 @@ export default function CheckoutPage() {
 		}
 	}
 
-	if (items.length === 0) {
+	// Show empty cart page only if order is NOT completed AND cart is empty
+	// If order is completed, we want to show the success message instead
+	if (items.length === 0 && !orderCompleted) {
 		return (
 			<div className="min-h-screen bg-gray-50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -795,31 +797,11 @@ export default function CheckoutPage() {
 										</div>
 									)}
 									
-									{emailWarning ? (
-										<div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-											<p className="text-sm text-yellow-800 mb-2">
-												<strong>Note:</strong> {emailWarning}
-											</p>
-											<p className="text-sm text-yellow-800">
-												Please contact support at <strong>support@enhancedchem.com</strong> with your order number to receive payment instructions.
-											</p>
-										</div>
-									) : (
-										<>
-											<div className="flex items-start justify-center mb-4">
-												<Mail className="w-5 h-5 text-blue-600 mt-0.5 mr-2" />
-												<p className="text-gray-700 text-left">
-													Please check your email <strong>({customerEmail})</strong> for payment instructions and next steps to finalize your payment.
-												</p>
-											</div>
-											
-											<div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4">
-												<p className="text-sm text-gray-600">
-													We&apos;ve sent detailed payment instructions to your email address. Follow the steps in the email to complete your payment.
-												</p>
-											</div>
-										</>
-									)}
+									<div className="mb-6">
+										<p className="text-gray-700 text-lg">
+											Thank you for your order! Please check your email for instructions on finalizing your order.
+										</p>
+									</div>
 									
 									<Link
 										href="/products"
