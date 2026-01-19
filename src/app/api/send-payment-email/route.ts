@@ -226,11 +226,11 @@ export async function POST(request: NextRequest) {
 		}
 
 		// Generate sequential order number starting from #1000
-		const orderNumber = getNextOrderNumber()
+		const orderNumber = await getNextOrderNumber()
 
 		// Save order to database/file storage
 		try {
-			saveOrder({
+			await saveOrder({
 				orderNumber: orderNumber,
 				email: email,
 				paymentMethod: paymentMethod,

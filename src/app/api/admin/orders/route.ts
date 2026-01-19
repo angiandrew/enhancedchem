@@ -4,7 +4,7 @@ import { getAllOrders, updateOrderStatus } from '@/lib/orders'
 // GET - Fetch all orders
 export async function GET() {
 	try {
-		const orders = getAllOrders()
+		const orders = await getAllOrders()
 		return NextResponse.json({ success: true, orders })
 	} catch (error) {
 		console.error('Error fetching orders:', error)
@@ -36,7 +36,7 @@ export async function PATCH(request: NextRequest) {
 			)
 		}
 
-		const success = updateOrderStatus(orderNumber, status)
+		const success = await updateOrderStatus(orderNumber, status)
 		
 		if (success) {
 			return NextResponse.json({ success: true })

@@ -1,10 +1,24 @@
 // Order tracking utilities
 // Note: For production, this should use a database (PostgreSQL, MongoDB, etc.)
 // For now, using a simple JSON file approach (works locally only)
-// On Vercel/serverless, file writes are not possible, so we use fallback methods
+// On Vercel/serverless, file writes are not possible, so we use Vercel KV for persistence
 
 import fs from 'fs'
 import path from 'path'
+
+// Dynamically import Vercel KV (only if configured)
+let kv: typeof import('@vercel/kv').kv | null = null
+const kvConfigured = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
+
+// Try to initialize KV if configured
+if (kvConfigured) {
+	try {
+		kv = require('@vercel/kv').kv
+	} catch (error) {
+		console.warn('Vercel KV not available, will use fallback storage')
+		kv = null
+	}
+}
 
 // Check if we're in a serverless environment (Vercel)
 const isServerless = process.env.VERCEL === '1' || !fs.existsSync || typeof fs.mkdirSync === 'undefined'
@@ -13,7 +27,7 @@ const isServerless = process.env.VERCEL === '1' || !fs.existsSync || typeof fs.m
 const ORDERS_FILE = isServerless ? null : path.resolve(process.cwd(), 'data', 'orders.json')
 const ORDERS_DIR = isServerless ? null : path.resolve(process.cwd(), 'data')
 
-// In-memory fallback for serverless environments
+// In-memory fallback for serverless environments without KV
 const inMemoryOrders: { lastOrderNumber: number; orders: Order[] } = {
 	lastOrderNumber: 999,
 	orders: []
@@ -67,155 +81,213 @@ function initializeOrdersFile() {
 }
 
 // Get next order number
-export function getNextOrderNumber(): string {
-	if (isServerless || !ORDERS_FILE) {
-		// Use in-memory counter for serverless
-		inMemoryOrders.lastOrderNumber += 1
-		return `#${inMemoryOrders.lastOrderNumber}`
-	}
-	
-	initializeOrdersFile()
-	
-	try {
-		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
-			// Fallback to in-memory
-			inMemoryOrders.lastOrderNumber += 1
-			return `#${inMemoryOrders.lastOrderNumber}`
+export async function getNextOrderNumber(): Promise<string> {
+	// Try Vercel KV first (for production/serverless)
+	if (kvConfigured && kv) {
+		try {
+			// Get current order number from KV, or start at 999 (next will be 1000)
+			let lastOrderNumber = await kv.get<number>('lastOrderNumber')
+			if (lastOrderNumber === null || lastOrderNumber === undefined) {
+				lastOrderNumber = 999
+			}
+			
+			// Increment and save back to KV
+			const nextNumber = lastOrderNumber + 1
+			await kv.set('lastOrderNumber', nextNumber)
+			
+			return `#${nextNumber}`
+		} catch (error) {
+			console.warn('Error using Vercel KV for order number, falling back:', error)
+			// Fall through to file-based or in-memory
 		}
-		
-		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
-		const nextNumber = data.lastOrderNumber + 1
-		
-		// Update last order number
-		data.lastOrderNumber = nextNumber
-		fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
-		
-		return `#${nextNumber}`
-	} catch (error) {
-		console.warn('Error getting next order number, using in-memory:', error)
-		// Fallback to in-memory
-		inMemoryOrders.lastOrderNumber += 1
-		return `#${inMemoryOrders.lastOrderNumber}`
 	}
+	
+	// Use file-based storage for local development
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) {
+				// Fallback to in-memory
+				inMemoryOrders.lastOrderNumber += 1
+				return `#${inMemoryOrders.lastOrderNumber}`
+			}
+			
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			const nextNumber = data.lastOrderNumber + 1
+			
+			// Update last order number
+			data.lastOrderNumber = nextNumber
+			fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+			
+			return `#${nextNumber}`
+		} catch (error) {
+			console.warn('Error getting next order number from file, using in-memory:', error)
+			// Fall through to in-memory
+		}
+	}
+	
+	// Fallback to in-memory (for serverless without KV configured)
+	inMemoryOrders.lastOrderNumber += 1
+	return `#${inMemoryOrders.lastOrderNumber}`
 }
 
 // Save order
-export function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Order {
+export async function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Promise<Order> {
 	const newOrder: Order = {
 		...order,
 		timestamp: new Date().toISOString(),
 		status: 'pending'
 	}
 	
-	if (isServerless || !ORDERS_FILE) {
-		// Use in-memory storage for serverless
-		inMemoryOrders.orders.push(newOrder)
-		console.warn('Order saved to in-memory storage (not persistent in serverless)')
-		return newOrder
-	}
-	
-	initializeOrdersFile()
-	
-	try {
-		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
-			// Fallback to in-memory
-			inMemoryOrders.orders.push(newOrder)
+	// Try Vercel KV first (for production/serverless)
+	if (kvConfigured && kv) {
+		try {
+			// Get existing orders from KV
+			const existingOrders = await kv.get<Order[]>('orders') || []
+			existingOrders.push(newOrder)
+			// Store orders in KV (limit to last 1000 orders to avoid size issues)
+			const ordersToStore = existingOrders.slice(-1000)
+			await kv.set('orders', ordersToStore)
 			return newOrder
+		} catch (error) {
+			console.warn('Error saving order to Vercel KV, falling back:', error)
+			// Fall through to file-based or in-memory
 		}
-		
-		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
-		data.orders.push(newOrder)
-		fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
-		
-		return newOrder
-	} catch (error) {
-		console.warn('Error saving order to file, using in-memory:', error)
-		// Fallback to in-memory - don't throw
-		inMemoryOrders.orders.push(newOrder)
-		return newOrder
 	}
+	
+	// Use file-based storage for local development
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) {
+				// Fallback to in-memory
+				inMemoryOrders.orders.push(newOrder)
+				return newOrder
+			}
+			
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			data.orders.push(newOrder)
+			fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+			
+			return newOrder
+		} catch (error) {
+			console.warn('Error saving order to file, using in-memory:', error)
+			// Fall through to in-memory
+		}
+	}
+	
+	// Fallback to in-memory (for serverless without KV configured)
+	inMemoryOrders.orders.push(newOrder)
+	console.warn('Order saved to in-memory storage (not persistent). Set up Vercel KV for persistence.')
+	return newOrder
 }
 
 // Get all orders
-export function getAllOrders(): Order[] {
-	if (isServerless || !ORDERS_FILE) {
-		// Return in-memory orders for serverless
-		return inMemoryOrders.orders.sort((a: Order, b: Order) => 
-			new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-		)
+export async function getAllOrders(): Promise<Order[]> {
+	// Try Vercel KV first (for production/serverless)
+	if (kvConfigured && kv) {
+		try {
+			const orders = await kv.get<Order[]>('orders') || []
+			return orders.sort((a: Order, b: Order) => 
+				new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+			)
+		} catch (error) {
+			console.warn('Error getting orders from Vercel KV, falling back:', error)
+			// Fall through to file-based or in-memory
+		}
 	}
 	
-	try {
-		initializeOrdersFile()
-		
-		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
-			return []
+	// Use file-based storage for local development
+	if (!isServerless && ORDERS_FILE) {
+		try {
+			initializeOrdersFile()
+			
+			if (!fs.existsSync(ORDERS_FILE)) {
+				return []
+			}
+			
+			const fileContent = fs.readFileSync(ORDERS_FILE, 'utf8')
+			const data = JSON.parse(fileContent)
+			
+			// Return orders in reverse chronological order (newest first)
+			return (data.orders || []).sort((a: Order, b: Order) => 
+				new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+			)
+		} catch (error) {
+			console.warn('Error getting orders from file, using in-memory:', error)
+			// Fall through to in-memory
 		}
-		
-		const fileContent = fs.readFileSync(ORDERS_FILE, 'utf8')
-		const data = JSON.parse(fileContent)
-		
-		// Return orders in reverse chronological order (newest first)
-		return (data.orders || []).sort((a: Order, b: Order) => 
-			new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-		)
-	} catch (error) {
-		console.warn('Error getting orders, using in-memory:', error)
-		// Return in-memory orders as fallback
-		return inMemoryOrders.orders.sort((a: Order, b: Order) => 
-			new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-		)
 	}
+	
+	// Fallback to in-memory (for serverless without KV configured)
+	return inMemoryOrders.orders.sort((a: Order, b: Order) => 
+		new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+	)
 }
 
 // Get order by order number
-export function getOrderByNumber(orderNumber: string): Order | null {
-	const orders = getAllOrders()
+export async function getOrderByNumber(orderNumber: string): Promise<Order | null> {
+	const orders = await getAllOrders()
 	return orders.find(order => order.orderNumber === orderNumber) || null
 }
 
 // Update order status
-export function updateOrderStatus(orderNumber: string, status: Order['status']): boolean {
-	if (isServerless || !ORDERS_FILE) {
-		// Update in-memory orders
-		const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
-		if (orderIndex !== -1) {
-			inMemoryOrders.orders[orderIndex].status = status
-			return true
-		}
-		return false
-	}
-	
-	initializeOrdersFile()
-	
-	try {
-		if (!ORDERS_FILE || !fs.existsSync(ORDERS_FILE)) {
-			// Fallback to in-memory
-			const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+export async function updateOrderStatus(orderNumber: string, status: Order['status']): Promise<boolean> {
+	// Try Vercel KV first (for production/serverless)
+	if (kvConfigured && kv) {
+		try {
+			const orders = await kv.get<Order[]>('orders') || []
+			const orderIndex = orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+			
 			if (orderIndex !== -1) {
-				inMemoryOrders.orders[orderIndex].status = status
+				orders[orderIndex].status = status
+				await kv.set('orders', orders)
 				return true
 			}
 			return false
+		} catch (error) {
+			console.warn('Error updating order status in Vercel KV, falling back:', error)
+			// Fall through to file-based or in-memory
 		}
-		
-		const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
-		const orderIndex = data.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
-		
-		if (orderIndex !== -1) {
-			data.orders[orderIndex].status = status
-			fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
-			return true
-		}
-		return false
-	} catch (error) {
-		console.warn('Error updating order status, using in-memory:', error)
-		// Fallback to in-memory
-		const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
-		if (orderIndex !== -1) {
-			inMemoryOrders.orders[orderIndex].status = status
-			return true
-		}
-		return false
 	}
+	
+	// Use file-based storage for local development
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) {
+				// Fallback to in-memory
+				const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+				if (orderIndex !== -1) {
+					inMemoryOrders.orders[orderIndex].status = status
+					return true
+				}
+				return false
+			}
+			
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			const orderIndex = data.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+			
+			if (orderIndex !== -1) {
+				data.orders[orderIndex].status = status
+				fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+				return true
+			}
+			return false
+		} catch (error) {
+			console.warn('Error updating order status in file, using in-memory:', error)
+			// Fall through to in-memory
+		}
+	}
+	
+	// Fallback to in-memory (for serverless without KV configured)
+	const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+	if (orderIndex !== -1) {
+		inMemoryOrders.orders[orderIndex].status = status
+		return true
+	}
+	return false
 }
