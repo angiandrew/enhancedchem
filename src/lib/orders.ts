@@ -7,7 +7,8 @@ import fs from 'fs'
 import path from 'path'
 
 // Dynamically import Redis client (only if configured)
-let redisClient: typeof import('ioredis').default | null = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let redisClient: any = null
 const redisConfigured = !!process.env.REDIS_URL
 
 // Get Redis client lazily (only when needed)
@@ -19,7 +20,8 @@ async function getRedisClient() {
 	try {
 		// Use ioredis for Redis connection
 		const Redis = (await import('ioredis')).default
-		redisClient = new Redis(process.env.REDIS_URL!)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		redisClient = new Redis(process.env.REDIS_URL!) as any
 		return redisClient
 	} catch {
 		console.warn('Redis not available, will use fallback storage')
