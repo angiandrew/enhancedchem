@@ -1,29 +1,29 @@
 // Order tracking utilities
 // Note: For production, this should use a database (PostgreSQL, MongoDB, etc.)
 // For now, using a simple JSON file approach (works locally only)
-// On Vercel/serverless, file writes are not possible, so we use Vercel KV for persistence
+// On Vercel/serverless, file writes are not possible, so we use Redis for persistence
 
 import fs from 'fs'
 import path from 'path'
 
-// Dynamically import Vercel KV (only if configured)
-let kv: typeof import('@vercel/kv').kv | null = null
-const kvConfigured = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
+// Dynamically import Redis client (only if configured)
+let redisClient: any = null
+const redisConfigured = !!process.env.REDIS_URL
 
-// Get KV client lazily (only when needed)
-async function getKVClient() {
-	if (!kvConfigured || kv !== null) {
-		return kv
+// Get Redis client lazily (only when needed)
+async function getRedisClient() {
+	if (!redisConfigured || redisClient !== null) {
+		return redisClient
 	}
 	
 	try {
-		// Use dynamic import instead of require
-		const kvModule = await import('@vercel/kv')
-		kv = kvModule.kv
-		return kv
+		// Use ioredis for Redis connection
+		const Redis = (await import('ioredis')).default
+		redisClient = new Redis(process.env.REDIS_URL!)
+		return redisClient
 	} catch {
-		console.warn('Vercel KV not available, will use fallback storage')
-		kv = null
+		console.warn('Redis not available, will use fallback storage')
+		redisClient = null
 		return null
 	}
 }
@@ -90,24 +90,26 @@ function initializeOrdersFile() {
 
 // Get next order number
 export async function getNextOrderNumber(): Promise<string> {
-	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured) {
-		const kvClient = await getKVClient()
-		if (kvClient) {
+	// Try Redis first (for production/serverless)
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
 			try {
-				// Get current order number from KV, or start at 999 (next will be 1000)
-				let lastOrderNumber = await kvClient.get<number>('lastOrderNumber')
-				if (lastOrderNumber === null || lastOrderNumber === undefined) {
+				// Get current order number from Redis, or start at 999 (next will be 1000)
+				const lastOrderNumberStr = await redis.get('lastOrderNumber')
+				let lastOrderNumber = lastOrderNumberStr ? parseInt(lastOrderNumberStr, 10) : 999
+				
+				if (isNaN(lastOrderNumber)) {
 					lastOrderNumber = 999
 				}
 				
-				// Increment and save back to KV
+				// Increment and save back to Redis
 				const nextNumber = lastOrderNumber + 1
-				await kvClient.set('lastOrderNumber', nextNumber)
+				await redis.set('lastOrderNumber', nextNumber.toString())
 				
 				return `#${nextNumber}`
 			} catch (error) {
-				console.warn('Error using Vercel KV for order number, falling back:', error)
+				console.warn('Error using Redis for order number, falling back:', error)
 				// Fall through to file-based or in-memory
 			}
 		}
@@ -151,20 +153,21 @@ export async function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Pro
 		status: 'pending'
 	}
 	
-	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured) {
-		const kvClient = await getKVClient()
-		if (kvClient) {
+	// Try Redis first (for production/serverless)
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
 			try {
-				// Get existing orders from KV
-				const existingOrders = await kvClient.get<Order[]>('orders') || []
+				// Get existing orders from Redis
+				const ordersStr = await redis.get('orders')
+				const existingOrders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
 				existingOrders.push(newOrder)
-				// Store orders in KV (limit to last 1000 orders to avoid size issues)
+				// Store orders in Redis (limit to last 1000 orders to avoid size issues)
 				const ordersToStore = existingOrders.slice(-1000)
-				await kvClient.set('orders', ordersToStore)
+				await redis.set('orders', JSON.stringify(ordersToStore))
 				return newOrder
 			} catch (error) {
-				console.warn('Error saving order to Vercel KV, falling back:', error)
+				console.warn('Error saving order to Redis, falling back:', error)
 				// Fall through to file-based or in-memory
 			}
 		}
@@ -200,17 +203,18 @@ export async function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Pro
 
 // Get all orders
 export async function getAllOrders(): Promise<Order[]> {
-	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured) {
-		const kvClient = await getKVClient()
-		if (kvClient) {
+	// Try Redis first (for production/serverless)
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
 			try {
-				const orders = await kvClient.get<Order[]>('orders') || []
+				const ordersStr = await redis.get('orders')
+				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
 				return orders.sort((a: Order, b: Order) => 
 					new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
 				)
 			} catch (error) {
-				console.warn('Error getting orders from Vercel KV, falling back:', error)
+				console.warn('Error getting orders from Redis, falling back:', error)
 				// Fall through to file-based or in-memory
 			}
 		}
@@ -252,22 +256,23 @@ export async function getOrderByNumber(orderNumber: string): Promise<Order | nul
 
 // Update order status
 export async function updateOrderStatus(orderNumber: string, status: Order['status']): Promise<boolean> {
-	// Try Vercel KV first (for production/serverless)
-	if (kvConfigured) {
-		const kvClient = await getKVClient()
-		if (kvClient) {
+	// Try Redis first (for production/serverless)
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
 			try {
-				const orders = await kvClient.get<Order[]>('orders') || []
+				const ordersStr = await redis.get('orders')
+				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
 				const orderIndex = orders.findIndex((o: Order) => o.orderNumber === orderNumber)
 				
 				if (orderIndex !== -1) {
 					orders[orderIndex].status = status
-					await kvClient.set('orders', orders)
+					await redis.set('orders', JSON.stringify(orders))
 					return true
 				}
 				return false
 			} catch (error) {
-				console.warn('Error updating order status in Vercel KV, falling back:', error)
+				console.warn('Error updating order status in Redis, falling back:', error)
 				// Fall through to file-based or in-memory
 			}
 		}
