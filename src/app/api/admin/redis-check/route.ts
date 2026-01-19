@@ -42,15 +42,8 @@ export async function GET(request: NextRequest) {
 				connectTimeout: 5000, // 5 second timeout
 				commandTimeout: 5000, // 5 second timeout per command
 				retryStrategy: () => null, // Don't retry on failure
+				lazyConnect: false, // Connect immediately
 			})
-
-			// Set timeout for connection
-			const connectionPromise = redis.connect()
-			const timeoutPromise = new Promise((_, reject) => 
-				setTimeout(() => reject(new Error('Redis connection timeout')), 5000)
-			)
-			
-			await Promise.race([connectionPromise, timeoutPromise])
 
 			// Get the last order number with timeout
 			const lastOrderNumberPromise = redis.get('lastOrderNumber')
