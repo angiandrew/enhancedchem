@@ -30,6 +30,15 @@ export default function CheckoutPage() {
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit-card')
 	const [orderCompleted, setOrderCompleted] = useState(false)
 	const [orderNumber, setOrderNumber] = useState('')
+	
+	// Shipping Address State
+	const [fullName, setFullName] = useState('')
+	const [addressLine1, setAddressLine1] = useState('')
+	const [addressLine2, setAddressLine2] = useState('')
+	const [city, setCity] = useState('')
+	const [state, setState] = useState('')
+	const [zipCode, setZipCode] = useState('')
+	const [country, setCountry] = useState('')
 
 	const institutionOptions = [
 		'University laboratory',
@@ -63,6 +72,12 @@ export default function CheckoutPage() {
 			return
 		}
 
+		// Validate shipping address is complete
+		if (!fullName.trim() || !addressLine1.trim() || !city.trim() || !state.trim() || !zipCode.trim() || !country.trim()) {
+			alert('Please complete all shipping address fields before proceeding.')
+			return
+		}
+
 		// Here you would typically:
 		// 1. Process the payment (if credit card/bank transfer)
 		// 2. Send email with payment instructions (if alternative payment)
@@ -93,7 +108,16 @@ export default function CheckoutPage() {
 							name: item.name,
 							quantity: item.quantity,
 							price: item.price
-						}))
+						})),
+						shippingAddress: {
+							fullName: fullName.trim(),
+							addressLine1: addressLine1.trim(),
+							addressLine2: addressLine2.trim() || undefined,
+							city: city.trim(),
+							state: state.trim(),
+							zipCode: zipCode.trim(),
+							country: country.trim()
+						}
 					}),
 				})
 
@@ -381,22 +405,28 @@ export default function CheckoutPage() {
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 								<div className="md:col-span-2">
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										Full Name
+										Full Name *
 									</label>
 									<input
 										type="text"
+										value={fullName}
+										onChange={(e) => setFullName(e.target.value)}
 										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="Enter full name"
+										required
 									/>
 								</div>
 								<div>
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										Address Line 1
+										Address Line 1 *
 									</label>
 									<input
 										type="text"
+										value={addressLine1}
+										onChange={(e) => setAddressLine1(e.target.value)}
 										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="Street address"
+										required
 									/>
 								</div>
 								<div>
@@ -405,45 +435,61 @@ export default function CheckoutPage() {
 									</label>
 									<input
 										type="text"
+										value={addressLine2}
+										onChange={(e) => setAddressLine2(e.target.value)}
 										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="Apartment, suite, etc."
 									/>
 								</div>
 								<div>
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										City
+										City *
 									</label>
 									<input
 										type="text"
+										value={city}
+										onChange={(e) => setCity(e.target.value)}
 										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="City"
+										required
 									/>
 								</div>
 								<div>
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										State/Province
+										State/Province *
 									</label>
 									<input
 										type="text"
+										value={state}
+										onChange={(e) => setState(e.target.value)}
 										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="State"
+										required
 									/>
 								</div>
 								<div>
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										ZIP/Postal Code
+										ZIP/Postal Code *
 									</label>
 									<input
 										type="text"
+										value={zipCode}
+										onChange={(e) => setZipCode(e.target.value)}
 										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-600"
 										placeholder="ZIP code"
+										required
 									/>
 								</div>
 								<div>
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										Country
+										Country *
 									</label>
-									<select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+									<select 
+										value={country}
+										onChange={(e) => setCountry(e.target.value)}
+										className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										required
+									>
 										<option value="" className="text-gray-600">Select Country</option>
 										<option value="US">United States</option>
 										<option value="CA">Canada</option>

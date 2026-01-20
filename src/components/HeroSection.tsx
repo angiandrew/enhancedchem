@@ -4,16 +4,19 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Shield, Truck, Award } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function HeroSection() {
   return (
     <section className="relative pt-32 pb-20 md:pt-36 md:pb-24">
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
+            className="text-center lg:text-left"
           >
             <motion.span
               initial={{ opacity: 0 }}
@@ -29,11 +32,11 @@ export function HeroSection() {
               <span className="block text-muted-foreground mt-2">Solutions</span>
             </h1>
             
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto font-sans">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 font-sans">
               Pharmaceutical-grade BPC-157, TB-500, and GHK-CU with certified 99.9%+ purity standards and comprehensive scientific documentation.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-12">
               <Link href="/products">
                 <Button variant="elegant" size="lg" className="gap-2">
                   View Products
@@ -47,7 +50,7 @@ export function HeroSection() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto">
+            <div className="grid grid-cols-3 gap-6 max-w-md mx-auto lg:mx-0">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -76,6 +79,22 @@ export function HeroSection() {
                 <div className="text-xs text-muted-foreground uppercase tracking-wide font-sans">Tested</div>
               </motion.div>
             </div>
+          </motion.div>
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl"
+          >
+            <Image
+              src="/logos/hero-vials.png"
+              alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
+              fill
+              className="object-cover"
+              priority
+            />
           </motion.div>
         </div>
       </div>

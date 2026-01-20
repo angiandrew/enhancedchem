@@ -60,6 +60,15 @@ export interface Order {
 	paymentMethod: string
 	orderTotal: number
 	items: Array<{ name: string; quantity: number; price: number }>
+	shippingAddress?: {
+		fullName: string
+		addressLine1: string
+		addressLine2?: string
+		city: string
+		state: string
+		zipCode: string
+		country: string
+	}
 	timestamp: string
 	status: 'pending' | 'paid' | 'shipped' | 'completed'
 }
