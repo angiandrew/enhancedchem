@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import SecurityMonitor from "@/components/SecurityMonitor";
 import AgeGate from "@/components/AgeGate";
+import CartPreview from "@/components/CartPreview";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -92,6 +93,7 @@ export default function RootLayout({
         <CartProvider>
           <AgeGate />
           <SecurityMonitor />
+          <CartPreview />
           {children}
         </CartProvider>
       </body>

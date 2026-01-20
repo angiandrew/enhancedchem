@@ -20,15 +20,13 @@ export default function AgeGate() {
 
   useEffect(() => {
     setMounted(true)
-    // Temporarily force show for testing - remove this to restore normal behavior
-    setIsVerified(false)
     // Check if user has already verified
-    // const verified = localStorage.getItem('ageGateVerified')
-    // if (verified === 'true') {
-    //   setIsVerified(true)
-    // } else {
-    //   setIsVerified(false)
-    // }
+    const verified = localStorage.getItem('ageGateVerified')
+    if (verified === 'true') {
+      setIsVerified(true)
+    } else {
+      setIsVerified(false)
+    }
   }, [])
 
   const handleVerify = () => {
