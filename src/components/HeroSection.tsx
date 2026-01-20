@@ -81,12 +81,12 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Image */}
+          {/* Image - Full Height */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl"
+            className="relative w-full h-full min-h-[500px] md:min-h-[600px] rounded-lg overflow-hidden shadow-2xl"
           >
             <Image
               src="/logos/hero-vials.png"
@@ -110,7 +110,7 @@ export function FeaturesStrip() {
   ]
 
   return (
-    <section className="py-6 border-y border-border/40 bg-secondary/30">
+    <section className="py-6 border-y border-border bg-secondary">
       <div className="container mx-auto px-6">
         <div className="flex flex-wrap justify-center gap-8 md:gap-12">
           {features.map((feature, index) => (

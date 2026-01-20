@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import SecurityMonitor from "@/components/SecurityMonitor";
+import AgeGate from "@/components/AgeGate";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     description: "High-quality research peptides for scientific purposes. BPC-157, TB-500, and specialized peptide blends available. Fast shipping and research-grade quality.",
     images: [
       {
-        url: `${baseUrl}/transparent logo copy.png`,
+        url: `${baseUrl}/logos/NEW-new LOGO.png`,
         width: 1024,
         height: 1024,
         alt: "Enhanced Chem Logo",
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Enhanced Chem - Premium Research Peptides",
     description: "High-quality research peptides for scientific purposes. BPC-157, TB-500, and specialized peptide blends available.",
-    images: [`${baseUrl}/transparent logo copy.png`],
+    images: [`${baseUrl}/logos/NEW-new LOGO.png`],
   },
   robots: {
     index: true,
@@ -66,8 +67,14 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/transparent logo copy.png",
-    apple: "/transparent logo copy.png",
+    icon: {
+      url: "/logos/NEW-new LOGO.png",
+      type: "image/png",
+    },
+    apple: {
+      url: "/logos/NEW-new LOGO.png",
+      type: "image/png",
+    },
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
@@ -83,6 +90,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${playfairDisplay.variable} ${inter.variable} antialiased`}>
         <CartProvider>
+          <AgeGate />
           <SecurityMonitor />
           {children}
         </CartProvider>

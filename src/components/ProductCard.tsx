@@ -57,9 +57,9 @@ export default function ProductCard({
           <Image
             src={image}
             alt={name}
-            width={400}
-            height={400}
-            className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-500"
+            width={300}
+            height={300}
+            className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
           />
         </Link>
         
@@ -77,19 +77,19 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-4">
         <Link href={`/products/${id}`}>
-          <h3 className="font-serif text-lg font-medium mb-2">{name}</h3>
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">{description}</p>
+          <h3 className="font-serif text-base font-medium mb-1.5">{name}</h3>
+          <p className="text-xs text-muted-foreground mb-3 line-clamp-2 leading-relaxed">{description}</p>
         </Link>
 
         {/* Rating */}
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-1.5 mb-3">
           <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-3.5 h-3.5 ${
+                className={`w-3 h-3 ${
                   i < Math.floor(rating)
                     ? 'text-gold fill-gold'
                     : 'text-border'
@@ -98,21 +98,21 @@ export default function ProductCard({
             ))}
           </div>
           <span className="text-xs text-muted-foreground">
-            ({reviews} reviews)
+            ({reviews})
           </span>
         </div>
 
         {/* Price & Action */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-semibold">${price.toFixed(2)}</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-base font-semibold">${price.toFixed(2)}</span>
             {originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">
+              <span className="text-xs text-muted-foreground line-through">
                 ${originalPrice.toFixed(2)}
               </span>
             )}
           </div>
-          <Button variant="elegant" size="sm" onClick={handleAddToCart}>
+          <Button variant="elegant" size="sm" onClick={handleAddToCart} className="text-xs px-3 py-1.5">
             Add to Cart
           </Button>
         </div>

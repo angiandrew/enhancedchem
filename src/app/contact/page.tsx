@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -62,7 +62,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Email</h3>
-                    <p className="text-muted-foreground text-sm">support@enhancedchem.com</p>
+                    <p className="text-muted-foreground text-sm">contact@enhancedchem.com</p>
                   </div>
                 </div>
                 
@@ -73,19 +73,6 @@ export default function Contact() {
                   <div>
                     <h3 className="font-medium mb-1">Phone</h3>
                     <p className="text-muted-foreground text-sm">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-1">Office</h3>
-                    <p className="text-muted-foreground text-sm">
-                      123 Research Park Drive<br />
-                      San Diego, CA 92121
-                    </p>
                   </div>
                 </div>
               </div>

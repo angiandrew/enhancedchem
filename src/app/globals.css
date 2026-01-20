@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #fafaf9;
+  --color-background: #f5f5f0;
   --color-foreground: #1c1917;
-  --color-card: #fcfbfa;
+  --color-card: #ffffff;
   --color-card-foreground: #1c1917;
-  --color-popover: #fcfbfa;
+  --color-popover: #ffffff;
   --color-popover-foreground: #1c1917;
-  --color-primary: #292524;
-  --color-primary-foreground: #fafaf9;
-  --color-secondary: #f5f5f4;
-  --color-secondary-foreground: #292524;
-  --color-muted: #fafaf9;
-  --color-muted-foreground: #78716c;
-  --color-accent: #f5f5f4;
-  --color-accent-foreground: #292524;
+  --color-primary: #1c1917;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #e8e6e1;
+  --color-secondary-foreground: #1c1917;
+  --color-muted: #f0efeb;
+  --color-muted-foreground: #57534e;
+  --color-accent: #e8e6e1;
+  --color-accent-foreground: #1c1917;
   --color-destructive: #ef4444;
-  --color-destructive-foreground: #fafaf9;
-  --color-border: #e7e5e4;
-  --color-input: #e7e5e4;
-  --color-ring: #292524;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #d6d3d1;
+  --color-input: #d6d3d1;
+  --color-ring: #1c1917;
   --color-gold: #d97706;
-  --color-gold-foreground: #fafaf9;
+  --color-gold-foreground: #ffffff;
   --color-silver: #9ca3af;
   --color-silver-foreground: #1c1917;
   --radius: 0.5rem;
@@ -48,6 +48,12 @@
   .font-sans {
     font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
   }
+}
+
+:root {
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .line-clamp-2 {

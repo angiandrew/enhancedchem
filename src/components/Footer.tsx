@@ -3,15 +3,15 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary/50 border-t border-border/40">
+    <footer className="bg-secondary border-t border-border">
       <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 relative">
                 <Image
-                  src="/transparent logo copy.png"
+                  src="/logos/NEW-new LOGO.png"
                   alt="Enhanced Chem Logo"
                   width={32}
                   height={32}
@@ -27,23 +27,13 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Products */}
-          <div>
-            <h4 className="font-serif text-sm font-semibold mb-4 tracking-wide uppercase">Products</h4>
-            <ul className="space-y-3">
-              <li><Link href="/products/bpc-157" className="text-sm text-muted-foreground hover:text-foreground transition-colors">BPC-157</Link></li>
-              <li><Link href="/products/tb-500" className="text-sm text-muted-foreground hover:text-foreground transition-colors">TB-500</Link></li>
-              <li><Link href="/products/ghk-cu" className="text-sm text-muted-foreground hover:text-foreground transition-colors">GHK-CU</Link></li>
-            </ul>
-          </div>
-
           {/* Company */}
           <div>
             <h4 className="font-serif text-sm font-semibold mb-4 tracking-wide uppercase">Company</h4>
             <ul className="space-y-3">
+              <li><Link href="/products" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Products</Link></li>
               <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
-              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Lab Results</Link></li>
             </ul>
           </div>
 

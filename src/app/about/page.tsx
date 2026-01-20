@@ -37,8 +37,8 @@ export default function About() {
           >
             <div className="prose prose-lg mx-auto text-center">
               <p className="text-muted-foreground leading-relaxed text-lg">
-                Founded with a mission to advance scientific research, EnhancedChem provides premium-grade peptides 
-                to researchers, laboratories, and institutions worldwide. Our commitment to quality is unwavering—every 
+                Founded with a mission to advance scientific research, EnhancedChem is a US-based company providing premium-grade peptides 
+                to researchers, laboratories, and institutions. Our commitment to quality is unwavering—every 
                 product undergoes rigorous third-party testing to ensure 99.9%+ purity.
               </p>
               <p className="text-muted-foreground leading-relaxed text-lg mt-6">
@@ -59,7 +59,7 @@ export default function About() {
             {[
               { value: '99.9%+', label: 'Purity Standard' },
               { value: '10K+', label: 'Orders Shipped' },
-              { value: '50+', label: 'Countries Served' },
+              { value: 'US Only', label: 'Shipping Available' },
               { value: '24/7', label: 'Support Available' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
