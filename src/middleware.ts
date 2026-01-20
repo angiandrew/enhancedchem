@@ -11,11 +11,30 @@ const RATE_LIMIT = {
   maxRequestsPerHour: process.env.NODE_ENV === 'development' ? 10000 : 1000, // Much higher limit in development
 }
 
-// Bot detection patterns
+// Allowed search engine bots (should NOT be blocked)
+const ALLOWED_BOTS = [
+  /googlebot/i,
+  /bingbot/i,
+  /slurp/i, // Yahoo
+  /duckduckbot/i,
+  /baiduspider/i,
+  /yandexbot/i,
+  /facebookexternalhit/i,
+  /twitterbot/i,
+  /rogerbot/i,
+  /linkedinbot/i,
+  /embedly/i,
+  /quora link preview/i,
+  /showyoubot/i,
+  /outbrain/i,
+  /pinterest/i,
+  /slackbot/i,
+  /vkShare/i,
+  /W3C_Validator/i,
+]
+
+// Bot detection patterns (malicious bots to block)
 const BOT_PATTERNS = [
-  /bot/i,
-  /crawler/i,
-  /spider/i,
   /scraper/i,
   /curl/i,
   /wget/i,
@@ -54,7 +73,12 @@ function isBot(userAgent: string, isDevelopment: boolean): boolean {
     return false
   }
   
-  // Check against bot patterns
+  // First check if it's an allowed search engine bot - never block these
+  if (ALLOWED_BOTS.some(pattern => pattern.test(userAgent))) {
+    return false // Allow search engine bots
+  }
+  
+  // Check against bot patterns (malicious bots)
   if (BOT_PATTERNS.some(pattern => pattern.test(userAgent))) {
     return true
   }
@@ -218,8 +242,10 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - sitemap.xml (sitemap file)
+     * - robots.txt (robots file)
      * - static files in public folder (images, icons, etc.)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap|robots.txt).*)',
   ],
 }

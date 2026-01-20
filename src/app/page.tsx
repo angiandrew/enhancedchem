@@ -62,8 +62,30 @@ export default function Home() {
 		}
 	]
 
-  return (
+	return (
 		<div className="min-h-screen">
+			{/* Structured Data for SEO */}
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						'@context': 'https://schema.org',
+						'@type': 'Organization',
+						name: 'Enhanced Chem',
+						description: 'Premium research peptides for scientific purposes',
+						url: process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com',
+						logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'}/transparent logo copy.png`,
+						sameAs: [
+							'https://www.instagram.com/enhancedchem/',
+						],
+						contactPoint: {
+							'@type': 'ContactPoint',
+							email: 'info@enhancedchem.com',
+							contactType: 'Customer Service',
+						},
+					}),
+				}}
+			/>
 			{/* Hero Section - Professional Research Theme */}
 			<section className="relative w-full min-h-[90vh] overflow-hidden">
 				{/* Background Image with Dark Blue Gradient Overlay */}

@@ -16,7 +16,20 @@ Allow: /equipment/
 # Crawl delay to prevent excessive requests
 Crawl-delay: 10
 
-Sitemap: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'}/sitemap.xml`
+Sitemap: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'}/sitemap.xml
+
+# Allow Googlebot and other search engines
+User-agent: Googlebot
+Allow: /
+Allow: /products/
+Allow: /equipment/
+Allow: /about/
+
+User-agent: Bingbot
+Allow: /
+Allow: /products/
+Allow: /equipment/
+Allow: /about/`
 
   return new NextResponse(robotsTxt, {
     headers: {
