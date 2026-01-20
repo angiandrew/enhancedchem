@@ -136,7 +136,7 @@ export default function AgeGate() {
           </div>
 
           <p className="text-xs text-muted-foreground mb-6 leading-relaxed">
-            By clicking "I Agree & Enter", you confirm the statements above and acknowledge responsibility for compliance with applicable laws and regulations.
+            By clicking &quot;I Agree &amp; Enter&quot;, you confirm the statements above and acknowledge responsibility for compliance with applicable laws and regulations.
           </p>
 
           <div className="flex gap-4">

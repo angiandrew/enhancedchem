@@ -52,18 +52,13 @@ const nextConfig: NextConfig = {
   },
 
   // Rate limiting and security
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
+  serverExternalPackages: [],
 
   // Compress responses
   compress: true,
 
   // Disable x-powered-by header
   poweredByHeader: false,
-
-  // Optimize builds
-  swcMinify: true,
   
   // Security: Disable server-side rendering for sensitive routes
   async rewrites() {
