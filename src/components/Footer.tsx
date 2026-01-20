@@ -1,105 +1,72 @@
 import Link from 'next/link'
-import { Mail, Instagram } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Footer() {
-	return (
-		<footer className="bg-gray-900 text-white">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-				<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-					{/* Company Info */}
-					<div className="col-span-1 md:col-span-2">
-						<div className="text-2xl font-bold text-blue-400 mb-4">
-							Enhanced Chem
-						</div>
-						<p className="text-gray-300 mb-4">
-							Premium research peptides for scientific purposes only. 
-							High-quality products with fast shipping and exceptional customer service.
-						</p>
-						<div className="flex space-x-4">
-							<Link 
-								href="https://www.instagram.com/enhancedchem/" 
-								target="_blank" 
-								rel="noopener noreferrer"
-								className="flex items-center text-gray-300 hover:text-pink-400 transition-colors"
-							>
-								<Instagram className="h-4 w-4 mr-2" />
-								<span>@enhancedchem</span>
-							</Link>
-							<div className="flex items-center text-gray-300">
-								<Mail className="h-4 w-4 mr-2" />
-								<span>info@enhancedchem.com</span>
-							</div>
-						</div>
-					</div>
+  return (
+    <footer className="bg-secondary/50 border-t border-border/40">
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 relative">
+                <Image
+                  src="/transparent logo copy.png"
+                  alt="Enhanced Chem Logo"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <span className="font-serif text-lg font-medium tracking-tight">
+                ENHANCEDCHEM
+              </span>
+            </Link>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Pharmaceutical-grade research peptides with certified purity standards.
+            </p>
+          </div>
 
-					{/* Quick Links */}
-					<div>
-						<h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-						<ul className="space-y-2">
-							<li>
-								<Link href="/products" className="text-gray-300 hover:text-blue-400 transition-colors">
-									Products
-								</Link>
-							</li>
-							<li>
-								<Link href="/about" className="text-gray-300 hover:text-blue-400 transition-colors">
-									About Us
-								</Link>
-							</li>
-							<li>
-								<Link href="/contact" className="text-gray-300 hover:text-blue-400 transition-colors">
-									Contact
-								</Link>
-							</li>
-							<li>
-								<Link href="/shipping" className="text-gray-300 hover:text-blue-400 transition-colors">
-									Shipping Info
-								</Link>
-							</li>
-						</ul>
-					</div>
+          {/* Products */}
+          <div>
+            <h4 className="font-serif text-sm font-semibold mb-4 tracking-wide uppercase">Products</h4>
+            <ul className="space-y-3">
+              <li><Link href="/products/bpc-157" className="text-sm text-muted-foreground hover:text-foreground transition-colors">BPC-157</Link></li>
+              <li><Link href="/products/tb-500" className="text-sm text-muted-foreground hover:text-foreground transition-colors">TB-500</Link></li>
+              <li><Link href="/products/ghk-cu" className="text-sm text-muted-foreground hover:text-foreground transition-colors">GHK-CU</Link></li>
+            </ul>
+          </div>
 
-					{/* Legal */}
-					<div>
-						<h3 className="text-lg font-semibold mb-4">Legal</h3>
-						<ul className="space-y-2">
-							<li>
-								<Link href="/terms" className="text-gray-300 hover:text-blue-400 transition-colors">
-									Terms of Service
-								</Link>
-							</li>
-							<li>
-								<Link href="/privacy" className="text-gray-300 hover:text-blue-400 transition-colors">
-									Privacy Policy
-								</Link>
-							</li>
-							<li>
-								<Link href="/disclaimer" className="text-gray-300 hover:text-blue-400 transition-colors">
-									Research Disclaimer
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
+          {/* Company */}
+          <div>
+            <h4 className="font-serif text-sm font-semibold mb-4 tracking-wide uppercase">Company</h4>
+            <ul className="space-y-3">
+              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Lab Results</Link></li>
+            </ul>
+          </div>
 
-				{/* Research Disclaimer */}
-				<div className="border-t border-gray-700 mt-8 pt-8">
-					<div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
-						<h4 className="text-red-400 font-semibold mb-2">⚠️ Research Purposes Only</h4>
-						<p className="text-gray-300 text-sm">
-							All products are sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing our products, 
-							you certify that you are 21+ years of age and agree to use these products only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
-						</p>
-					</div>
-				</div>
+          {/* Legal */}
+          <div>
+            <h4 className="font-serif text-sm font-semibold mb-4 tracking-wide uppercase">Legal</h4>
+            <ul className="space-y-3">
+              <li><Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link></li>
+            </ul>
+          </div>
+        </div>
 
-				{/* Copyright */}
-				<div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-					<p>&copy; 2024 Enhanced Chem. All rights reserved.</p>
-				</div>
-			</div>
-		</footer>
-	)
+        <div className="mt-12 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} EnhancedChem. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground text-center md:text-right">
+            For Research Use Only. Not For Human Consumption.
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
 }

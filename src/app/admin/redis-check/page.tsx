@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { CheckCircle, XCircle, Loader2, Lock, Truck, Package } from 'lucide-react'
 
 interface RedisData {

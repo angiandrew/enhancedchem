@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { CartProvider } from "@/contexts/CartContext";
 import SecurityMonitor from "@/components/SecurityMonitor";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-playfair",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-inter",
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
@@ -81,16 +81,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${playfairDisplay.variable} ${inter.variable} antialiased`}>
         <CartProvider>
           <SecurityMonitor />
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </CartProvider>
       </body>
     </html>
