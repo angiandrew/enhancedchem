@@ -789,7 +789,7 @@ export default function CheckoutPage() {
 													<div className="flex items-center justify-center gap-2 mb-2">
 														<CheckCircle className="w-5 h-5 text-green-600" />
 														<span className="font-semibold text-green-700 text-sm sm:text-base">
-															🎉 You've unlocked FREE shipping!
+															🎉 You&apos;ve unlocked FREE shipping!
 														</span>
 													</div>
 													<div className="w-full h-3 bg-green-200 rounded-full overflow-hidden">
