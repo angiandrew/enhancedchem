@@ -13,23 +13,27 @@ Allow: /
 Allow: /products/
 Allow: /equipment/
 
-# Crawl delay to prevent excessive requests
-Crawl-delay: 10
+# Crawl delay for non-Google bots (Googlebot ignores this directive)
+Crawl-delay: 5
 
 Sitemap: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'}/sitemap.xml
 
-# Allow Googlebot and other search engines
+# Googlebot - No crawl delay, full access
 User-agent: Googlebot
 Allow: /
 Allow: /products/
 Allow: /equipment/
 Allow: /about/
+Allow: /contact/
+Crawl-delay: 0
 
+# Bingbot
 User-agent: Bingbot
 Allow: /
 Allow: /products/
 Allow: /equipment/
-Allow: /about/`
+Allow: /about/
+Allow: /contact/`
 
   return new NextResponse(robotsTxt, {
     headers: {
