@@ -11,6 +11,8 @@ import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
+
 
 export default function CheckoutPage() {
 	const { items, updateQuantity, removeItem, totalPrice, totalItems, clearCart } = useCart()
@@ -482,90 +484,106 @@ export default function CheckoutPage() {
 										</span>
 									)}
 								</h2>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-									<div className="md:col-span-2">
-										<label className="block text-sm font-medium mb-2">
-											Full Name *
-										</label>
+								<form>
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+										<div className="md:col-span-2">
+											<label className="block text-sm font-medium mb-2">
+												Full Name *
+											</label>
+											<Input
+												type="text"
+												name="full-name"
+												value={fullName}
+												onChange={(e) => setFullName(e.target.value)}
+												placeholder="Enter full name"
+												required
+											/>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-2">
+												Address Line 1 *
+											</label>
+											<AddressAutocomplete
+												value={addressLine1}
+												onChange={(value) => setAddressLine1(value)}
+												onSelect={(suggestion) => {
+													setAddressLine1(suggestion.address_line1)
+													setAddressLine2(suggestion.address_line2)
+													setCity(suggestion.city)
+													setState(suggestion.state)
+													if (suggestion.postcode) {
+														setZipCode(suggestion.postcode)
+													}
+												}}
+												placeholder="Street address"
+												required
+											/>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-2">
+												Address Line 2 (Optional)
+											</label>
 										<Input
 											type="text"
-											value={fullName}
-											onChange={(e) => setFullName(e.target.value)}
-											placeholder="Enter full name"
-											required
-										/>
-									</div>
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											Address Line 1 *
-										</label>
-										<Input
-											type="text"
-											value={addressLine1}
-											onChange={(e) => setAddressLine1(e.target.value)}
-											placeholder="Street address"
-											required
-										/>
-									</div>
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											Address Line 2 (Optional)
-										</label>
-										<Input
-											type="text"
+											name="address-2"
 											value={addressLine2}
 											onChange={(e) => setAddressLine2(e.target.value)}
 											placeholder="Apartment, suite, etc."
 										/>
-									</div>
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											City *
-										</label>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-2">
+												City *
+											</label>
 										<Input
 											type="text"
+											name="city"
 											value={city}
 											onChange={(e) => setCity(e.target.value)}
 											placeholder="City"
 											required
 										/>
-									</div>
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											State *
-										</label>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-2">
+												State *
+											</label>
 										<Input
 											type="text"
+											name="state"
 											value={state}
 											onChange={(e) => setState(e.target.value)}
 											placeholder="State"
 											required
 										/>
-									</div>
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											ZIP Code *
-										</label>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-2">
+												ZIP Code *
+											</label>
 										<Input
 											type="text"
+											name="zip"
 											value={zipCode}
 											onChange={(e) => setZipCode(e.target.value)}
 											placeholder="ZIP code"
 											required
 										/>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-2">
+												Country *
+											</label>
+											<Input
+												type="text"
+												name="country"
+												value="United States"
+												disabled
+												className="bg-secondary cursor-not-allowed"
+											/>
+										</div>
 									</div>
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											Country *
-										</label>
-										<Input
-											type="text"
-											value="United States"
-											disabled
-											className="bg-secondary cursor-not-allowed"
-										/>
-									</div>
-								</div>
+								</form>
 							</div>
 
 							{/* Payment Method */}
