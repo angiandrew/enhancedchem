@@ -147,7 +147,7 @@ export default function BpcTbMix10mgPage() {
 									<Truck className="h-5 w-5 text-blue-600" />
 								</div>
 								<div>
-									<p className="text-sm font-semibold text-gray-900">Fast & Free Shipping on Orders Over $100</p>
+									<p className="text-sm font-semibold text-gray-900">Free Shipping on Orders Over $250</p>
 								</div>
 							</div>
 							<div className="flex items-center space-x-3">

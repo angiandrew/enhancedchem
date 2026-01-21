@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle } from 'lucide-react'
+import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle, ArrowUp } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Header from '@/components/Header'
@@ -20,6 +20,13 @@ export default function CheckoutPage() {
 	const formatPrice = (price: number) => {
 		return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	}
+
+	// Free shipping threshold
+	const FREE_SHIPPING_THRESHOLD = 250
+	const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : 9.99
+	const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice)
+	const progressPercentage = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)
+	const hasFreeShipping = totalPrice >= FREE_SHIPPING_THRESHOLD
 	const [selectedInstitution, setSelectedInstitution] = useState('')
 	const [ageVerified, setAgeVerified] = useState(false)
 	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
@@ -81,7 +88,7 @@ export default function CheckoutPage() {
 		setIsSubmitting(true)
 
 		// Calculate and save order total before clearing cart
-		const finalTotal = totalPrice + 9.99 + (totalPrice * 0.07)
+		const finalTotal = totalPrice + shippingCost + (totalPrice * 0.07)
 		const paymentMethodName = selectedAlternativeMethod === 'zelle' ? 'Zelle' : selectedAlternativeMethod === 'bitcoin' ? 'Bitcoin' : 'Venmo'
 		
 		// Show success page immediately (order number will be set from API response)
@@ -100,7 +107,7 @@ export default function CheckoutPage() {
 				body: JSON.stringify({
 					email: customerEmail,
 					paymentMethod: selectedAlternativeMethod,
-					orderTotal: totalPrice + 9.99 + (totalPrice * 0.07),
+					orderTotal: totalPrice + shippingCost + (totalPrice * 0.07),
 					items: items.map(item => ({
 						name: item.name,
 						quantity: item.quantity,
@@ -775,6 +782,66 @@ export default function CheckoutPage() {
 											Order Summary
 										</h2>
 										
+										{/* Free Shipping Progress Bar */}
+										<div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 rounded-lg">
+											{hasFreeShipping ? (
+												<div className="text-center">
+													<div className="flex items-center justify-center gap-2 mb-2">
+														<CheckCircle className="w-5 h-5 text-green-600" />
+														<span className="font-semibold text-green-700 text-sm sm:text-base">
+															🎉 You've unlocked FREE shipping!
+														</span>
+													</div>
+													<div className="w-full h-3 bg-green-200 rounded-full overflow-hidden">
+														<div 
+															className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500 ease-out"
+															style={{ width: '100%' }}
+														/>
+													</div>
+												</div>
+											) : (
+												<div>
+													<div className="flex items-center justify-between mb-2">
+														<span className="text-xs sm:text-sm font-medium text-gray-700">
+															Add ${formatPrice(remainingForFreeShipping)} more for free shipping
+														</span>
+														<span className="text-xs sm:text-sm font-semibold text-green-600">
+															${formatPrice(FREE_SHIPPING_THRESHOLD)}
+														</span>
+													</div>
+													<div className="relative w-full h-12 bg-gray-200 rounded-full overflow-visible px-2">
+														{/* Progress bar */}
+														<div 
+															className="absolute top-1/2 left-2 right-2 h-4 -translate-y-1/2 bg-gray-200 rounded-full overflow-hidden"
+														>
+															<div 
+																className="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full transition-all duration-500 ease-out"
+																style={{ width: `${progressPercentage}%` }}
+															/>
+														</div>
+														{/* Carrot indicator - constrained to stay within bounds */}
+														<div 
+															className="absolute top-0 bottom-0 flex flex-col items-center transition-all duration-500 ease-out pointer-events-none"
+															style={{ 
+																left: `calc(${Math.min(Math.max(progressPercentage, 5), 95)}% + 8px - 50%)`,
+																maxWidth: 'calc(100% - 16px)'
+															}}
+														>
+															<ArrowUp className="w-4 h-4 text-green-600 drop-shadow-sm shrink-0" />
+															<div className="mt-0.5 px-2 py-0.5 bg-green-600 text-white text-[10px] font-semibold rounded whitespace-nowrap shadow-md shrink-0">
+																${formatPrice(totalPrice)}
+															</div>
+														</div>
+													</div>
+													{remainingForFreeShipping < 50 && remainingForFreeShipping > 0 && (
+														<p className="text-xs text-green-600 font-medium mt-2 text-center">
+															Almost there! 🎯
+														</p>
+													)}
+												</div>
+											)}
+										</div>
+										
 										<div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
 											<div className="flex justify-between">
 												<span className="text-muted-foreground">Subtotal ({totalItems} items)</span>
@@ -782,7 +849,16 @@ export default function CheckoutPage() {
 											</div>
 											<div className="flex justify-between">
 												<span className="text-muted-foreground">Shipping</span>
-												<span className="font-medium">$9.99</span>
+												<span className={`font-medium ${hasFreeShipping ? 'text-green-600 line-through' : ''}`}>
+													{hasFreeShipping ? (
+														<>
+															<span className="text-gray-400">$9.99</span>
+															<span className="ml-2 text-green-600">FREE</span>
+														</>
+													) : (
+														`$${formatPrice(shippingCost)}`
+													)}
+												</span>
 											</div>
 											<div className="flex justify-between">
 												<span className="text-muted-foreground">Tax</span>
@@ -791,7 +867,7 @@ export default function CheckoutPage() {
 											<div className="border-t border-border pt-3">
 												<div className="flex justify-between text-lg font-semibold">
 													<span>Total</span>
-													<span>${formatPrice(totalPrice + 9.99 + (totalPrice * 0.07))}</span>
+													<span>${formatPrice(totalPrice + shippingCost + (totalPrice * 0.07))}</span>
 												</div>
 											</div>
 										</div>

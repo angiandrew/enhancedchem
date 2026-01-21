@@ -1,12 +1,73 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ArrowRight, Shield, Truck, Award } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, Shield, Truck, Award, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
+
+// Hero images array - add your photos here later
+const heroImages = [
+  {
+    src: "/logos/hero-vials.png",
+    alt: "Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
+  },
+  // Add more images here when you provide them
+  // Example:
+  // {
+  //   src: "/logos/your-image-2.png",
+  //   alt: "Description of image 2"
+  // },
+]
 
 export function HeroSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+
+  // Auto-play carousel (optional - remove if you don't want auto-play)
+  useEffect(() => {
+    if (heroImages.length <= 1) return
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % heroImages.length)
+    }, 5000) // Change slide every 5 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe && currentIndex < heroImages.length - 1) {
+      setCurrentIndex(currentIndex + 1)
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? heroImages.length - 1 : prev - 1))
+  }
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === heroImages.length - 1 ? 0 : prev + 1))
+  }
+
   return (
     <section className="relative pt-32 pb-20 md:pt-36 md:pb-24">
       <div className="container mx-auto px-6">
@@ -81,20 +142,72 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Image - Full Height */}
+          {/* Image Carousel */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative w-full h-full min-h-[500px] md:min-h-[600px] rounded-lg overflow-hidden shadow-2xl"
+            className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            <Image
-              src="/logos/hero-vials.png"
-              alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
-              fill
-              className="object-cover"
-              priority
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 300 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -300 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={heroImages[currentIndex].src}
+                  alt={heroImages[currentIndex].alt}
+                  fill
+                  className="object-cover object-center"
+                  priority={currentIndex === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation Arrows */}
+            {heroImages.length > 1 && (
+              <>
+                <button
+                  onClick={goToPrevious}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-200"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={goToNext}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-200"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </>
+            )}
+
+            {/* Dots Indicator */}
+            {heroImages.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`h-2 rounded-full transition-all duration-200 ${
+                      index === currentIndex
+                        ? 'w-8 bg-white'
+                        : 'w-2 bg-white/50 hover:bg-white/75'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
