@@ -1,9 +1,12 @@
 'use client'
 
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { Search } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
+import { Input } from '@/components/ui/input'
 
 const allProducts = [
   {
@@ -127,42 +130,110 @@ const allProducts = [
 ]
 
 export default function Products() {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const filteredProducts = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return allProducts
+    }
+
+    const searchLower = searchTerm.toLowerCase()
+    return allProducts.filter((product) => {
+      const nameMatch = product.name.toLowerCase().includes(searchLower)
+      const descriptionMatch = product.description.toLowerCase().includes(searchLower)
+      return nameMatch || descriptionMatch
+    })
+  }, [searchTerm])
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           {/* Page Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12"
           >
-            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 block font-sans">
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3 sm:mb-4 block font-sans">
               Our Products
             </span>
-            <h1 className="font-serif text-4xl md:text-5xl font-medium mb-4">
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 sm:mb-4">
               Research Peptides
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-2">
               Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.
             </p>
           </motion.div>
 
+          {/* Search Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="max-w-2xl mx-auto mb-8 sm:mb-12"
+          >
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-muted-foreground" />
+              </div>
+              <Input
+                type="text"
+                placeholder="Search products by name or description..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-6 text-base sm:text-sm"
+              />
+            </div>
+          </motion.div>
+
+          {/* Search Results Count */}
+          {searchTerm && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mb-6 text-center sm:text-left"
+            >
+              <p className="text-sm sm:text-base text-muted-foreground">
+                {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found{searchTerm && ` for "${searchTerm}"`}
+              </p>
+            </motion.div>
+          )}
+
           {/* Products Grid */}
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {allProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <ProductCard {...product} />
-                </motion.div>
-              ))}
-            </div>
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {filteredProducts.map((product, index) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <ProductCard {...product} />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-12"
+              >
+                <p className="text-lg text-muted-foreground mb-2">No products found</p>
+                <p className="text-sm text-muted-foreground">
+                  Try adjusting your search terms or{' '}
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="text-primary underline hover:text-primary/80"
+                  >
+                    clear the search
+                  </button>
+                </p>
+              </motion.div>
+            )}
           </div>
 
           {/* Research Disclaimer */}
@@ -170,9 +241,9 @@ export default function Products() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-16 p-6 bg-secondary/50 rounded-lg border border-border/40 text-center"
+            className="mt-12 sm:mt-16 p-4 sm:p-6 bg-secondary/50 rounded-lg border border-border/40 text-center"
           >
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               <strong>Research Use Only:</strong> These products are intended for laboratory research purposes only. 
               Not for human consumption. Please ensure compliance with local regulations.
             </p>
