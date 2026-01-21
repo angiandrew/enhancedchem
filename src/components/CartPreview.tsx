@@ -27,7 +27,7 @@ export default function CartPreview() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed top-20 right-6 z-50 bg-card border border-border rounded-lg shadow-lg p-4 min-w-[280px] max-w-[320px]"
+          className="fixed top-16 left-4 right-4 sm:left-auto sm:right-6 sm:top-20 z-50 bg-card border border-border rounded-lg shadow-lg p-3 sm:p-4 w-auto sm:min-w-[280px] sm:max-w-[320px]"
         >
           <div className="flex items-start gap-3">
             {/* Check Icon */}

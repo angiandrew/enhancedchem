@@ -49,7 +49,7 @@ export default function ProductCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="group bg-card rounded-lg border border-border/60 overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300"
+      className="group bg-card rounded-lg border border-border/60 overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300 h-full flex flex-col"
     >
       {/* Image Container */}
       <div className="relative aspect-square bg-secondary/30 overflow-hidden">
@@ -77,10 +77,10 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-4 flex flex-col">
         <Link href={`/products/${id}`}>
           <h3 className="font-serif text-base font-medium mb-1.5">{name}</h3>
-          <p className="text-xs text-muted-foreground mb-3 line-clamp-2 leading-relaxed">{description}</p>
+          <p className="text-xs text-muted-foreground mb-3 line-clamp-2 leading-relaxed min-h-[2.5rem]">{description}</p>
         </Link>
 
         {/* Rating */}
@@ -103,7 +103,7 @@ export default function ProductCard({
         </div>
 
         {/* Price & Action */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 mt-auto">
           <div className="flex items-baseline gap-1.5">
             <span className="text-base font-semibold">${price.toFixed(2)}</span>
             {originalPrice && (

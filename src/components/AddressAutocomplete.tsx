@@ -154,15 +154,15 @@ export default function AddressAutocomplete({
       />
       
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-48 sm:max-h-60 overflow-auto">
           {suggestions.map((suggestion, index) => (
             <button
               key={index}
               type="button"
               onClick={() => handleSelect(suggestion)}
-              className="w-full text-left px-4 py-2 hover:bg-secondary transition-colors border-b border-border last:border-b-0"
+              className="w-full text-left px-3 sm:px-4 py-2 hover:bg-secondary transition-colors border-b border-border last:border-b-0"
             >
-              <div className="font-medium">{suggestion.formatted}</div>
+              <div className="font-medium text-xs sm:text-sm break-words">{suggestion.formatted}</div>
             </button>
           ))}
         </div>
