@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, Check, CheckCircle, AlertCircle } from 'lucide-react'
+import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
@@ -16,7 +15,6 @@ import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 export default function CheckoutPage() {
 	const { items, updateQuantity, removeItem, totalPrice, totalItems, clearCart } = useCart()
-	const router = useRouter()
 
 	// Helper function to format numbers with commas
 	const formatPrice = (price: number) => {
@@ -30,7 +28,6 @@ export default function CheckoutPage() {
 	const [customerEmail, setCustomerEmail] = useState('')
 	const [selectedAlternativeMethod, setSelectedAlternativeMethod] = useState('')
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
-	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('alternative')
 	const [orderCompleted, setOrderCompleted] = useState(false)
 	const [orderNumber, setOrderNumber] = useState('')
 	const [orderTotal, setOrderTotal] = useState(0)

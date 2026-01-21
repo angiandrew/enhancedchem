@@ -52,10 +52,22 @@ export default function AddressAutocomplete({
         )
         const data = await response.json()
         
-        console.log('Geoapify response:', data)
-        
         if (data.features && data.features.length > 0) {
-          const formattedSuggestions: Suggestion[] = data.features.map((feature: any) => {
+          const formattedSuggestions: Suggestion[] = data.features.map((feature: {
+            properties: {
+              formatted?: string
+              housenumber?: string
+              street?: string
+              name?: string
+              result_type?: string
+              address_line1?: string
+              state_code?: string
+              state?: string
+              city?: string
+              postcode?: string
+              country?: string
+            }
+          }) => {
             const props = feature.properties
             // For street addresses, use housenumber+street, or just street, or name
             let streetAddress = ''
@@ -63,7 +75,7 @@ export default function AddressAutocomplete({
               streetAddress = `${props.housenumber} ${props.street}`
             } else if (props.street) {
               streetAddress = props.street
-            } else if (props.name && props.result_type === 'building' || props.result_type === 'amenity') {
+            } else if (props.name && (props.result_type === 'building' || props.result_type === 'amenity')) {
               streetAddress = props.name
             } else if (props.address_line1) {
               // Only use address_line1 if it's not the full formatted address
@@ -74,7 +86,7 @@ export default function AddressAutocomplete({
 
             // Address Line 2 should be empty or only contain apartment/unit info
             // Geoapify's address_line2 is not the apartment field - it's the city/state/zip string
-            let addressLine2 = ''
+            const addressLine2 = ''
 
             // Prefer state_code (e.g., "NC") over full state name (e.g., "North Carolina")
             const stateValue = props.state_code || props.state || ''
