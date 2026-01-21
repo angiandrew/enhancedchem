@@ -15,10 +15,11 @@ const allProducts = [
     description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
     price: 49.99,
     originalPrice: 89.99,
-    image: '/products/bpc-157/BPC-157_5MG_new.png',
+    image: '/products/bpc-157/BPC 5mgnew-new.png',
     rating: 5,
     reviews: 127,
     badge: 'Best Seller',
+    inStock: false,
   },
   {
     id: 'bpc-157',
@@ -26,9 +27,10 @@ const allProducts = [
     description: 'Body Protection Compound-157 in higher concentration for extended research applications.',
     price: 89.99,
     originalPrice: 149.99,
-    image: '/products/bpc-157/BPC-157_new.png',
+    image: '/products/bpc-157/BPC 10mgnew-new.png',
     rating: 5,
     reviews: 94,
+    inStock: true,
   },
   {
     id: 'tb-500',
@@ -175,7 +177,7 @@ export default function Products() {
             className="max-w-2xl mx-auto mb-8 sm:mb-12"
           >
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-muted-foreground" />
               </div>
               <Input
@@ -183,7 +185,7 @@ export default function Products() {
                 placeholder="Search products by name or description..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-6 text-base sm:text-sm"
+                className="pl-12 pr-4 py-6 text-base sm:text-sm bg-card border-border/50 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 rounded-xl shadow-sm"
               />
             </div>
           </motion.div>
@@ -204,7 +206,7 @@ export default function Products() {
           {/* Products Grid */}
           <div className="max-w-7xl mx-auto">
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
                 {filteredProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
@@ -241,10 +243,10 @@ export default function Products() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-12 sm:mt-16 p-4 sm:p-6 bg-secondary/50 rounded-lg border border-border/40 text-center"
+            className="mt-12 sm:mt-16 p-6 sm:p-8 bg-card rounded-xl border border-border/50 shadow-sm text-center"
           >
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              <strong>Research Use Only:</strong> These products are intended for laboratory research purposes only. 
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only. 
               Not for human consumption. Please ensure compliance with local regulations.
             </p>
           </motion.div>

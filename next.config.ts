@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: false,
+    minimumCacheTTL: 60,
   },
   
   // Security headers

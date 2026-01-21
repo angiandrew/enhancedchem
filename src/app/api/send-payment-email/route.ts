@@ -312,19 +312,21 @@ export async function POST(request: NextRequest) {
 		let emailError = null
 		
 		try {
-			const { error } = await resend.emails.send({
+			const result = await resend.emails.send({
 				from: fromEmail,
 				to: email,
 				subject: subject,
 				html: html,
 			})
 
-			if (error) {
-				console.error('Error sending email:', error)
-				emailError = error
+			if (result.error) {
+				console.error('Error sending email:', result.error)
+				emailError = result.error
 				// Don't throw - still return success with order number
 			} else {
 				emailSent = true
+				console.log('Email sent successfully. ID:', result.data?.id)
+				// Log the email ID - this should appear in Resend dashboard
 			}
 		} catch (err) {
 			console.error('Exception sending email:', err)

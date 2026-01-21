@@ -18,6 +18,7 @@ interface ProductCardProps {
   rating?: number
   reviews?: number
   badge?: string
+  inStock?: boolean
 }
 
 export default function ProductCard({
@@ -30,6 +31,7 @@ export default function ProductCard({
   rating = 5,
   reviews = 0,
   badge,
+  inStock = true,
 }: ProductCardProps) {
   const { addItem } = useCart()
   const discount = originalPrice
@@ -37,6 +39,7 @@ export default function ProductCard({
     : 0
 
   const handleAddToCart = () => {
+    if (!inStock) return
     addItem({
       id,
       name,
@@ -49,71 +52,95 @@ export default function ProductCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="group bg-card rounded-lg border border-border/60 overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300 h-full flex flex-col"
+      className="group bg-card rounded-xl border border-border/50 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col backdrop-blur-sm"
     >
       {/* Image Container */}
-      <div className="relative aspect-square bg-secondary/30 overflow-hidden">
+      <div className="relative aspect-square bg-gradient-to-br from-secondary/30 to-secondary/10 overflow-hidden">
         <Link href={`/products/${id}`}>
           <Image
             src={image}
             alt={name}
             width={300}
             height={300}
-            className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+            className={`w-full h-full object-contain p-4 transition-transform duration-500 ${
+              inStock ? 'group-hover:scale-105' : 'opacity-60'
+            }`}
           />
         </Link>
         
+        {/* Sold Out Overlay */}
+        {!inStock && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
+            <Badge className="bg-red-600 text-white text-sm font-bold px-4 py-2">
+              SOLD OUT
+            </Badge>
+          </div>
+        )}
+        
         {/* Badges */}
-        {badge && (
-          <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground text-xs font-medium">
+        {badge && inStock && (
+          <Badge className="absolute top-3 left-3 bg-primary/95 backdrop-blur-sm text-primary-foreground text-xs font-semibold px-2.5 py-1 shadow-md z-20">
             {badge}
           </Badge>
         )}
-        {discount > 0 && (
-          <Badge className="absolute top-4 right-4 bg-gold text-gold-foreground text-xs font-medium">
+        {discount > 0 && inStock && (
+          <Badge className="absolute top-3 right-3 bg-gold/95 backdrop-blur-sm text-gold-foreground text-xs font-semibold px-2.5 py-1 shadow-md z-20">
             -{discount}%
+          </Badge>
+        )}
+        {!inStock && (
+          <Badge className="absolute top-3 right-3 bg-destructive/95 backdrop-blur-sm text-destructive-foreground text-xs font-semibold px-2.5 py-1 shadow-md z-20">
+            OUT
           </Badge>
         )}
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col">
-        <Link href={`/products/${id}`}>
-          <h3 className="font-serif text-base font-medium mb-1.5">{name}</h3>
-          <p className="text-xs text-muted-foreground mb-3 line-clamp-2 leading-relaxed min-h-[2.5rem]">{description}</p>
+      <div className="p-5 flex flex-col bg-card">
+        <Link href={`/products/${id}`} className="group/link">
+          <h3 className="font-serif text-base font-medium mb-2 text-foreground group-hover/link:text-primary transition-colors">{name}</h3>
+          <p className="text-xs text-muted-foreground mb-4 line-clamp-2 leading-relaxed min-h-[2.5rem]">{description}</p>
         </Link>
 
         {/* Rating */}
-        <div className="flex items-center gap-1.5 mb-3">
+        <div className="flex items-center gap-1.5 mb-4">
           <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-3 h-3 ${
+                className={`w-3.5 h-3.5 transition-colors ${
                   i < Math.floor(rating)
                     ? 'text-gold fill-gold'
-                    : 'text-border'
+                    : 'text-border/40'
                 }`}
               />
             ))}
           </div>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-muted-foreground font-medium">
             ({reviews})
           </span>
         </div>
 
         {/* Price & Action */}
-        <div className="flex items-center justify-between gap-2 mt-auto">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-base font-semibold">${price.toFixed(2)}</span>
+        <div className="flex items-center justify-between gap-3 mt-auto pt-4 border-t border-border/30">
+          <div className="flex items-baseline gap-2">
+            <span className="text-lg font-semibold text-foreground">${price.toFixed(2)}</span>
             {originalPrice && (
-              <span className="text-xs text-muted-foreground line-through">
+              <span className="text-xs text-muted-foreground line-through font-medium">
                 ${originalPrice.toFixed(2)}
               </span>
             )}
           </div>
-          <Button variant="elegant" size="sm" onClick={handleAddToCart} className="text-xs px-3 py-1.5">
-            Add to Cart
+          <Button 
+            variant="elegant" 
+            size="sm" 
+            onClick={handleAddToCart} 
+            disabled={!inStock}
+            className={`text-xs px-4 py-2 font-medium transition-all ${
+              !inStock ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+            }`}
+          >
+            {inStock ? 'Add to Cart' : 'Sold Out'}
           </Button>
         </div>
       </div>

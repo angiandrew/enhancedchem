@@ -1,10 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Truck, Award, Lock, Headphones } from 'lucide-react'
+import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
+import { motion, AnimatePresence } from 'framer-motion'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default function BPC1575mgPage() {
 	const [selectedMG, setSelectedMG] = useState('5mg')
@@ -12,15 +15,18 @@ export default function BPC1575mgPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157_5MG_new.png' },
-		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/BPC-157_new.png' }
+		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC 5mgnew-new.png', inStock: false },
+		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/BPC 10mgnew-new.png', inStock: true }
 	]
 
-	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 49.99
-	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 89.99
-	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-157/BPC-157_5MG_new.png'
+	const currentOption = mgOptions.find(option => option.value === selectedMG)
+	const currentPrice = currentOption?.price || 49.99
+	const currentOriginalPrice = currentOption?.originalPrice || 89.99
+	const currentImage = currentOption?.image || '/products/bpc-157/BPC 5mgnew-new.png'
+	const isInStock = currentOption?.inStock ?? false
 
 	const handleAddToCart = () => {
+		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
 				id: `bpc-157-${selectedMG}`,
@@ -32,215 +38,283 @@ export default function BPC1575mgPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-white">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				{/* Breadcrumb */}
-				<nav className="mb-8">
-					<ol className="flex items-center space-x-2 text-sm text-gray-500">
-						<li><Link href="/" className="hover:text-blue-600">Home</Link></li>
-						<li>/</li>
-						<li><Link href="/products" className="hover:text-blue-600">Products</Link></li>
-						<li>/</li>
-						<li className="text-gray-900">BPC-157 {selectedMG}</li>
-					</ol>
-				</nav>
+		<div className="min-h-screen bg-background">
+			<Header />
+			<main className="pt-24 pb-16">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					{/* Breadcrumb */}
+					<nav className="mb-6">
+						<ol className="flex items-center space-x-2 text-sm text-muted-foreground">
+							<li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+							<li>/</li>
+							<li><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
+							<li>/</li>
+							<li className="text-foreground font-medium">BPC-157 {selectedMG}</li>
+						</ol>
+					</nav>
 
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-					{/* Product Image */}
-					<div className="flex justify-center">
-						<div className="relative w-full max-w-md">
-							<Image
-								src={currentImage}
-								alt={`BPC-157 ${selectedMG}`}
-								width={400}
-								height={400}
-								className="w-full h-auto object-contain"
-							/>
-						</div>
-					</div>
-
-					{/* Product Info */}
-					<div className="space-y-6">
-						{/* Availability */}
-						<p className="text-sm text-gray-600">Availability: <span className="text-green-600 font-semibold">In stock</span></p>
-
-						{/* Product Name */}
-						<h1 className="text-4xl font-bold text-gray-900">
-							BPC-157 {selectedMG}
-						</h1>
-
-						{/* Price */}
-						<div className="flex items-center space-x-4">
-							<span className="text-4xl font-bold text-blue-600">
-								${currentPrice}
-							</span>
-							{currentOriginalPrice > currentPrice && (
-								<span className="text-xl text-gray-500 line-through">
-									${currentOriginalPrice}
-								</span>
-							)}
-						</div>
-
-						{/* MG Selection */}
-						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Select Strength:
-							</label>
-							<div className="flex space-x-3">
-								{mgOptions.map((option) => (
-								<button
-									key={option.value}
-									onClick={() => setSelectedMG(option.value)}
-									className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
-										selectedMG === option.value
-											? 'border-blue-600 bg-blue-50 text-blue-600'
-											: 'border-gray-400 bg-gray-200 text-gray-700 hover:border-gray-500 hover:bg-gray-300'
-									}`}
-								>
-										{option.value}
-									</button>
-								))}
-							</div>
-						</div>
-
-						{/* Quantity Selector */}
-						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Quantity:
-							</label>
-							<div className="flex items-center space-x-3">
-								<button
-									onClick={() => setQuantity(Math.max(1, quantity - 1))}
-									className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
-								>
-									-
-								</button>
-								<input
-									type="number"
-									value={quantity}
-									onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-									className="w-20 h-10 text-center border border-gray-400 bg-gray-200 text-gray-700 rounded-lg"
-									min="1"
-								/>
-								<button
-									onClick={() => setQuantity(quantity + 1)}
-									className="w-10 h-10 rounded-lg border border-gray-400 bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-300 hover:border-gray-500"
-								>
-									+
-								</button>
-							</div>
-						</div>
-
-						{/* Add to Cart Button */}
-						<button
-							onClick={handleAddToCart}
-							className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-3"
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+						{/* Product Image */}
+						<motion.div 
+							className="sticky top-28 flex justify-center lg:justify-start"
+							initial={{ opacity: 0, x: -20 }}
+							animate={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.5 }}
 						>
-							<ShoppingCart className="h-6 w-6" />
-							<span>ADD TO CART</span>
-						</button>
+							<div className="relative w-full max-w-lg bg-card rounded-2xl p-8 shadow-lg border border-border/50">
+								<AnimatePresence mode="wait">
+									<motion.div
+										key={currentImage}
+										initial={{ opacity: 0, scale: 0.95 }}
+										animate={{ opacity: 1, scale: 1 }}
+										exit={{ opacity: 0, scale: 0.95 }}
+										transition={{ duration: 0.3 }}
+										className="relative aspect-square"
+									>
+										<Image
+											src={currentImage}
+											alt={`BPC-157 ${selectedMG}`}
+											fill
+											className="object-contain rounded-lg"
+											priority
+											unoptimized
+											key={currentImage}
+										/>
+									</motion.div>
+								</AnimatePresence>
+							</div>
+						</motion.div>
 
-						{/* Trust Badges */}
-						<div className="grid grid-cols-1 gap-4">
-							<div className="flex items-center space-x-3">
-								<div className="bg-blue-100 p-2 rounded-lg">
-									<Truck className="h-5 w-5 text-blue-600" />
-								</div>
-								<div>
-									<p className="text-sm font-semibold text-gray-900">Free Shipping on Orders Over $250</p>
-								</div>
+						{/* Product Info */}
+						<motion.div 
+							className="space-y-6"
+							initial={{ opacity: 0, x: 20 }}
+							animate={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.5, delay: 0.1 }}
+						>
+							{/* Availability */}
+							<div className="flex items-center gap-2">
+								{isInStock ? (
+									<>
+										<CheckCircle className="w-5 h-5 text-green-600" />
+										<p className="text-sm text-muted-foreground">
+											<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
+										</p>
+									</>
+								) : (
+									<>
+										<div className="w-5 h-5 rounded-full bg-red-600"></div>
+										<p className="text-sm text-muted-foreground">
+											<span className="text-red-600 font-semibold">Sold Out</span>
+										</p>
+									</>
+								)}
 							</div>
-							<div className="flex items-center space-x-3">
-								<div className="bg-blue-100 p-2 rounded-lg">
-									<Award className="h-5 w-5 text-blue-600" />
-								</div>
-								<div>
-									<p className="text-sm font-semibold text-gray-900">High grade purity Premium quality</p>
-								</div>
-							</div>
-							<div className="flex items-center space-x-3">
-								<div className="bg-blue-100 p-2 rounded-lg">
-									<Headphones className="h-5 w-5 text-blue-600" />
-								</div>
-								<div>
-									<p className="text-sm font-semibold text-gray-900">Customer Happiness 100% Guaranteed</p>
-								</div>
-							</div>
-							<div className="flex items-center space-x-3">
-								<div className="bg-blue-100 p-2 rounded-lg">
-									<Lock className="h-5 w-5 text-blue-600" />
-								</div>
-								<div>
-									<p className="text-sm font-semibold text-gray-900">256-Bit SSL Encryption 100% Privacy Assurance</p>
-								</div>
-							</div>
-							<div className="flex items-center space-x-3">
-								<div className="bg-blue-100 p-2 rounded-lg">
-									<Headphones className="h-5 w-5 text-blue-600" />
-								</div>
-								<div>
-									<p className="text-sm font-semibold text-gray-900">Exceptional Support Team is Here to Help</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 
-				{/* Product Description */}
-				<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
-					<div>
-						<h2 className="text-2xl font-bold text-gray-900 mb-6">DESCRIPTION</h2>
-						<div className="space-y-4">
-							<div className="flex justify-between">
-								<span className="font-semibold text-gray-700">Appearance:</span>
-								<span className="text-gray-600">White powder</span>
+							{/* Product Name */}
+							<h1 className="font-serif text-4xl md:text-5xl font-medium text-foreground">
+								BPC-157 {selectedMG}
+							</h1>
+
+							{/* Price */}
+							<div className="flex items-baseline gap-4">
+								<span className="text-4xl md:text-5xl font-serif font-medium text-primary">
+									${currentPrice.toFixed(2)}
+								</span>
+								{currentOriginalPrice > currentPrice && (
+									<span className="text-xl text-muted-foreground line-through">
+										${currentOriginalPrice.toFixed(2)}
+									</span>
+								)}
+								{currentOriginalPrice > currentPrice && (
+									<span className="px-3 py-1 bg-gold/20 text-gold rounded-full text-sm font-semibold">
+										Save {Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)}%
+									</span>
+								)}
 							</div>
-							<div className="flex justify-between">
-								<span className="font-semibold text-gray-700">Cas No:</span>
-								<span className="text-gray-600">137525-51-0</span>
+
+							{/* MG Selection */}
+							<div>
+								<label className="block text-sm font-medium text-foreground mb-3">
+									Select Strength:
+								</label>
+								<div className="flex gap-3">
+									{mgOptions.map((option) => (
+									<button
+										key={option.value}
+										onClick={() => setSelectedMG(option.value)}
+										disabled={!option.inStock && selectedMG !== option.value}
+										className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all relative ${
+											selectedMG === option.value
+												? option.inStock
+													? 'border-primary bg-primary/10 text-primary shadow-md'
+													: 'border-red-500 bg-red-50 text-red-600'
+												: option.inStock
+													? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
+													: 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+										}`}
+									>
+										{option.value}
+										{!option.inStock && (
+											<span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+												OUT
+											</span>
+										)}
+									</button>
+									))}
+								</div>
 							</div>
-							<div className="flex justify-between">
-								<span className="font-semibold text-gray-700">Molecular Formula:</span>
-								<span className="text-gray-600">C₆₂H₉₈N₁₆O₂₂</span>
+
+							{/* Quantity Selector */}
+							<div>
+								<label className="block text-sm font-medium text-foreground mb-3">
+									Quantity:
+								</label>
+								<div className="flex items-center gap-4">
+									<button
+										onClick={() => setQuantity(Math.max(1, quantity - 1))}
+										disabled={quantity === 1}
+										className="w-12 h-12 rounded-xl border-2 border-border bg-card text-foreground flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+									>
+										-
+									</button>
+									<input
+										type="number"
+										value={quantity}
+										onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+										className="w-24 h-12 text-center border-2 border-border bg-card text-foreground rounded-xl font-semibold text-lg focus:outline-none focus:border-primary"
+										min="1"
+									/>
+									<button
+										onClick={() => setQuantity(quantity + 1)}
+										className="w-12 h-12 rounded-xl border-2 border-border bg-card text-foreground flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all"
+									>
+										+
+									</button>
+								</div>
 							</div>
-							<div className="flex justify-between">
-								<span className="font-semibold text-gray-700">Physical State:</span>
-								<span className="text-gray-600">Lyophilized powder</span>
+
+							{/* Add to Cart Button */}
+							<motion.button
+								onClick={handleAddToCart}
+								disabled={!isInStock}
+								whileHover={isInStock ? { scale: 1.02 } : {}}
+								whileTap={isInStock ? { scale: 0.98 } : {}}
+								className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-3 ${
+									isInStock
+										? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl'
+										: 'bg-muted text-muted-foreground cursor-not-allowed'
+								}`}
+							>
+								<ShoppingCart className="h-5 w-5" />
+								<span>{isInStock ? 'Add to Cart' : 'Sold Out'}</span>
+							</motion.button>
+
+							{/* Trust Badges */}
+							<div className="grid grid-cols-1 gap-3 pt-4 border-t border-border">
+								<div className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors">
+									<div className="bg-primary/10 p-2 rounded-lg">
+										<Truck className="h-5 w-5 text-primary" />
+									</div>
+									<p className="text-sm font-medium text-foreground">Free Shipping on Orders Over $250</p>
+								</div>
+								<div className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors">
+									<div className="bg-primary/10 p-2 rounded-lg">
+										<Award className="h-5 w-5 text-primary" />
+									</div>
+									<p className="text-sm font-medium text-foreground">High grade purity Premium quality</p>
+								</div>
+								<div className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors">
+									<div className="bg-primary/10 p-2 rounded-lg">
+										<Headphones className="h-5 w-5 text-primary" />
+									</div>
+									<p className="text-sm font-medium text-foreground">Customer Happiness 100% Guaranteed</p>
+								</div>
+								<div className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors">
+									<div className="bg-primary/10 p-2 rounded-lg">
+										<Lock className="h-5 w-5 text-primary" />
+									</div>
+									<p className="text-sm font-medium text-foreground">256-Bit SSL Encryption 100% Privacy Assurance</p>
+								</div>
 							</div>
-							<div className="flex justify-between">
-								<span className="font-semibold text-gray-700">Storage:</span>
-								<span className="text-gray-600">Room Temperature</span>
-							</div>
-						</div>
+						</motion.div>
 					</div>
-					
-					<div>
-						<h2 className="text-2xl font-bold text-gray-900 mb-6">STORAGE</h2>
-						<p className="text-gray-600 leading-relaxed mb-4">
-							Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
-							For research purposes only.
+
+					{/* Product Description */}
+					<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.5 }}
+							className="bg-card rounded-2xl p-8 border border-border shadow-sm"
+						>
+							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Description</h2>
+							<div className="space-y-4">
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Appearance:</span>
+									<span className="text-muted-foreground">White powder</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Cas No:</span>
+									<span className="text-muted-foreground">137525-51-0</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Molecular Formula:</span>
+									<span className="text-muted-foreground">C₆₂H₉₈N₁₆O₂₂</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Physical State:</span>
+									<span className="text-muted-foreground">Lyophilized powder</span>
+								</div>
+								<div className="flex justify-between py-2">
+									<span className="font-medium text-foreground">Storage:</span>
+									<span className="text-muted-foreground">Room Temperature</span>
+								</div>
+							</div>
+						</motion.div>
+						
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.5, delay: 0.1 }}
+							className="bg-card rounded-2xl p-8 border border-border shadow-sm"
+						>
+							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
+								For research purposes only.
+							</p>
+							<p className="text-muted-foreground leading-relaxed">
+								BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from 
+								body protection compound found in gastric juice. This research-grade peptide 
+								is designed for scientific studies and laboratory research purposes only.
+							</p>
+						</motion.div>
+					</div>
+
+					{/* Research Disclaimer */}
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.5 }}
+						className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-8"
+					>
+						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
+							⚠️ Research Purposes Only
+						</h3>
+						<p className="text-destructive/90 leading-relaxed">
+							This product is sold for research purposes only. Not for human consumption, 
+							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
+							you certify that you are 18+ years of age and agree to use this product only for 
+							legitimate research purposes in accordance with applicable laws and regulations.
 						</p>
-						<p className="text-gray-600 leading-relaxed">
-							BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from 
-							body protection compound found in gastric juice. This research-grade peptide 
-							is designed for scientific studies and laboratory research purposes only.
-						</p>
-					</div>
+					</motion.div>
 				</div>
-
-				{/* Research Disclaimer */}
-				<div className="mt-12 bg-red-50 border border-red-200 rounded-lg p-6">
-					<h3 className="text-lg font-semibold text-red-800 mb-2">
-						⚠️ Research Purposes Only
-					</h3>
-					<p className="text-red-700">
-						This product is sold for research purposes only. Not for human consumption, 
-						diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-						you certify that you are 18+ years of age and agree to use this product only for 
-						legitimate research purposes in accordance with applicable laws and regulations.
-					</p>
-				</div>
-			</div>
+			</main>
+			<Footer />
 		</div>
 	)
 }

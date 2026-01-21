@@ -13,10 +13,11 @@ const products = [
     description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
     price: 49.99,
     originalPrice: 89.99,
-    image: '/products/bpc-157/BPC-157_5MG_new.png',
+    image: '/products/bpc-157/BPC 5mgnew-new.png',
     rating: 5,
     reviews: 127,
     badge: 'Best Seller',
+    inStock: false,
   },
   {
     id: 'tb-500',

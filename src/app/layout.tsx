@@ -68,14 +68,34 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: {
-      url: "/logos/Logo w: circle background.png",
-      type: "image/png",
-    },
+    icon: [
+      {
+        url: "/logos/Logo w: circle background.png",
+        type: "image/png",
+        sizes: "32x32",
+      },
+      {
+        url: "/logos/Logo w: circle background.png",
+        type: "image/png",
+        sizes: "16x16",
+      },
+      {
+        url: "/logos/Logo w: circle background.png",
+        type: "image/png",
+        sizes: "96x96",
+      },
+      {
+        url: "/logos/Logo w: circle background.png",
+        type: "image/png",
+        sizes: "192x192",
+      },
+    ],
     apple: {
       url: "/logos/Logo w: circle background.png",
       type: "image/png",
+      sizes: "180x180",
     },
+    shortcut: "/logos/Logo w: circle background.png",
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
