@@ -33,18 +33,20 @@ export default function ProductCard({
   inStock = true,
 }: ProductCardProps) {
   const { addItem } = useCart()
-  const discount = originalPrice
-    ? Math.round(((originalPrice - price) / originalPrice) * 100)
-    : 0
 
   const handleAddToCart = () => {
     if (!inStock) return
-    addItem({
-      id,
-      name,
-      price,
-      image
-    })
+    try {
+      addItem({
+        id: id || 'unknown',
+        name: name || 'Product',
+        price: typeof price === 'number' ? price : 0,
+        image: image || '/logos/NEW-new LOGO.png'
+      })
+    } catch (error) {
+      // Silently handle cart errors
+      console.warn('Failed to add item to cart:', error)
+    }
   }
 
   return (
@@ -81,16 +83,6 @@ export default function ProductCard({
         {badge && inStock && (
           <Badge className="absolute top-2 left-2 bg-primary/95 backdrop-blur-sm text-primary-foreground text-[10px] font-semibold px-2 py-0.5 shadow-md z-20">
             {badge}
-          </Badge>
-        )}
-        {discount > 0 && inStock && (
-          <Badge className="absolute top-2 right-2 bg-muted/90 backdrop-blur-sm text-muted-foreground text-[10px] font-medium px-2 py-0.5 border border-border/50 z-20">
-            Save {discount}%
-          </Badge>
-        )}
-        {!inStock && (
-          <Badge className="absolute top-2 right-2 bg-muted/90 backdrop-blur-sm text-muted-foreground text-[10px] font-medium px-2 py-0.5 border border-border/50 z-20">
-            Out of Stock
           </Badge>
         )}
       </div>

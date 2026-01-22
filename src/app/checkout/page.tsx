@@ -22,7 +22,17 @@ export default function CheckoutPage() {
 
 	// Free shipping threshold
 	const FREE_SHIPPING_THRESHOLD = 250
-	const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : 9.99
+	
+	// Shipping method options
+	const shippingMethods = [
+		{ id: 'ground', name: 'UPS Ground', price: 10.00, days: '3-5 business days' },
+		{ id: '2day', name: 'UPS 2-Day Air', price: 20.00, days: '2-4 business days' },
+		{ id: 'nextday', name: 'UPS Next Day Air', price: 40.00, days: '1-2 business days' }
+	]
+	const [selectedShippingMethod, setSelectedShippingMethod] = useState('ground')
+	const selectedShipping = shippingMethods.find(m => m.id === selectedShippingMethod) || shippingMethods[0]
+	// Apply free shipping if order meets threshold
+	const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : selectedShipping.price
 	const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice)
 	const progressPercentage = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)
 	const hasFreeShipping = totalPrice >= FREE_SHIPPING_THRESHOLD
@@ -32,6 +42,7 @@ export default function CheckoutPage() {
 	const [researchLimitationsVerified, setResearchLimitationsVerified] = useState(false)
 	const [termsAccepted, setTermsAccepted] = useState(false)
 	const [customerEmail, setCustomerEmail] = useState('')
+	const [emailOptIn, setEmailOptIn] = useState(false)
 	const [selectedAlternativeMethod, setSelectedAlternativeMethod] = useState('')
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [orderCompleted, setOrderCompleted] = useState(false)
@@ -153,6 +164,9 @@ export default function CheckoutPage() {
 					email: customerEmail,
 					paymentMethod: selectedAlternativeMethod,
 					orderTotal: finalTotal,
+					shippingMethod: selectedShipping.name,
+					shippingCost: shippingCost,
+					emailOptIn: emailOptIn,
 					promoCode: promoApplied && promoCode?.trim() ? promoCode.trim().toUpperCase() : null,
 					promoDiscount: promoApplied ? promoDiscountCalc : 0,
 					items: items.map(item => ({
@@ -480,8 +494,10 @@ export default function CheckoutPage() {
 															className="object-contain rounded-lg max-w-full max-h-full p-1 sm:p-2 w-full h-full"
 															loading="lazy"
 															onError={(e) => {
-																console.error('Image failed to load:', item.image, item.name)
-																e.currentTarget.src = '/logos/NEW-new LOGO.png'
+																// Silently fallback to logo if image fails to load
+																if (e.currentTarget.src !== '/logos/NEW-new LOGO.png') {
+																	e.currentTarget.src = '/logos/NEW-new LOGO.png'
+																}
 															}}
 														/>
 													)}
@@ -642,6 +658,50 @@ export default function CheckoutPage() {
 								</form>
 							</div>
 
+							{/* Shipping Method */}
+							<div className="bg-card rounded-lg border-2 border-border shadow-[var(--shadow-elevated)] p-4 sm:p-6 md:p-8">
+								<h2 className="font-serif text-xl sm:text-2xl font-semibold mb-2 sm:mb-3">
+									Shipping Method
+								</h2>
+								<label className="block text-sm text-muted-foreground mb-4 sm:mb-6">
+									Shipping Method
+								</label>
+								<div className="space-y-3">
+									{shippingMethods.map((method) => (
+										<label
+											key={method.id}
+											className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-all ${
+												selectedShippingMethod === method.id
+													? 'border-primary bg-primary/5'
+													: 'border-border hover:border-primary/50 bg-card'
+											}`}
+										>
+											<div className="flex items-center gap-3 sm:gap-4 flex-1">
+												<input
+													type="radio"
+													name="shipping-method"
+													value={method.id}
+													checked={selectedShippingMethod === method.id}
+													onChange={(e) => setSelectedShippingMethod(e.target.value)}
+													className="w-5 h-5 text-primary border-2 border-border focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
+												/>
+												<div className="flex-1">
+													<div className="font-medium text-sm sm:text-base text-foreground">
+														{method.name}
+													</div>
+													<div className="text-xs sm:text-sm text-muted-foreground">
+														({method.days})
+													</div>
+												</div>
+											</div>
+											<div className="font-semibold text-sm sm:text-base text-foreground">
+												${formatPrice(method.price)}
+											</div>
+										</label>
+									))}
+								</div>
+							</div>
+
 							{/* Payment Method */}
 							<div className={`bg-card rounded-lg border-2 shadow-[var(--shadow-elevated)] p-4 sm:p-6 md:p-8 transition-all ${
 								isAlternativeComplete 
@@ -689,6 +749,24 @@ export default function CheckoutPage() {
 												We&apos;ll send payment instructions to this email address
 											</p>
 										)}
+									</div>
+
+									{/* Email Opt-In */}
+									<div className="bg-secondary/30 rounded-lg border border-border p-4 sm:p-5">
+										<h3 className="font-semibold text-sm sm:text-base text-foreground mb-3">
+											Opt-In
+										</h3>
+										<label className="flex items-start gap-3 cursor-pointer">
+											<Checkbox
+												id="emailOptIn"
+												checked={emailOptIn}
+												onCheckedChange={(checked) => setEmailOptIn(checked === true)}
+												className="mt-0.5"
+											/>
+											<span className="text-sm text-foreground leading-relaxed flex-1">
+												I would like to receive exclusive emails with discounts and product information
+											</span>
+										</label>
 									</div>
 
 									{/* Zelle */}
@@ -971,11 +1049,11 @@ export default function CheckoutPage() {
 												<span className="font-medium">${formatPrice(totalPrice)}</span>
 											</div>
 											<div className="flex justify-between">
-												<span className="text-muted-foreground">Shipping</span>
-												<span className={`font-medium ${hasFreeShipping ? 'text-green-600 line-through' : ''}`}>
+												<span className="text-muted-foreground">Shipping ({selectedShipping.name})</span>
+												<span className={`font-medium ${hasFreeShipping ? 'text-green-600' : ''}`}>
 													{hasFreeShipping ? (
 														<>
-															<span className="text-gray-400">$9.99</span>
+															<span className="text-gray-400 line-through">${formatPrice(selectedShipping.price)}</span>
 															<span className="ml-2 text-green-600">FREE</span>
 														</>
 													) : (

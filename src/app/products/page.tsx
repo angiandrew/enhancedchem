@@ -40,7 +40,6 @@ const allProducts = [
     image: '/products/tb-500/TB-500 5mg.png',
     rating: 5,
     reviews: 34,
-    badge: 'Limited',
   },
   {
     id: 'ghk-cu',
@@ -51,6 +50,7 @@ const allProducts = [
     image: '/products/ghk-cu/GHK-Cu 50mg.png',
     rating: 4.8,
     reviews: 64,
+    badge: 'Popular',
   },
   {
     id: 'ghk-cu-100mg',
@@ -71,7 +71,6 @@ const allProducts = [
     image: '/products/KPV/KPV 5mg.png',
     rating: 5,
     reviews: 32,
-    badge: 'New',
   },
   {
     id: 'kpv',
@@ -82,7 +81,6 @@ const allProducts = [
     image: '/products/KPV/KPV 10mg.png',
     rating: 5,
     reviews: 45,
-    badge: 'Popular',
   },
   {
     id: 'semax',
@@ -93,7 +91,6 @@ const allProducts = [
     image: '/products/Semax/Semax 10mg.png',
     rating: 5,
     reviews: 38,
-    badge: 'Premium',
   },
   {
     id: 'selank',
@@ -104,7 +101,6 @@ const allProducts = [
     image: '/products/Selank/Selank 10mg.png',
     rating: 5,
     reviews: 35,
-    badge: 'Premium',
   },
   {
     id: 'bpc-tb-mix',
@@ -115,7 +111,6 @@ const allProducts = [
     image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png',
     rating: 5,
     reviews: 32,
-    badge: 'New',
   },
   {
     id: 'bpc-tb-mix-10mg',
@@ -126,7 +121,6 @@ const allProducts = [
     image: '/products/bpc-tb-mix/BPC_TB Blend 10_10.png',
     rating: 5,
     reviews: 28,
-    badge: 'Premium',
   },
   {
     id: 'mix-peptide',
@@ -137,7 +131,7 @@ const allProducts = [
     image: '/products/bpc-tb-ghk-mix/GLOW70.png',
     rating: 5,
     reviews: 45,
-    badge: 'New',
+    badge: 'Popular',
   },
   {
     id: 'nad-500mg',
@@ -148,7 +142,6 @@ const allProducts = [
     image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png',
     rating: 5,
     reviews: 42,
-    badge: 'Premium',
   },
   {
     id: 'retatrutide',
@@ -159,7 +152,6 @@ const allProducts = [
     image: '/products/Reta/Reta 10mg.png',
     rating: 5,
     reviews: 45,
-    badge: 'Premium',
   },
   {
     id: 'retatrutide-15mg',
@@ -181,7 +173,6 @@ const allProducts = [
     image: '/products/Reta/Reta 20mg.png',
     rating: 5,
     reviews: 0,
-    badge: 'Premium',
   },
   {
     id: 'melanotan-2',
@@ -192,7 +183,6 @@ const allProducts = [
     image: '/products/Melanotan 2 10mg/Melanotan 2 10mg.png',
     rating: 5,
     reviews: 52,
-    badge: 'Popular',
   },
   {
     id: 'klow-80mg',
@@ -214,7 +204,6 @@ const allProducts = [
     image: '/products/CJC NO DAC/CJC1295 5mg NO DAC.png',
     rating: 5,
     reviews: 35,
-    badge: 'New',
   },
   {
     id: 'cjc-1295-5mg',
@@ -225,7 +214,6 @@ const allProducts = [
     image: '/products/CJC-1295 (With DAC)/CJC DAC 5mg.png',
     rating: 5,
     reviews: 41,
-    badge: 'New',
     inStock: false,
   },
   {
@@ -237,7 +225,6 @@ const allProducts = [
     image: '/products/CJC-1295 (With DAC)/CJC DAC 10mg.png',
     rating: 5,
     reviews: 38,
-    badge: 'Premium',
     inStock: false,
   },
   {
@@ -249,7 +236,6 @@ const allProducts = [
     image: '/products/CJC NO DAC/CJC NO DAC 10mg.png',
     rating: 5,
     reviews: 42,
-    badge: 'Popular',
     inStock: false,
   },
   {
@@ -261,7 +247,6 @@ const allProducts = [
     image: '/products/Reta/Reta 5mg.png',
     rating: 5,
     reviews: 38,
-    badge: 'New',
     inStock: false,
   },
   {
@@ -273,7 +258,6 @@ const allProducts = [
     image: '/products/CJC no dac IPA/CJC(NO DAC)_IPA 5mg_5mgpng.png',
     rating: 5,
     reviews: 39,
-    badge: 'New',
     inStock: false,
   },
   {
@@ -285,7 +269,7 @@ const allProducts = [
     image: '/products/bpc-157/BPC-157 5mg.png',
     rating: 5,
     reviews: 127,
-    badge: 'Best Seller',
+    badge: 'Popular',
     inStock: false,
   },
 ]

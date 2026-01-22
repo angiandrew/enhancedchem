@@ -49,6 +49,12 @@ export default function CartPreview() {
                     alt={lastAddedItem.name}
                     className="w-full h-full object-contain p-1"
                     loading="lazy"
+                    onError={(e) => {
+                      // Silently fallback to logo if image fails to load
+                      if (e.currentTarget.src !== '/logos/NEW-new LOGO.png') {
+                        e.currentTarget.src = '/logos/NEW-new LOGO.png'
+                      }
+                    }}
                   />
                 </div>
                 

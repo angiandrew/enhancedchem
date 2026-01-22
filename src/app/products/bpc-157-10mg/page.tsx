@@ -86,18 +86,6 @@ export default function BPC15710mgPage() {
 							priority
 							unoptimized
 						/>
-						{/* Top-left Badge - Label */}
-						<div className="absolute top-4 left-4">
-							<span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-								{product.label}
-							</span>
-						</div>
-						{/* Top-right Badge - Discount */}
-						<div className="absolute top-4 right-4">
-							<span className="px-3 py-1 bg-gold text-white text-xs font-semibold rounded-full">
-								Save {product.discount}%
-							</span>
-						</div>
 					</div>
 
 					{/* Right Column - Product Info */}

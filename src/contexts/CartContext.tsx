@@ -24,6 +24,15 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
+// Image path migration map for old incorrect paths (moved outside component to prevent recreation)
+const IMAGE_PATH_MIGRATIONS: Record<string, string> = {
+	'/products/bpc-157/BPC-157_5MG_new.png': '/products/bpc-157/BPC-157 5mg.png',
+	'/products/bpc-157/BPC-157_5mg.png': '/products/bpc-157/BPC-157 5mg.png',
+	'/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png': '/products/bpc-tb-ghk-mix/GLOW70.png',
+	'/products/bpc-tb-mix/BPC:Tb_10MG mix.png': '/products/bpc-tb-mix/BPC_TB Blend 10_10.png',
+	'/products/bpc-tb-mix/BPC Tb 10MG mix.png': '/products/bpc-tb-mix/BPC_TB Blend 10_10.png',
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
 	const [items, setItems] = useState<CartItem[]>([])
 	const [lastAddedItem, setLastAddedItem] = useState<CartItem | null>(null)
@@ -34,9 +43,36 @@ export function CartProvider({ children }: { children: ReactNode }) {
 			const savedCart = localStorage.getItem('enhanced-chem-cart')
 			if (savedCart) {
 				try {
-					setItems(JSON.parse(savedCart))
-				} catch (error) {
-					console.error('Error loading cart from localStorage:', error)
+					const parsedCart = JSON.parse(savedCart)
+					// Validate and migrate cart items
+					if (Array.isArray(parsedCart)) {
+						const migratedCart = parsedCart
+							.filter((item: unknown): item is CartItem => 
+								typeof item === 'object' && 
+								item !== null && 
+								'id' in item && 
+								'name' in item && 
+								typeof (item as CartItem).price === 'number'
+							)
+							.map((item: CartItem) => {
+								// Migrate old image paths to new ones
+								if (item.image && IMAGE_PATH_MIGRATIONS[item.image]) {
+									return { ...item, image: IMAGE_PATH_MIGRATIONS[item.image] }
+								}
+								return item
+							})
+						setItems(migratedCart)
+						// Save migrated cart back to localStorage if changed
+						if (JSON.stringify(parsedCart) !== JSON.stringify(migratedCart)) {
+							localStorage.setItem('enhanced-chem-cart', JSON.stringify(migratedCart))
+						}
+					} else {
+						// Invalid cart format, clear it
+						localStorage.removeItem('enhanced-chem-cart')
+					}
+				} catch {
+					// Silently handle errors - clear corrupted cart data
+					localStorage.removeItem('enhanced-chem-cart')
 				}
 			}
 		}
@@ -50,30 +86,40 @@ export function CartProvider({ children }: { children: ReactNode }) {
 	}, [items])
 
 	const addItem = (newItem: Omit<CartItem, 'quantity'>) => {
-		setItems(prevItems => {
-			// First try to find by exact ID match
-			let existingItem = prevItems.find(item => item.id === newItem.id)
-			
-			// If no exact ID match, try to find by name and price (for same products with different IDs)
-			if (!existingItem) {
-				existingItem = prevItems.find(item => 
-					item.name === newItem.name && item.price === newItem.price
-				)
+		try {
+			// Validate item before adding
+			if (!newItem || !newItem.id || !newItem.name || typeof newItem.price !== 'number' || newItem.price < 0) {
+				console.warn('Invalid item data:', newItem)
+				return
 			}
 			
-			if (existingItem) {
-				const updatedItems = prevItems.map(item =>
-					item.id === existingItem!.id
-						? { ...item, quantity: item.quantity + 1 }
-						: item
-				)
-				setLastAddedItem({ ...newItem, quantity: existingItem.quantity + 1 })
-				return updatedItems
-			}
-			const newCartItem = { ...newItem, quantity: 1 }
-			setLastAddedItem(newCartItem)
-			return [...prevItems, newCartItem]
-		})
+			setItems(prevItems => {
+				// First try to find by exact ID match
+				let existingItem = prevItems.find(item => item.id === newItem.id)
+				
+				// If no exact ID match, try to find by name and price (for same products with different IDs)
+				if (!existingItem) {
+					existingItem = prevItems.find(item => 
+						item.name === newItem.name && item.price === newItem.price
+					)
+				}
+				
+				if (existingItem) {
+					const updatedItems = prevItems.map(item =>
+						item.id === existingItem!.id
+							? { ...item, quantity: item.quantity + 1 }
+							: item
+					)
+					setLastAddedItem({ ...newItem, quantity: existingItem.quantity + 1 })
+					return updatedItems
+				}
+				const newCartItem = { ...newItem, quantity: 1 }
+				setLastAddedItem(newCartItem)
+				return [...prevItems, newCartItem]
+			})
+		} catch (error) {
+			console.warn('Error adding item to cart:', error)
+		}
 	}
 
 	const clearLastAddedItem = () => {
@@ -100,8 +146,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
 		setItems([])
 	}
 
-	const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
-	const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+	const totalItems = items.reduce((sum, item) => {
+		const qty = typeof item.quantity === 'number' && item.quantity > 0 ? item.quantity : 0
+		return sum + qty
+	}, 0)
+	const totalPrice = items.reduce((sum, item) => {
+		const price = typeof item.price === 'number' && item.price >= 0 ? item.price : 0
+		const qty = typeof item.quantity === 'number' && item.quantity > 0 ? item.quantity : 0
+		return sum + (price * qty)
+	}, 0)
 
 	return (
 		<CartContext.Provider

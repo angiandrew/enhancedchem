@@ -125,11 +125,6 @@ export default function RetatrutidePage() {
 										${currentOriginalPrice.toFixed(2)}
 									</span>
 								)}
-								{currentOriginalPrice > currentPrice && (
-									<span className="px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-full text-xs font-medium border border-border/50">
-										Save {Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)}%
-									</span>
-								)}
 							</div>
 
 							{/* MG Selection */}

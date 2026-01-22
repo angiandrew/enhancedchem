@@ -27,6 +27,7 @@ const products = [
     image: '/products/ghk-cu/GHK-Cu 50mg.png',
     rating: 4.8,
     reviews: 64,
+    badge: 'Popular',
   },
   {
     id: 'mix-peptide',
@@ -37,7 +38,7 @@ const products = [
     image: '/products/bpc-tb-ghk-mix/GLOW70.png',
     rating: 5,
     reviews: 42,
-    badge: 'New',
+    badge: 'Popular',
   },
   {
     id: 'bpc-157-5mg',
@@ -48,7 +49,7 @@ const products = [
     image: '/products/bpc-157/BPC-157 5mg.png',
     rating: 5,
     reviews: 127,
-    badge: 'Best Seller',
+    badge: 'Popular',
     inStock: false,
   },
 ]
