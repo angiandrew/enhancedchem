@@ -17,9 +17,9 @@ export default function MixPeptidePage() {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
 				id: 'mix-peptide',
-				name: 'GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix',
+				name: 'GLOW 70mg',
 				price: currentPrice,
-				image: '/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png'
+				image: '/products/bpc-tb-ghk-mix/GLOW70.png'
 			})
 		}
 	}
@@ -34,7 +34,7 @@ export default function MixPeptidePage() {
 						<li>/</li>
 						<li><Link href="/products" className="hover:text-blue-600">Best Sellers</Link></li>
 						<li>/</li>
-						<li className="text-gray-900">GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix</li>
+						<li className="text-gray-900">GLOW 70mg</li>
 					</ol>
 				</nav>
 
@@ -43,8 +43,8 @@ export default function MixPeptidePage() {
 					<div className="flex justify-center">
 						<div className="relative w-full max-w-md">
 							<Image
-								src="/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png"
-								alt="GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix"
+								src="/products/bpc-tb-ghk-mix/GLOW70.png"
+								alt="GLOW 70mg"
 								width={400}
 								height={400}
 								className="w-full h-auto object-contain"
@@ -59,8 +59,11 @@ export default function MixPeptidePage() {
 
 						{/* Product Name */}
 						<h1 className="text-2xl font-bold text-gray-900">
-							GHK-Cu (50MG) + BPC-157 (10MG) + TB500 (10MG) Mix
+							GLOW 70mg
 						</h1>
+						<p className="text-lg text-gray-600 mt-2">
+							GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) Mix
+						</p>
 
 						{/* Price */}
 						<div className="flex items-center space-x-4">
@@ -197,10 +200,13 @@ export default function MixPeptidePage() {
 							Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
 							For research purposes only.
 						</p>
-						<p className="text-gray-600 leading-relaxed">
+						<p className="text-gray-600 leading-relaxed mb-4">
 							This premium peptide blend combines GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) 
 							for comprehensive research applications. Each component is carefully selected for 
 							its research-grade quality and scientific properties.
+						</p>
+						<p className="text-gray-600 leading-relaxed font-medium">
+							<strong>Product Composition:</strong> GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) Mix
 						</p>
 					</div>
 				</div>

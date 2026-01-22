@@ -10,11 +10,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'tb-500',
     'ghk-cu',
     'ghk-cu-100mg',
+    'kpv-5mg',
     'kpv',
     'semax',
+    'selank',
     'bpc-tb-mix',
     'bpc-tb-mix-10mg',
     'mix-peptide',
+    'nad-500mg',
+    'retatrutide-5mg',
+    'retatrutide',
+    'melanotan-2',
+    'klow-80mg',
   ]
 
   const routes = [

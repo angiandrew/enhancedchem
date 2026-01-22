@@ -12,13 +12,13 @@ export default function BpcTbMixPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 149.99, originalPrice: 199.99, image: '/products/bpc-tb-mix/Bpc-tb-5MG.png' },
-		{ value: '10mg', price: 199.99, originalPrice: 249.99, image: '/products/bpc-tb-mix/BPC:Tb_10MG mix.png' }
+		{ value: '5mg', price: 149.99, originalPrice: 199.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png' },
+		{ value: '10mg', price: 199.99, originalPrice: 249.99, image: '/products/bpc-tb-mix/BPC_TB Blend 10_10.png' }
 	]
 
 	const currentPrice = mgOptions.find(option => option.value === selectedMG)?.price || 149.99
 	const currentOriginalPrice = mgOptions.find(option => option.value === selectedMG)?.originalPrice || 199.99
-	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-tb-mix/Bpc-tb-5MG.png'
+	const currentImage = mgOptions.find(option => option.value === selectedMG)?.image || '/products/bpc-tb-mix/BPC_TB Blend 5_5.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {

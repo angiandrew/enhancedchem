@@ -5,32 +5,23 @@ import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucid
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-export default function BPC1575mgPage() {
-	const [selectedMG, setSelectedMG] = useState('5mg')
+export default function KPV5mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const mgOptions = [
-		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157 5mg.png', inStock: false },
-		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/BPC 10mgnew-new.png', inStock: true }
-	]
-
-	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 49.99
-	const currentOriginalPrice = currentOption?.originalPrice || 89.99
-	const currentImage = currentOption?.image || '/products/bpc-157/BPC-157 5mg.png'
-	const isInStock = currentOption?.inStock ?? false
+	const currentPrice = 49.99
+	const currentOriginalPrice = 69.99
+	const currentImage = '/products/KPV/KPV 5mg.png'
 
 	const handleAddToCart = () => {
-		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `bpc-157-${selectedMG}`,
-				name: `BPC-157 ${selectedMG}`,
+				id: 'kpv-5mg',
+				name: 'KPV 5mg',
 				price: currentPrice,
 				image: currentImage
 			})
@@ -49,7 +40,7 @@ export default function BPC1575mgPage() {
 							<li>/</li>
 							<li><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li>/</li>
-							<li className="text-foreground font-medium">BPC-157 {selectedMG}</li>
+							<li className="text-foreground font-medium">KPV 5mg</li>
 						</ol>
 					</nav>
 
@@ -62,26 +53,20 @@ export default function BPC1575mgPage() {
 							transition={{ duration: 0.5 }}
 						>
 							<div className="relative w-full max-w-lg bg-card rounded-2xl p-8 shadow-lg border border-border/50">
-								<AnimatePresence mode="wait">
-									<motion.div
-										key={currentImage}
-										initial={{ opacity: 0, scale: 0.95 }}
-										animate={{ opacity: 1, scale: 1 }}
-										exit={{ opacity: 0, scale: 0.95 }}
-										transition={{ duration: 0.3 }}
-										className="relative aspect-square"
-									>
-										<Image
-											src={currentImage}
-											alt={`BPC-157 ${selectedMG}`}
-											fill
-											className="object-contain rounded-lg"
-											priority
-											unoptimized
-											key={currentImage}
-										/>
-									</motion.div>
-								</AnimatePresence>
+								<motion.div
+									initial={{ opacity: 0, scale: 0.95 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{ duration: 0.3 }}
+									className="relative aspect-square"
+								>
+									<Image
+										src={currentImage}
+										alt="KPV 5mg"
+										fill
+										className="object-contain rounded-lg"
+										priority
+									/>
+								</motion.div>
 							</div>
 						</motion.div>
 
@@ -94,26 +79,15 @@ export default function BPC1575mgPage() {
 						>
 							{/* Availability */}
 							<div className="flex items-center gap-2">
-								{isInStock ? (
-									<>
-										<CheckCircle className="w-5 h-5 text-green-600" />
-										<p className="text-sm text-muted-foreground">
-											<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
-										</p>
-									</>
-								) : (
-									<>
-										<div className="w-5 h-5 rounded-full bg-red-600"></div>
-										<p className="text-sm text-muted-foreground">
-											<span className="text-red-600 font-semibold">Sold Out</span>
-										</p>
-									</>
-								)}
+								<CheckCircle className="w-5 h-5 text-green-600" />
+								<p className="text-sm text-muted-foreground">
+									<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
+								</p>
 							</div>
 
 							{/* Product Name */}
 							<h1 className="font-serif text-4xl md:text-5xl font-medium text-foreground">
-								BPC-157 {selectedMG}
+								KPV 5mg
 							</h1>
 
 							{/* Price */}
@@ -131,38 +105,6 @@ export default function BPC1575mgPage() {
 										Save {Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)}%
 									</span>
 								)}
-							</div>
-
-							{/* MG Selection */}
-							<div>
-								<label className="block text-sm font-medium text-foreground mb-3">
-									Select Strength:
-								</label>
-								<div className="flex gap-3">
-									{mgOptions.map((option) => (
-									<button
-										key={option.value}
-										onClick={() => setSelectedMG(option.value)}
-										disabled={!option.inStock && selectedMG !== option.value}
-										className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all relative ${
-											selectedMG === option.value
-												? option.inStock
-													? 'border-primary bg-primary/10 text-primary shadow-md'
-													: 'border-red-500 bg-red-50 text-red-600'
-												: option.inStock
-													? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
-													: 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50'
-										}`}
-									>
-										{option.value}
-										{!option.inStock && (
-											<span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
-												OUT
-											</span>
-										)}
-									</button>
-									))}
-								</div>
 							</div>
 
 							{/* Quantity Selector */}
@@ -197,17 +139,12 @@ export default function BPC1575mgPage() {
 							{/* Add to Cart Button */}
 							<motion.button
 								onClick={handleAddToCart}
-								disabled={!isInStock}
-								whileHover={isInStock ? { scale: 1.02 } : {}}
-								whileTap={isInStock ? { scale: 0.98 } : {}}
-								className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-3 ${
-									isInStock
-										? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl'
-										: 'bg-muted text-muted-foreground cursor-not-allowed'
-								}`}
+								whileHover={{ scale: 1.02 }}
+								whileTap={{ scale: 0.98 }}
+								className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl"
 							>
 								<ShoppingCart className="h-5 w-5" />
-								<span>{isInStock ? 'Add to Cart' : 'Sold Out'}</span>
+								<span>Add to Cart</span>
 							</motion.button>
 
 							{/* Trust Badges */}
@@ -257,11 +194,11 @@ export default function BPC1575mgPage() {
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Cas No:</span>
-									<span className="text-muted-foreground">137525-51-0</span>
+									<span className="text-muted-foreground">Not applicable</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Molecular Formula:</span>
-									<span className="text-muted-foreground">C₆₂H₉₈N₁₆O₂₂</span>
+									<span className="text-muted-foreground">C<sub>16</sub>H<sub>30</sub>N<sub>4</sub>O<sub>4</sub></span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Physical State:</span>
@@ -287,9 +224,8 @@ export default function BPC1575mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from 
-								body protection compound found in gastric juice. This research-grade peptide 
-								is designed for scientific studies and laboratory research purposes only.
+								KPV (Lysine-Proline-Valine) is a tripeptide known for its anti-inflammatory properties. 
+								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
 							</p>
 						</motion.div>
 					</div>

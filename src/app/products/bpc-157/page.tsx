@@ -15,7 +15,7 @@ export default function BPC157Page() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC 5mgnew-new.png', inStock: false },
+		{ value: '5mg', price: 49.99, originalPrice: 89.99, image: '/products/bpc-157/BPC-157 5mg.png', inStock: false },
 		{ value: '10mg', price: 89.99, originalPrice: 119.99, image: '/products/bpc-157/BPC 10mgnew-new.png', inStock: true }
 	]
 
