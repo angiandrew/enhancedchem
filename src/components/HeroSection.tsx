@@ -18,7 +18,7 @@ export function HeroSection() {
       </div>
 
       {/* Text Content - Overlay on top of banner */}
-      <div className="absolute inset-0 z-10 container mx-auto px-6 flex items-end pb-40">
+      <div className="absolute inset-0 z-10 container mx-auto px-6 flex items-end pb-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ export function HeroSection() {
       </div>
 
       {/* Trust Badges - Positioned at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 pb-8">
+      <div className="absolute bottom-0 left-0 right-0 z-10 pb-0">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-3 gap-6 max-w-md">
             <motion.div
