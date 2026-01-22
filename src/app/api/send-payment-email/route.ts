@@ -184,6 +184,64 @@ function getPaymentInstructions(
 				</div>
 			`
 		},
+		cashapp: {
+			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
+			html: `
+				<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+					<h1 style="color: #00d632; border-bottom: 2px solid #00d632; padding-bottom: 10px;">
+						Payment Instructions - CashApp
+					</h1>
+					<p style="font-size: 16px; color: #333; margin-top: 20px;">
+						Thank you for your order! Your order number is: <strong style="color: #00d632;">${orderNumber}</strong>
+					</p>
+					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+						<h2 style="color: #00d632; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+							<thead>
+								<tr style="border-bottom: 2px solid #00d632;">
+									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
+									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
+									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								${itemsListHTML}
+							</tbody>
+						</table>
+						<div style="border-top: 2px solid #00d632; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #00d632;">
+								<span>Total Amount Due:</span>
+								<span>$${totalFormatted}</span>
+							</div>
+						</div>
+					</div>
+					
+					${shippingAddressHTML}
+					
+					<div style="background-color: #f3f4f6; border-left: 4px solid #00d632; padding: 15px; margin: 20px 0;">
+						<h2 style="color: #00d632; margin-top: 0;">How to Complete Your Payment:</h2>
+						<ol style="color: #333; line-height: 1.8;">
+							<li>Open your CashApp app</li>
+							<li>Send payment to: <strong>$enhancedchem</strong></li>
+							<li>Send the exact amount: <strong style="color: #00d632;">$${totalFormatted}</strong></li>
+							<li>Include your order number <strong>${orderNumber}</strong> in the "For" field. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR PEPTIDES.</strong></li>
+						</ol>
+					</div>
+					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
+						<p style="margin: 0; color: #92400e;">
+							<strong>Important:</strong> Please include ONLY your order number <strong>${orderNumber}</strong> in the "For" field and send exactly <strong>$${totalFormatted}</strong> to ensure prompt processing.
+						</p>
+					</div>
+					<p style="color: #666; font-size: 14px; margin-top: 30px;">
+						Once we receive your payment, your order will be processed within 1-2 business days.
+						You&apos;ll receive tracking information via email once your order ships.
+					</p>
+					<p style="color: #666; font-size: 14px; margin-top: 20px;">
+						Questions? Contact us at support@enhancedchem.com
+					</p>
+				</div>
+			`
+		},
 		venmo: {
 			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
 			html: `

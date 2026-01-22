@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Image from 'next/image'
 import { useCart } from '@/contexts/CartContext'
 import { Check } from 'lucide-react'
 
@@ -27,7 +26,7 @@ export default function CartPreview() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed top-16 left-4 right-4 sm:left-auto sm:right-6 sm:top-20 z-50 bg-card border border-border rounded-lg shadow-lg p-3 sm:p-4 w-auto sm:min-w-[280px] sm:max-w-[320px]"
+          className="fixed top-24 md:top-28 left-4 right-4 sm:left-auto sm:right-6 z-[100] bg-card border-2 border-border rounded-lg shadow-xl p-3 sm:p-4 w-auto sm:min-w-[280px] sm:max-w-[320px] backdrop-blur-sm"
         >
           <div className="flex items-start gap-3">
             {/* Check Icon */}
@@ -45,12 +44,11 @@ export default function CartPreview() {
               <div className="flex items-center gap-3">
                 {/* Product Image */}
                 <div className="relative w-12 h-12 flex-shrink-0 bg-secondary/30 rounded overflow-hidden">
-                  <Image
+                  <img
                     src={lastAddedItem.image}
                     alt={lastAddedItem.name}
-                    width={48}
-                    height={48}
                     className="w-full h-full object-contain p-1"
+                    loading="lazy"
                   />
                 </div>
                 

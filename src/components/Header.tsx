@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/contexts/CartContext'
+import DiscountBanner from './DiscountBanner'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -21,6 +22,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+      <DiscountBanner />
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -34,8 +36,9 @@ export default function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-serif text-xl font-medium tracking-tight">
-              ENHANCEDCHEM
+            <span className="font-serif text-xl tracking-tight">
+              <span className="font-semibold">ENHANCED</span>
+              <span className="font-normal">CHEM</span>
             </span>
           </Link>
 

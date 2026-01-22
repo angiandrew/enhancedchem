@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
@@ -50,9 +49,9 @@ export default function ProductCard({
 
   return (
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="group bg-card rounded-xl border border-border/50 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col backdrop-blur-sm"
+      className="group bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col backdrop-blur-sm"
     >
       {/* Image Container */}
       <div className="relative aspect-square bg-gradient-to-br from-secondary/30 to-secondary/10 overflow-hidden">
@@ -60,73 +59,55 @@ export default function ProductCard({
           <Image
             src={image}
             alt={name}
-            width={300}
-            height={300}
-            className={`w-full h-full object-contain p-4 transition-transform duration-500 ${
-              inStock ? 'group-hover:scale-105' : 'opacity-60'
+            width={200}
+            height={200}
+            className={`w-full h-full object-contain p-2 sm:p-3 transition-transform duration-500 ${
+              inStock ? 'group-hover:scale-105' : 'opacity-75'
             }`}
+            unoptimized
           />
         </Link>
         
         {/* Sold Out Overlay */}
         {!inStock && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
-            <Badge className="bg-red-600 text-white text-sm font-bold px-4 py-2">
-              SOLD OUT
+          <div className="absolute inset-0 bg-background/60 flex items-center justify-center z-10">
+            <Badge className="bg-muted/90 text-muted-foreground text-[10px] font-medium px-2 py-1 border border-border/50">
+              Sold Out
             </Badge>
           </div>
         )}
         
         {/* Badges */}
         {badge && inStock && (
-          <Badge className="absolute top-3 left-3 bg-primary/95 backdrop-blur-sm text-primary-foreground text-xs font-semibold px-2.5 py-1 shadow-md z-20">
+          <Badge className="absolute top-2 left-2 bg-primary/95 backdrop-blur-sm text-primary-foreground text-[10px] font-semibold px-2 py-0.5 shadow-md z-20">
             {badge}
           </Badge>
         )}
         {discount > 0 && inStock && (
-          <Badge className="absolute top-3 right-3 bg-gold/95 backdrop-blur-sm text-gold-foreground text-xs font-semibold px-2.5 py-1 shadow-md z-20">
-            -{discount}%
+          <Badge className="absolute top-2 right-2 bg-muted/90 backdrop-blur-sm text-muted-foreground text-[10px] font-medium px-2 py-0.5 border border-border/50 z-20">
+            Save {discount}%
           </Badge>
         )}
         {!inStock && (
-          <Badge className="absolute top-3 right-3 bg-destructive/95 backdrop-blur-sm text-destructive-foreground text-xs font-semibold px-2.5 py-1 shadow-md z-20">
-            OUT
+          <Badge className="absolute top-2 right-2 bg-muted/90 backdrop-blur-sm text-muted-foreground text-[10px] font-medium px-2 py-0.5 border border-border/50 z-20">
+            Out of Stock
           </Badge>
         )}
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col bg-card">
+      <div className="p-3 sm:p-4 flex flex-col bg-card">
         <Link href={`/products/${id}`} className="group/link">
-          <h3 className="font-serif text-base font-medium mb-2 text-foreground group-hover/link:text-primary transition-colors">{name}</h3>
-          <p className="text-xs text-muted-foreground mb-4 line-clamp-2 leading-relaxed min-h-[2.5rem]">{description}</p>
+          <h3 className="font-serif text-sm font-medium mb-1 text-foreground group-hover/link:text-primary transition-colors line-clamp-1">{name}</h3>
+          <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2 leading-relaxed min-h-[2rem]">{description}</p>
         </Link>
 
-        {/* Rating */}
-        <div className="flex items-center gap-1.5 mb-4">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`w-3.5 h-3.5 transition-colors ${
-                  i < Math.floor(rating)
-                    ? 'text-gold fill-gold'
-                    : 'text-border/40'
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-muted-foreground font-medium">
-            ({reviews})
-          </span>
-        </div>
-
         {/* Price & Action */}
-        <div className="flex items-center justify-between gap-3 mt-auto pt-4 border-t border-border/30">
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-semibold text-foreground">${price.toFixed(2)}</span>
+        <div className="flex items-center justify-between gap-2 mt-auto pt-2 sm:pt-3 border-t border-border/30">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-sm sm:text-base font-semibold text-foreground">${price.toFixed(2)}</span>
             {originalPrice && (
-              <span className="text-xs text-muted-foreground line-through font-medium">
+              <span className="text-[10px] text-muted-foreground line-through font-medium">
                 ${originalPrice.toFixed(2)}
               </span>
             )}
@@ -136,7 +117,7 @@ export default function ProductCard({
             size="sm" 
             onClick={handleAddToCart} 
             disabled={!inStock}
-            className={`text-xs px-4 py-2 font-medium transition-all ${
+            className={`text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 font-medium transition-all ${
               !inStock ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
             }`}
           >

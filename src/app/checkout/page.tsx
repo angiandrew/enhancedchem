@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle, ArrowUp } from 'lucide-react'
+import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle, ArrowUp, Tag, X } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
@@ -40,6 +39,9 @@ export default function CheckoutPage() {
 	const [orderTotal, setOrderTotal] = useState(0)
 	const [selectedPaymentMethodName, setSelectedPaymentMethodName] = useState('')
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [promoCode, setPromoCode] = useState('')
+	const [promoApplied, setPromoApplied] = useState(false)
+	const [promoError, setPromoError] = useState('')
 	
 	// Shipping Address State
 	const [fullName, setFullName] = useState('')
@@ -62,6 +64,37 @@ export default function CheckoutPage() {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 		return emailRegex.test(email.trim())
 	}
+	
+	// Promo code logic
+	const validPromoCodes: Record<string, number> = {
+		'ECNA10': 0.10, // 10% discount
+	}
+	
+	const handlePromoCode = () => {
+		if (!promoCode?.trim()) {
+			setPromoApplied(false)
+			setPromoError('Please enter a promo code')
+			return
+		}
+		const code = promoCode.trim().toUpperCase()
+		if (validPromoCodes[code]) {
+			setPromoApplied(true)
+			setPromoError('')
+		} else {
+			setPromoApplied(false)
+			setPromoError('Invalid promo code')
+		}
+	}
+
+	// Calculate totals with promo discount
+	const subtotal = totalPrice
+	const tax = totalPrice * 0.07
+	const orderSubtotal = subtotal + shippingCost + tax
+	const promoCodeUpper = promoCode?.trim().toUpperCase() || ''
+	const promoDiscount = promoApplied && promoCodeUpper && validPromoCodes[promoCodeUpper] 
+		? orderSubtotal * validPromoCodes[promoCodeUpper]
+		: 0
+	const finalTotal = orderSubtotal - promoDiscount
 
 	const isEmailValid = isValidEmail(customerEmail)
 	const isAlternativeComplete = isEmailValid && selectedAlternativeMethod !== ''
@@ -87,9 +120,21 @@ export default function CheckoutPage() {
 		// Prevent multiple submissions
 		setIsSubmitting(true)
 
-		// Calculate and save order total before clearing cart
-		const finalTotal = totalPrice + shippingCost + (totalPrice * 0.07)
-		const paymentMethodName = selectedAlternativeMethod === 'zelle' ? 'Zelle' : selectedAlternativeMethod === 'bitcoin' ? 'Bitcoin' : 'Venmo'
+		// Calculate and save order total before clearing cart (with promo discount)
+		const subtotalCalc = totalPrice + shippingCost + (totalPrice * 0.07)
+		const promoCodeUpper = promoCode?.trim().toUpperCase() || ''
+		const promoDiscountCalc = promoApplied && promoCodeUpper && validPromoCodes[promoCodeUpper] 
+			? subtotalCalc * validPromoCodes[promoCodeUpper]
+			: 0
+		const finalTotal = subtotalCalc - promoDiscountCalc
+		// Prevent Venmo selection
+		if (selectedAlternativeMethod === 'venmo') {
+			alert('Venmo is currently unavailable. Please select another payment method.')
+			setIsSubmitting(false)
+			return
+		}
+		
+		const paymentMethodName = selectedAlternativeMethod === 'zelle' ? 'Zelle' : selectedAlternativeMethod === 'bitcoin' ? 'Bitcoin' : selectedAlternativeMethod === 'cashapp' ? 'CashApp' : 'Venmo'
 		
 		// Show success page immediately (order number will be set from API response)
 		setOrderTotal(finalTotal)
@@ -107,7 +152,9 @@ export default function CheckoutPage() {
 				body: JSON.stringify({
 					email: customerEmail,
 					paymentMethod: selectedAlternativeMethod,
-					orderTotal: totalPrice + shippingCost + (totalPrice * 0.07),
+					orderTotal: finalTotal,
+					promoCode: promoApplied && promoCode?.trim() ? promoCode.trim().toUpperCase() : null,
+					promoDiscount: promoApplied ? promoDiscountCalc : 0,
 					items: items.map(item => ({
 						name: item.name,
 						quantity: item.quantity,
@@ -153,7 +200,7 @@ export default function CheckoutPage() {
 		return (
 			<div className="min-h-screen bg-background">
 				<Header />
-				<main className="pt-24 pb-16">
+				<main className="pt-32 md:pt-36 pb-16">
 					<div className="container mx-auto px-6">
 						<div className="text-center max-w-2xl mx-auto">
 							<h1 className="font-serif text-3xl md:text-4xl font-medium mb-4">
@@ -178,7 +225,7 @@ export default function CheckoutPage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
-			<main className="pt-20 sm:pt-24 pb-8 sm:pb-16">
+			<main className="pt-32 md:pt-36 pb-8 sm:pb-16">
 				<div className="container mx-auto px-4 sm:px-6">
 					{orderCompleted ? (
 						// Full Page Success Message
@@ -425,14 +472,19 @@ export default function CheckoutPage() {
 									{items.map((item) => (
 										<div key={item.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 sm:p-4 border-2 border-border bg-secondary/50 rounded-lg hover:border-primary hover:shadow-md transition-all">
 											<div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-												<div className="w-16 h-16 sm:w-20 sm:h-20 bg-secondary/30 rounded-lg flex items-center justify-center border border-border overflow-hidden shrink-0">
-													<Image
-														src={item.image}
-														alt={item.name}
-														width={80}
-														height={80}
-														className="object-contain rounded-lg max-w-full max-h-full p-1 sm:p-2"
-													/>
+												<div className="w-16 h-16 sm:w-20 sm:h-20 bg-secondary/30 rounded-lg flex items-center justify-center border border-border overflow-hidden shrink-0 relative">
+													{item.image && (
+														<img
+															src={item.image}
+															alt={item.name}
+															className="object-contain rounded-lg max-w-full max-h-full p-1 sm:p-2 w-full h-full"
+															loading="lazy"
+															onError={(e) => {
+																console.error('Image failed to load:', item.image, item.name)
+																e.currentTarget.src = '/logos/NEW-new LOGO.png'
+															}}
+														/>
+													)}
 												</div>
 												<div className="flex-1 min-w-0">
 													<h3 className="font-medium text-sm sm:text-base truncate">{item.name}</h3>
@@ -665,10 +717,10 @@ export default function CheckoutPage() {
 												? 'bg-purple-200 border-purple-400' 
 												: 'bg-secondary/50 border-border'
 										}`}>
-											<p className={`text-xs sm:text-sm font-medium break-words ${
+											<p className={`text-xs sm:text-sm font-medium ${
 												selectedAlternativeMethod === 'zelle' ? 'text-purple-950' : ''
 											}`}>
-												Send payment to <strong className="break-all">enhancedchem4@gmail.com</strong> via Zelle. Include your order number in the memo.
+												Payment instructions will be sent to your email after order submission. ONLY include your order number when sending payment.
 											</p>
 										</div>
 									</div>
@@ -702,7 +754,7 @@ export default function CheckoutPage() {
 											<p className={`text-xs sm:text-sm font-medium ${
 												selectedAlternativeMethod === 'bitcoin' ? 'text-orange-950' : ''
 											}`}>
-												Send Bitcoin to the address below. Payment will be confirmed once we receive 3 confirmations on the blockchain.
+												Payment instructions will be sent to your email after order submission. ONLY include your order number when sending payment.
 											</p>
 										</div>
 										<div>
@@ -722,52 +774,60 @@ export default function CheckoutPage() {
 										</div>
 									</div>
 
-									{/* Venmo */}
+									{/* CashApp */}
 									<div 
-										onClick={() => setSelectedAlternativeMethod('venmo')}
+										onClick={() => setSelectedAlternativeMethod('cashapp')}
 										className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${
-											selectedAlternativeMethod === 'venmo' 
-												? 'border-blue-600 bg-blue-100 shadow-lg' 
-												: 'border-border hover:border-blue-400 hover:bg-blue-50'
+											selectedAlternativeMethod === 'cashapp' 
+												? 'border-green-600 bg-green-100 shadow-lg' 
+												: 'border-border hover:border-green-400 hover:bg-green-50'
 										}`}
 									>
 										<div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-wrap">
 											<div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-												selectedAlternativeMethod === 'venmo' ? 'border-blue-700 bg-blue-200' : 'border-border'
+												selectedAlternativeMethod === 'cashapp' ? 'border-green-700 bg-green-200' : 'border-border'
 											}`}>
-												{selectedAlternativeMethod === 'venmo' && (
-													<div className="w-3 h-3 bg-blue-700 rounded-full"></div>
+												{selectedAlternativeMethod === 'cashapp' && (
+													<div className="w-3 h-3 bg-green-700 rounded-full"></div>
 												)}
 											</div>
-											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold shadow-md shrink-0">V</div>
-											<span className="font-bold text-sm sm:text-base">Venmo</span>
-											<span className="text-xs text-muted-foreground ml-auto">Mobile payment</span>
+											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-green-600 rounded text-white text-xs flex items-center justify-center font-bold shadow-md shrink-0">$</div>
+											<span className="font-bold text-sm sm:text-base">CashApp</span>
+											<span className="text-xs text-muted-foreground ml-auto">Instant payment</span>
 										</div>
-										<div className={`rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 border-2 ${
-											selectedAlternativeMethod === 'venmo' 
-												? 'bg-blue-200 border-blue-400' 
+										<div className={`rounded-lg p-2 sm:p-3 border-2 ${
+											selectedAlternativeMethod === 'cashapp' 
+												? 'bg-green-200 border-green-400' 
 												: 'bg-secondary/50 border-border'
 										}`}>
 											<p className={`text-xs sm:text-sm font-medium ${
-												selectedAlternativeMethod === 'venmo' ? 'text-blue-950' : ''
+												selectedAlternativeMethod === 'cashapp' ? 'text-green-950' : ''
 											}`}>
-												Send payment to <strong>@EnhancedChem</strong> on Venmo. Please include your order number in the payment note.
+												Payment instructions will be sent to your email after order submission. ONLY include your order number when sending payment.
 											</p>
 										</div>
-										<div>
-											<label className="block text-xs sm:text-sm font-medium mb-2">
-												Venmo Username
-											</label>
-											<Input
-												type="text"
-												value="@EnhancedChem"
-												readOnly
-												className={`${
-													selectedAlternativeMethod === 'venmo' 
-														? 'bg-blue-200 border-blue-400' 
-														: 'bg-secondary'
-												}`}
-											/>
+									</div>
+
+									{/* Venmo */}
+									<div 
+										className="border-2 rounded-lg p-3 sm:p-4 cursor-not-allowed transition-all opacity-50 grayscale relative"
+									>
+										<div className="absolute top-3 right-3 z-10">
+											<span className="bg-muted-foreground/90 text-background text-xs font-medium px-2.5 py-1 rounded-full border border-border/50">
+												Currently Unavailable
+											</span>
+										</div>
+										<div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-wrap">
+											<div className="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 border-border">
+											</div>
+											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-muted-foreground/40 rounded text-muted-foreground text-xs flex items-center justify-center font-bold shrink-0">V</div>
+											<span className="font-bold text-sm sm:text-base text-muted-foreground">Venmo</span>
+											<span className="text-xs text-muted-foreground ml-auto">Mobile payment</span>
+										</div>
+										<div className="rounded-lg p-2 sm:p-3 border-2 bg-secondary/50 border-border">
+											<p className="text-xs sm:text-sm font-medium text-muted-foreground">
+												Payment instructions will be sent to your email after order submission. ONLY include your order number when sending payment.
+											</p>
 										</div>
 									</div>
 								</div>
@@ -842,6 +902,69 @@ export default function CheckoutPage() {
 											)}
 										</div>
 										
+										{/* Promo Code Section */}
+										<div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-border">
+											<label className="block text-sm font-medium mb-2 flex items-center gap-2">
+												<Tag className="w-4 h-4 text-muted-foreground" />
+												Promo Code
+											</label>
+											<div className="flex gap-2">
+												<Input
+													type="text"
+													value={promoCode}
+													onChange={(e) => {
+														setPromoCode(e.target.value)
+														setPromoError('')
+														if (promoApplied) setPromoApplied(false)
+													}}
+													onKeyDown={(e) => {
+														if (e.key === 'Enter') {
+															e.preventDefault()
+															handlePromoCode()
+														}
+													}}
+													placeholder="Enter promo code"
+													className={`flex-1 uppercase ${promoApplied ? 'border-green-500 bg-green-50' : promoError ? 'border-red-500' : ''}`}
+													disabled={promoApplied}
+												/>
+												{promoApplied ? (
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														onClick={() => {
+															setPromoCode('')
+															setPromoApplied(false)
+															setPromoError('')
+														}}
+														className="shrink-0"
+													>
+														<X className="w-4 h-4" />
+													</Button>
+												) : (
+													<Button
+														type="button"
+														variant="elegant"
+														size="sm"
+														onClick={handlePromoCode}
+														disabled={!promoCode.trim()}
+														className="shrink-0"
+													>
+														Apply
+													</Button>
+												)}
+											</div>
+											{promoError && (
+												<p className="text-xs text-red-600 mt-1 font-medium">{promoError}</p>
+											)}
+											{promoApplied && (
+												<p className="text-xs text-green-600 mt-1 font-medium flex items-center gap-1">
+													<CheckCircle className="w-3 h-3" />
+													Promo code applied! {promoCode?.trim() && validPromoCodes[promoCode.trim().toUpperCase()] ? Math.round(validPromoCodes[promoCode.trim().toUpperCase()] * 100) : 10}% discount
+												</p>
+											)}
+										</div>
+										
 										<div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
 											<div className="flex justify-between">
 												<span className="text-muted-foreground">Subtotal ({totalItems} items)</span>
@@ -862,12 +985,18 @@ export default function CheckoutPage() {
 											</div>
 											<div className="flex justify-between">
 												<span className="text-muted-foreground">Tax</span>
-												<span className="font-medium">${formatPrice(totalPrice * 0.07)}</span>
+												<span className="font-medium">${formatPrice(tax)}</span>
 											</div>
+											{promoApplied && promoDiscount > 0 && (
+												<div className="flex justify-between text-green-600">
+													<span className="font-medium">Promo Discount ({promoCode?.trim().toUpperCase() || ''})</span>
+													<span className="font-medium">-${formatPrice(promoDiscount)}</span>
+												</div>
+											)}
 											<div className="border-t border-border pt-3">
 												<div className="flex justify-between text-lg font-semibold">
 													<span>Total</span>
-													<span>${formatPrice(totalPrice + shippingCost + (totalPrice * 0.07))}</span>
+													<span>${formatPrice(finalTotal)}</span>
 												</div>
 											</div>
 										</div>

@@ -30,19 +30,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 	// Load cart from localStorage on mount
 	useEffect(() => {
-		const savedCart = localStorage.getItem('enhanced-chem-cart')
-		if (savedCart) {
-			try {
-				setItems(JSON.parse(savedCart))
-			} catch (error) {
-				console.error('Error loading cart from localStorage:', error)
+		if (typeof window !== 'undefined') {
+			const savedCart = localStorage.getItem('enhanced-chem-cart')
+			if (savedCart) {
+				try {
+					setItems(JSON.parse(savedCart))
+				} catch (error) {
+					console.error('Error loading cart from localStorage:', error)
+				}
 			}
 		}
 	}, [])
 
 	// Save cart to localStorage whenever items change
 	useEffect(() => {
-		localStorage.setItem('enhanced-chem-cart', JSON.stringify(items))
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('enhanced-chem-cart', JSON.stringify(items))
+		}
 	}, [items])
 
 	const addItem = (newItem: Omit<CartItem, 'quantity'>) => {

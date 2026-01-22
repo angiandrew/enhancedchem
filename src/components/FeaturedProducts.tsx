@@ -8,23 +8,11 @@ import { ArrowRight } from 'lucide-react'
 
 const products = [
   {
-    id: 'bpc-157-5mg',
-    name: 'BPC-157 5mg',
-    description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
-    price: 49.99,
-    originalPrice: 89.99,
-    image: '/products/bpc-157/BPC-157 5mg.png',
-    rating: 5,
-    reviews: 127,
-    badge: 'Best Seller',
-    inStock: false,
-  },
-  {
     id: 'tb-500',
     name: 'TB-500 10mg',
     description: 'Thymosin Beta-4 fragment for research applications. Premium quality peptide.',
-    price: 149.99,
-    originalPrice: 199.99,
+    price: 44.99,
+    originalPrice: 49.99,
     image: '/products/tb-500/TB-500 10mg.png',
     rating: 5,
     reviews: 89,
@@ -34,11 +22,34 @@ const products = [
     id: 'ghk-cu',
     name: 'GHK-CU 50mg',
     description: 'Copper peptide complex for advanced research. Laboratory-grade purity.',
-    price: 129.99,
-    originalPrice: 169.99,
+    price: 54.99,
+    originalPrice: 61.99,
     image: '/products/ghk-cu/GHK-Cu 50mg.png',
     rating: 4.8,
     reviews: 64,
+  },
+  {
+    id: 'mix-peptide',
+    name: 'GLOW 70mg',
+    description: 'Premium peptide blend combining GHK-Cu, BPC-157, and TB-500 for comprehensive research.',
+    price: 88.99,
+    originalPrice: 99.99,
+    image: '/products/bpc-tb-ghk-mix/GLOW70.png',
+    rating: 5,
+    reviews: 42,
+    badge: 'New',
+  },
+  {
+    id: 'bpc-157-5mg',
+    name: 'BPC-157 5mg',
+    description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
+    price: 34.99,
+    originalPrice: 38.99,
+    image: '/products/bpc-157/BPC-157 5mg.png',
+    rating: 5,
+    reviews: 127,
+    badge: 'Best Seller',
+    inStock: false,
   },
 ]
 
@@ -63,7 +74,7 @@ export function FeaturedProducts() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
           {products.map((product, index) => (
             <motion.div
               key={product.id}

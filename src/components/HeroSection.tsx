@@ -7,18 +7,24 @@ import Link from 'next/link'
 
 export function HeroSection() {
   return (
-    <section className="relative w-full">
-      {/* Background Image */}
-      <div className="relative w-full">
+    <section className="relative w-full mt-20 md:mt-24">
+      {/* Background Image Container */}
+      <div className="relative w-full bg-background">
         <img
           src="/logos/NEW NEW banner new.png"
           alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
-          className="w-full h-auto object-contain"
+          className="w-full h-auto object-contain object-center block"
+          style={{ 
+            maxHeight: 'none', 
+            height: 'auto',
+            width: '100%',
+            display: 'block'
+          }}
         />
       </div>
 
       {/* Text Content - Overlay on top of banner */}
-      <div className="absolute inset-0 z-10 container mx-auto px-6 flex items-end pb-32">
+      <div className="absolute inset-0 z-10 container mx-auto px-6 flex items-end pb-8 md:pb-16 lg:pb-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

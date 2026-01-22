@@ -27,7 +27,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
+      <main className="pt-32 md:pt-36 pb-16">
         <div className="container mx-auto px-6">
           {/* Page Header */}
           <motion.div
