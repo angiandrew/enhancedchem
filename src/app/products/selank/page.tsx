@@ -47,29 +47,28 @@ export default function SelankPage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
 						{/* Product Image */}
 						<motion.div 
-							className="sticky top-28 flex justify-center lg:justify-start"
+							className="sticky top-28 flex justify-center lg:justify-start pt-8 lg:pt-12"
 							initial={{ opacity: 0, x: -20 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
 						>
-							<div className="relative w-full max-w-lg bg-card rounded-2xl p-8 shadow-lg border border-border/50">
-								<motion.div
-									initial={{ opacity: 0, scale: 0.95 }}
-									animate={{ opacity: 1, scale: 1 }}
-									transition={{ duration: 0.3 }}
-									className="relative aspect-square"
-								>
-									<Image
-										src={currentImage}
-										alt="Selank 10mg"
-										fill
-										className="object-contain rounded-lg"
-										priority
-										unoptimized
-										key={currentImage}
-									/>
-								</motion.div>
-							</div>
+							<motion.div
+								initial={{ opacity: 0, scale: 0.95 }}
+								animate={{ opacity: 1, scale: 1 }}
+								transition={{ duration: 0.3 }}
+								className="relative w-full flex justify-center"
+							>
+								<Image
+									src={currentImage}
+									alt="Selank 10mg"
+									width={600}
+									height={600}
+									className="object-contain"
+									priority
+									unoptimized
+									key={currentImage}
+								/>
+							</motion.div>
 						</motion.div>
 
 						{/* Product Info */}
@@ -202,7 +201,7 @@ export default function SelankPage() {
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Molecular Formula:</span>
-									<span className="text-muted-foreground">C₃₃H₅₇N₉O₁₃</span>
+									<span className="text-muted-foreground">C??H??N?O??</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Physical State:</span>
@@ -239,7 +238,7 @@ export default function SelankPage() {
 				<div className="mt-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="bg-red-50 border border-red-200 rounded-lg p-6">
 						<h3 className="text-lg font-semibold text-red-800 mb-2">
-							⚠️ Research Purposes Only
+							?? Research Purposes Only
 						</h3>
 						<p className="text-red-700">
 							This product is sold for research purposes only. Not for human consumption, 

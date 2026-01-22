@@ -9,19 +9,19 @@ import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-export default function SemaxPage() {
+export default function CJC1295NoDAC5mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
 	const currentPrice = 129.99
-	const currentOriginalPrice = 159.99
-	const currentImage = '/products/Semax/Semax 10mg.png'
+	const currentOriginalPrice = 179.99
+	const currentImage = '/products/CJC NO DAC/CJC1295 5mg NO DAC.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: 'semax',
-				name: 'Semax 10mg',
+				id: 'cjc-1295-no-dac-5mg',
+				name: 'CJC-1295 No DAC (5mg)',
 				price: currentPrice,
 				image: currentImage
 			})
@@ -40,7 +40,7 @@ export default function SemaxPage() {
 							<li>/</li>
 							<li><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li>/</li>
-							<li className="text-foreground font-medium">Semax 10mg</li>
+							<li className="text-foreground font-medium">CJC-1295 No DAC (5mg)</li>
 						</ol>
 					</nav>
 
@@ -60,7 +60,7 @@ export default function SemaxPage() {
 							>
 								<Image
 									src={currentImage}
-									alt="Semax 10mg"
+									alt="CJC-1295 No DAC (5mg)"
 									width={600}
 									height={600}
 									className="object-contain"
@@ -88,7 +88,7 @@ export default function SemaxPage() {
 
 							{/* Product Name */}
 							<h1 className="font-serif text-4xl md:text-5xl font-medium text-foreground">
-								Semax 10mg
+								CJC-1295 No DAC (5mg)
 							</h1>
 
 							{/* Price */}
@@ -197,11 +197,11 @@ export default function SemaxPage() {
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Cas No:</span>
-									<span className="text-muted-foreground">Not applicable</span>
+									<span className="text-muted-foreground">863288-34-0</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Molecular Formula:</span>
-									<span className="text-muted-foreground">C₃₇H₅₁N₉O₁₀S</span>
+									<span className="text-muted-foreground">C₁₅₂H₂₅₂N₄₄O₄₂</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Physical State:</span>
@@ -209,7 +209,7 @@ export default function SemaxPage() {
 								</div>
 								<div className="flex justify-between py-2">
 									<span className="font-medium text-foreground">Storage:</span>
-									<span className="text-muted-foreground">Room Temperature</span>
+									<span className="text-muted-foreground">Store at -20°C</span>
 								</div>
 							</div>
 						</motion.div>
@@ -223,12 +223,12 @@ export default function SemaxPage() {
 						>
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
+								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. 
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								Semax is a synthetic peptide analog of adrenocorticotropic hormone (ACTH) known for its 
-								neuroprotective properties. This research-grade peptide is designed for scientific studies 
+								CJC-1295 No DAC is a growth hormone-releasing hormone (GHRH) analog without the Drug Affinity Complex, 
+								providing shorter-acting effects. This research-grade peptide is designed for scientific studies 
 								and laboratory research purposes only.
 							</p>
 						</motion.div>
@@ -254,6 +254,3 @@ export default function SemaxPage() {
 		</div>
 	)
 }
-
-
-

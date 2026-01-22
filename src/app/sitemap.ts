@@ -22,6 +22,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'retatrutide',
     'melanotan-2',
     'klow-80mg',
+    'cjc-1295-5mg',
+    'cjc-1295',
+    'cjc-1295-no-dac-5mg',
+    'cjc-1295-no-dac',
+    'ipamorelin-cjc-1295-5mg',
   ]
 
   const routes = [
