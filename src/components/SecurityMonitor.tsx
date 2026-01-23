@@ -15,18 +15,19 @@ export default function SecurityMonitor() {
       }
 
       // Send to monitoring endpoint (you can implement this)
-      if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
-        // Only track in production
-        fetch('/api/analytics', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(sessionData),
-        }).catch(() => {
-          // Silently fail - don't break the user experience
-        })
-      }
+      // Disabled for now - endpoint not implemented
+      // if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+      //   // Only track in production
+      //   fetch('/api/analytics', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(sessionData),
+      //   }).catch(() => {
+      //     // Silently fail - don't break the user experience
+      //   })
+      // }
     }
 
     // Monitor on page load
