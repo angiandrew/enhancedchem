@@ -57,14 +57,37 @@ export default function CheckoutPage() {
 	// Affiliate tracking - purchases
 	useEffect(() => {
 		if (orderCompleted && orderNumber && orderTotal > 0) {
-			const affi_id_order = orderNumber
-			const affi_order_price = orderTotal.toFixed(2)
-			const affi_order_coupons = promoApplied && promoCode?.trim() ? promoCode.trim().toUpperCase() : ''
-			const url_affi = "https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=AF-1074129&conversion=1&id_order=" + encodeURIComponent(affi_id_order) + "&order_price=" + affi_order_price + "&order_coupons=" + affi_order_coupons
-			const script_affi = document.createElement("script")
-			script_affi.type = "text/javascript"
-			script_affi.src = url_affi
-			document.getElementsByTagName("head")[0].appendChild(script_affi)
+			// Wait a bit to ensure the visits script has loaded
+			const timer = setTimeout(() => {
+				// Use actual order data (not placeholders)
+				const affi_id_order = orderNumber // Unique order ID from API response
+				const affi_order_price = orderTotal.toFixed(2) // Actual order price (no currency sign)
+				const affi_order_coupons = promoApplied && promoCode?.trim() ? promoCode.trim().toUpperCase() : '' // Coupon code if used
+				
+				// Build the tracking URL exactly as specified
+				const url_affi = "https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=AF-1074129&conversion=1&id_order=" + encodeURIComponent(affi_id_order) + "&order_price=" + affi_order_price + "&order_coupons=" + encodeURIComponent(affi_order_coupons)
+				
+				// Check if script already exists to prevent duplicates
+				const existingScript = document.querySelector(`script[src*="affiliatly.js"][src*="conversion=1"]`)
+				if (existingScript) {
+					return // Script already loaded
+				}
+				
+				// Create and append the script exactly as specified
+				const script_affi = document.createElement("script")
+				script_affi.type = "text/javascript"
+				script_affi.src = url_affi
+				document.getElementsByTagName("head")[0].appendChild(script_affi)
+				
+				// Debug logging to verify data
+				console.log('Affiliate tracking fired:', {
+					orderId: affi_id_order,
+					orderPrice: affi_order_price,
+					coupons: affi_order_coupons
+				})
+			}, 500) // Small delay to ensure visits script is loaded
+			
+			return () => clearTimeout(timer)
 		}
 	}, [orderCompleted, orderNumber, orderTotal, promoApplied, promoCode])
 	
