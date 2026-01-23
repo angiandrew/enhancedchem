@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Mail, Phone } from 'lucide-react'
+import { Mail } from 'lucide-react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -65,22 +65,12 @@ export default function Contact() {
                     <p className="text-muted-foreground text-sm">contact@enhancedchem.com</p>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-1">Phone</h3>
-                    <p className="text-muted-foreground text-sm">+1 (555) 123-4567</p>
-                  </div>
-                </div>
               </div>
 
               <div className="p-6 bg-secondary/50 rounded-lg border border-border/40">
                 <h3 className="font-medium mb-2">Business Hours</h3>
                 <p className="text-sm text-muted-foreground">
-                  Monday - Friday: 9:00 AM - 6:00 PM PST<br />
+                  Monday - Friday: 9:00 AM - 6:00 PM EST<br />
                   Saturday - Sunday: Closed
                 </p>
               </div>

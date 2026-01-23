@@ -5,24 +5,33 @@ import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucid
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
 
-export default function KPV5mgPage() {
+export default function BpcTbMix10mgPage() {
+	const [selectedMG, setSelectedMG] = useState('10mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const currentPrice = 31.99
-	const currentOriginalPrice = 35.99
-	const currentImage = '/products/KPV/KPV 5mg.png'
+	const mgOptions = [
+		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png', inStock: true },
+		{ value: '10mg', price: 94.99, originalPrice: 105.99, image: '/products/bpc-tb-mix/BPC_TB Blend 10_10.png', inStock: true }
+	]
+
+	const currentOption = mgOptions.find(option => option.value === selectedMG)
+	const currentPrice = currentOption?.price || 94.99
+	const currentOriginalPrice = currentOption?.originalPrice || 105.99
+	const currentImage = currentOption?.image || '/products/bpc-tb-mix/BPC_TB Blend 10_10.png'
+	const isInStock = currentOption?.inStock ?? true
 
 	const handleAddToCart = () => {
+		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: 'kpv-5mg',
-				name: 'KPV 5mg',
+				id: `bpc-tb-mix-${selectedMG}`,
+				name: `BPC-157 + TB-500 Mix ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
 			})
@@ -32,7 +41,7 @@ export default function KPV5mgPage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
-			<ProductNavigation currentProductId="kpv-5mg" />
+			<ProductNavigation currentProductId="bpc-tb-mix-10mg" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
@@ -42,7 +51,7 @@ export default function KPV5mgPage() {
 							<li className="whitespace-nowrap">/</li>
 							<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li className="whitespace-nowrap">/</li>
-							<li className="text-foreground font-medium whitespace-nowrap">KPV 5mg</li>
+							<li className="text-foreground font-medium whitespace-nowrap">BPC-157 + TB-500 Mix {selectedMG}</li>
 						</ol>
 					</nav>
 
@@ -54,21 +63,25 @@ export default function KPV5mgPage() {
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
 						>
-							<motion.div
-								initial={{ opacity: 0, scale: 0.95 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ duration: 0.3 }}
-								className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
-							>
-								<Image
-									src={currentImage}
-									alt="KPV 5mg"
-									fill
-									className="object-contain p-8"
-									priority
-									unoptimized
-								/>
-							</motion.div>
+							<AnimatePresence mode="wait">
+								<motion.div
+									key={currentImage}
+									initial={{ opacity: 0, scale: 0.95 }}
+									animate={{ opacity: 1, scale: 1 }}
+									exit={{ opacity: 0, scale: 0.95 }}
+									transition={{ duration: 0.3 }}
+									className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
+								>
+									<Image
+										src={currentImage}
+										alt={`BPC-157 + TB-500 Mix ${selectedMG}`}
+										fill
+										className="object-contain p-8"
+										priority
+										unoptimized
+									/>
+								</motion.div>
+							</AnimatePresence>
 						</motion.div>
 
 						{/* Product Info */}
@@ -80,15 +93,26 @@ export default function KPV5mgPage() {
 						>
 							{/* Availability */}
 							<div className="flex items-center gap-2">
-								<CheckCircle className="w-4 h-4 text-green-600" />
-								<p className="text-xs text-muted-foreground">
-									<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
-								</p>
+								{isInStock ? (
+									<>
+										<CheckCircle className="w-4 h-4 text-green-600" />
+										<p className="text-xs text-muted-foreground">
+											<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
+										</p>
+									</>
+								) : (
+									<>
+										<div className="w-4 h-4 rounded-full bg-muted-foreground/40"></div>
+										<p className="text-xs text-muted-foreground">
+											<span className="text-muted-foreground font-medium">Sold Out</span>
+										</p>
+									</>
+								)}
 							</div>
 
 							{/* Product Name */}
 							<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
-								KPV 5mg
+								BPC-157 + TB-500 Mix {selectedMG}
 							</h1>
 
 							{/* Price */}
@@ -101,6 +125,38 @@ export default function KPV5mgPage() {
 										${currentOriginalPrice.toFixed(2)}
 									</span>
 								)}
+							</div>
+
+							{/* MG Selection */}
+							<div>
+								<label className="block text-xs font-medium text-foreground mb-2">
+							Select Strength:
+								</label>
+								<div className="flex gap-2">
+									{mgOptions.map((option) => (
+									<button
+										key={option.value}
+										onClick={() => setSelectedMG(option.value)}
+										disabled={!option.inStock && selectedMG !== option.value}
+										className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all relative ${
+											selectedMG === option.value
+												? option.inStock
+													? 'border-primary bg-primary/10 text-primary '
+													: 'border-border bg-muted/50 text-muted-foreground'
+												: option.inStock
+													? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
+													: 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+										}`}
+									>
+										{option.value}
+										{!option.inStock && (
+											<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+												OUT
+											</span>
+										)}
+									</button>
+									))}
+								</div>
 							</div>
 
 							{/* Quantity Selector */}
@@ -135,12 +191,17 @@ export default function KPV5mgPage() {
 							{/* Add to Cart Button */}
 							<motion.button
 								onClick={handleAddToCart}
-								whileHover={{ scale: 1.01 }}
-									whileTap={{ scale: 0.99 }}
-								className="w-full py-3 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg"
+								disabled={!isInStock}
+								whileHover={isInStock ? { scale: 1.01 } : {}}
+									whileTap={isInStock ? { scale: 0.99 } : {}}
+								className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-3 ${
+									isInStock
+										? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
+										: 'bg-muted text-muted-foreground cursor-not-allowed'
+								}`}
 							>
 								<ShoppingCart className="h-4 w-4" />
-								<span>Add to Cart</span>
+								<span>{isInStock ? 'Add to Cart' : 'Sold Out'}</span>
 							</motion.button>
 
 							{/* Trust Badges */}
@@ -190,11 +251,14 @@ export default function KPV5mgPage() {
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Cas No:</span>
-									<span className="text-muted-foreground">Not applicable</span>
+									<span className="text-muted-foreground">Multiple compounds</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Molecular Formula:</span>
-									<span className="text-muted-foreground">C<sub>16</sub>H<sub>30</sub>N<sub>4</sub>O<sub>4</sub></span>
+									<div className="text-muted-foreground text-right">
+										<div>BPC-157: C₆₂H₉₈N₁₆O₂₂</div>
+										<div>TB-500: C₂₁₂H₃₅₀N₅₆O₇₈S</div>
+									</div>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Physical State:</span>
@@ -220,8 +284,8 @@ export default function KPV5mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								KPV (Lysine-Proline-Valine) is a tripeptide known for its anti-inflammatory properties. 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+								This premium peptide blend combines BPC-157 and TB-500 for comprehensive research applications. 
+								Each component is carefully selected for its research-grade quality and scientific properties.
 							</p>
 						</motion.div>
 					</div>

@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ProductNavigation from '@/components/ProductNavigation'
 
 export default function MixPeptidePage() {
 	const [quantity, setQuantity] = useState(1)
@@ -31,6 +32,7 @@ export default function MixPeptidePage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
+			<ProductNavigation currentProductId="mix-peptide" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
@@ -47,7 +49,7 @@ export default function MixPeptidePage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
 						{/* Product Image */}
 						<motion.div 
-							className="sticky top-28 flex justify-center lg:justify-start pt-4 lg:pt-6"
+							className="sticky top-28"
 							initial={{ opacity: 0, x: -20 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
@@ -56,17 +58,15 @@ export default function MixPeptidePage() {
 								initial={{ opacity: 0, scale: 0.95 }}
 								animate={{ opacity: 1, scale: 1 }}
 								transition={{ duration: 0.3 }}
-								className="relative w-full flex justify-center max-w-md mx-auto"
+								className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
 							>
 								<Image
 									src={currentImage}
 									alt="GLOW 70mg"
-									width={400}
-									height={400}
-									className="object-contain"
+									fill
+									className="object-contain p-8"
 									priority
 									unoptimized
-									key={currentImage}
 								/>
 							</motion.div>
 						</motion.div>

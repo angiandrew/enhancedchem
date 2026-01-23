@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import { motion, AnimatePresence } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ProductNavigation from '@/components/ProductNavigation'
 
 export default function RetatrutidePage() {
 	const [selectedMG, setSelectedMG] = useState('10mg')
@@ -42,6 +43,7 @@ export default function RetatrutidePage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
+			<ProductNavigation currentProductId="retatrutide" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
@@ -58,7 +60,7 @@ export default function RetatrutidePage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
 						{/* Product Image */}
 						<motion.div 
-							className="sticky top-28 flex justify-center lg:justify-start pt-4 lg:pt-6"
+							className="sticky top-28"
 							initial={{ opacity: 0, x: -20 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
@@ -70,17 +72,15 @@ export default function RetatrutidePage() {
 									animate={{ opacity: 1, scale: 1 }}
 									exit={{ opacity: 0, scale: 0.95 }}
 									transition={{ duration: 0.3 }}
-									className="relative w-full flex justify-center max-w-md mx-auto"
+									className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
 								>
 									<Image
 										src={currentImage}
 										alt={`Retatrutide ${selectedMG}`}
-										width={400}
-										height={400}
-										className="object-contain"
+										fill
+										className="object-contain p-8"
 										priority
 										unoptimized
-										key={currentImage}
 									/>
 								</motion.div>
 							</AnimatePresence>
@@ -137,11 +137,6 @@ export default function RetatrutidePage() {
 								<div className="flex flex-wrap gap-2">
 									{mgOptions.map((option) => (
 									<div key={option.value} className="relative">
-										{option.value === '15mg' && option.badge && (
-											<span className="absolute -top-5 left-0 text-[10px] font-semibold text-primary whitespace-nowrap">
-												Limited Time Only
-											</span>
-										)}
 										<button
 											onClick={() => setSelectedMG(option.value)}
 											disabled={!option.inStock && selectedMG !== option.value}

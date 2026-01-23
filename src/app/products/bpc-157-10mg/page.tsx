@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ProductNavigation from '@/components/ProductNavigation'
 import { Button } from '@/components/ui/button'
 
 export default function BPC15710mgPage() {
@@ -52,6 +53,7 @@ export default function BPC15710mgPage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
+			<ProductNavigation currentProductId="bpc-157-10mg" />
 			<main className="container mx-auto px-6 pt-28 pb-16">
 				{/* Back Link */}
 				<motion.div
