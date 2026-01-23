@@ -14,7 +14,6 @@ const navLinks = [
   { href: '/products', label: 'Products' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/affiliate', label: 'Affiliate' },
 ]
 
 export default function Header() {
