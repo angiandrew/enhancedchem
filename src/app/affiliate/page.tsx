@@ -150,11 +150,47 @@ export default function AffiliatePage() {
 						</div>
 					</motion.div>
 
-					{/* CTA Section */}
+					{/* Affiliate Dashboard Section */}
 					<motion.div
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ delay: 0.4 }}
+						className="mb-16"
+					>
+						<div className="bg-card rounded-lg border border-border p-8 md:p-12 max-w-3xl mx-auto">
+							<h2 className="font-serif text-3xl font-medium mb-6 text-center">Affiliate Dashboard</h2>
+							<p className="text-muted-foreground text-center mb-6">
+								If you are not an affiliate yet, please{' '}
+								<a 
+									href="https://www.affiliatly.com/af-1074129/affiliate.panel?mode=register" 
+									target="_blank" 
+									rel="noopener noreferrer"
+									className="text-primary hover:underline font-medium"
+								>
+									click here and apply
+								</a>
+								.
+							</p>
+							<div className="text-center">
+								<a
+									href="https://www.affiliatly.com/af-1074129/affiliate.panel"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<Button variant="elegant" size="lg" className="gap-2">
+										Access Affiliate Dashboard
+										<ArrowRight className="w-4 h-4" />
+									</Button>
+								</a>
+							</div>
+						</div>
+					</motion.div>
+
+					{/* CTA Section */}
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.5 }}
 						className="text-center"
 					>
 						<div className="bg-primary/5 rounded-lg border-2 border-primary/20 p-8 md:p-12 max-w-2xl mx-auto">
@@ -173,9 +209,6 @@ export default function AffiliatePage() {
 									<ArrowRight className="w-4 h-4" />
 								</Button>
 							</a>
-							<p className="text-xs text-muted-foreground mt-4">
-								Already have an account? <a href="https://www.affiliatly.com/af-1074129/affiliate.panel" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Log in here</a>
-							</p>
 						</div>
 					</motion.div>
 
