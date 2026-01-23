@@ -243,8 +243,26 @@ export default function CheckoutPage() {
 				<div className="container mx-auto px-4 sm:px-6">
 					{orderCompleted ? (
 						// Full Page Success Message
-						<div className="max-w-4xl mx-auto">
-							<div className="text-center mb-12">
+						<>
+							{/* Affiliate Tracking - Purchases */}
+							{orderNumber && (
+								<script
+									dangerouslySetInnerHTML={{
+										__html: `
+											var affi_id_order = '${orderNumber}';
+											var affi_order_price = '${orderTotal.toFixed(2)}';
+											var affi_order_coupons = '${promoApplied && promoCode?.trim() ? promoCode.trim().toUpperCase() : ''}';
+											var url_affi = "https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=AF-1074129&conversion=1&id_order="+ encodeURIComponent( affi_id_order ) + "&order_price="+ affi_order_price +"&order_coupons=" + affi_order_coupons;
+											var script_affi = document.createElement("script");
+											script_affi.type = "text/javascript";
+											script_affi.src = url_affi;
+											document.getElementsByTagName("head")[0].appendChild(script_affi);
+										`
+									}}
+								/>
+							)}
+							<div className="max-w-4xl mx-auto">
+								<div className="text-center mb-12">
 								<div className="flex justify-center mb-6">
 									<div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center shadow-lg">
 										<CheckCircle className="w-12 h-12 text-green-600" />
@@ -307,6 +325,7 @@ export default function CheckoutPage() {
 								</div>
 							</div>
 						</div>
+						</>
 					) : (
 						<>
 							{/* Page Header */}

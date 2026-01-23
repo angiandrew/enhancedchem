@@ -109,6 +109,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Affiliate Tracking - Visits */}
+        <script src="https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=AF-1074129" async></script>
+      </head>
       <body className={`${playfairDisplay.variable} ${inter.variable} antialiased`}>
         <CartProvider>
           <AgeGate />
