@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import SecurityMonitor from "@/components/SecurityMonitor";
@@ -109,11 +110,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Affiliate Tracking - Visits */}
-        <script src="https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=AF-1074129" async></script>
-      </head>
       <body className={`${playfairDisplay.variable} ${inter.variable} antialiased`}>
+        {/* Affiliate Tracking - Visits */}
+        <Script
+          src="https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=AF-1074129"
+          strategy="afterInteractive"
+        />
         <CartProvider>
           <AgeGate />
           <SecurityMonitor />
