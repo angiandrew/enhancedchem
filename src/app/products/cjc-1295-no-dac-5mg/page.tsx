@@ -221,7 +221,7 @@ export default function CJC1295NoDAC5mgPage() {
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
 								CJC-1295 No DAC is a growth hormone-releasing hormone (GHRH) analog without the Drug Affinity Complex, 
-								providing shorter-acting effects. This research-grade peptide is designed for scientific studies 
+								with a shorter half-life profile. This research-grade peptide is designed for scientific studies 
 								and laboratory research purposes only.
 							</p>
 						</motion.div>

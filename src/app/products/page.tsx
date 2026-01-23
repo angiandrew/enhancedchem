@@ -34,7 +34,7 @@ const allProducts = [
   {
     id: 'tb-500-5mg',
     name: 'TB-500 5mg',
-    description: 'Thymosin Beta-4 fragment in smaller dosage for research applications. Premium quality peptide.',
+    description: 'Thymosin Beta-4 fragment in smaller concentration for research applications. Premium quality peptide.',
     price: 37.99,
     originalPrice: 42.99,
     image: '/products/tb-500/TB-500 5mg.png',
@@ -95,7 +95,7 @@ const allProducts = [
   {
     id: 'selank',
     name: 'Selank 10mg',
-    description: 'Synthetic peptide for research applications. Known for its anxiolytic and nootropic properties.',
+    description: 'Synthetic peptide analog of tuftsin for research applications. Laboratory-grade peptide for scientific studies.',
     price: 37.99,
     originalPrice: 42.99,
     image: '/products/Selank/Selank 10mg.png',

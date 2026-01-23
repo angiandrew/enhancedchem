@@ -220,7 +220,7 @@ export default function SelankPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								Selank is a synthetic peptide analog of tuftsin known for its anxiolytic and nootropic properties. 
+								Selank is a synthetic peptide analog of tuftsin. 
 								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
 							</p>
 						</motion.div>
