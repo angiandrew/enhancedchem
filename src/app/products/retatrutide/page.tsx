@@ -15,8 +15,10 @@ export default function RetatrutidePage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/Reta/Reta 5mg.png', inStock: true },
-		{ value: '10mg', price: 114.99, originalPrice: 127.99, image: '/products/Reta/Reta 10mg.png', inStock: true }
+		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/Reta/Reta 5mg.png', inStock: false },
+		{ value: '10mg', price: 114.99, originalPrice: 127.99, image: '/products/Reta/Reta 10mg.png', inStock: true },
+		{ value: '15mg', price: 164.99, originalPrice: 183.99, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
+		{ value: '20mg', price: 214.99, originalPrice: 239.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
@@ -29,7 +31,7 @@ export default function RetatrutidePage() {
 		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : ''}`,
+				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
 				name: `Retatrutide ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
@@ -132,29 +134,40 @@ export default function RetatrutidePage() {
 								<label className="block text-xs font-medium text-foreground mb-2">
 							Select Strength:
 								</label>
-								<div className="flex gap-2">
+								<div className="flex flex-wrap gap-2">
 									{mgOptions.map((option) => (
-									<button
-										key={option.value}
-										onClick={() => setSelectedMG(option.value)}
-										disabled={!option.inStock && selectedMG !== option.value}
-										className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all relative ${
-											selectedMG === option.value
-												? option.inStock
-													? 'border-primary bg-primary/10 text-primary '
-													: 'border-border bg-muted/50 text-muted-foreground'
-												: option.inStock
-													? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
-													: 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50'
-										}`}
-									>
-										{option.value}
-										{!option.inStock && (
-											<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
-												OUT
+									<div key={option.value} className="relative">
+										{option.value === '15mg' && option.badge && (
+											<span className="absolute -top-5 left-0 text-[10px] font-semibold text-primary whitespace-nowrap">
+												Limited Time Only
 											</span>
 										)}
-									</button>
+										<button
+											onClick={() => setSelectedMG(option.value)}
+											disabled={!option.inStock && selectedMG !== option.value}
+											className={`px-6 py-3 rounded-xl border-2 font-semibold transition-all relative ${
+												selectedMG === option.value
+													? option.inStock
+														? 'border-primary bg-primary/10 text-primary '
+														: 'border-border bg-muted/50 text-muted-foreground'
+													: option.inStock
+														? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
+														: 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+											}`}
+										>
+											{option.value}
+											{!option.inStock && (
+												<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+													OUT
+												</span>
+											)}
+											{option.badge && option.inStock && (
+												<span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+													{option.badge}
+												</span>
+											)}
+										</button>
+									</div>
 									))}
 								</div>
 							</div>

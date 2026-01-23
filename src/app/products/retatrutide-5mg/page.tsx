@@ -123,32 +123,38 @@ export default function Retatrutide5mgPage() {
 								</label>
 								<div className="flex flex-wrap gap-2">
 									{mgOptions.map((option) => (
-										<button
-											key={option.value}
-											onClick={() => setSelectedMG(option.value)}
-											disabled={!option.inStock && selectedMG !== option.value}
-											className={`relative px-6 py-3 rounded-xl border-2 font-semibold transition-all ${
-												selectedMG === option.value
-													? option.inStock
-														? 'border-primary bg-primary/10 text-primary'
-														: 'border-border bg-muted/50 text-muted-foreground'
-													: option.inStock
-													? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
-													: 'border-border bg-muted/30 text-muted-foreground opacity-50 cursor-not-allowed'
-											}`}
-										>
-											{option.value}
-											{!option.inStock && (
-												<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
-													OUT
+										<div key={option.value} className="relative">
+											{option.value === '15mg' && option.badge && (
+												<span className="absolute -top-5 left-0 text-[10px] font-semibold text-primary whitespace-nowrap">
+													Limited Time Only
 												</span>
 											)}
-											{option.badge && option.inStock && (
-												<span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[9px] px-1.5 py-0.5 rounded-full font-medium">
-													{option.badge}
-												</span>
-											)}
-										</button>
+											<button
+												onClick={() => setSelectedMG(option.value)}
+												disabled={!option.inStock && selectedMG !== option.value}
+												className={`relative px-6 py-3 rounded-xl border-2 font-semibold transition-all ${
+													selectedMG === option.value
+														? option.inStock
+															? 'border-primary bg-primary/10 text-primary'
+															: 'border-border bg-muted/50 text-muted-foreground'
+														: option.inStock
+														? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
+														: 'border-border bg-muted/30 text-muted-foreground opacity-50 cursor-not-allowed'
+												}`}
+											>
+												{option.value}
+												{!option.inStock && (
+													<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+														OUT
+													</span>
+												)}
+												{option.badge && option.inStock && (
+													<span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+														{option.badge}
+													</span>
+												)}
+											</button>
+										</div>
 									))}
 								</div>
 							</div>

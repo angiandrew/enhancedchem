@@ -1,48 +1,40 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Truck, Award, Lock, CheckCircle } from 'lucide-react'
+import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { Button } from '@/components/ui/button'
 
 export default function Retatrutide15mgPage() {
+	const [selectedMG, setSelectedMG] = useState('15mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const product = {
-		name: 'Retatrutide 15mg',
-		price: 164.99,
-		originalPrice: 183.99,
-		image: '/products/Reta/Reta 15mg.png',
-		description: 'Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. This research-grade peptide in 15mg concentration is designed for scientific studies and laboratory research purposes only.',
-		inStock: true,
-		label: 'Limited Time Offer',
-		discount: 10,
-		specs: {
-			purity: '≥98%',
-			molecularWeight: 'N/A',
-			sequence: 'Triple agonist (GLP-1, GIP, Glucagon)'
-		},
-		storage: {
-			temperature: 'Store at -20°C',
-			handling: 'Keep away from direct sunlight and moisture. Reconstitute with sterile water for research use.',
-			shelfLife: '24 months when stored properly'
-		}
-	}
+	const mgOptions = [
+		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/Reta/Reta 5mg.png', inStock: false },
+		{ value: '10mg', price: 114.99, originalPrice: 127.99, image: '/products/Reta/Reta 10mg.png', inStock: true },
+		{ value: '15mg', price: 164.99, originalPrice: 183.99, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
+		{ value: '20mg', price: 214.99, originalPrice: 239.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
+	]
+
+	const currentOption = mgOptions.find(option => option.value === selectedMG)
+	const currentPrice = currentOption?.price || 164.99
+	const currentOriginalPrice = currentOption?.originalPrice || 183.99
+	const currentImage = currentOption?.image || '/products/Reta/Reta 15mg.png'
+	const isInStock = currentOption?.inStock ?? false
 
 	const handleAddToCart = () => {
-		if (!product.inStock) return
+		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: 'retatrutide-15mg',
-				name: product.name,
-				price: product.price,
-				image: product.image
+				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
+				name: `Retatrutide ${selectedMG}`,
+				price: currentPrice,
+				image: currentImage
 			})
 		}
 	}
@@ -50,81 +42,158 @@ export default function Retatrutide15mgPage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
-			<main className="container mx-auto px-6 pt-36 pb-16">
-				{/* Breadcrumb */}
-				<nav className="mb-6 pt-4">
+			<main className="pt-36 pb-16">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					{/* Breadcrumb */}
+					<nav className="mb-6 pt-4">
 					<ol className="flex items-center space-x-2 text-sm text-muted-foreground flex-wrap gap-y-1">
-						<li className="whitespace-nowrap"><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
-						<li className="whitespace-nowrap">/</li>
-						<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
-						<li className="whitespace-nowrap">/</li>
-						<li className="text-foreground font-medium whitespace-nowrap">{product.name}</li>
-					</ol>
-				</nav>
+							<li className="whitespace-nowrap"><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+							<li className="whitespace-nowrap">/</li>
+							<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
+							<li className="whitespace-nowrap">/</li>
+							<li className="text-foreground font-medium whitespace-nowrap">Retatrutide {selectedMG}</li>
+						</ol>
+					</nav>
 
-				{/* Two-column Hero Grid */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5 }}
-					className="grid lg:grid-cols-2 gap-12 mb-16"
-				>
-					{/* Left Column - Product Image */}
-					<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-						<Image
-							src={product.image}
-							alt={product.name}
-							fill
-							className="object-contain p-8"
-							priority
-							unoptimized
-						/>
-						{/* Top-left Badge - Limited Time Offer only */}
-						<div className="absolute top-4 left-4">
-							<span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-								{product.label}
-							</span>
-						</div>
-					</div>
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
+						{/* Product Image */}
+						<motion.div 
+							className="sticky top-28 flex justify-center lg:justify-start pt-4 lg:pt-6"
+							initial={{ opacity: 0, x: -20 }}
+							animate={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.5 }}
+						>
+							<AnimatePresence mode="wait">
+								<motion.div
+									key={currentImage}
+									initial={{ opacity: 0, scale: 0.95 }}
+									animate={{ opacity: 1, scale: 1 }}
+									exit={{ opacity: 0, scale: 0.95 }}
+									transition={{ duration: 0.3 }}
+									className="relative w-full flex justify-center max-w-md mx-auto"
+								>
+									<Image
+										src={currentImage}
+										alt={`Retatrutide ${selectedMG}`}
+										width={400}
+										height={400}
+										className={`object-contain ${!isInStock ? 'opacity-75' : ''}`}
+										priority
+										unoptimized
+									/>
+								</motion.div>
+							</AnimatePresence>
+						</motion.div>
 
-					{/* Right Column - Product Info */}
-					<div className="flex flex-col gap-6">
-						{/* H1 Name */}
-						<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
-							{product.name}
-						</h1>
+						{/* Product Info */}
+						<motion.div 
+							className="space-y-4"
+							initial={{ opacity: 0, x: 20 }}
+							animate={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.5, delay: 0.1 }}
+						>
+							{/* Availability */}
+							<div className="flex items-center gap-2">
+								{isInStock ? (
+									<>
+										<CheckCircle className="w-4 h-4 text-green-600" />
+										<p className="text-xs text-muted-foreground">
+											<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
+										</p>
+									</>
+								) : (
+									<>
+										<div className="w-4 h-4 rounded-full bg-muted-foreground/40"></div>
+										<p className="text-xs text-muted-foreground">
+											<span className="text-muted-foreground font-medium">Sold Out</span>
+										</p>
+									</>
+								)}
+							</div>
 
-						{/* Price with Strikethrough */}
-						<div className="flex items-baseline gap-3">
-							<span className="text-3xl md:text-4xl font-serif font-medium text-primary">
-								${product.price.toFixed(2)}
-							</span>
-							<span className="text-lg text-muted-foreground line-through">
-								${product.originalPrice.toFixed(2)}
-							</span>
-						</div>
+							{/* Product Name */}
+							<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
+								Retatrutide {selectedMG}
+							</h1>
 
-						{/* Description Paragraph */}
-						<p className="text-muted-foreground leading-relaxed">
-							{product.description}
-						</p>
+							{/* Strength Selector */}
+							<div>
+								<label className="block text-xs font-medium text-foreground mb-2">
+									Select Strength:
+								</label>
+								<div className="flex flex-wrap gap-2">
+									{mgOptions.map((option) => (
+										<div key={option.value} className="relative">
+											{option.value === '15mg' && option.badge && (
+												<span className="absolute -top-5 left-0 text-[10px] font-semibold text-primary whitespace-nowrap">
+													Limited Time Only
+												</span>
+											)}
+											<button
+												onClick={() => setSelectedMG(option.value)}
+												disabled={!option.inStock && selectedMG !== option.value}
+												className={`relative px-6 py-3 rounded-xl border-2 font-semibold transition-all ${
+													selectedMG === option.value
+														? option.inStock
+															? 'border-primary bg-primary/10 text-primary'
+															: 'border-border bg-muted/50 text-muted-foreground'
+														: option.inStock
+														? 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
+														: 'border-border bg-muted/30 text-muted-foreground opacity-50 cursor-not-allowed'
+												}`}
+											>
+												{option.value}
+												{!option.inStock && (
+													<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+														OUT
+													</span>
+												)}
+												{option.badge && option.inStock && (
+													<span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+														{option.badge}
+													</span>
+												)}
+											</button>
+										</div>
+									))}
+								</div>
+							</div>
 
-						{/* Quantity Selector */}
-						<div className="flex items-center gap-4">
-							<label className="text-sm font-medium text-foreground">Quantity:</label>
-							<div className="flex items-center gap-2 border border-border rounded-lg">
+							{/* Price */}
+							<div className="flex items-baseline gap-3">
+								<span className="text-3xl md:text-4xl font-serif font-medium text-primary">
+									${currentPrice.toFixed(2)}
+								</span>
+								{currentOriginalPrice > currentPrice && (
+									<span className="text-lg text-muted-foreground line-through">
+										${currentOriginalPrice.toFixed(2)}
+									</span>
+								)}
+							</div>
+
+							{/* Quantity Selector */}
+						<div>
+							<label className="block text-xs font-medium text-foreground mb-2">
+						Quantity:
+							</label>
+							<div className="flex items-center gap-2">
 								<button
 									onClick={() => setQuantity(Math.max(1, quantity - 1))}
-									className="px-3 py-2 text-foreground hover:bg-secondary transition-colors"
+									disabled={quantity === 1}
+									className="w-9 h-9 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
 								>
-									−
+									-
 								</button>
-								<span className="px-4 py-2 text-sm font-medium text-foreground min-w-[3rem] text-center">
-									{quantity}
-								</span>
+								<input
+									type="number"
+									value={quantity}
+									onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+									className="w-16 h-9 text-center border-2 border-border bg-card text-foreground rounded-lg font-medium text-sm focus:outline-none focus:border-primary"
+									min="1"
+								/>
 								<button
 									onClick={() => setQuantity(quantity + 1)}
-									className="px-3 py-2 text-foreground hover:bg-secondary transition-colors"
+									className="w-9 h-9 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all text-sm"
 								>
 									+
 								</button>
@@ -132,101 +201,169 @@ export default function Retatrutide15mgPage() {
 						</div>
 
 						{/* Add to Cart Button */}
-						<Button
+						<motion.button
 							onClick={handleAddToCart}
-							disabled={!product.inStock}
-							size="lg"
-							className="w-full"
+							disabled={!isInStock}
+							whileHover={isInStock ? { scale: 1.01 } : {}}
+							whileTap={isInStock ? { scale: 0.99 } : {}}
+							className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 shadow-md ${
+								isInStock
+									? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg'
+									: 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+							}`}
 						>
-							<ShoppingCart className="w-5 h-5 mr-2" />
-							{product.inStock ? 'Add to Cart' : 'Sold Out'}
-						</Button>
+							<ShoppingCart className="h-4 w-4" />
+							<span>{isInStock ? 'Add to Cart' : 'Sold Out'}</span>
+						</motion.button>
 
-						{/* Trust Badges Grid - 3 columns */}
-						<div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
-							<div className="flex flex-col items-center gap-2 text-center">
-								<div className="bg-primary/10 p-3 rounded-lg">
-									<Truck className="w-6 h-6 text-primary" />
+						{/* Trust Badges */}
+						<div className="grid grid-cols-1 gap-2 pt-3 border-t border-border">
+							<div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+								<div className="bg-primary/10 p-1.5 rounded-md">
+									<Truck className="h-4 w-4 text-primary" />
 								</div>
-								<p className="text-xs font-medium text-foreground">Free Shipping</p>
+								<p className="text-xs font-medium text-foreground">Free Shipping on Orders Over $250</p>
 							</div>
-							<div className="flex flex-col items-center gap-2 text-center">
-								<div className="bg-primary/10 p-3 rounded-lg">
-									<Award className="w-6 h-6 text-primary" />
+							<div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+								<div className="bg-primary/10 p-1.5 rounded-md">
+									<Award className="h-4 w-4 text-primary" />
 								</div>
-								<p className="text-xs font-medium text-foreground">Premium Quality</p>
+								<p className="text-xs font-medium text-foreground">High grade purity Premium quality</p>
 							</div>
-							<div className="flex flex-col items-center gap-2 text-center">
-								<div className="bg-primary/10 p-3 rounded-lg">
-									<Lock className="w-6 h-6 text-primary" />
+							<div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+								<div className="bg-primary/10 p-1.5 rounded-md">
+									<Headphones className="h-4 w-4 text-primary" />
 								</div>
-								<p className="text-xs font-medium text-foreground">Secure Checkout</p>
+								<p className="text-xs font-medium text-foreground">Customer Happiness 100% Guaranteed</p>
+							</div>
+							<div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+								<div className="bg-primary/10 p-1.5 rounded-md">
+									<Lock className="h-4 w-4 text-primary" />
+								</div>
+								<p className="text-xs font-medium text-foreground">256-Bit SSL Encryption 100% Privacy Assurance</p>
 							</div>
 						</div>
-					</div>
-				</motion.div>
+					</motion.div>
+				</div>
 
-				{/* Specifications Section */}
+				{/* Product Description */}
+				<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.5 }}
+							className="bg-card rounded-2xl p-8 border border-border shadow-sm"
+						>
+							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Description</h2>
+							<div className="space-y-4">
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Appearance:</span>
+									<span className="text-muted-foreground">White powder</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Cas No:</span>
+									<span className="text-muted-foreground">Not applicable</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Molecular Formula:</span>
+									<span className="text-muted-foreground">C₁₈₄H₂₈₂N₅₀O₅₉</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border/50">
+									<span className="font-medium text-foreground">Physical State:</span>
+									<span className="text-muted-foreground">Lyophilized powder</span>
+								</div>
+								<div className="flex justify-between py-2">
+									<span className="font-medium text-foreground">Storage:</span>
+									<span className="text-muted-foreground">Store at -20°C</span>
+								</div>
+							</div>
+						</motion.div>
+						
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.5, delay: 0.1 }}
+							className="bg-card rounded-2xl p-8 border border-border shadow-sm"
+						>
+							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. 
+								For research purposes only.
+							</p>
+							<p className="text-muted-foreground leading-relaxed">
+								Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. 
+								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+							</p>
+						</motion.div>
+					</div>
+
+					{/* Frequently Bought Together */}
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.2 }}
-					className="grid md:grid-cols-2 gap-8 mb-16"
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.5 }}
+					className="mt-16"
 				>
-					{/* Left Card - Specs Table */}
-					<div className="bg-card rounded-lg border border-border p-6">
-						<h2 className="font-serif text-2xl font-medium text-foreground mb-6">
-							Specifications
-						</h2>
-						<div className="space-y-4">
-							<div className="flex justify-between py-2 border-b border-border/50">
-								<span className="font-medium text-foreground">Purity:</span>
-								<span className="text-muted-foreground">{product.specs.purity}</span>
-							</div>
-							<div className="flex justify-between py-2 border-b border-border/50">
-								<span className="font-medium text-foreground">Molecular Weight:</span>
-								<span className="text-muted-foreground">{product.specs.molecularWeight}</span>
-							</div>
-							<div className="flex justify-between py-2">
-								<span className="font-medium text-foreground">Type:</span>
-								<span className="text-muted-foreground text-right text-sm">{product.specs.sequence}</span>
-							</div>
-						</div>
-					</div>
-
-					{/* Right Card - Storage & Handling */}
-					<div className="bg-card rounded-lg border border-border p-6">
-						<h2 className="font-serif text-2xl font-medium text-foreground mb-6">
-							Storage & Handling
-						</h2>
-						<div className="space-y-4">
-							<div>
-								<span className="font-medium text-foreground block mb-2">Temperature:</span>
-								<span className="text-muted-foreground">{product.storage.temperature}</span>
-							</div>
-							<div>
-								<span className="font-medium text-foreground block mb-2">Handling:</span>
-								<span className="text-muted-foreground">{product.storage.handling}</span>
-							</div>
-							<div>
-								<span className="font-medium text-foreground block mb-2">Shelf Life:</span>
-								<span className="text-muted-foreground">{product.storage.shelfLife}</span>
-							</div>
-						</div>
+					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
+					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+						{[
+							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+							{ id: 'tb-500', name: 'TB-500 10mg', price: 44.99, originalPrice: 49.99, image: '/products/tb-500/TB-500 10mg.png' },
+							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 54.99, originalPrice: 61.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
+							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
+							{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
+						].map((product) => (
+							<Link key={product.id} href={`/products/${product.id}`}>
+								<motion.div
+									whileHover={{ y: -2 }}
+									className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer h-full flex flex-col"
+								>
+									<div className="relative aspect-square bg-secondary/30 p-3">
+										<Image
+											src={product.image}
+											alt={product.name}
+											fill
+											className="object-contain"
+											unoptimized
+										/>
+									</div>
+									<div className="p-3 flex flex-col flex-1">
+										<h3 className="font-serif text-sm font-medium text-foreground mb-1 line-clamp-2">{product.name}</h3>
+										<div className="flex items-baseline gap-1.5 mt-auto pt-2">
+											<span className="text-sm font-semibold text-primary">${product.price.toFixed(2)}</span>
+											{product.originalPrice > product.price && (
+												<span className="text-xs text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>
+											)}
+										</div>
+									</div>
+								</motion.div>
+							</Link>
+						))}
 					</div>
 				</motion.div>
 
-				{/* Disclaimer */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.3 }}
-					className="bg-secondary/50 rounded-lg p-6 text-center"
-				>
-					<p className="text-muted-foreground leading-relaxed">
-						⚠️ <strong className="text-foreground">Research Purposes Only</strong> - This product is sold for research purposes only. Not for human consumption, diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, you certify that you are 18+ years of age and agree to use this product only for legitimate research purposes in accordance with applicable laws and regulations.
-					</p>
-				</motion.div>
+					{/* Research Disclaimer */}
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.5 }}
+						className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-8"
+					>
+						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
+							⚠️ Research Purposes Only
+						</h3>
+						<p className="text-destructive/90 leading-relaxed">
+							This product is sold for research purposes only. Not for human consumption, 
+							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
+							you certify that you are 18+ years of age and agree to use this product only for 
+							legitimate research purposes in accordance with applicable laws and regulations.
+						</p>
+					</motion.div>
+				</div>
 			</main>
 			<Footer />
 		</div>
