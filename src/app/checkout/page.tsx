@@ -182,6 +182,12 @@ export default function CheckoutPage() {
 			return
 		}
 		
+		if (selectedAlternativeMethod === 'bitcoin') {
+			alert('Bitcoin is temporarily unavailable. Please select another payment method.')
+			setIsSubmitting(false)
+			return
+		}
+		
 		const paymentMethodName = selectedAlternativeMethod === 'zelle' ? 'Zelle' : selectedAlternativeMethod === 'bitcoin' ? 'Bitcoin' : selectedAlternativeMethod === 'cashapp' ? 'CashApp' : 'Venmo'
 		
 		// Show success page immediately (order number will be set from API response)
@@ -840,52 +846,21 @@ export default function CheckoutPage() {
 										</div>
 									</div>
 
-									{/* Bitcoin */}
+									{/* Bitcoin - Temporarily Unavailable */}
 									<div 
-										onClick={() => setSelectedAlternativeMethod('bitcoin')}
-										className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${
-											selectedAlternativeMethod === 'bitcoin' 
-												? 'border-orange-600 bg-orange-100 shadow-lg' 
-												: 'border-border hover:border-orange-400 hover:bg-orange-50'
-										}`}
+										className="border-2 rounded-lg p-3 sm:p-4 cursor-not-allowed transition-all opacity-50 bg-muted/30 border-border"
 									>
 										<div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-wrap">
-											<div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-												selectedAlternativeMethod === 'bitcoin' ? 'border-orange-700 bg-orange-200' : 'border-border'
-											}`}>
-												{selectedAlternativeMethod === 'bitcoin' && (
-													<div className="w-3 h-3 bg-orange-700 rounded-full"></div>
-												)}
+											<div className="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 border-border">
 											</div>
-											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-orange-600 rounded text-white text-xs flex items-center justify-center font-bold shadow-md shrink-0">₿</div>
+											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-gray-400 rounded text-white text-xs flex items-center justify-center font-bold shadow-md shrink-0">₿</div>
 											<span className="font-bold text-sm sm:text-base">Bitcoin</span>
-											<span className="text-xs text-muted-foreground ml-auto">Cryptocurrency</span>
+											<span className="text-xs text-muted-foreground ml-auto">Temporarily Unavailable</span>
 										</div>
-										<div className={`rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 border-2 ${
-											selectedAlternativeMethod === 'bitcoin' 
-												? 'bg-orange-200 border-orange-400' 
-												: 'bg-secondary/50 border-border'
-										}`}>
-											<p className={`text-xs sm:text-sm font-medium ${
-												selectedAlternativeMethod === 'bitcoin' ? 'text-orange-950' : ''
-											}`}>
-												Payment instructions will be sent to your email after order submission. ONLY include your order number when sending payment.
+										<div className="rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 border-2 bg-secondary/50 border-border">
+											<p className="text-xs sm:text-sm font-medium text-muted-foreground">
+												Bitcoin payment is temporarily unavailable. Please select another payment method.
 											</p>
-										</div>
-										<div>
-											<label className="block text-xs sm:text-sm font-medium mb-2">
-												Bitcoin Address
-											</label>
-											<Input
-												type="text"
-												value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
-												readOnly
-												className={`font-mono text-[10px] sm:text-xs break-all ${
-													selectedAlternativeMethod === 'bitcoin' 
-														? 'bg-orange-200 border-orange-400' 
-														: 'bg-secondary'
-												}`}
-											/>
 										</div>
 									</div>
 
