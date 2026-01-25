@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getNextOrderNumber, saveOrder } from '@/lib/orders'
 
+// Disable caching for this route
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+export const fetchCache = 'force-no-store'
+
 // Note: To enable email sending, you need to:
 // 1. Install Resend: npm install resend
 // 2. Get API key from https://resend.com
@@ -39,7 +44,9 @@ function getPaymentInstructions(
 	const formatPrice = (price: number) => price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	const totalFormatted = formatPrice(orderTotal)
 	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
-	const usdcQrCodeUrl = `${baseUrl}/logos/USDC%20QR%20code.jpeg`
+	const usdcQrCodeUrl = `${baseUrl}/logos/USDC%20QR.png`
+	const usdtQrCodeUrl = `${baseUrl}/logos/USDT%20QR%20.png`
+	const btcQrCodeUrl = `${baseUrl}/logos/BTC%20QR.png`
 	
 	// Build order items list HTML
 	const itemsListHTML = items.map(item => {
@@ -230,10 +237,24 @@ function getPaymentInstructions(
 					${shippingAddressHTML}
 					
 					<div style="background-color: #f3f4f6; border-left: 4px solid #26a17b; padding: 15px; margin: 20px 0;">
-						<h2 style="color: #26a17b; margin-top: 0;">USDT Wallet Address:</h2>
-						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px;">
-							Address will be provided soon
+						<h2 style="color: #26a17b; margin-top: 0;">How to Complete Your Payment:</h2>
+						<ol style="color: #333; line-height: 1.8;">
+							<li>Open your cryptocurrency wallet (MetaMask, Coinbase Wallet, Trust Wallet, etc.)</li>
+							<li>Make sure you have USDT (Tether) in your wallet</li>
+							<li>Scan the QR code below or send USDT to the following wallet address:</li>
+						</ol>
+						<div style="text-align: center; margin: 20px 0;">
+							<img src="${usdtQrCodeUrl}" alt="USDT QR Code" style="max-width: 300px; width: 100%; height: auto; border: 2px solid #26a17b; border-radius: 8px; padding: 10px; background-color: #fff;" />
+							<p style="color: #666; font-size: 12px; margin-top: 10px;">Scan this QR code with your wallet app to pay</p>
 						</div>
+						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 15px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px; font-weight: 600; color: #26a17b;">
+							0xFca3deb5b7AF0558d5CE6acE6C47AF2C2d4EAe97
+						</div>
+						<ol style="color: #333; line-height: 1.8; counter-reset: list-counter 3;">
+							<li style="counter-increment: list-counter;">Send the exact amount: <strong style="color: #26a17b;">$${totalFormatted} USDT</strong></li>
+							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li style="counter-increment: list-counter;">Double-check the wallet address before confirming the transaction</li>
+						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
@@ -296,10 +317,25 @@ function getPaymentInstructions(
 					</div>
 					
 					<div style="background-color: #f3f4f6; border-left: 4px solid #f97316; padding: 15px; margin: 20px 0;">
-						<h2 style="color: #f97316; margin-top: 0;">Bitcoin Payment Address:</h2>
-						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px;">
-							Address will be provided soon
+						<h2 style="color: #f97316; margin-top: 0;">How to Complete Your Payment:</h2>
+						<ol style="color: #333; line-height: 1.8;">
+							<li>Open your Bitcoin wallet (Coinbase, Blockchain.com, Electrum, etc.)</li>
+							<li>Make sure you have Bitcoin (BTC) in your wallet</li>
+							<li>Scan the QR code below or send Bitcoin to the following wallet address:</li>
+						</ol>
+						<div style="text-align: center; margin: 20px 0;">
+							<img src="${btcQrCodeUrl}" alt="Bitcoin QR Code" style="max-width: 300px; width: 100%; height: auto; border: 2px solid #f97316; border-radius: 8px; padding: 10px; background-color: #fff;" />
+							<p style="color: #666; font-size: 12px; margin-top: 10px;">Scan this QR code with your wallet app to pay</p>
 						</div>
+						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 15px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px; font-weight: 600; color: #f97316;">
+							bc1qvrc9ls2kq2f2x9clva84n89qxe550k7e9r0lhl
+						</div>
+						<ol style="color: #333; line-height: 1.8; counter-reset: list-counter 3;">
+							<li style="counter-increment: list-counter;">Send the exact amount: <strong style="color: #f97316;">$${totalFormatted}</strong> (includes 10% processing fee)</li>
+							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li style="counter-increment: list-counter;">Double-check the wallet address before confirming the transaction</li>
+							<li style="counter-increment: list-counter;">Payment will be confirmed once we receive 3 confirmations on the blockchain</li>
+						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
@@ -444,7 +480,17 @@ function getPaymentInstructions(
 
 export async function POST(request: NextRequest) {
 	try {
-		const body = await request.json()
+		let body
+		try {
+			body = await request.json()
+		} catch (parseError) {
+			console.error('Error parsing request JSON:', parseError)
+			return NextResponse.json(
+				{ error: 'Invalid request format. Please check your input data.' },
+				{ status: 400 }
+			)
+		}
+		
 		const { email, paymentMethod, orderTotal, items, shippingAddress } = body
 
 		if (!email || !paymentMethod) {
@@ -538,9 +584,21 @@ export async function POST(request: NextRequest) {
 		})
 
 	} catch (error) {
-		console.error('Error in send-payment-email route:', error)
+		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+		const errorStack = error instanceof Error ? error.stack : undefined
+		
+		console.error('Error in send-payment-email route:', {
+			message: errorMessage,
+			stack: errorStack,
+			timestamp: new Date().toISOString()
+		})
+		
+		// Return specific error message instead of generic "Internal server error"
 		return NextResponse.json(
-			{ error: 'Internal server error' },
+			{ 
+				error: 'Failed to process payment email request',
+				details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+			},
 			{ status: 500 }
 		)
 	}

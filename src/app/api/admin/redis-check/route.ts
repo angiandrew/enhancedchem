@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+// Disable caching for this route
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+export const fetchCache = 'force-no-store'
+
 // Simple endpoint to check Redis connection and view stored data
 export async function GET(request: NextRequest) {
 	// Password protection - CHECK FIRST, RETURN IMMEDIATELY IF WRONG
@@ -77,10 +82,23 @@ export async function GET(request: NextRequest) {
 				data: null
 			})
 		}
-		} catch {
-			return NextResponse.json(
-				{ error: 'Internal server error' },
-				{ status: 500 }
-			)
-		}
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+		const errorStack = error instanceof Error ? error.stack : undefined
+		
+		console.error('Error in redis-check route:', {
+			message: errorMessage,
+			stack: errorStack,
+			timestamp: new Date().toISOString()
+		})
+		
+		// Return specific error message instead of generic "Internal server error"
+		return NextResponse.json(
+			{ 
+				error: 'Failed to check Redis connection',
+				details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+			},
+			{ status: 500 }
+		)
+	}
 }

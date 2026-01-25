@@ -195,18 +195,18 @@ export function middleware(request: NextRequest) {
   let rateLimit = { allowed: true, remaining: RATE_LIMIT.maxRequests }
   if (!isDevelopment) {
     rateLimit = checkRateLimit(ip)
-  if (!rateLimit.allowed) {
-    console.log(`Rate limit exceeded: ${ip}`)
-    return new NextResponse('Rate limit exceeded. Please try again later.', { 
-      status: 429,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Retry-After': '60',
-        'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
-        'X-RateLimit-Remaining': '0',
-        'X-RateLimit-Reset': new Date(Date.now() + RATE_LIMIT.windowMs).toISOString(),
-      }
-    })
+    if (!rateLimit.allowed) {
+      console.log(`Rate limit exceeded: ${ip}`)
+      return new NextResponse('Rate limit exceeded. Please try again later.', { 
+        status: 429,
+        headers: {
+          'Content-Type': 'text/plain',
+          'Retry-After': '60',
+          'X-RateLimit-Limit': RATE_LIMIT.maxRequests.toString(),
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': new Date(Date.now() + RATE_LIMIT.windowMs).toISOString(),
+        }
+      })
     }
   }
   

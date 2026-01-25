@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAllOrders, updateOrderStatus } from '@/lib/orders'
 
+// Disable caching for this route
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+export const fetchCache = 'force-no-store'
+
 // GET - Fetch all orders
 export async function GET() {
 	try {

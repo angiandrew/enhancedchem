@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
 import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle, ArrowUp, Tag, X } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
@@ -242,7 +243,20 @@ export default function CheckoutPage() {
 				}),
 			})
 
-				let result
+			// Check if response is ok before parsing
+			if (!response.ok) {
+				let errorData
+				try {
+					errorData = await response.json()
+				} catch {
+					errorData = { error: `HTTP ${response.status}: ${response.statusText}` }
+				}
+				console.error('API Error Response:', errorData)
+				// Order already completed, just log the error - don't show to user
+				return
+			}
+
+			let result
 			try {
 				result = await response.json()
 			} catch (jsonError) {
@@ -922,13 +936,29 @@ export default function CheckoutPage() {
 													</div>
 													{selectedCryptoType === 'usdc' && (
 														<div className="mt-2 pt-2 border-t border-blue-300">
-															<label className="block text-xs font-medium mb-1">USDC Wallet Address:</label>
-															<Input
-																type="text"
-																value="2GLM4Z18kCNSYb3stFoquDeQeK97gnPVE8LhikCS4sxH"
-																readOnly
-																className="font-mono text-[10px] sm:text-xs break-all bg-blue-200 border-blue-400"
-															/>
+															<div className="flex flex-col sm:flex-row gap-4 items-start">
+																<div className="flex-1 w-full">
+																	<label className="block text-xs font-medium mb-1">USDC Wallet Address:</label>
+																	<Input
+																		type="text"
+																		value="2GLM4Z18kCNSYb3stFoquDeQeK97gnPVE8LhikCS4sxH"
+																		readOnly
+																		className="font-mono text-[10px] sm:text-xs break-all bg-blue-200 border-blue-400"
+																	/>
+																</div>
+																<div className="flex flex-col items-center">
+																	<label className="block text-xs font-medium mb-2">Scan QR Code:</label>
+																	<div className="border-2 border-blue-400 rounded-lg p-2 bg-white">
+																	<Image 
+																		src="/logos/USDC QR.png" 
+																		alt="USDC QR Code" 
+																		width={160}
+																		height={160}
+																		className="object-contain rounded"
+																	/>
+																	</div>
+																</div>
+															</div>
 														</div>
 													)}
 												</div>
@@ -958,13 +988,29 @@ export default function CheckoutPage() {
 													</div>
 													{selectedCryptoType === 'usdt' && (
 														<div className="mt-2 pt-2 border-t border-green-300">
-															<label className="block text-xs font-medium mb-1">USDT Wallet Address:</label>
-															<Input
-																type="text"
-																value="Address will be provided soon"
-																readOnly
-																className="font-mono text-[10px] sm:text-xs break-all bg-green-200 border-green-400"
-															/>
+															<div className="flex flex-col sm:flex-row gap-4 items-start">
+																<div className="flex-1 w-full">
+																	<label className="block text-xs font-medium mb-1">USDT Wallet Address:</label>
+																	<Input
+																		type="text"
+																		value="0xFca3deb5b7AF0558d5CE6acE6C47AF2C2d4EAe97"
+																		readOnly
+																		className="font-mono text-[10px] sm:text-xs break-all bg-green-200 border-green-400"
+																	/>
+																</div>
+																<div className="flex flex-col items-center">
+																	<label className="block text-xs font-medium mb-2">Scan QR Code:</label>
+																	<div className="border-2 border-green-400 rounded-lg p-2 bg-white">
+																		<Image 
+																			src="/logos/USDT QR .png" 
+																			alt="USDT QR Code" 
+																			width={160}
+																			height={160}
+																			className="object-contain rounded"
+																		/>
+																	</div>
+																</div>
+															</div>
 														</div>
 													)}
 												</div>
@@ -1000,13 +1046,29 @@ export default function CheckoutPage() {
 																		⚠️ <strong>10% Surcharge Applied:</strong> Bitcoin payments include a 10% processing fee. Your total will be increased by 10%.
 																	</p>
 																</div>
-																<label className="block text-xs font-medium mb-1">Bitcoin Wallet Address:</label>
-																<Input
-																	type="text"
-																	value="Address will be provided soon"
-																	readOnly
-																	className="font-mono text-[10px] sm:text-xs break-all bg-orange-200 border-orange-400"
-																/>
+																<div className="flex flex-col sm:flex-row gap-4 items-start">
+																	<div className="flex-1 w-full">
+																		<label className="block text-xs font-medium mb-1">Bitcoin Wallet Address:</label>
+																		<Input
+																			type="text"
+																			value="bc1qvrc9ls2kq2f2x9clva84n89qxe550k7e9r0lhl"
+																			readOnly
+																			className="font-mono text-[10px] sm:text-xs break-all bg-orange-200 border-orange-400"
+																		/>
+																	</div>
+																	<div className="flex flex-col items-center">
+																		<label className="block text-xs font-medium mb-2">Scan QR Code:</label>
+																		<div className="border-2 border-orange-400 rounded-lg p-2 bg-white">
+																			<Image 
+																				src="/logos/BTC QR.png" 
+																				alt="Bitcoin QR Code" 
+																				width={160}
+																				height={160}
+																				className="object-contain rounded"
+																			/>
+																		</div>
+																	</div>
+																</div>
 															</div>
 														</>
 													)}
