@@ -9,6 +9,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
+import ProductStructuredData from '@/components/ProductStructuredData'
+import ProductSEO from '@/components/ProductSEO'
 
 export default function RetatrutidePage() {
 	const [selectedMG, setSelectedMG] = useState('10mg')
@@ -40,10 +42,34 @@ export default function RetatrutidePage() {
 		}
 	}
 
+	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
+	const productName = `Retatrutide ${selectedMG}`
+	const productDescription = `Buy ${productName} - Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications. Premium quality research peptides from Enhanced Chem with fast shipping. Price: $${currentPrice.toFixed(2)}.`
+
 	return (
 		<div className="min-h-screen bg-background">
+			<ProductSEO
+				title={productName}
+				description={productDescription}
+				price={currentPrice}
+				image={currentImage}
+				url={`${baseUrl}/products/retatrutide`}
+				brand="Enhanced Chem"
+			/>
 			<Header />
 			<ProductNavigation currentProductId="retatrutide" />
+			<ProductStructuredData 
+				product={{
+					name: productName,
+					description: 'Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications.',
+					price: currentPrice,
+					originalPrice: currentOriginalPrice,
+					image: currentImage,
+					inStock: isInStock,
+					brand: 'Enhanced Chem',
+					url: `${baseUrl}/products/retatrutide`
+				}}
+			/>
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
