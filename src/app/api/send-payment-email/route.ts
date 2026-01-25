@@ -38,6 +38,8 @@ function getPaymentInstructions(
 ) {
 	const formatPrice = (price: number) => price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	const totalFormatted = formatPrice(orderTotal)
+	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
+	const usdcQrCodeUrl = `${baseUrl}/logos/USDC%20QR%20code.jpeg`
 	
 	// Build order items list HTML
 	const itemsListHTML = items.map(item => {
@@ -124,6 +126,135 @@ function getPaymentInstructions(
 				</div>
 			`
 		},
+		usdc: {
+			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
+			html: `
+				<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+					<h1 style="color: #2775ca; border-bottom: 2px solid #2775ca; padding-bottom: 10px;">
+						Payment Instructions - USDC
+					</h1>
+					<p style="font-size: 16px; color: #333; margin-top: 20px;">
+						Thank you for your order! Your order number is: <strong style="color: #2775ca;">${orderNumber}</strong>
+					</p>
+					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+						<h2 style="color: #2775ca; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+							<thead>
+								<tr style="border-bottom: 2px solid #2775ca;">
+									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
+									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
+									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								${itemsListHTML}
+							</tbody>
+						</table>
+						<div style="border-top: 2px solid #2775ca; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #2775ca;">
+								<span>Total Amount Due:</span>
+								<span>$${totalFormatted}</span>
+							</div>
+						</div>
+					</div>
+					
+					${shippingAddressHTML}
+					
+					<div style="background-color: #f3f4f6; border-left: 4px solid #2775ca; padding: 15px; margin: 20px 0;">
+						<h2 style="color: #2775ca; margin-top: 0;">How to Complete Your Payment:</h2>
+						<ol style="color: #333; line-height: 1.8;">
+							<li>Open your cryptocurrency wallet (MetaMask, Coinbase Wallet, Trust Wallet, etc.)</li>
+							<li>Make sure you have USDC (USD Coin) in your wallet</li>
+							<li>Scan the QR code below or send USDC to the following wallet address:</li>
+						</ol>
+						<div style="text-align: center; margin: 20px 0;">
+							<img src="${usdcQrCodeUrl}" alt="USDC QR Code" style="max-width: 300px; width: 100%; height: auto; border: 2px solid #2775ca; border-radius: 8px; padding: 10px; background-color: #fff;" />
+							<p style="color: #666; font-size: 12px; margin-top: 10px;">Scan this QR code with your wallet app to pay</p>
+						</div>
+						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 15px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px; font-weight: 600; color: #2775ca;">
+							2GLM4Z18kCNSYb3stFoquDeQeK97gnPVE8LhikCS4sxH
+						</div>
+						<ol style="color: #333; line-height: 1.8; counter-reset: list-counter 3;">
+							<li style="counter-increment: list-counter;">Send the exact amount: <strong style="color: #2775ca;">$${totalFormatted} USDC</strong></li>
+							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li style="counter-increment: list-counter;">Double-check the wallet address before confirming the transaction</li>
+						</ol>
+					</div>
+					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
+						<p style="margin: 0; color: #92400e;">
+							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the memo/note field and send exactly <strong>$${totalFormatted} USDC</strong> to ensure prompt processing. Payment will be confirmed once we receive the transaction on the blockchain.
+						</p>
+					</div>
+					<p style="color: #666; font-size: 14px; margin-top: 30px;">
+						Once your USDC payment is confirmed on the blockchain, your order will be processed within 1-2 business days.
+						You&apos;ll receive tracking information via email once your order ships.
+					</p>
+					<p style="color: #666; font-size: 14px; margin-top: 20px;">
+						Questions? Contact us at support@enhancedchem.com
+					</p>
+				</div>
+			`
+		},
+		usdt: {
+			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
+			html: `
+				<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+					<h1 style="color: #26a17b; border-bottom: 2px solid #26a17b; padding-bottom: 10px;">
+						Payment Instructions - USDT
+					</h1>
+					<p style="font-size: 16px; color: #333; margin-top: 20px;">
+						Thank you for your order! Your order number is: <strong style="color: #26a17b;">${orderNumber}</strong>
+					</p>
+					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+						<h2 style="color: #26a17b; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+							<thead>
+								<tr style="border-bottom: 2px solid #26a17b;">
+									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
+									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
+									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								${itemsListHTML}
+							</tbody>
+						</table>
+						<div style="border-top: 2px solid #26a17b; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #26a17b;">
+								<span>Total Amount Due:</span>
+								<span>$${totalFormatted}</span>
+							</div>
+						</div>
+					</div>
+					
+					${shippingAddressHTML}
+					
+					<div style="background-color: #f3f4f6; border-left: 4px solid #26a17b; padding: 15px; margin: 20px 0;">
+						<h2 style="color: #26a17b; margin-top: 0;">USDT Wallet Address:</h2>
+						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px;">
+							Address will be provided soon
+						</div>
+					</div>
+					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
+						<p style="margin: 0; color: #92400e;">
+							<strong>Important:</strong> 
+							<ul style="margin: 10px 0; padding-left: 20px; color: #92400e;">
+								<li>Send the exact amount: <strong>$${totalFormatted} USDT</strong></li>
+								<li>Payment will be confirmed once we receive the transaction on the blockchain</li>
+								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							</ul>
+						</p>
+					</div>
+					<p style="color: #666; font-size: 14px; margin-top: 30px;">
+						Once your USDT payment is confirmed on the blockchain, your order will be processed within 1-2 business days.
+						You&apos;ll receive tracking information via email once your order ships.
+					</p>
+					<p style="color: #666; font-size: 14px; margin-top: 20px;">
+						Questions? Contact us at support@enhancedchem.com
+					</p>
+				</div>
+			`
+		},
 		bitcoin: {
 			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
 			html: `
@@ -158,17 +289,23 @@ function getPaymentInstructions(
 					
 					${shippingAddressHTML}
 					
+					<div style="background-color: #fef3c7; border: 2px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
+						<p style="margin: 0; color: #92400e; font-weight: bold; font-size: 16px;">
+							⚠️ 10% Processing Fee Applied: Your total includes a 10% Bitcoin processing surcharge.
+						</p>
+					</div>
+					
 					<div style="background-color: #f3f4f6; border-left: 4px solid #f97316; padding: 15px; margin: 20px 0;">
 						<h2 style="color: #f97316; margin-top: 0;">Bitcoin Payment Address:</h2>
 						<div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 14px;">
-							1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+							Address will be provided soon
 						</div>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
 							<strong>Important:</strong> 
 							<ul style="margin: 10px 0; padding-left: 20px; color: #92400e;">
-								<li>Send the exact amount: <strong>$${totalFormatted}</strong></li>
+								<li>Send the exact amount: <strong>$${totalFormatted}</strong> (includes 10% processing fee)</li>
 								<li>Payment will be confirmed once we receive 3 confirmations on the blockchain</li>
 								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
 							</ul>

@@ -44,6 +44,7 @@ export default function CheckoutPage() {
 	const [customerEmail, setCustomerEmail] = useState('')
 	const [emailOptIn, setEmailOptIn] = useState(false)
 	const [selectedAlternativeMethod, setSelectedAlternativeMethod] = useState('')
+	const [selectedCryptoType, setSelectedCryptoType] = useState<'usdc' | 'usdt' | 'bitcoin' | ''>('')
 	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [orderCompleted, setOrderCompleted] = useState(false)
 	const [orderNumber, setOrderNumber] = useState('')
@@ -142,10 +143,14 @@ export default function CheckoutPage() {
 	const promoDiscount = promoApplied && promoCodeUpper && validPromoCodes[promoCodeUpper] 
 		? orderSubtotal * validPromoCodes[promoCodeUpper]
 		: 0
-	const finalTotal = orderSubtotal - promoDiscount
+	// Add 10% increase for Bitcoin
+	const bitcoinSurcharge = selectedCryptoType === 'bitcoin' ? (orderSubtotal - promoDiscount) * 0.10 : 0
+	const finalTotal = orderSubtotal - promoDiscount + bitcoinSurcharge
 
 	const isEmailValid = isValidEmail(customerEmail)
-	const isAlternativeComplete = isEmailValid && selectedAlternativeMethod !== ''
+	const isCryptoSelected = selectedAlternativeMethod === 'crypto'
+	const isCryptoComplete = isCryptoSelected ? selectedCryptoType !== '' : true
+	const isAlternativeComplete = isEmailValid && selectedAlternativeMethod !== '' && isCryptoComplete
 	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted
 	const isAddressComplete = fullName.trim() !== '' && addressLine1.trim() !== '' && city.trim() !== '' && state.trim() !== '' && zipCode.trim() !== ''
 	const canProceed = isVerificationComplete && isAlternativeComplete && isAddressComplete
@@ -174,7 +179,10 @@ export default function CheckoutPage() {
 		const promoDiscountCalc = promoApplied && promoCodeUpper && validPromoCodes[promoCodeUpper] 
 			? subtotalCalc * validPromoCodes[promoCodeUpper]
 			: 0
-		const finalTotal = subtotalCalc - promoDiscountCalc
+		// Add 10% increase for Bitcoin
+		const bitcoinSurchargeCalc = selectedCryptoType === 'bitcoin' ? (subtotalCalc - promoDiscountCalc) * 0.10 : 0
+		const finalTotal = subtotalCalc - promoDiscountCalc + bitcoinSurchargeCalc
+		
 		// Prevent Venmo selection
 		if (selectedAlternativeMethod === 'venmo') {
 			alert('Venmo is currently unavailable. Please select another payment method.')
@@ -182,13 +190,17 @@ export default function CheckoutPage() {
 			return
 		}
 		
-		if (selectedAlternativeMethod === 'bitcoin') {
-			alert('Bitcoin is temporarily unavailable. Please select another payment method.')
+		// Check if crypto is selected but no type chosen
+		if (selectedAlternativeMethod === 'crypto' && !selectedCryptoType) {
+			alert('Please select a cryptocurrency option (USDC, USDT, or Bitcoin).')
 			setIsSubmitting(false)
 			return
 		}
 		
-		const paymentMethodName = selectedAlternativeMethod === 'zelle' ? 'Zelle' : selectedAlternativeMethod === 'bitcoin' ? 'Bitcoin' : selectedAlternativeMethod === 'cashapp' ? 'CashApp' : 'Venmo'
+		const paymentMethodName = selectedAlternativeMethod === 'zelle' ? 'Zelle' 
+			: selectedAlternativeMethod === 'crypto' 
+				? (selectedCryptoType === 'usdc' ? 'USDC' : selectedCryptoType === 'usdt' ? 'USDT' : 'Bitcoin')
+				: selectedAlternativeMethod === 'cashapp' ? 'CashApp' : 'Venmo'
 		
 		// Show success page immediately (order number will be set from API response)
 		setOrderTotal(finalTotal)
@@ -205,7 +217,8 @@ export default function CheckoutPage() {
 				},
 				body: JSON.stringify({
 					email: customerEmail,
-					paymentMethod: selectedAlternativeMethod,
+					paymentMethod: selectedAlternativeMethod === 'crypto' ? selectedCryptoType : selectedAlternativeMethod,
+					cryptoType: selectedAlternativeMethod === 'crypto' ? selectedCryptoType : null,
 					orderTotal: finalTotal,
 					shippingMethod: selectedShipping.name,
 					shippingCost: shippingCost,
@@ -846,22 +859,160 @@ export default function CheckoutPage() {
 										</div>
 									</div>
 
-									{/* Bitcoin - Temporarily Unavailable */}
+									{/* Crypto Payment Option */}
 									<div 
-										className="border-2 rounded-lg p-3 sm:p-4 cursor-not-allowed transition-all opacity-50 bg-muted/30 border-border"
+										onClick={() => setSelectedAlternativeMethod('crypto')}
+										className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${
+											selectedAlternativeMethod === 'crypto' 
+												? 'border-orange-600 bg-orange-100 shadow-lg' 
+												: 'border-border hover:border-orange-400 hover:bg-orange-50'
+										}`}
 									>
 										<div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-wrap">
-											<div className="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 border-border">
+											<div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+												selectedAlternativeMethod === 'crypto' ? 'border-orange-700 bg-orange-200' : 'border-border'
+											}`}>
+												{selectedAlternativeMethod === 'crypto' && (
+													<div className="w-3 h-3 bg-orange-700 rounded-full"></div>
+												)}
 											</div>
-											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-gray-400 rounded text-white text-xs flex items-center justify-center font-bold shadow-md shrink-0">₿</div>
-											<span className="font-bold text-sm sm:text-base">Bitcoin</span>
-											<span className="text-xs text-muted-foreground ml-auto">Temporarily Unavailable</span>
+											<div className="w-7 h-7 sm:w-8 sm:h-8 bg-orange-600 rounded text-white text-xs flex items-center justify-center font-bold shadow-md shrink-0">₿</div>
+											<span className="font-bold text-sm sm:text-base">Crypto</span>
+											<span className="text-xs text-muted-foreground ml-auto">Cryptocurrency</span>
 										</div>
-										<div className="rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 border-2 bg-secondary/50 border-border">
-											<p className="text-xs sm:text-sm font-medium text-muted-foreground">
-												Bitcoin payment is temporarily unavailable. Please select another payment method.
+										<div className={`rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 border-2 ${
+											selectedAlternativeMethod === 'crypto' 
+												? 'bg-orange-200 border-orange-400' 
+												: 'bg-secondary/50 border-border'
+										}`}>
+											<p className={`text-xs sm:text-sm font-medium ${
+												selectedAlternativeMethod === 'crypto' ? 'text-orange-950' : ''
+											}`}>
+												Payment instructions will be sent to your email after order submission. ONLY include your order number when sending payment.
 											</p>
 										</div>
+										
+										{/* Crypto Type Selection - Show when Crypto is selected */}
+										{selectedAlternativeMethod === 'crypto' && (
+											<div className="mt-4 space-y-2">
+												<label className="block text-xs sm:text-sm font-medium mb-2">Select Cryptocurrency:</label>
+												
+												{/* USDC Option */}
+												<div 
+													onClick={(e) => {
+														e.stopPropagation()
+														setSelectedCryptoType('usdc')
+													}}
+													className={`border-2 rounded-lg p-2 sm:p-3 cursor-pointer transition-all ${
+														selectedCryptoType === 'usdc'
+															? 'border-blue-600 bg-blue-100'
+															: 'border-border hover:border-blue-400 hover:bg-blue-50'
+													}`}
+												>
+													<div className="flex items-center gap-2">
+														<div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
+															selectedCryptoType === 'usdc' ? 'border-blue-700 bg-blue-200' : 'border-border'
+														}`}>
+															{selectedCryptoType === 'usdc' && (
+																<div className="w-2 h-2 bg-blue-700 rounded-full"></div>
+															)}
+														</div>
+														<span className="font-semibold text-sm">USDC</span>
+														<span className="text-xs text-muted-foreground ml-auto">USD Coin</span>
+													</div>
+													{selectedCryptoType === 'usdc' && (
+														<div className="mt-2 pt-2 border-t border-blue-300">
+															<label className="block text-xs font-medium mb-1">USDC Wallet Address:</label>
+															<Input
+																type="text"
+																value="2GLM4Z18kCNSYb3stFoquDeQeK97gnPVE8LhikCS4sxH"
+																readOnly
+																className="font-mono text-[10px] sm:text-xs break-all bg-blue-200 border-blue-400"
+															/>
+														</div>
+													)}
+												</div>
+
+												{/* USDT Option */}
+												<div 
+													onClick={(e) => {
+														e.stopPropagation()
+														setSelectedCryptoType('usdt')
+													}}
+													className={`border-2 rounded-lg p-2 sm:p-3 cursor-pointer transition-all ${
+														selectedCryptoType === 'usdt'
+															? 'border-green-600 bg-green-100'
+															: 'border-border hover:border-green-400 hover:bg-green-50'
+													}`}
+												>
+													<div className="flex items-center gap-2">
+														<div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
+															selectedCryptoType === 'usdt' ? 'border-green-700 bg-green-200' : 'border-border'
+														}`}>
+															{selectedCryptoType === 'usdt' && (
+																<div className="w-2 h-2 bg-green-700 rounded-full"></div>
+															)}
+														</div>
+														<span className="font-semibold text-sm">USDT</span>
+														<span className="text-xs text-muted-foreground ml-auto">Tether</span>
+													</div>
+													{selectedCryptoType === 'usdt' && (
+														<div className="mt-2 pt-2 border-t border-green-300">
+															<label className="block text-xs font-medium mb-1">USDT Wallet Address:</label>
+															<Input
+																type="text"
+																value="Address will be provided soon"
+																readOnly
+																className="font-mono text-[10px] sm:text-xs break-all bg-green-200 border-green-400"
+															/>
+														</div>
+													)}
+												</div>
+
+												{/* Bitcoin Option with 10% Surcharge */}
+												<div 
+													onClick={(e) => {
+														e.stopPropagation()
+														setSelectedCryptoType('bitcoin')
+													}}
+													className={`border-2 rounded-lg p-2 sm:p-3 cursor-pointer transition-all ${
+														selectedCryptoType === 'bitcoin'
+															? 'border-orange-600 bg-orange-100'
+															: 'border-border hover:border-orange-400 hover:bg-orange-50'
+													}`}
+												>
+													<div className="flex items-center gap-2">
+														<div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
+															selectedCryptoType === 'bitcoin' ? 'border-orange-700 bg-orange-200' : 'border-border'
+														}`}>
+															{selectedCryptoType === 'bitcoin' && (
+																<div className="w-2 h-2 bg-orange-700 rounded-full"></div>
+															)}
+														</div>
+														<span className="font-semibold text-sm">Bitcoin</span>
+														<span className="text-xs text-red-600 font-semibold ml-auto">+10% Surcharge</span>
+													</div>
+													{selectedCryptoType === 'bitcoin' && (
+														<>
+															<div className="mt-2 pt-2 border-t border-orange-300">
+																<div className="bg-yellow-50 border border-yellow-200 rounded p-2 mb-2">
+																	<p className="text-xs text-yellow-900 font-medium">
+																		⚠️ <strong>10% Surcharge Applied:</strong> Bitcoin payments include a 10% processing fee. Your total will be increased by 10%.
+																	</p>
+																</div>
+																<label className="block text-xs font-medium mb-1">Bitcoin Wallet Address:</label>
+																<Input
+																	type="text"
+																	value="Address will be provided soon"
+																	readOnly
+																	className="font-mono text-[10px] sm:text-xs break-all bg-orange-200 border-orange-400"
+																/>
+															</div>
+														</>
+													)}
+												</div>
+											</div>
+										)}
 									</div>
 
 									{/* CashApp */}
@@ -1081,6 +1232,12 @@ export default function CheckoutPage() {
 												<div className="flex justify-between text-green-600">
 													<span className="font-medium">Promo Discount ({promoCode?.trim().toUpperCase() || ''})</span>
 													<span className="font-medium">-${formatPrice(promoDiscount)}</span>
+												</div>
+											)}
+											{selectedCryptoType === 'bitcoin' && bitcoinSurcharge > 0 && (
+												<div className="flex justify-between text-orange-600">
+													<span className="font-medium">Bitcoin Processing Fee (10%)</span>
+													<span className="font-medium">+${formatPrice(bitcoinSurcharge)}</span>
 												</div>
 											)}
 											<div className="border-t border-border pt-3">
