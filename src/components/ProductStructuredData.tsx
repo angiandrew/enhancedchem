@@ -22,7 +22,8 @@ export default function ProductStructuredData({ product }: ProductStructuredData
     ? product.image 
     : `${baseUrl}${product.image.startsWith('/') ? '' : '/'}${product.image}`
 
-  const structuredData = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const structuredData: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
