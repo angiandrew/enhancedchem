@@ -78,16 +78,32 @@ export default function BPC15710mgPage() {
 					transition={{ duration: 0.5 }}
 					className="grid lg:grid-cols-2 gap-12 mb-16"
 				>
-					{/* Left Column - Product Image */}
-					<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-						<Image
-							src={product.image}
-							alt={product.name}
-							fill
-							className="object-contain p-8"
-							priority
-							unoptimized
-						/>
+					{/* Left Column - Product Images */}
+					<div className="space-y-4">
+						{/* Main Product Image */}
+						<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
+							<Image
+								src={product.image}
+								alt={product.name}
+								fill
+								className="object-contain p-8"
+								priority
+								unoptimized
+							/>
+						</div>
+						{/* COA Image */}
+						<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
+							<Image
+								src="/COAs/3rd party testing/BPC10.jpg"
+								alt="BPC-157 10mg Certificate of Analysis"
+								fill
+								className="object-contain p-4"
+								unoptimized
+							/>
+							<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+								COA
+							</div>
+						</div>
 					</div>
 
 					{/* Right Column - Product Info */}

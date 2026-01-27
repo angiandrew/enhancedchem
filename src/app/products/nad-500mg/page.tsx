@@ -47,9 +47,9 @@ export default function NAD500mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Image */}
+						{/* Product Images */}
 						<motion.div 
-							className="sticky top-28"
+							className="sticky top-28 space-y-4"
 							initial={{ opacity: 0, x: -20 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
@@ -68,6 +68,24 @@ export default function NAD500mgPage() {
 									priority
 									unoptimized
 								/>
+							</motion.div>
+							{/* COA Image */}
+							<motion.div
+								initial={{ opacity: 0, scale: 0.95 }}
+								animate={{ opacity: 1, scale: 1 }}
+								transition={{ duration: 0.3, delay: 0.1 }}
+								className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
+							>
+								<Image
+									src="/COAs/3rd party testing/NAD500.jpg"
+									alt="NAD+ 500mg Certificate of Analysis"
+									fill
+									className="object-contain p-4"
+									unoptimized
+								/>
+								<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+									COA
+								</div>
 							</motion.div>
 						</motion.div>
 
@@ -238,8 +256,8 @@ export default function NAD500mgPage() {
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
 							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
-							{ id: 'tb-500', name: 'TB-500 10mg', price: 44.99, originalPrice: 49.99, image: '/products/tb-500/TB-500 10mg.png' },
-							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 54.99, originalPrice: 61.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
+							{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
+							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
 							{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
 						].map((product) => (

@@ -17,12 +17,12 @@ export default function TB500Page() {
 
 	const mgOptions = [
 		{ value: '5mg', price: 37.99, originalPrice: 42.99, image: '/products/tb-500/TB-500 5mg.png', inStock: true },
-		{ value: '10mg', price: 44.99, originalPrice: 49.99, image: '/products/tb-500/TB-500 10mg.png', inStock: true }
+		{ value: '10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 44.99
-	const currentOriginalPrice = currentOption?.originalPrice || 49.99
+	const currentPrice = currentOption?.price || 49.99
+	const currentOriginalPrice = currentOption?.originalPrice || 54.99
 	const currentImage = currentOption?.image || '/products/tb-500/TB-500 10mg.png'
 	const isInStock = currentOption?.inStock ?? true
 
@@ -56,9 +56,9 @@ export default function TB500Page() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Image */}
+						{/* Product Images */}
 						<motion.div 
-							className="sticky top-28"
+							className="sticky top-28 space-y-4"
 							initial={{ opacity: 0, x: -20 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
@@ -82,6 +82,26 @@ export default function TB500Page() {
 									/>
 								</motion.div>
 							</AnimatePresence>
+							{/* COA Image - only show for 10mg */}
+							{selectedMG === '10mg' && (
+								<motion.div
+									initial={{ opacity: 0, scale: 0.95 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{ duration: 0.3, delay: 0.1 }}
+									className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
+								>
+									<Image
+										src="/COAs/3rd party testing/TB500-10mg.JPG"
+										alt="TB-500 10mg Certificate of Analysis"
+										fill
+										className="object-contain p-4"
+										unoptimized
+									/>
+									<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+										COA
+									</div>
+								</motion.div>
+							)}
 						</motion.div>
 
 						{/* Product Info */}
@@ -300,7 +320,7 @@ export default function TB500Page() {
 						<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 							{[
 								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
-								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 54.99, originalPrice: 61.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
+								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 								{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
 								{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png' },
 								{ id: 'mix-peptide', name: 'GLOW 70mg', price: 88.99, originalPrice: 98.99, image: '/products/bpc-tb-ghk-mix/GLOW70.png' },

@@ -32,6 +32,7 @@ export default function Footer() {
             <h4 className="font-serif text-sm font-semibold mb-4 tracking-wide uppercase">Company</h4>
             <ul className="space-y-3">
               <li><Link href="/products" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Products</Link></li>
+              <li><Link href="/3rd-party-testing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">3rd Party Testing</Link></li>
               <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
               <li><Link href="/affiliate" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Affiliate Program</Link></li>
