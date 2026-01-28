@@ -132,7 +132,6 @@ export default function TB500Page() {
 									<button
 										type="button"
 										key={option.value}
-										type="button"
 										onClick={(e) => {
 											e.preventDefault()
 											e.stopPropagation()
