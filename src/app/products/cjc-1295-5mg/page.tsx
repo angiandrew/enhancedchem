@@ -5,7 +5,6 @@ import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucid
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
-import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
@@ -49,7 +48,7 @@ export default function CJC12955mgPage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
 						{/* Product Image */}
 						<motion.div 
-							className="sticky top-28"
+							className="lg:sticky lg:top-28"
 							initial={{ opacity: 0, x: -20 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
@@ -64,12 +63,12 @@ export default function CJC12955mgPage() {
 									src={currentImage}
 									alt="CJC-1295 w/ DAC (5mg)"
 									fill
-									className="object-contain p-8"
+									className="object-contain p-4 sm:p-8"
 									priority
 									unoptimized
 								/>
-							</motion.div>
-						</motion.div>
+							</div>
+						</div>
 
 						{/* Product Info */}
 						<motion.div 
@@ -105,14 +104,19 @@ export default function CJC12955mgPage() {
 
 							{/* Quantity Selector */}
 						<div>
-							<label className="block text-xs font-medium text-foreground mb-2">
+							<label className="block text-xs font-medium text-foreground mb-3">
 						Quantity:
 							</label>
 							<div className="flex items-center gap-2">
-								<button
-									onClick={() => setQuantity(Math.max(1, quantity - 1))}
-									disabled={quantity === 1}
-									className="w-9 h-9 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+									<button
+										type="button"
+										onClick={(e) => {
+											e.preventDefault()
+											e.stopPropagation()
+											setQuantity(Math.max(1, quantity - 1))
+										}}
+										disabled={quantity === 1}
+										className="w-12 h-12 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center active:bg-primary/10 active:border-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold touch-manipulation"
 								>
 									-
 								</button>
@@ -120,12 +124,18 @@ export default function CJC12955mgPage() {
 									type="number"
 									value={quantity}
 									onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-									className="w-16 h-9 text-center border-2 border-border bg-card text-foreground rounded-lg font-medium text-sm focus:outline-none focus:border-primary"
+									className="w-20 h-12 text-center border-2 border-border bg-card text-foreground rounded-lg font-medium text-sm focus:outline-none focus:border-primary"
 									min="1"
 								/>
 								<button
-									onClick={() => setQuantity(quantity + 1)}
-									className="w-9 h-9 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all text-sm"
+									type="button"
+									onClick={(e) => {
+										e.preventDefault()
+										e.stopPropagation()
+										setQuantity(quantity + 1)
+									}}
+									className="w-12 h-12 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center active:bg-primary/10 active:border-primary transition-colors text-lg font-semibold touch-manipulation"
+									className="w-12 h-12 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center active:bg-primary/10 active:border-primary transition-colors text-sm"
 								>
 									+
 								</button>
@@ -133,15 +143,13 @@ export default function CJC12955mgPage() {
 						</div>
 
 						{/* Add to Cart Button */}
-						<motion.button
+						<button type="button"
 							onClick={handleAddToCart}
-							whileHover={{ scale: 1.01 }}
-									whileTap={{ scale: 0.99 }}
-							className="w-full py-3 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg"
+							className="w-full py-3 px-4 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg"
 						>
 							<ShoppingCart className="h-4 w-4" />
 							<span>Add to Cart</span>
-						</motion.button>
+						</button>
 
 						{/* Trust Badges */}
 						<div className="grid grid-cols-1 gap-2 pt-3 border-t border-border">
@@ -170,17 +178,17 @@ export default function CJC12955mgPage() {
 								<p className="text-xs font-medium text-foreground">256-Bit SSL Encryption 100% Privacy Assurance</p>
 							</div>
 						</div>
-					</motion.div>
+					</div>
 				</div>
 
 				{/* Product Description */}
-				<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+				<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:p-8 lg:gap-12">
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
 							transition={{ duration: 0.5 }}
-							className="bg-card rounded-2xl p-8 border border-border shadow-sm"
+							className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm"
 						>
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Description</h2>
 							<div className="space-y-4">
@@ -205,14 +213,14 @@ export default function CJC12955mgPage() {
 								<span className="text-muted-foreground">Store at -20°C</span>
 							</div>
 						</div>
-					</motion.div>
+					</div>
 						
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
 							transition={{ duration: 0.5, delay: 0.1 }}
-							className="bg-card rounded-2xl p-8 border border-border shadow-sm"
+							className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm"
 						>
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
@@ -224,7 +232,7 @@ export default function CJC12955mgPage() {
 								designed for extended release. This research-grade peptide is designed for scientific studies 
 								and laboratory research purposes only.
 							</p>
-						</motion.div>
+						</div>
 					</div>
 
 					{/* Frequently Bought Together */}
@@ -246,8 +254,7 @@ export default function CJC12955mgPage() {
 						].map((product) => (
 							<Link key={product.id} href={`/products/${product.id}`}>
 								<motion.div
-									whileHover={{ y: -2 }}
-									className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer h-full flex flex-col"
+									className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col"
 								>
 									<div className="relative aspect-square bg-secondary/30 p-3">
 										<Image
@@ -267,11 +274,11 @@ export default function CJC12955mgPage() {
 											)}
 										</div>
 									</div>
-								</motion.div>
+								</div>
 							</Link>
 						))}
 					</div>
-				</motion.div>
+				</div>
 
 					{/* Research Disclaimer */}
 					<motion.div
@@ -279,7 +286,7 @@ export default function CJC12955mgPage() {
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.5 }}
-						className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-8"
+						className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8"
 					>
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
 							⚠️ Research Purposes Only
@@ -290,7 +297,7 @@ export default function CJC12955mgPage() {
 							you certify that you are 18+ years of age and agree to use this product only for 
 							legitimate research purposes in accordance with applicable laws and regulations.
 						</p>
-					</motion.div>
+					</div>
 				</div>
 			</main>
 			<Footer />

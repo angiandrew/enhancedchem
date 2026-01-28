@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
 import { Search } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -296,11 +295,7 @@ export default function Products() {
       <main className="pt-32 md:pt-36 pb-16">
         <div className="container mx-auto px-4 sm:px-6">
           {/* Page Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-8 sm:mb-12"
-          >
+          <div className="text-center mb-6 sm:mb-8">
             <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3 sm:mb-4 block font-sans">
               Our Products
             </span>
@@ -310,15 +305,10 @@ export default function Products() {
             <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-2">
               Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.
             </p>
-          </motion.div>
+          </div>
 
           {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="max-w-2xl mx-auto mb-8 sm:mb-12"
-          >
+          <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-muted-foreground" />
@@ -328,46 +318,33 @@ export default function Products() {
                 placeholder="Search products by name or description..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 pr-4 py-6 text-base sm:text-sm bg-card border-border/50 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 rounded-xl shadow-sm"
+                className="pl-12 pr-4 py-6 text-base sm:text-sm bg-card border-border/50 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 rounded-lg shadow-sm"
               />
             </div>
-          </motion.div>
+          </div>
 
           {/* Search Results Count */}
           {searchTerm && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mb-6 text-center sm:text-left"
-            >
+            <div className="mb-4 text-center sm:text-left">
               <p className="text-sm sm:text-base text-muted-foreground">
                 {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found{searchTerm && ` for "${searchTerm}"`}
               </p>
-            </motion.div>
+            </div>
           )}
 
           {/* Products Grid */}
           <div className="max-w-7xl mx-auto">
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-                {filteredProducts.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 px-1 sm:px-2">
+                {filteredProducts.map((product) => (
+                  <div key={product.id}>
                     <ProductCard {...product} />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-12"
-              >
-                <p className="text-lg text-muted-foreground mb-2">No products found</p>
+              <div className="text-center py-12">
+                <p className="text-lg text-muted-foreground mb-3">No products found</p>
                 <p className="text-sm text-muted-foreground">
                   Try adjusting your search terms or{' '}
                   <button
@@ -377,22 +354,17 @@ export default function Products() {
                     clear the search
                   </button>
                 </p>
-              </motion.div>
+              </div>
             )}
           </div>
 
           {/* Research Disclaimer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mt-12 sm:mt-16 p-6 sm:p-8 bg-card rounded-xl border border-border/50 shadow-sm text-center"
-          >
+          <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-card rounded-lg border border-border/50 shadow-sm text-center">
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only. 
               Not for human consumption. Please ensure compliance with local regulations.
             </p>
-          </motion.div>
+          </div>
         </div>
       </main>
       <Footer />

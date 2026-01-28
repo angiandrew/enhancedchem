@@ -5,7 +5,6 @@ import { ArrowLeft, ShoppingCart, Truck, Award, Lock, CheckCircle } from 'lucide
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
-import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
@@ -56,12 +55,7 @@ export default function BPC15710mgPage() {
 			<ProductNavigation currentProductId="bpc-157-10mg" />
 			<main className="container mx-auto px-6 pt-28 pb-16">
 				{/* Back Link */}
-				<motion.div
-					initial={{ opacity: 0, y: -20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.3 }}
-					className="mb-8"
-				>
+				<div className="mb-8">
 					<Link
 						href="/products"
 						className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -69,15 +63,10 @@ export default function BPC15710mgPage() {
 						<ArrowLeft className="w-4 h-4" />
 						<span className="text-sm font-medium">Back to Products</span>
 					</Link>
-				</motion.div>
+				</div>
 
 				{/* Two-column Hero Grid */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5 }}
-					className="grid lg:grid-cols-2 gap-12 mb-16"
-				>
+				<div className="grid lg:grid-cols-2 gap-6 lg:gap-12 mb-16">
 					{/* Left Column - Product Images */}
 					<div className="space-y-4">
 						{/* Main Product Image */}
@@ -86,7 +75,7 @@ export default function BPC15710mgPage() {
 								src={product.image}
 								alt={product.name}
 								fill
-								className="object-contain p-8"
+								className="object-contain p-4 sm:p-8"
 								priority
 								unoptimized
 							/>
@@ -161,15 +150,10 @@ export default function BPC15710mgPage() {
 							</div>
 						</div>
 					</div>
-				</motion.div>
+				</div>
 
 				{/* Specifications Section */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.2 }}
-					className="grid md:grid-cols-2 gap-8 mb-16"
-				>
+				<div className="grid md:grid-cols-2 gap-4 sm:p-8 mb-16">
 					{/* Left Card - Specs Table */}
 					<div className="bg-card rounded-lg border border-border p-6">
 						<h2 className="font-serif text-2xl font-medium text-foreground mb-6">
@@ -198,32 +182,27 @@ export default function BPC15710mgPage() {
 						</h2>
 						<div className="space-y-4">
 							<div>
-								<span className="font-medium text-foreground block mb-2">Temperature:</span>
+								<span className="font-medium text-foreground block mb-3">Temperature:</span>
 								<span className="text-muted-foreground">{product.storage.temperature}</span>
 							</div>
 							<div>
-								<span className="font-medium text-foreground block mb-2">Handling:</span>
+								<span className="font-medium text-foreground block mb-3">Handling:</span>
 								<span className="text-muted-foreground">{product.storage.handling}</span>
 							</div>
 							<div>
-								<span className="font-medium text-foreground block mb-2">Shelf Life:</span>
+								<span className="font-medium text-foreground block mb-3">Shelf Life:</span>
 								<span className="text-muted-foreground">{product.storage.shelfLife}</span>
 							</div>
 						</div>
 					</div>
-				</motion.div>
+				</div>
 
 				{/* Disclaimer */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.3 }}
-					className="bg-secondary/50 rounded-lg p-6 text-center"
-				>
+				<div className="bg-secondary/50 rounded-lg p-6 text-center">
 					<p className="text-muted-foreground leading-relaxed">
 						⚠️ <strong className="text-foreground">Research Purposes Only</strong> - This product is sold for research purposes only. Not for human consumption, diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, you certify that you are 18+ years of age and agree to use this product only for legitimate research purposes in accordance with applicable laws and regulations.
 					</p>
-				</motion.div>
+				</div>
 			</main>
 			<Footer />
 		</div>

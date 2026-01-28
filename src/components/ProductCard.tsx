@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
@@ -50,11 +49,7 @@ export default function ProductCard({
   }
 
   return (
-    <motion.div
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2 }}
-      className="group bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col backdrop-blur-sm"
-    >
+    <div className="group bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm active:shadow-md transition-shadow h-full flex flex-col backdrop-blur-sm">
       {/* Image Container */}
       <div className="relative aspect-square bg-gradient-to-br from-secondary/30 to-secondary/10 overflow-hidden">
         <Link href={`/products/${id}`}>
@@ -63,8 +58,8 @@ export default function ProductCard({
             alt={name}
             width={200}
             height={200}
-            className={`w-full h-full object-contain p-2 sm:p-3 transition-transform duration-500 ${
-              inStock ? 'group-hover:scale-105' : 'opacity-75'
+            className={`w-full h-full object-contain p-1 sm:p-2 md:p-3 ${
+              !inStock ? 'opacity-75' : ''
             }`}
             unoptimized
           />
@@ -88,18 +83,18 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-4 flex flex-col bg-card">
+      <div className="p-2 sm:p-3 md:p-4 flex flex-col bg-card">
         <Link href={`/products/${id}`} className="group/link">
-          <h3 className="font-serif text-sm font-medium mb-1 text-foreground group-hover/link:text-primary transition-colors line-clamp-1">{name}</h3>
-          <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2 leading-relaxed min-h-[2rem]">{description}</p>
+          <h3 className="font-serif text-xs sm:text-sm font-medium mb-0.5 sm:mb-1 text-foreground line-clamp-1">{name}</h3>
+          <p className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground mb-1 sm:mb-2 line-clamp-2 leading-tight">{description}</p>
         </Link>
 
         {/* Price & Action */}
-        <div className="flex items-center justify-between gap-2 mt-auto pt-2 sm:pt-3 border-t border-border/30">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-sm sm:text-base font-semibold text-foreground">${price.toFixed(2)}</span>
+        <div className="flex items-center justify-between gap-1 sm:gap-2 mt-auto pt-1.5 sm:pt-2 border-t border-border/30">
+          <div className="flex items-baseline gap-1">
+            <span className="text-xs sm:text-sm md:text-base font-semibold text-foreground">${price.toFixed(2)}</span>
             {originalPrice && (
-              <span className="text-[10px] text-muted-foreground line-through font-medium">
+              <span className="text-[8px] sm:text-[9px] md:text-[10px] text-muted-foreground line-through font-medium">
                 ${originalPrice.toFixed(2)}
               </span>
             )}
@@ -109,14 +104,14 @@ export default function ProductCard({
             size="sm" 
             onClick={handleAddToCart} 
             disabled={!inStock}
-            className={`text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 font-medium transition-all ${
-              !inStock ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+            className={`text-[8px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-1.5 font-medium transition-colors touch-manipulation ${
+              !inStock ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            {inStock ? 'Add to Cart' : 'Sold Out'}
+            {inStock ? 'Add' : 'Out'}
           </Button>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
