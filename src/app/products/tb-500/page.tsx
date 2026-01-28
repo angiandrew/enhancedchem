@@ -129,7 +129,9 @@ export default function TB500Page() {
 								</label>
 								<div className="flex flex-wrap gap-3">
 									{mgOptions.map((option) => (
-									<button type="button" key={option.value}
+									<button
+										type="button"
+										key={option.value}
 										type="button"
 										onClick={(e) => {
 											e.preventDefault()

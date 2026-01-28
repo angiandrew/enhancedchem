@@ -129,8 +129,9 @@ export default function BpcTbMixPage() {
 								</label>
 								<div className="flex flex-wrap gap-3">
 									{mgOptions.map((option) => (
-									<button type="button" key={option.value}
+									<button
 										type="button"
+										key={option.value}
 										onClick={(e) => {
 											e.preventDefault()
 											e.stopPropagation()

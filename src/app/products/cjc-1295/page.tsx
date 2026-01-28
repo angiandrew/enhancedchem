@@ -120,7 +120,9 @@ export default function CJC1295Page() {
 								</label>
 								<div className="flex flex-wrap gap-3">
 									{mgOptions.map((option) => (
-									<button type="button" key={option.value}
+									<button
+										type="button"
+										key={option.value}
 										onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedMG(option.value); }}
 										disabled={!option.inStock && selectedMG !== option.value}
 										className={`px-5 py-3 rounded-lg border-2 text-sm font-medium transition-colors relative ${

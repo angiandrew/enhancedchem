@@ -104,7 +104,9 @@ export default function TB5005mgPage() {
 								</label>
 								<div className="flex flex-wrap gap-3">
 									{mgOptions.map((option) => (
-									<button type="button" key={option.value}
+									<button
+										type="button"
+										key={option.value}
 										onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedMG(option.value); }}
 										disabled={!option.inStock && selectedMG !== option.value}
 										className={`px-5 py-3 rounded-lg border-2 font-semibold transition-colors relative ${
