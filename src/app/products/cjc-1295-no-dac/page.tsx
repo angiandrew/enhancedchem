@@ -56,21 +56,9 @@ export default function CJC1295NoDACPage() {
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
 						{/* Product Image */}
-						<motion.div 
-							className="lg:sticky lg:top-28"
-							initial={{ opacity: 0, x: -20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.5 }}
-						>
-							<AnimatePresence mode="wait">
-								<motion.div
-									key={currentImage}
-									initial={{ opacity: 0, scale: 0.95 }}
-									animate={{ opacity: 1, scale: 1 }}
-									exit={{ opacity: 0, scale: 0.95 }}
-									transition={{ duration: 0.3 }}
-									className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden"
-								>
+						<div className="lg:sticky lg:top-28">
+							
+								<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
 									<Image
 										src={currentImage}
 										alt={`CJC-1295 No DAC (${selectedMG})`}
@@ -83,12 +71,7 @@ export default function CJC1295NoDACPage() {
 						</div>
 
 						{/* Product Info */}
-						<motion.div 
-							className="space-y-4"
-							initial={{ opacity: 0, x: 20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.5, delay: 0.1 }}
-						>
+						<div className="space-y-4">
 							{/* Availability */}
 							<div className="flex items-center gap-2">
 								{isInStock ? (
@@ -189,7 +172,6 @@ export default function CJC1295NoDACPage() {
 										setQuantity(quantity + 1)
 									}}
 									className="w-12 h-12 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center active:bg-primary/10 active:border-primary transition-colors text-lg font-semibold touch-manipulation"
-									className="w-12 h-12 rounded-lg border-2 border-border bg-card text-foreground flex items-center justify-center active:bg-primary/10 active:border-primary transition-colors text-sm"
 								>
 									+
 								</button>
@@ -242,13 +224,7 @@ export default function CJC1295NoDACPage() {
 
 				{/* Product Description */}
 				<div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:p-8 lg:gap-12">
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.5 }}
-							className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm"
-						>
+						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Description</h2>
 							<div className="space-y-4">
 								<div className="flex justify-between py-2 border-b border-border/50">
@@ -274,13 +250,7 @@ export default function CJC1295NoDACPage() {
 							</div>
 						</div>
 						
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.5, delay: 0.1 }}
-							className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm"
-						>
+						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
 								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. 
@@ -295,13 +265,7 @@ export default function CJC1295NoDACPage() {
 					</div>
 
 					{/* Frequently Bought Together */}
-					<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.5 }}
-					className="mt-16"
-				>
+					<div className="mt-16">
 					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
@@ -312,9 +276,7 @@ export default function CJC1295NoDACPage() {
 							{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
 						].map((product) => (
 							<Link key={product.id} href={`/products/${product.id}`}>
-								<motion.div
-									className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col"
-								>
+								<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">
 									<div className="relative aspect-square bg-secondary/30 p-3">
 										<Image
 											src={product.image}
@@ -340,13 +302,7 @@ export default function CJC1295NoDACPage() {
 				</div>
 
 					{/* Research Disclaimer */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.5 }}
-						className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8"
-					>
+					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
 							⚠️ Research Purposes Only
 						</h3>
