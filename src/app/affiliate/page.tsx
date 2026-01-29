@@ -122,8 +122,8 @@ export default function AffiliatePage() {
 							<div className="flex items-start gap-3">
 								<CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
 								<div>
-									<h3 className="font-medium mb-1">18+ Years Old</h3>
-									<p className="text-sm text-muted-foreground">Must be at least 18 years of age</p>
+									<h3 className="font-medium mb-1">21+ Years Old</h3>
+									<p className="text-sm text-muted-foreground">Must be at least 21 years of age</p>
 								</div>
 							</div>
 							<div className="flex items-start gap-3">
