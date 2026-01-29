@@ -50,12 +50,27 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* Site Disclaimer */}
+        <div className="mt-12 pt-8 border-t border-border/40">
+          <p className="text-xs text-muted-foreground leading-relaxed space-y-3">
+            <span className="block">
+              All products offered on this website are intended exclusively for laboratory and scientific research purposes. They are not for human or animal consumption under any circumstances.
+            </span>
+            <span className="block">
+              The information and statements provided on this website have not been reviewed by the U.S. Food and Drug Administration. Neither the content nor the products are designed to diagnose, treat, cure, or prevent any disease or condition.
+            </span>
+            <span className="block">
+              Enhanced Chem LLC operates solely as a supplier of research chemicals. Enhanced Chem LLC is not a compounding pharmacy or chemical compounding facility as defined under Section 503A of the Federal Food, Drug, and Cosmetic Act, nor an outsourcing facility as defined under Section 503B of the same Act.
+            </span>
+            <span className="block font-semibold uppercase tracking-wide text-foreground/90">
+              The products provided are not for human use and are meant strictly for in-vitro and laboratory research applications. The purchaser recognizes the inherent hazards associated with the handling, utilization, and distribution of these materials, and affirms that they possess the appropriate equipment, premises, and qualified staff to manage such hazards; the purchaser voluntarily assumes all associated risks.
+            </span>
+          </p>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} EnhancedChem. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground text-center md:text-right">
-            For Research Use Only. Not For Human Consumption.
           </p>
         </div>
       </div>

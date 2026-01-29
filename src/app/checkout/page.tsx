@@ -105,7 +105,6 @@ export default function CheckoutPage() {
 		'University laboratory',
 		'Independent research facility', 
 		'Contract Research Organization (CRO)',
-		'Biotech/Pharma R&D company',
 		'Government or public research institute'
 	]
 
