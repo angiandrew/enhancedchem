@@ -114,9 +114,11 @@ export default function CheckoutPage() {
 		return emailRegex.test(email.trim())
 	}
 	
-	// Promo code logic
+	// Promo code logic (codes are matched case-insensitively via .toUpperCase())
 	const validPromoCodes: Record<string, number> = {
-		'ECNA10': 0.10, // 10% discount
+		'ECNA10': 0.10,    // 10% discount
+		'GINGER20': 0.10,  // 10% discount
+		'JADEALEXA': 0.10 // 10% discount
 	}
 	
 	const handlePromoCode = () => {
