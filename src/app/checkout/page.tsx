@@ -12,6 +12,16 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 
+// Promo codes: key = uppercase normalized code, value = discount (0.10 = 10%). Matching is case-insensitive.
+const VALID_PROMO_CODES: Record<string, number> = {
+	'ECNA10': 0.10,
+	'GINGER20': 0.10,
+	'JADEALEXA': 0.10,
+}
+
+function normalizePromoCode(input: string): string {
+	return input.replace(/\s+/g, '').toUpperCase()
+}
 
 export default function CheckoutPage() {
 	const { items, updateQuantity, removeItem, totalPrice, totalItems, clearCart } = useCart()
@@ -114,21 +124,14 @@ export default function CheckoutPage() {
 		return emailRegex.test(email.trim())
 	}
 	
-	// Promo code logic (codes are matched case-insensitively via .toUpperCase())
-	const validPromoCodes: Record<string, number> = {
-		'ECNA10': 0.10,    // 10% discount
-		'GINGER20': 0.10,  // 10% discount
-		'JADEALEXA': 0.10 // 10% discount
-	}
-	
 	const handlePromoCode = () => {
 		if (!promoCode?.trim()) {
 			setPromoApplied(false)
 			setPromoError('Please enter a promo code')
 			return
 		}
-		const code = promoCode.trim().toUpperCase()
-		if (validPromoCodes[code]) {
+		const code = normalizePromoCode(promoCode.trim())
+		if (code && VALID_PROMO_CODES[code] !== undefined) {
 			setPromoApplied(true)
 			setPromoError('')
 		} else {
@@ -141,9 +144,9 @@ export default function CheckoutPage() {
 	const subtotal = totalPrice
 	const tax = totalPrice * 0.07
 	const orderSubtotal = subtotal + shippingCost + tax
-	const promoCodeUpper = promoCode?.trim().toUpperCase() || ''
-	const promoDiscount = promoApplied && promoCodeUpper && validPromoCodes[promoCodeUpper] 
-		? orderSubtotal * validPromoCodes[promoCodeUpper]
+	const promoCodeUpper = normalizePromoCode(promoCode?.trim() || '')
+	const promoDiscount = promoApplied && promoCodeUpper && VALID_PROMO_CODES[promoCodeUpper] != null
+		? orderSubtotal * VALID_PROMO_CODES[promoCodeUpper]
 		: 0
 	// Add 10% increase for Bitcoin
 	const bitcoinSurcharge = selectedCryptoType === 'bitcoin' ? (orderSubtotal - promoDiscount) * 0.10 : 0
@@ -177,9 +180,9 @@ export default function CheckoutPage() {
 
 		// Calculate and save order total before clearing cart (with promo discount)
 		const subtotalCalc = totalPrice + shippingCost + (totalPrice * 0.07)
-		const promoCodeUpper = promoCode?.trim().toUpperCase() || ''
-		const promoDiscountCalc = promoApplied && promoCodeUpper && validPromoCodes[promoCodeUpper] 
-			? subtotalCalc * validPromoCodes[promoCodeUpper]
+		const promoCodeUpper = normalizePromoCode(promoCode?.trim() || '')
+		const promoDiscountCalc = promoApplied && promoCodeUpper && VALID_PROMO_CODES[promoCodeUpper] != null 
+			? subtotalCalc * VALID_PROMO_CODES[promoCodeUpper]
 			: 0
 		// Add 10% increase for Bitcoin
 		const bitcoinSurchargeCalc = selectedCryptoType === 'bitcoin' ? (subtotalCalc - promoDiscountCalc) * 0.10 : 0
@@ -1264,7 +1267,7 @@ export default function CheckoutPage() {
 											{promoApplied && (
 												<p className="text-xs text-green-600 mt-1 font-medium flex items-center gap-1">
 													<CheckCircle className="w-3 h-3" />
-													Promo code applied! {promoCode?.trim() && validPromoCodes[promoCode.trim().toUpperCase()] ? Math.round(validPromoCodes[promoCode.trim().toUpperCase()] * 100) : 10}% discount
+													Promo code applied! {promoCode?.trim() && VALID_PROMO_CODES[normalizePromoCode(promoCode.trim())] != null ? Math.round(VALID_PROMO_CODES[normalizePromoCode(promoCode.trim())] * 100) : 10}% discount
 												</p>
 											)}
 										</div>
