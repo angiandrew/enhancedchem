@@ -36,34 +36,40 @@ export default function AffiliatePage() {
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ delay: 0.1 }}
-						className="grid md:grid-cols-3 gap-8 mb-16"
+						className="grid grid-cols-3 gap-3 md:gap-8 mb-16"
 					>
-						<div className="bg-card rounded-lg border border-border p-6 text-center">
-							<div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-								<DollarSign className="w-8 h-8 text-primary" />
+						<div className="bg-card rounded-lg border border-border p-3 md:p-6 text-center">
+							<div className="bg-primary/10 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+								<DollarSign className="w-6 h-6 md:w-8 md:h-8 text-primary" />
 							</div>
-							<h3 className="font-serif text-xl font-medium mb-2">Competitive Commissions</h3>
-							<p className="text-muted-foreground text-sm">
-								10-20% commission on qualifying sales from verified researcher purchases
+							<h3 className="font-serif text-xs md:text-xl font-medium mb-1.5 md:mb-2">
+								Competitive Commissions
+							</h3>
+							<p className="text-muted-foreground text-[10px] md:text-sm leading-snug">
+								15% commission on qualifying sales from verified researcher purchases
 							</p>
 						</div>
 
-						<div className="bg-card rounded-lg border border-border p-6 text-center">
-							<div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-								<TrendingUp className="w-8 h-8 text-primary" />
+						<div className="bg-card rounded-lg border border-border p-3 md:p-6 text-center">
+							<div className="bg-primary/10 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+								<TrendingUp className="w-6 h-6 md:w-8 md:h-8 text-primary" />
 							</div>
-							<h3 className="font-serif text-xl font-medium mb-2">Transparent Tracking</h3>
-							<p className="text-muted-foreground text-sm">
+							<h3 className="font-serif text-xs md:text-xl font-medium mb-1.5 md:mb-2">
+								Transparent Tracking
+							</h3>
+							<p className="text-muted-foreground text-[10px] md:text-sm leading-snug">
 								Real-time tracking and monthly payouts with clear reporting and analytics
 							</p>
 						</div>
 
-						<div className="bg-card rounded-lg border border-border p-6 text-center">
-							<div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-								<Users className="w-8 h-8 text-primary" />
+						<div className="bg-card rounded-lg border border-border p-3 md:p-6 text-center">
+							<div className="bg-primary/10 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+								<Users className="w-6 h-6 md:w-8 md:h-8 text-primary" />
 							</div>
-							<h3 className="font-serif text-xl font-medium mb-2">No Upfront Cost</h3>
-							<p className="text-muted-foreground text-sm">
+							<h3 className="font-serif text-xs md:text-xl font-medium mb-1.5 md:mb-2">
+								No Upfront Cost
+							</h3>
+							<p className="text-muted-foreground text-[10px] md:text-sm leading-snug">
 								Join free with no fees or minimum requirements. Start earning immediately after approval
 							</p>
 						</div>
@@ -77,34 +83,40 @@ export default function AffiliatePage() {
 						className="bg-card rounded-lg border border-border p-8 md:p-12 mb-16"
 					>
 						<h2 className="font-serif text-3xl font-medium mb-8 text-center">How It Works</h2>
-						<div className="grid md:grid-cols-3 gap-8">
+						<div className="grid grid-cols-3 gap-3 md:gap-8">
 							<div className="text-center">
-								<div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-									<span className="text-primary font-bold text-xl">1</span>
+								<div className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+									<span className="text-primary font-bold text-sm md:text-xl">1</span>
 								</div>
-								<h3 className="font-serif text-lg font-medium mb-2">Apply & Get Approved</h3>
-								<p className="text-muted-foreground text-sm">
-									Submit your application with your website or social media details. Approval is typically within 1-2 business days.
+								<h3 className="font-serif text-xs md:text-lg font-medium mb-1.5 md:mb-2">
+									Apply &amp; Get Approved
+								</h3>
+								<p className="text-muted-foreground text-[10px] md:text-sm leading-snug">
+									Submit your application with your website or social media details. Approval is typically within 1–2 business days.
 								</p>
 							</div>
 
 							<div className="text-center">
-								<div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-									<span className="text-primary font-bold text-xl">2</span>
+								<div className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+									<span className="text-primary font-bold text-sm md:text-xl">2</span>
 								</div>
-								<h3 className="font-serif text-lg font-medium mb-2">Get Your Unique Link</h3>
-								<p className="text-muted-foreground text-sm">
-									Once approved, you&apos;ll receive a unique referral link to share with your audience across any platform.
+								<h3 className="font-serif text-xs md:text-lg font-medium mb-1.5 md:mb-2">
+									Get Your Unique Link
+								</h3>
+								<p className="text-muted-foreground text-[10px] md:text-sm leading-snug">
+									Once approved, you&apos;ll receive a unique referral link to share with your audience across any platform — perfect for bios and link-in-bio pages like Linktree or link.me.
 								</p>
 							</div>
 
 							<div className="text-center">
-								<div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-									<span className="text-primary font-bold text-xl">3</span>
+								<div className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+									<span className="text-primary font-bold text-sm md:text-xl">3</span>
 								</div>
-								<h3 className="font-serif text-lg font-medium mb-2">Earn Commissions</h3>
-								<p className="text-muted-foreground text-sm">
-									Earn 10-20% commission on every sale made through your referral link. Payments are made monthly via PayPal, CashApp, or Venmo.
+								<h3 className="font-serif text-xs md:text-lg font-medium mb-1.5 md:mb-2">
+									Earn Commissions
+								</h3>
+								<p className="text-muted-foreground text-[10px] md:text-sm leading-snug">
+									Earn 15% commission on every sale made through your referral link. Payments are made monthly via PayPal, CashApp, or Venmo.
 								</p>
 							</div>
 						</div>
