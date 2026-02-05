@@ -12,9 +12,13 @@ export async function GET() {
 		const orders = await getAllOrders()
 		return NextResponse.json({ success: true, orders })
 	} catch (error) {
+		const message = error instanceof Error ? error.message : 'Unknown error'
 		console.error('Error fetching orders:', error)
 		return NextResponse.json(
-			{ error: 'Failed to fetch orders' },
+			{
+				error: 'Failed to fetch orders',
+				...(process.env.NODE_ENV === 'development' && { details: message }),
+			},
 			{ status: 500 }
 		)
 	}
@@ -52,9 +56,13 @@ export async function PATCH(request: NextRequest) {
 			)
 		}
 	} catch (error) {
+		const message = error instanceof Error ? error.message : 'Unknown error'
 		console.error('Error updating order status:', error)
 		return NextResponse.json(
-			{ error: 'Failed to update order status' },
+			{
+				error: 'Failed to update order status',
+				...(process.env.NODE_ENV === 'development' && { details: message }),
+			},
 			{ status: 500 }
 		)
 	}

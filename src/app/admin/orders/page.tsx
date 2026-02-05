@@ -16,26 +16,35 @@ interface Order {
 export default function AdminOrdersPage() {
 	const [orders, setOrders] = useState<Order[]>([])
 	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
 		fetchOrders()
 	}, [])
 
 	const fetchOrders = async () => {
+		setError(null)
 		try {
 			const response = await fetch('/api/admin/orders')
 			if (response.ok) {
 				const data = await response.json()
 				setOrders(data.orders || [])
+			} else {
+				const body = await response.json().catch(() => ({}))
+				const msg = body.details || body.error || `HTTP ${response.status}`
+				setError(msg)
 			}
-		} catch (error) {
-			console.error('Error fetching orders:', error)
+		} catch (err) {
+			const msg = err instanceof Error ? err.message : 'Failed to fetch orders'
+			setError(msg)
+			console.error('Error fetching orders:', err)
 		} finally {
 			setLoading(false)
 		}
 	}
 
 	const updateOrderStatus = async (orderNumber: string, newStatus: Order['status']) => {
+		setError(null)
 		try {
 			const response = await fetch('/api/admin/orders', {
 				method: 'PATCH',
@@ -47,9 +56,15 @@ export default function AdminOrdersPage() {
 
 			if (response.ok) {
 				fetchOrders() // Refresh orders list
+			} else {
+				const errorData = await response.json().catch(() => ({ error: 'Failed to update' }))
+				const msg = errorData.details || errorData.error || 'Unknown error'
+				setError(msg)
 			}
-		} catch (error) {
-			console.error('Error updating order status:', error)
+		} catch (err) {
+			const msg = err instanceof Error ? err.message : 'Unknown error'
+			setError(msg)
+			console.error('Error updating order status:', err)
 		}
 	}
 
@@ -113,6 +128,20 @@ export default function AdminOrdersPage() {
 					<h1 className="text-3xl font-bold text-gray-900 mb-2">Order Management</h1>
 					<p className="text-gray-600">View and manage all customer orders</p>
 				</div>
+
+				{error && (
+					<div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+						<p className="font-medium">Error</p>
+						<p className="text-sm mt-1">{error}</p>
+						<button
+							type="button"
+							onClick={() => { setError(null); fetchOrders(); }}
+							className="mt-2 text-sm underline hover:no-underline"
+						>
+							Try again
+						</button>
+					</div>
+				)}
 
 				{/* Orders Table */}
 				<div className="bg-white rounded-lg shadow-sm overflow-hidden">

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Shield, Truck, Award } from 'lucide-react'
+import { ArrowRight, Shield, Truck, Award, CalendarCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -90,6 +90,7 @@ export function FeaturesStrip() {
     { icon: Shield, label: '99.9%+ Purity Certified' },
     { icon: Award, label: 'GMP Compliant' },
     { icon: Truck, label: 'Fast & Secure Shipping' },
+    { icon: CalendarCheck, label: 'Trusted Since 2019' },
   ]
 
   return (

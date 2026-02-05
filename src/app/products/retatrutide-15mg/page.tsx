@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
+import ProductImageCarousel from '@/components/ProductImageCarousel'
 
 export default function Retatrutide15mgPage() {
 	const [selectedMG, setSelectedMG] = useState('15mg')
@@ -57,33 +58,19 @@ export default function Retatrutide15mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Images */}
-						<div className="lg:sticky lg:top-28 space-y-4">
-							<div className={`relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden ${!isInStock ? 'opacity-75' : ''}`}>
-								<Image
-									src={currentImage}
-									alt={`Retatrutide ${selectedMG}`}
-									fill
-									className="object-contain p-4 sm:p-8"
-									priority
-									unoptimized
-								/>
-							</div>
-							{/* COA Image - only show for 15mg */}
-							{selectedMG === '15mg' && (
-								<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-									<Image
-										src="/COAs/3rd party testing/reta15.jpg"
-										alt="Retatrutide 15mg Certificate of Analysis"
-										fill
-										className="object-contain p-4"
-										unoptimized
-									/>
-									<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-										COA
-									</div>
-								</div>
-							)}
+						{/* Product Images - carousel with dots when product + COA */}
+						<div className="lg:sticky lg:top-28">
+							<ProductImageCarousel
+								slides={
+									selectedMG === '15mg'
+										? [
+												{ src: currentImage, alt: `Retatrutide ${selectedMG}` },
+												{ src: '/COAs/3rd party testing/reta15.jpg', alt: 'Retatrutide 15mg Certificate of Analysis', isCoa: true },
+											]
+										: [{ src: currentImage, alt: `Retatrutide ${selectedMG}` }]
+								}
+								priority
+							/>
 						</div>
 
 						{/* Product Info */}

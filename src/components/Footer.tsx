@@ -25,6 +25,9 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground leading-relaxed">
               Pharmaceutical-grade research peptides with certified purity standards.
             </p>
+            <p className="text-xs text-muted-foreground/90 mt-2 font-medium">
+              Providing top quality since 2019.
+            </p>
           </div>
 
           {/* Company */}
@@ -71,6 +74,9 @@ export default function Footer() {
         <div className="mt-6 pt-6 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} EnhancedChem. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground font-medium">
+            Providing top quality since 2019.
           </p>
         </div>
       </div>

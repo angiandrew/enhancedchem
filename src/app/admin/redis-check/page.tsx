@@ -70,7 +70,19 @@ export default function RedisCheckPage() {
 			}
 
 			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`)
+				let body: { error?: string; details?: string } = {}
+				try {
+					body = await response.json()
+				} catch {
+					// ignore
+				}
+				const message = body.details || body.error || `HTTP ${response.status}`
+				setData({
+					connected: false,
+					message: message,
+					data: null,
+				})
+				return
 			}
 
 			const result = await response.json()
@@ -113,7 +125,8 @@ export default function RedisCheckPage() {
 				await fetchRedisData()
 			} else {
 				const errorData = await response.json().catch(() => ({ error: 'Failed to update' }))
-				alert(`Failed to update order status: ${errorData.error || 'Unknown error'}`)
+				const msg = errorData.details || errorData.error || 'Unknown error'
+				alert(`Failed to update order status: ${msg}`)
 			}
 		} catch (error) {
 			console.error('Error updating order status:', error)

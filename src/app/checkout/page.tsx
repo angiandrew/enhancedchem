@@ -65,7 +65,18 @@ export default function CheckoutPage() {
 	const [promoCode, setPromoCode] = useState('')
 	const [promoApplied, setPromoApplied] = useState(false)
 	const [promoError, setPromoError] = useState('')
-	
+	const [apiErrorDev, setApiErrorDev] = useState<string | null>(null)
+
+	// In development, show API error on success page if the server returned an error
+	useEffect(() => {
+		if (typeof window === 'undefined' || process.env.NODE_ENV !== 'development') return
+		const stored = sessionStorage.getItem('checkout_api_error')
+		if (stored) {
+			sessionStorage.removeItem('checkout_api_error')
+			setApiErrorDev(stored)
+		}
+	}, [orderCompleted])
+
 	// Affiliate tracking - purchases
 	useEffect(() => {
 		if (orderCompleted && orderNumber && orderTotal > 0) {
@@ -249,14 +260,17 @@ export default function CheckoutPage() {
 
 			// Check if response is ok before parsing
 			if (!response.ok) {
-				let errorData
+				let errorData: { error?: string; details?: string } = {}
 				try {
 					errorData = await response.json()
 				} catch {
 					errorData = { error: `HTTP ${response.status}: ${response.statusText}` }
 				}
 				console.error('API Error Response:', errorData)
-				// Order already completed, just log the error - don't show to user
+				// In development, store so we can show the real error on the success page
+				if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+					sessionStorage.setItem('checkout_api_error', errorData.details || errorData.error || JSON.stringify(errorData))
+				}
 				return
 			}
 
@@ -333,6 +347,13 @@ export default function CheckoutPage() {
 									<div className="bg-green-100 border-2 border-green-500 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 shadow-md max-w-md mx-auto">
 										<p className="text-xs sm:text-sm text-green-800 mb-2 font-medium">Your Order Number:</p>
 										<p className="text-xl sm:text-2xl font-bold text-green-950 break-all">{orderNumber}</p>
+									</div>
+								)}
+
+								{process.env.NODE_ENV === 'development' && apiErrorDev && (
+									<div className="mb-6 p-4 bg-amber-50 border-2 border-amber-400 rounded-lg text-amber-900 max-w-2xl mx-auto text-left">
+										<p className="font-semibold">Development: API error (so you can see what went wrong)</p>
+										<pre className="mt-2 text-sm whitespace-pre-wrap break-words">{apiErrorDev}</pre>
 									</div>
 								)}
 								

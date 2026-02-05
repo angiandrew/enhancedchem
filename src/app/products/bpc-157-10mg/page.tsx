@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
+import ProductImageCarousel from '@/components/ProductImageCarousel'
 import { Button } from '@/components/ui/button'
 
 export default function BPC15710mgPage() {
@@ -67,32 +68,15 @@ export default function BPC15710mgPage() {
 
 				{/* Two-column Hero Grid */}
 				<div className="grid lg:grid-cols-2 gap-6 lg:gap-12 mb-16">
-					{/* Left Column - Product Images */}
-					<div className="space-y-4">
-						{/* Main Product Image */}
-						<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-							<Image
-								src={product.image}
-								alt={product.name}
-								fill
-								className="object-contain p-4 sm:p-8"
-								priority
-								unoptimized
-							/>
-						</div>
-						{/* COA Image */}
-						<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-							<Image
-								src="/COAs/3rd party testing/BPC10.jpg"
-								alt="BPC-157 10mg Certificate of Analysis"
-								fill
-								className="object-contain p-4"
-								unoptimized
-							/>
-							<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-								COA
-							</div>
-						</div>
+					{/* Left Column - Product Images carousel with dots */}
+					<div>
+						<ProductImageCarousel
+							slides={[
+								{ src: product.image, alt: product.name },
+								{ src: '/COAs/3rd party testing/BPC10.jpg', alt: 'BPC-157 10mg Certificate of Analysis', isCoa: true },
+							]}
+							priority
+						/>
 					</div>
 
 					{/* Right Column - Product Info */}

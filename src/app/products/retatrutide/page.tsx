@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import ProductImageCarousel from '@/components/ProductImageCarousel'
 import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -83,33 +84,19 @@ export default function RetatrutidePage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Images */}
-						<div className="lg:sticky lg:top-28 space-y-4">
-							<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-								<Image
-									src={currentImage}
-									alt={`Retatrutide ${selectedMG}`}
-									fill
-									className="object-contain p-4 sm:p-8"
-									priority
-									unoptimized
-								/>
-							</div>
-							{/* COA Image - only show for 10mg */}
-							{selectedMG === '10mg' && (
-								<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-									<Image
-										src="/COAs/3rd party testing/reta10.jpg"
-										alt="Retatrutide 10mg Certificate of Analysis"
-										fill
-										className="object-contain p-4"
-										unoptimized
-									/>
-									<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-										COA
-									</div>
-								</div>
-							)}
+						{/* Product Images - carousel with dots when product + COA */}
+						<div className="lg:sticky lg:top-28">
+							<ProductImageCarousel
+								slides={
+									selectedMG === '10mg'
+										? [
+												{ src: currentImage, alt: `Retatrutide ${selectedMG}` },
+												{ src: '/COAs/3rd party testing/reta10.jpg', alt: 'Retatrutide 10mg Certificate of Analysis', isCoa: true },
+											]
+										: [{ src: currentImage, alt: `Retatrutide ${selectedMG}` }]
+								}
+								priority
+							/>
 						</div>
 
 						{/* Product Info */}
