@@ -24,11 +24,11 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
       <DiscountBanner />
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-14 h-14 relative">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between h-12 md:h-20">
+          {/* Logo - compact on mobile */}
+          <Link href="/" className="flex items-center gap-2 md:gap-3 min-w-0">
+            <div className="w-9 h-9 md:w-14 md:h-14 relative shrink-0">
               <Image
                 src="/logos/NEW-new LOGO.png"
                 alt="Enhanced Chem Logo"
@@ -37,7 +37,7 @@ export default function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-serif text-xl tracking-tight">
+            <span className="font-serif text-base md:text-xl tracking-tight truncate">
               <span className="font-semibold">ENHANCED</span>
               <span className="font-normal">CHEM</span>
             </span>
@@ -57,10 +57,10 @@ export default function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 shrink-0">
             <Link href="/checkout">
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="w-5 h-5" />
+              <Button variant="ghost" size="icon" className="relative h-9 w-9 md:h-10 md:w-10">
+                <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center">
                     {totalItems}
@@ -73,10 +73,10 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden h-9 w-9"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </Button>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function Header() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-t border-border/40 bg-background"
           >
-            <nav className="container mx-auto px-6 py-6 flex flex-col gap-4">
+            <nav className="container mx-auto px-4 md:px-6 py-4 md:py-6 flex flex-col gap-3 md:gap-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
