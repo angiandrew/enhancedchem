@@ -114,7 +114,7 @@ function getPaymentInstructions(
 						<ol style="color: #333; line-height: 1.8;">
 							<li>Open your Zelle app or log into your bank&apos;s Zelle service</li>
 							<li>Send payment to: <strong>enhancedchem4@gmail.com</strong></li>
-							<li>Include your order number <strong>${orderNumber}</strong> in the memo/note field. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li>Include your order number <strong>${orderNumber}</strong> in the memo/note field. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 							<li>Send the exact amount: <strong style="color: #9333ea;">$${totalFormatted}</strong></li>
 						</ol>
 					</div>
@@ -183,7 +183,7 @@ function getPaymentInstructions(
 						</div>
 						<ol style="color: #333; line-height: 1.8; counter-reset: list-counter 3;">
 							<li style="counter-increment: list-counter;">Send the exact amount: <strong style="color: #2775ca;">$${totalFormatted} USDC</strong></li>
-							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 							<li style="counter-increment: list-counter;">Double-check the wallet address before confirming the transaction</li>
 						</ol>
 					</div>
@@ -252,7 +252,7 @@ function getPaymentInstructions(
 						</div>
 						<ol style="color: #333; line-height: 1.8; counter-reset: list-counter 3;">
 							<li style="counter-increment: list-counter;">Send the exact amount: <strong style="color: #26a17b;">$${totalFormatted} USDT</strong></li>
-							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 							<li style="counter-increment: list-counter;">Double-check the wallet address before confirming the transaction</li>
 						</ol>
 					</div>
@@ -262,7 +262,7 @@ function getPaymentInstructions(
 							<ul style="margin: 10px 0; padding-left: 20px; color: #92400e;">
 								<li>Send the exact amount: <strong>$${totalFormatted} USDT</strong></li>
 								<li>Payment will be confirmed once we receive the transaction on the blockchain</li>
-								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 							</ul>
 						</p>
 					</div>
@@ -332,7 +332,7 @@ function getPaymentInstructions(
 						</div>
 						<ol style="color: #333; line-height: 1.8; counter-reset: list-counter 3;">
 							<li style="counter-increment: list-counter;">Send the exact amount: <strong style="color: #f97316;">$${totalFormatted}</strong> (includes 10% processing fee)</li>
-							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li style="counter-increment: list-counter;">Include your order number <strong>${orderNumber}</strong> in the memo/note field when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 							<li style="counter-increment: list-counter;">Double-check the wallet address before confirming the transaction</li>
 							<li style="counter-increment: list-counter;">Payment will be confirmed once we receive 3 confirmations on the blockchain</li>
 						</ol>
@@ -343,7 +343,7 @@ function getPaymentInstructions(
 							<ul style="margin: 10px 0; padding-left: 20px; color: #92400e;">
 								<li>Send the exact amount: <strong>$${totalFormatted}</strong> (includes 10% processing fee)</li>
 								<li>Payment will be confirmed once we receive 3 confirmations on the blockchain</li>
-								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+								<li>Include your order number <strong>${orderNumber}</strong> when sending. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 							</ul>
 						</p>
 					</div>
@@ -397,7 +397,7 @@ function getPaymentInstructions(
 							<li>Open your CashApp app</li>
 							<li>Send payment to: <strong>$enhancedchem</strong></li>
 							<li>Send the exact amount: <strong style="color: #00d632;">$${totalFormatted}</strong></li>
-							<li>Include your order number <strong>${orderNumber}</strong> in the "For" field. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR PEPTIDES.</strong></li>
+							<li>Include your order number <strong>${orderNumber}</strong> in the "For" field. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
@@ -455,7 +455,7 @@ function getPaymentInstructions(
 							<li>Open your Venmo app</li>
 							<li>Search for: <strong>@EnhancedChem</strong></li>
 							<li>Send payment for the exact amount: <strong style="color: #3b82f6;">$${totalFormatted}</strong></li>
-							<li>Include your order number <strong>${orderNumber}</strong> in the payment note. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES.</strong></li>
+							<li>Include your order number <strong>${orderNumber}</strong> in the payment note. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">

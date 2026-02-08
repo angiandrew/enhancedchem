@@ -37,9 +37,9 @@ export default function CheckoutPage() {
 	
 	// Shipping method options
 	const shippingMethods = [
-		{ id: 'ground', name: 'UPS Ground', price: 10.00, days: '3-5 business days' },
-		{ id: '2day', name: 'UPS 2-Day Air', price: 20.00, days: '2-4 business days' },
-		{ id: 'nextday', name: 'UPS Next Day Air', price: 40.00, days: '1-2 business days' }
+		{ id: 'ground', name: 'USPS Ground', price: 9.78, days: '3-5 business days' },
+		{ id: '2day', name: 'USPS Priority', price: 11.39, days: '2-3 business days' },
+		{ id: 'nextday', name: 'USPS Priority Mail Express', price: 40.00, days: '1-2 business days' }
 	]
 	const [selectedShippingMethod, setSelectedShippingMethod] = useState('ground')
 	const selectedShipping = shippingMethods.find(m => m.id === selectedShippingMethod) || shippingMethods[0]
@@ -817,31 +817,34 @@ export default function CheckoutPage() {
 								<p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">Select your preferred payment method.</p>
 								
 								<div className="space-y-4">
-									{/* Email Input */}
-									<div>
-										<label className="block text-sm font-medium mb-2">
-											Your Email Address *
+									{/* Email Input - prominent so customers don't miss it */}
+									<div className="bg-primary/10 border-2 border-primary/30 rounded-lg p-4 sm:p-5">
+										<label className="block text-base sm:text-lg font-semibold text-foreground mb-2">
+											Your Email Address <span className="text-primary">*</span>
 										</label>
+										<p className="text-sm text-muted-foreground mb-3">
+											Payment instructions will be sent here — double-check it&apos;s correct.
+										</p>
 										<Input
 											type="email"
 											value={customerEmail}
 											onChange={(e) => setCustomerEmail(e.target.value)}
-											placeholder="Enter your email address"
+											placeholder="you@example.com"
 											required
-											className={customerEmail && !isEmailValid ? 'border-red-500 focus-visible:ring-red-500' : ''}
+											className={`h-12 text-base border-2 ${customerEmail && !isEmailValid ? 'border-red-500 focus-visible:ring-red-500 bg-red-50/50' : 'border-primary/40 focus-visible:ring-primary bg-background'}`}
 										/>
 										{customerEmail && !isEmailValid && (
-											<p className="text-xs text-red-600 mt-1 font-medium">
+											<p className="text-xs text-red-600 mt-2 font-medium">
 												Please enter a valid email address
 											</p>
 										)}
 										{customerEmail && isEmailValid && (
-											<p className="text-xs text-green-600 mt-1 font-medium">
+											<p className="text-xs text-green-600 mt-2 font-medium">
 												✓ Valid email address
 											</p>
 										)}
 										{!customerEmail && (
-											<p className="text-xs text-muted-foreground mt-1">
+											<p className="text-xs text-muted-foreground mt-2">
 												We&apos;ll send payment instructions to this email address
 											</p>
 										)}

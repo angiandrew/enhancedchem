@@ -8,7 +8,7 @@ import Link from 'next/link'
 export function HeroSection() {
   return (
     <section className="relative w-full mt-[3.25rem] md:mt-24">
-      {/* Background Image Container */}
+      {/* Hero Image - clean on mobile, no overlay */}
       <div className="relative w-full bg-background">
         <img
           src="/logos/NEW NEW banner new.png"
@@ -23,61 +23,84 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Text Content - Overlay on top of banner; on mobile stacked and tighter so not over badges */}
-      <div className="absolute inset-0 z-10 container mx-auto px-4 md:px-6 flex items-end pb-4 md:pb-16 lg:pb-32">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center lg:text-left max-w-3xl w-full"
-        >
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-2 md:gap-4">
-            <Link href="/products" className="w-full sm:w-auto">
-              <Button variant="elegant" size="default" className="w-full sm:w-auto gap-2 text-sm md:text-base md:size-lg">
+      {/* Mobile only: buttons + trust badges BELOW the photo (no overlay) */}
+      <div className="md:hidden bg-background border-b border-border">
+        <div className="container mx-auto px-4 py-5 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col gap-3"
+          >
+            <Link href="/products" className="w-full">
+              <Button variant="elegant" size="lg" className="w-full gap-2">
                 View Products
-                <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
-            <Link href="/about" className="w-full sm:w-auto">
-              <Button variant="elegant-outline" size="default" className="w-full sm:w-auto text-sm md:text-base md:size-lg bg-white/10 border-white/20 text-white hover:bg-white/20">
+            <Link href="/about" className="w-full">
+              <Button variant="outline" size="lg" className="w-full">
                 Learn More
               </Button>
             </Link>
-          </div>
-        </motion.div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="grid grid-cols-3 gap-4 pt-2 border-t border-border"
+          >
+            <div className="text-center">
+              <div className="text-xl font-serif font-medium text-foreground">99.9%+</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wide">Purity</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xl font-serif font-medium text-foreground">GMP</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wide">Compliant</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xl font-serif font-medium text-foreground">3rd Party</div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wide">Tested</div>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Trust Badges - compact on mobile so they don't fight with CTAs */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 pb-1 md:pb-0">
-        <div className="container mx-auto px-3 md:px-6">
-          <div className="grid grid-cols-3 gap-2 md:gap-6 max-w-md">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-center"
-            >
-              <div className="text-lg md:text-4xl font-serif font-medium mb-0.5 md:mb-2 text-white">99.9%+</div>
-              <div className="text-[10px] md:text-xs text-white/60 uppercase tracking-wide font-sans">Purity</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-center"
-            >
-              <div className="text-lg md:text-4xl font-serif font-medium mb-0.5 md:mb-2 text-white">GMP</div>
-              <div className="text-[10px] md:text-xs text-white/60 uppercase tracking-wide font-sans">Compliant</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-center"
-            >
-              <div className="text-lg md:text-4xl font-serif font-medium mb-0.5 md:mb-2 text-white">3rd Party</div>
-              <div className="text-[10px] md:text-xs text-white/60 uppercase tracking-wide font-sans">Tested</div>
-            </motion.div>
+      {/* Desktop/tablet: overlay on top of banner (unchanged) */}
+      <div className="hidden md:block absolute inset-0 z-10 pointer-events-none">
+        <div className="absolute inset-0 container mx-auto px-6 flex items-end pb-16 lg:pb-32 pointer-events-none">
+          <div className="pointer-events-auto text-center lg:text-left max-w-3xl w-full">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+              <Link href="/products">
+                <Button variant="elegant" size="lg" className="gap-2">
+                  View Products
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+              <Link href="/about">
+                <Button variant="elegant-outline" size="lg" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 z-10 pb-0 pointer-events-none">
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-3 gap-6 max-w-md">
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-serif font-medium mb-2 text-white">99.9%+</div>
+                <div className="text-xs text-white/60 uppercase tracking-wide font-sans">Purity</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-serif font-medium mb-2 text-white">GMP</div>
+                <div className="text-xs text-white/60 uppercase tracking-wide font-sans">Compliant</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-serif font-medium mb-2 text-white">3rd Party</div>
+                <div className="text-xs text-white/60 uppercase tracking-wide font-sans">Tested</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
