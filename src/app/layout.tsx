@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import SecurityMonitor from "@/components/SecurityMonitor";
@@ -125,6 +126,7 @@ export default function RootLayout({
           <CartPreview />
           {children}
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );
