@@ -120,7 +120,7 @@ function getPaymentInstructions(
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
-							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the memo and send exactly <strong>$${totalFormatted}</strong> to ensure prompt processing.
+							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the memo and send exactly <strong>$${totalFormatted}</strong>. Do not include product names or any mention of peptides in the memo.
 						</p>
 					</div>
 					<p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -189,7 +189,7 @@ function getPaymentInstructions(
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
-							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the memo/note field and send exactly <strong>$${totalFormatted} USDC</strong> to ensure prompt processing. Payment will be confirmed once we receive the transaction on the blockchain.
+							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the memo/note field and send exactly <strong>$${totalFormatted} USDC</strong>. Do not include product names or any mention of peptides in the memo. Payment will be confirmed once we receive the transaction on the blockchain.
 						</p>
 					</div>
 					<p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -402,7 +402,7 @@ function getPaymentInstructions(
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
-							<strong>Important:</strong> Please include ONLY your order number <strong>${orderNumber}</strong> in the "For" field and send exactly <strong>$${totalFormatted}</strong> to ensure prompt processing.
+							<strong>Important:</strong> Please include ONLY your order number <strong>${orderNumber}</strong> in the "For" field and send exactly <strong>$${totalFormatted}</strong>. Do not include product names or any mention of peptides.
 						</p>
 					</div>
 					<p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -419,17 +419,17 @@ function getPaymentInstructions(
 			subject: `Payment Instructions for Order ${orderNumber} - Enhanced Chem`,
 			html: `
 				<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-					<h1 style="color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
+					<h1 style="color: #008CFF; border-bottom: 2px solid #008CFF; padding-bottom: 10px;">
 						Payment Instructions - Venmo
 					</h1>
 					<p style="font-size: 16px; color: #333; margin-top: 20px;">
-						Thank you for your order! Your order number is: <strong style="color: #3b82f6;">${orderNumber}</strong>
+						Thank you for your order! Your order number is: <strong style="color: #008CFF;">${orderNumber}</strong>
 					</p>
 					<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
-						<h2 style="color: #3b82f6; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
+						<h2 style="color: #008CFF; margin-top: 0; margin-bottom: 15px;">Order Summary</h2>
 						<table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
 							<thead>
-								<tr style="border-bottom: 2px solid #3b82f6;">
+								<tr style="border-bottom: 2px solid #008CFF;">
 									<th style="padding: 8px 0; text-align: left; color: #666; font-size: 14px; font-weight: 600;">Item</th>
 									<th style="padding: 8px 0; text-align: center; color: #666; font-size: 14px; font-weight: 600;">Qty</th>
 									<th style="padding: 8px 0; text-align: right; color: #666; font-size: 14px; font-weight: 600;">Price</th>
@@ -439,8 +439,8 @@ function getPaymentInstructions(
 								${itemsListHTML}
 							</tbody>
 						</table>
-						<div style="border-top: 2px solid #3b82f6; padding-top: 12px; margin-top: 12px;">
-							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #3b82f6;">
+						<div style="border-top: 2px solid #008CFF; padding-top: 12px; margin-top: 12px;">
+							<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #008CFF;">
 								<span>Total Amount Due:</span>
 								<span>$${totalFormatted}</span>
 							</div>
@@ -449,18 +449,18 @@ function getPaymentInstructions(
 					
 					${shippingAddressHTML}
 					
-					<div style="background-color: #f3f4f6; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
-						<h2 style="color: #3b82f6; margin-top: 0;">How to Complete Your Payment:</h2>
+					<div style="background-color: #f3f4f6; border-left: 4px solid #008CFF; padding: 15px; margin: 20px 0;">
+						<h2 style="color: #008CFF; margin-top: 0;">How to Complete Your Payment:</h2>
 						<ol style="color: #333; line-height: 1.8;">
 							<li>Open your Venmo app</li>
 							<li>Search for: <strong>@EnhancedChem</strong></li>
-							<li>Send payment for the exact amount: <strong style="color: #3b82f6;">$${totalFormatted}</strong></li>
+							<li>Send payment for the exact amount: <strong style="color: #008CFF;">$${totalFormatted}</strong></li>
 							<li>Include your order number <strong>${orderNumber}</strong> in the payment note. <strong style="color: #dc2626;">DO NOT INCLUDE PRODUCT NAMES OR ANY MENTION OF PEPTIDES.</strong></li>
 						</ol>
 					</div>
 					<div style="background-color: #fef3c7; border: 1px solid #fbbf24; padding: 15px; margin: 20px 0; border-radius: 5px;">
 						<p style="margin: 0; color: #92400e;">
-							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the payment note and send exactly <strong>$${totalFormatted}</strong> to ensure prompt processing.
+							<strong>Important:</strong> Please include your order number <strong>${orderNumber}</strong> in the payment note and send exactly <strong>$${totalFormatted}</strong>. Do not include product names or any mention of peptides in the note.
 						</p>
 					</div>
 					<p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -475,7 +475,8 @@ function getPaymentInstructions(
 		}
 	}
 
-	return templates[method as keyof typeof templates] || templates.zelle
+	const methodKey = (method || '').toLowerCase()
+	return templates[methodKey as keyof typeof templates] || templates.zelle
 }
 
 export async function POST(request: NextRequest) {
@@ -527,7 +528,8 @@ export async function POST(request: NextRequest) {
 		}
 
 		// Get payment instructions template
-		const { subject, html } = getPaymentInstructions(paymentMethod, orderNumber, orderTotal, items, shippingAddress)
+		const methodKey = (paymentMethod || '').toLowerCase()
+		const { subject, html } = getPaymentInstructions(methodKey, orderNumber, orderTotal, items, shippingAddress)
 
 		// Get Resend client
 		const resend = await getResendClient()
