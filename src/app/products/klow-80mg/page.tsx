@@ -15,7 +15,7 @@ export default function KLOW80mgPage() {
 
 	const currentPrice = 119.99
 	const currentOriginalPrice = 133.99
-	const currentImage = '/products/KLOW 80mg/KLOW80.png'
+	const currentImage = '/products/KLOW 80mg/KLOW80mg.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
@@ -75,7 +75,7 @@ export default function KLOW80mgPage() {
 								KLOW 80mg
 							</h1>
 							<p className="text-lg text-muted-foreground mt-2">
-								GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) + KPV (10MG) MIX
+								Premium peptide blend: GHK-Cu, BPC-157, TB-500 & KPV. Full composition in description below.
 							</p>
 
 							{/* Price */}

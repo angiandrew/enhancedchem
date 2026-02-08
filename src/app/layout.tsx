@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Enhanced Chem",
   },
   description: "High-quality research peptides for scientific purposes. BPC-157, TB-500, and specialized peptide blends available. Fast shipping and research-grade quality.",
-  keywords: ["research peptides", "BPC-157", "TB-500", "GHK-Cu", "peptide research", "laboratory peptides", "scientific peptides"],
+  keywords: ["research peptides", "retatrutide", "buy retatrutide", "BPC-157", "TB-500", "GHK-Cu", "peptide research", "laboratory peptides", "scientific peptides", "research peptides USA", "Enhanced Chem"],
   authors: [{ name: "Enhanced Chem" }],
   creator: "Enhanced Chem",
   publisher: "Enhanced Chem",

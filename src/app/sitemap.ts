@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const products = [
     'bpc-157-5mg',
     'bpc-157',
+    'bpc-157-10mg',
     'tb-500-5mg',
     'tb-500',
     'ghk-cu',
@@ -20,6 +21,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'nad-500mg',
     'retatrutide-5mg',
     'retatrutide',
+    'retatrutide-15mg',
+    'retatrutide-20mg',
     'melanotan-2',
     'klow-80mg',
     'cjc-1295-5mg',

@@ -281,7 +281,7 @@ export default function GHKCuPage() {
 								{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
 								{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
 								{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
-								{ id: 'mix-peptide', name: 'GLOW 70mg', price: 88.99, originalPrice: 98.99, image: '/products/bpc-tb-ghk-mix/GLOW70.png' },
+								{ id: 'mix-peptide', name: 'GLOW 70mg', price: 88.99, originalPrice: 98.99, image: '/products/bpc-tb-ghk-mix/GLOW70mg.png' },
 							].map((product) => (
 								<Link key={product.id} href={`/products/${product.id}`}>
 									<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">

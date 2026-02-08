@@ -280,7 +280,7 @@ export default function TB500Page() {
 								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 								{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
 								{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png' },
-								{ id: 'mix-peptide', name: 'GLOW 70mg', price: 88.99, originalPrice: 98.99, image: '/products/bpc-tb-ghk-mix/GLOW70.png' },
+								{ id: 'mix-peptide', name: 'GLOW 70mg', price: 88.99, originalPrice: 98.99, image: '/products/bpc-tb-ghk-mix/GLOW70mg.png' },
 							].map((product) => (
 								<Link key={product.id} href={`/products/${product.id}`}>
 									<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm active:shadow-md transition-colors cursor-pointer h-full flex flex-col">

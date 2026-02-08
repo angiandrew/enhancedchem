@@ -18,15 +18,16 @@ export default function RetatrutidePage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/Reta/Reta 5mg.png', inStock: false },
-		{ value: '10mg', price: 114.99, originalPrice: 127.99, image: '/products/Reta/Reta 10mg.png', inStock: true },
-		{ value: '15mg', price: 164.99, originalPrice: 183.99, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
-		{ value: '20mg', price: 214.99, originalPrice: 239.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
+		// List price so after 10% discount: 5mg=49.99, 10mg=79.99, 15mg=109.99, 20mg=139.99
+		{ value: '5mg', price: 55.54, originalPrice: 61.71, image: '/products/Reta/Reta 5mg.png', inStock: false },
+		{ value: '10mg', price: 88.88, originalPrice: 98.76, image: '/products/Reta/Reta 10mg.png', inStock: true },
+		{ value: '15mg', price: 122.21, originalPrice: 135.79, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
+		{ value: '20mg', price: 155.54, originalPrice: 172.82, image: '/products/Reta/Reta 20mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 114.99
-	const currentOriginalPrice = currentOption?.originalPrice || 127.99
+	const currentPrice = currentOption?.price || 88.88
+	const currentOriginalPrice = currentOption?.originalPrice || 98.76
 	const currentImage = currentOption?.image || '/products/Reta/Reta 10mg.png'
 	const isInStock = currentOption?.inStock ?? true
 

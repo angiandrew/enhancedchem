@@ -127,7 +127,7 @@ const allProducts = [
     description: 'Premium peptide blend combining GHK-Cu, BPC-157, and TB-500 for comprehensive research.',
     price: 88.99,
     originalPrice: 98.99,
-    image: '/products/bpc-tb-ghk-mix/GLOW70.png',
+    image: '/products/bpc-tb-ghk-mix/GLOW70mg.png',
     rating: 5,
     reviews: 45,
     badge: 'Popular',
@@ -189,7 +189,7 @@ const allProducts = [
     description: 'Premium peptide blend combining GHK-Cu, BPC-157, TB-500, and KPV for comprehensive research.',
     price: 119.99,
     originalPrice: 133.99,
-    image: '/products/KLOW 80mg/KLOW80.png',
+    image: '/products/KLOW 80mg/KLOW80mg.png',
     rating: 5,
     reviews: 48,
     badge: 'New',
@@ -300,7 +300,7 @@ export default function Products() {
               Our Products
             </span>
             <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 sm:mb-4">
-              Research Peptides
+              Research Peptides: Retatrutide, BPC-157, TB-500 & More
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-2">
               Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.

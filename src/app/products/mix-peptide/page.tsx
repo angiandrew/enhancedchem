@@ -15,7 +15,7 @@ export default function MixPeptidePage() {
 
 	const currentPrice = 88.99
 	const currentOriginalPrice = 98.99
-	const currentImage = '/products/bpc-tb-ghk-mix/GLOW70.png'
+	const currentImage = '/products/bpc-tb-ghk-mix/GLOW70mg.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {

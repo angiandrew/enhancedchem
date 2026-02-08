@@ -28,7 +28,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 const IMAGE_PATH_MIGRATIONS: Record<string, string> = {
 	'/products/bpc-157/BPC-157_5MG_new.png': '/products/bpc-157/BPC-157 5mg.png',
 	'/products/bpc-157/BPC-157_5mg.png': '/products/bpc-157/BPC-157 5mg.png',
-	'/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png': '/products/bpc-tb-ghk-mix/GLOW70.png',
+	'/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png': '/products/bpc-tb-ghk-mix/GLOW70mg.png',
 	'/products/bpc-tb-mix/BPC:Tb_10MG mix.png': '/products/bpc-tb-mix/BPC_TB Blend 10_10.png',
 	'/products/bpc-tb-mix/BPC Tb 10MG mix.png': '/products/bpc-tb-mix/BPC_TB Blend 10_10.png',
 }

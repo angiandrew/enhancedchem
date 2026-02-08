@@ -35,7 +35,7 @@ const products = [
     description: 'Premium peptide blend combining GHK-Cu, BPC-157, and TB-500 for comprehensive research.',
     price: 88.99,
     originalPrice: 99.99,
-    image: '/products/bpc-tb-ghk-mix/GLOW70.png',
+    image: '/products/bpc-tb-ghk-mix/GLOW70mg.png',
     rating: 5,
     reviews: 42,
     badge: 'Popular',
