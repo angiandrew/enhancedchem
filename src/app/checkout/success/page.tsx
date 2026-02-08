@@ -107,8 +107,8 @@ function CheckoutSuccessContent() {
 					<div className="mt-8 pt-6 border-t border-gray-200">
 						<p className="text-xs text-gray-500">
 							Questions about your order? Contact us at{' '}
-							<a href="mailto:support@enhancedchem.com" className="text-blue-600 hover:text-blue-700">
-								support@enhancedchem.com
+							<a href="mailto:contact@enhancedchem.com" className="text-blue-600 hover:text-blue-700">
+								contact@enhancedchem.com
 							</a>
 							{' '}or call{' '}
 							<a href="tel:+1-555-0123" className="text-blue-600 hover:text-blue-700">

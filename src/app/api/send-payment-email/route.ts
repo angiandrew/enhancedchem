@@ -128,7 +128,7 @@ function getPaymentInstructions(
 						You&apos;ll receive tracking information via email once your order ships.
 					</p>
 					<p style="color: #666; font-size: 14px; margin-top: 20px;">
-						Questions? Contact us at support@enhancedchem.com
+						Questions? Contact us at contact@enhancedchem.com
 					</p>
 				</div>
 			`
@@ -197,7 +197,7 @@ function getPaymentInstructions(
 						You&apos;ll receive tracking information via email once your order ships.
 					</p>
 					<p style="color: #666; font-size: 14px; margin-top: 20px;">
-						Questions? Contact us at support@enhancedchem.com
+						Questions? Contact us at contact@enhancedchem.com
 					</p>
 				</div>
 			`
@@ -271,7 +271,7 @@ function getPaymentInstructions(
 						You&apos;ll receive tracking information via email once your order ships.
 					</p>
 					<p style="color: #666; font-size: 14px; margin-top: 20px;">
-						Questions? Contact us at support@enhancedchem.com
+						Questions? Contact us at contact@enhancedchem.com
 					</p>
 				</div>
 			`
@@ -352,7 +352,7 @@ function getPaymentInstructions(
 						You&apos;ll receive tracking information via email once your order ships.
 					</p>
 					<p style="color: #666; font-size: 14px; margin-top: 20px;">
-						Questions? Contact us at support@enhancedchem.com
+						Questions? Contact us at contact@enhancedchem.com
 					</p>
 				</div>
 			`
@@ -410,7 +410,7 @@ function getPaymentInstructions(
 						You&apos;ll receive tracking information via email once your order ships.
 					</p>
 					<p style="color: #666; font-size: 14px; margin-top: 20px;">
-						Questions? Contact us at support@enhancedchem.com
+						Questions? Contact us at contact@enhancedchem.com
 					</p>
 				</div>
 			`
@@ -468,7 +468,7 @@ function getPaymentInstructions(
 						You&apos;ll receive tracking information via email once your order ships.
 					</p>
 					<p style="color: #666; font-size: 14px; margin-top: 20px;">
-						Questions? Contact us at support@enhancedchem.com
+						Questions? Contact us at contact@enhancedchem.com
 					</p>
 				</div>
 			`
