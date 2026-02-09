@@ -5,8 +5,8 @@ export default function TermsPage() {
 	return (
 		<div className="min-h-screen bg-gray-50">
 			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-				<Link
-					href="/"
+				<Link 
+					href="/" 
 					className="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-6 transition-colors"
 				>
 					<ArrowLeft className="w-4 h-4" />
@@ -16,7 +16,7 @@ export default function TermsPage() {
 					ENHANCED CHEM LLC – TERMS AND CONDITIONS OF USE AND SALE
 				</h1>
 				<p className="text-gray-600 mb-8">Effective Date: 10/01/2025</p>
-
+				
 				<div className="bg-white rounded-lg shadow-sm p-8">
 					<div className="prose prose-gray max-w-none">
 						<section className="mb-8">

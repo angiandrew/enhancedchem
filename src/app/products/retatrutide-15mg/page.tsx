@@ -17,16 +17,16 @@ export default function Retatrutide15mgPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		// List price so after 10% discount: 5mg=49.99, 10mg=79.99, 15mg=109.99, 20mg=139.99
-		{ value: '5mg', price: 55.54, originalPrice: 61.71, image: '/products/Reta/Reta 5mg.png', inStock: false },
-		{ value: '10mg', price: 88.88, originalPrice: 98.76, image: '/products/Reta/Reta 10mg.png', inStock: true },
-		{ value: '15mg', price: 122.21, originalPrice: 135.79, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
-		{ value: '20mg', price: 155.54, originalPrice: 172.82, image: '/products/Reta/Reta 20mg.png', inStock: true }
+		// Final price (discount ~10% rounded to .99): 5mg=39.99, 10mg=79.99, 15mg=109.99, 20mg=139.99
+		{ value: '5mg', price: 39.99, originalPrice: 43.99, image: '/products/Reta/Reta 5mg.png', inStock: false },
+		{ value: '10mg', price: 79.99, originalPrice: 89.99, image: '/products/Reta/Reta 10mg.png', inStock: true },
+		{ value: '15mg', price: 109.99, originalPrice: 121.99, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
+		{ value: '20mg', price: 139.99, originalPrice: 155.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 122.21
-	const currentOriginalPrice = currentOption?.originalPrice || 135.79
+	const currentPrice = currentOption?.price || 109.99
+	const currentOriginalPrice = currentOption?.originalPrice || 121.99
 	const currentImage = currentOption?.image || '/products/Reta/Reta 15mg.png'
 	const isInStock = currentOption?.inStock ?? false
 
@@ -119,9 +119,14 @@ export default function Retatrutide15mgPage() {
 								<label className="block text-xs sm:text-sm font-medium text-foreground mb-3">
 									Select Strength:
 								</label>
-								<div className="flex flex-wrap gap-3">
+								<div className="flex flex-wrap gap-3 items-end">
 									{mgOptions.map((option) => (
-										<div key={option.value} className="relative">
+										<div key={option.value} className="relative flex flex-col items-center gap-1.5">
+											{option.badge && option.inStock && (
+												<span className="bg-primary text-primary-foreground text-[9px] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
+													{option.badge}
+												</span>
+											)}
 											<button
 												type="button"
 												onClick={(e) => {
@@ -144,11 +149,6 @@ export default function Retatrutide15mgPage() {
 												{!option.inStock && (
 													<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
 														OUT
-													</span>
-												)}
-												{option.badge && option.inStock && (
-													<span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[9px] px-1.5 py-0.5 rounded-full font-medium">
-														{option.badge}
 													</span>
 												)}
 											</button>

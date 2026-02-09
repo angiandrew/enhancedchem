@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Research Peptides | Buy Retatrutide, BPC-157, TB-500, GHK-Cu | Enhanced Chem',
-  description: 'Shop research peptides: Retatrutide, BPC-157, TB-500, GHK-Cu, and more. Premium quality, third-party tested. Fast shipping. For research use only.',
+  title: 'Buy Peptides for Scientific Research | Retatrutide, BPC-157, TB-500 | Enhanced Chem',
+  description: 'Buy peptides for scientific research and development. Retatrutide, BPC-157, TB-500, GHK-Cu. Highly purified, third-party tested. USA. For in vitro and laboratory use only.',
+  keywords: 'buy peptides, research peptides, retatrutide, BPC-157, TB-500, GHK-Cu, scientific research, laboratory peptides, USA',
   openGraph: {
-    title: 'Research Peptides | Retatrutide, BPC-157, TB-500 | Enhanced Chem',
-    description: 'Premium research peptides. Retatrutide, BPC-157, TB-500, GHK-Cu. Third-party tested. Fast shipping.',
+    title: 'Buy Peptides for Scientific Research | Enhanced Chem',
+    description: 'Highly purified research peptides. Retatrutide, BPC-157, TB-500, GHK-Cu. Third-party tested. For laboratory use only.',
     url: '/products',
   },
 }

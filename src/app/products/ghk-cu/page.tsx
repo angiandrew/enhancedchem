@@ -261,13 +261,13 @@ export default function GHKCuPage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
-								For research purposes only.
+								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture.
 							</p>
-							<p className="text-muted-foreground leading-relaxed">
-								GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper) is a copper peptide known for its regenerative 
-								properties. This research-grade peptide is designed for scientific studies and laboratory 
-								research purposes only.
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper) is a copper-binding peptide. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+							</p>
+							<p className="text-muted-foreground leading-relaxed text-sm">
+								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.
 							</p>
 						</div>
 					</div>
@@ -312,13 +312,10 @@ export default function GHKCuPage() {
 					{/* Research Disclaimer */}
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
-							⚠️ Research Purposes Only
+							Research Use Only
 						</h3>
 						<p className="text-destructive/90 leading-relaxed">
-							This product is sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-							you certify that you are 18+ years of age and agree to use this product only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
+							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 18+ and will use only for lawful research in accordance with applicable laws.
 						</p>
 					</div>
 				</div>

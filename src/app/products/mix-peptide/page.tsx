@@ -203,16 +203,16 @@ export default function MixPeptidePage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
-								For research purposes only.
+								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture.
 							</p>
-							<p className="text-muted-foreground leading-relaxed">
-								This premium peptide blend combines GHK-Cu (50MG), BPC-157 (10MG), and TB-500 (10MG) 
-								for comprehensive research applications. Each component is carefully selected for 
-								its research-grade quality and scientific properties.
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								This peptide blend combines GHK-Cu, BPC-157, and TB-500 for in vitro testing and laboratory experimentation only. It is intended as a research chemical for educational and scientific research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mt-4 font-medium">
 								<strong>Product Composition:</strong> GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) Mix
+							</p>
+							<p className="text-muted-foreground leading-relaxed text-sm mt-4">
+								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.
 							</p>
 						</div>
 					</div>
@@ -257,13 +257,10 @@ export default function MixPeptidePage() {
 {/* Research Disclaimer */}
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
-							⚠️ Research Purposes Only
+							Research Use Only
 						</h3>
 						<p className="text-destructive/90 leading-relaxed">
-							This product is sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-							you certify that you are 18+ years of age and agree to use this product only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
+							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 18+ and will use only for lawful research in accordance with applicable laws.
 						</p>
 					</div>
 				</div>

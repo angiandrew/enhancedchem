@@ -18,16 +18,16 @@ export default function RetatrutidePage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		// List price so after 10% discount: 5mg=49.99, 10mg=79.99, 15mg=109.99, 20mg=139.99
-		{ value: '5mg', price: 55.54, originalPrice: 61.71, image: '/products/Reta/Reta 5mg.png', inStock: false },
-		{ value: '10mg', price: 88.88, originalPrice: 98.76, image: '/products/Reta/Reta 10mg.png', inStock: true },
-		{ value: '15mg', price: 122.21, originalPrice: 135.79, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
-		{ value: '20mg', price: 155.54, originalPrice: 172.82, image: '/products/Reta/Reta 20mg.png', inStock: true }
+		// Final price (discount ~10% rounded to .99): 5mg=39.99, 10mg=79.99, 15mg=109.99, 20mg=139.99
+		{ value: '5mg', price: 39.99, originalPrice: 43.99, image: '/products/Reta/Reta 5mg.png', inStock: false },
+		{ value: '10mg', price: 79.99, originalPrice: 89.99, image: '/products/Reta/Reta 10mg.png', inStock: true },
+		{ value: '15mg', price: 109.99, originalPrice: 121.99, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
+		{ value: '20mg', price: 139.99, originalPrice: 155.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 88.88
-	const currentOriginalPrice = currentOption?.originalPrice || 98.76
+	const currentPrice = currentOption?.price || 79.99
+	const currentOriginalPrice = currentOption?.originalPrice || 89.99
 	const currentImage = currentOption?.image || '/products/Reta/Reta 10mg.png'
 	const isInStock = currentOption?.inStock ?? true
 
@@ -143,9 +143,14 @@ export default function RetatrutidePage() {
 								<label className="block text-xs sm:text-sm font-medium text-foreground mb-3">
 									Select Strength:
 								</label>
-								<div className="flex flex-wrap gap-3">
+								<div className="flex flex-wrap gap-3 items-end">
 									{mgOptions.map((option) => (
-									<div key={option.value} className="relative">
+									<div key={option.value} className="relative flex flex-col items-center gap-1.5">
+										{option.badge && option.inStock && (
+											<span className="bg-primary text-primary-foreground text-[9px] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
+												{option.badge}
+											</span>
+										)}
 										<button
 											type="button"
 											onClick={(e) => {
@@ -168,11 +173,6 @@ export default function RetatrutidePage() {
 											{!option.inStock && (
 												<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
 													OUT
-												</span>
-											)}
-											{option.badge && option.inStock && (
-												<span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[9px] px-1.5 py-0.5 rounded-full font-medium">
-													{option.badge}
 												</span>
 											)}
 										</button>
@@ -295,12 +295,13 @@ export default function RetatrutidePage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. 
-								For research purposes only.
+								Store in a freezer at -20°C. Keep away from direct sunlight and moisture.
 							</p>
-							<p className="text-muted-foreground leading-relaxed">
-								Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+							</p>
+							<p className="text-muted-foreground leading-relaxed text-sm">
+								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.
 							</p>
 						</div>
 					</div>
@@ -345,13 +346,10 @@ export default function RetatrutidePage() {
 					{/* Research Disclaimer */}
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
-							⚠️ Research Purposes Only
+							Research Use Only
 						</h3>
 						<p className="text-destructive/90 leading-relaxed">
-							This product is sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-							you certify that you are 18+ years of age and agree to use this product only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
+							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 18+ and will use only for lawful research in accordance with applicable laws.
 						</p>
 					</div>
 				</div>

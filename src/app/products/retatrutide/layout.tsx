@@ -4,11 +4,11 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
 
 export const metadata: Metadata = {
   title: 'Retatrutide | Buy Retatrutide 5mg 10mg 15mg 20mg Research Peptide | Enhanced Chem',
-  description: 'Buy Retatrutide research peptide - 5mg, 10mg, 15mg, 20mg. Triple agonist (GLP-1, GIP, glucagon). Premium quality, third-party tested. For research use only. Fast shipping.',
-  keywords: 'retatrutide, buy retatrutide, retatrutide peptide, retatrutide research, retatrutide 10mg, retatrutide 5mg, retatrutide 15mg, retatrutide 20mg, research peptide, Enhanced Chem',
+  description: 'Buy Retatrutide research peptide for scientific research. 5mg, 10mg, 15mg, 20mg. Triple agonist (GLP-1, GIP, glucagon). In vitro and laboratory use only. Third-party tested. USA.',
+  keywords: 'retatrutide, buy retatrutide, retatrutide research, research peptide, scientific research, laboratory peptide, in vitro, Enhanced Chem, USA',
   openGraph: {
     title: 'Retatrutide | Buy Retatrutide Research Peptide | Enhanced Chem',
-    description: 'Retatrutide 5mg, 10mg, 15mg, 20mg. Triple agonist research peptide. Third-party tested. Fast shipping.',
+    description: 'Retatrutide research peptide. In vitro and laboratory use only. Third-party tested.',
     url: `${baseUrl}/products/retatrutide`,
     type: 'website',
   },
