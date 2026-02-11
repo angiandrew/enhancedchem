@@ -17,6 +17,7 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'ECNA10': 0.10,
 	'GINGER20': 0.10,
 	'JADEALEXA': 0.10,
+	'NICK10': 0.10,
 	'NICKTEST': 0.05,
 }
 
