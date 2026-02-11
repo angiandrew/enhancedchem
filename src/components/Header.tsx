@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/3rd-party-testing', label: '3rd Party Testing' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  { href: '/affiliate', label: 'Become an Affiliate' },
 ]
 
 export default function Header() {
