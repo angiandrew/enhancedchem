@@ -21,6 +21,7 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'MATT10': 0.10,
 	'NICK10': 0.10,
 	'NICKTEST': 0.05,
+	'ORBITROPIN': 0.10,
 }
 
 function normalizePromoCode(input: string): string {
