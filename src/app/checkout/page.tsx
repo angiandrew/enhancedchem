@@ -14,6 +14,7 @@ import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 // Promo codes: key = uppercase normalized code, value = discount (0.10 = 10%). Matching is case-insensitive.
 const VALID_PROMO_CODES: Record<string, number> = {
+	'CAM': 0.10,
 	'ECNA10': 0.10,
 	'GINGER20': 0.10,
 	'JADEALEXA': 0.10,
