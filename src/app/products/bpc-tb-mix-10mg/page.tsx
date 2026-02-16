@@ -16,14 +16,14 @@ export default function BpcTbMix10mgPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png', inStock: true },
-		{ value: '10mg', price: 94.99, originalPrice: 105.99, image: '/products/bpc-tb-mix/BPC_TB Blend 10_10.png', inStock: true }
+		{ value: '5mg', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB 5_5.png', inStock: true },
+		{ value: '10mg', price: 94.99, originalPrice: 105.99, image: '/products/bpc-tb-mix/BPC_TB 10_10.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
 	const currentPrice = currentOption?.price || 94.99
 	const currentOriginalPrice = currentOption?.originalPrice || 105.99
-	const currentImage = currentOption?.image || '/products/bpc-tb-mix/BPC_TB Blend 10_10.png'
+	const currentImage = currentOption?.image || '/products/bpc-tb-mix/BPC_TB 10_10.png'
 	const isInStock = currentOption?.inStock ?? true
 
 	const handleAddToCart = () => {
@@ -274,7 +274,7 @@ export default function BpcTbMix10mgPage() {
 					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
-							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 							{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
 							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },

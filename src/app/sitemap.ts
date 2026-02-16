@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'bpc-157-5mg',
     'bpc-157',
     'bpc-157-10mg',
+    'bpc-157-20mg',
     'tb-500-5mg',
     'tb-500',
     'ghk-cu',

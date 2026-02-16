@@ -13,12 +13,14 @@ import ProductImageCarousel from '@/components/ProductImageCarousel'
 export default function SelankPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
+	const isInStock = false
 
 	const currentPrice = 37.99
 	const currentOriginalPrice = 42.99
 	const currentImage = '/products/Selank/Selank 10mg.png'
 
 	const handleAddToCart = () => {
+		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
 				id: 'selank',
@@ -62,10 +64,18 @@ export default function SelankPage() {
 						<div className="space-y-4 sm:space-y-6">
 							{/* Availability */}
 							<div className="flex items-center gap-2">
-								<CheckCircle className="w-4 h-4 text-green-600" />
-								<p className="text-xs text-muted-foreground">
-									<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
-								</p>
+								{isInStock ? (
+									<>
+										<CheckCircle className="w-4 h-4 text-green-600" />
+										<p className="text-xs text-muted-foreground">
+											<span className="text-green-600 font-semibold">In stock</span> - Ready to ship
+										</p>
+									</>
+								) : (
+									<p className="text-xs text-muted-foreground">
+										<span className="text-muted-foreground font-semibold">Sold Out</span>
+									</p>
+								)}
 							</div>
 
 							{/* Product Name */}
@@ -127,10 +137,15 @@ export default function SelankPage() {
 						{/* Add to Cart Button */}
 						<button type="button"
 							onClick={handleAddToCart}
-							className="w-full py-3 px-4 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg"
+							disabled={!isInStock}
+							className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 ${
+								isInStock
+									? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
+									: 'bg-muted text-muted-foreground cursor-not-allowed'
+							}`}
 						>
 							<ShoppingCart className="h-4 w-4" />
-							<span>Add to Cart</span>
+							<span>{isInStock ? 'Add to Cart' : 'Sold Out'}</span>
 						</button>
 
 						{/* Trust Badges */}
@@ -209,7 +224,7 @@ export default function SelankPage() {
 					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
-							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 							{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
 							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },

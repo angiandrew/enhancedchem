@@ -48,12 +48,12 @@ const coaTests = [
 		product: 'nad-500mg'
 	},
 	{
-		name: 'Retatrutide 10mg',
+		name: 'Reta 10mg',
 		image: '/COAs/3rd party testing/reta10.jpg',
 		product: 'retatrutide'
 	},
 	{
-		name: 'Retatrutide 15mg',
+		name: 'Reta 15mg',
 		image: '/COAs/3rd party testing/reta15.jpg',
 		product: 'retatrutide-15mg'
 	},

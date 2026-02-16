@@ -36,7 +36,7 @@ export default function RetatrutidePage() {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
 				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
-				name: `Retatrutide ${selectedMG}`,
+				name: `Reta ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
 			})
@@ -44,7 +44,7 @@ export default function RetatrutidePage() {
 	}
 
 	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
-	const productName = `Retatrutide ${selectedMG}`
+	const productName = `Reta ${selectedMG}`
 	const productDescription = `Buy ${productName} - Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications. Premium quality research peptides from Enhanced Chem with fast shipping. Price: $${currentPrice.toFixed(2)}.`
 
 	return (
@@ -80,7 +80,7 @@ export default function RetatrutidePage() {
 							<li className="whitespace-nowrap">/</li>
 							<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li className="whitespace-nowrap">/</li>
-							<li className="text-foreground font-medium whitespace-nowrap">Retatrutide {selectedMG}</li>
+							<li className="text-foreground font-medium whitespace-nowrap">Reta {selectedMG}</li>
 						</ol>
 					</nav>
 
@@ -91,10 +91,10 @@ export default function RetatrutidePage() {
 								slides={
 									selectedMG === '10mg'
 										? [
-												{ src: currentImage, alt: `Retatrutide ${selectedMG}` },
-												{ src: '/COAs/3rd party testing/reta10.jpg', alt: 'Retatrutide 10mg Certificate of Analysis', isCoa: true },
+												{ src: currentImage, alt: `Reta ${selectedMG}` },
+												{ src: '/COAs/3rd party testing/reta10.jpg', alt: 'Reta 10mg Certificate of Analysis', isCoa: true },
 											]
-										: [{ src: currentImage, alt: `Retatrutide ${selectedMG}` }]
+										: [{ src: currentImage, alt: `Reta ${selectedMG}` }]
 								}
 								priority
 							/>
@@ -123,7 +123,7 @@ export default function RetatrutidePage() {
 
 							{/* Product Name */}
 							<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
-								Retatrutide {selectedMG}
+								Reta {selectedMG}
 							</h1>
 
 							{/* Price */}
@@ -311,7 +311,7 @@ export default function RetatrutidePage() {
 					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
-							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 							{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
 							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },

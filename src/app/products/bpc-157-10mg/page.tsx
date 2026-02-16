@@ -11,17 +11,27 @@ import ProductNavigation from '@/components/ProductNavigation'
 import ProductImageCarousel from '@/components/ProductImageCarousel'
 import { Button } from '@/components/ui/button'
 
+const mgOptions = [
+	{ value: '5mg', price: 34.99, originalPrice: 38.99, image: '/products/bpc-157/BPC-157 5mg.png', inStock: false },
+	{ value: '10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png', inStock: true },
+	{ value: '20mg', price: 54.99, originalPrice: 59.99, image: '/products/bpc-157/BPC-157 20mg.png', inStock: true },
+]
+
 export default function BPC15710mgPage() {
+	const [selectedMG, setSelectedMG] = useState('10mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
+	const currentOption = mgOptions.find((o) => o.value === selectedMG) || mgOptions[1]
+	const isInStock = currentOption.inStock
+
 	const product = {
-		name: 'BPC-157 10mg',
-		price: 41.99,
-		originalPrice: 46.99,
-		image: '/products/bpc-157/BPC 10mgnew-new.png',
+		name: `BPC-157 ${selectedMG}`,
+		price: currentOption.price,
+		originalPrice: currentOption.originalPrice,
+		image: currentOption.image,
 		description: 'BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from body protection compound found in gastric juice. This research-grade peptide is designed for scientific studies and laboratory research purposes only.',
-		inStock: true,
+		inStock: isInStock,
 		rating: 4.8,
 		reviewCount: 127,
 		label: 'Best Seller',
@@ -39,10 +49,10 @@ export default function BPC15710mgPage() {
 	}
 
 	const handleAddToCart = () => {
-		if (!product.inStock) return
+		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: 'bpc-157-10mg',
+				id: `bpc-157-${selectedMG}`,
 				name: product.name,
 				price: product.price,
 				image: product.image
@@ -71,10 +81,19 @@ export default function BPC15710mgPage() {
 					{/* Left Column - Product Images carousel with dots */}
 					<div>
 						<ProductImageCarousel
-							slides={[
-								{ src: product.image, alt: product.name },
-								{ src: '/COAs/3rd party testing/BPC10.jpg', alt: 'BPC-157 10mg Certificate of Analysis', isCoa: true },
-							]}
+							slides={
+								selectedMG === '10mg'
+									? [
+											{ src: product.image, alt: product.name },
+											{ src: '/COAs/3rd party testing/BPC10.jpg', alt: 'BPC-157 10mg Certificate of Analysis', isCoa: true },
+										]
+									: selectedMG === '5mg'
+										? [
+												{ src: product.image, alt: product.name },
+												{ src: '/COAs/3rd party testing/bpc5.jpg', alt: 'BPC-157 5mg Certificate of Analysis', isCoa: true },
+											]
+										: [{ src: product.image, alt: product.name }]
+							}
 							priority
 						/>
 					</div>
@@ -96,6 +115,54 @@ export default function BPC15710mgPage() {
 							</span>
 						</div>
 
+						{/* Select Strength */}
+						<div>
+							<label className="block text-xs font-medium text-foreground mb-3">Select Strength:</label>
+							<div className="flex flex-wrap gap-2">
+								{mgOptions.map((option) => (
+									<button
+										key={option.value}
+										type="button"
+										onClick={() => setSelectedMG(option.value)}
+										disabled={!option.inStock && selectedMG !== option.value}
+										className={`min-w-[72px] px-4 py-2.5 rounded-lg border-2 text-sm font-semibold transition-colors ${
+											selectedMG === option.value
+												? 'border-primary bg-primary/10 text-primary'
+												: option.inStock
+													? 'border-border bg-card text-foreground hover:border-primary/50'
+													: 'border-border bg-muted/50 text-muted-foreground opacity-60 cursor-not-allowed'
+										}`}
+									>
+										{option.value}
+										{!option.inStock && ' (OUT)'}
+									</button>
+								))}
+							</div>
+						</div>
+
+						{/* Quantity */}
+						<div>
+							<label className="block text-xs font-medium text-foreground mb-2">Quantity:</label>
+							<div className="flex items-center gap-2">
+								<button
+									type="button"
+									onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+									disabled={quantity <= 1}
+									className="w-10 h-10 rounded-lg border-2 border-border flex items-center justify-center disabled:opacity-50"
+								>
+									−
+								</button>
+								<span className="w-8 text-center font-medium">{quantity}</span>
+								<button
+									type="button"
+									onClick={() => setQuantity((q) => q + 1)}
+									className="w-10 h-10 rounded-lg border-2 border-border flex items-center justify-center"
+								>
+									+
+								</button>
+							</div>
+						</div>
+
 						{/* Description Paragraph */}
 						<p className="text-muted-foreground leading-relaxed">
 							{product.description}
@@ -104,12 +171,12 @@ export default function BPC15710mgPage() {
 						{/* Add to Cart Button */}
 						<Button
 							onClick={handleAddToCart}
-							disabled={!product.inStock}
+							disabled={!isInStock}
 							size="lg"
 							className="w-full"
 						>
 							<ShoppingCart className="w-5 h-5 mr-2" />
-							{product.inStock ? 'Add to Cart' : 'Sold Out'}
+							{isInStock ? 'Add to Cart' : 'Sold Out'}
 						</Button>
 
 						{/* Trust Badges Grid - 3 columns */}

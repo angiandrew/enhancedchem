@@ -16,13 +16,14 @@ export default function BPC157Page() {
 
 	const mgOptions = [
 		{ value: '5mg', price: 34.99, originalPrice: 38.99, image: '/products/bpc-157/BPC-157 5mg.png', inStock: false },
-		{ value: '10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png', inStock: true }
+		{ value: '10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png', inStock: true },
+		{ value: '20mg', price: 54.99, originalPrice: 59.99, image: '/products/bpc-157/BPC-157 20mg.png', inStock: true },
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
 	const currentPrice = currentOption?.price || 41.99
 	const currentOriginalPrice = currentOption?.originalPrice || 46.99
-	const currentImage = currentOption?.image || '/products/bpc-157/BPC 10mgnew-new.png'
+	const currentImage = currentOption?.image || '/products/bpc-157/BPC-157 10mg.png'
 	const isInStock = currentOption?.inStock ?? true
 
 	const handleAddToCart = () => {
@@ -275,7 +276,7 @@ export default function BPC157Page() {
 							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
 							{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
-							{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png' },
+							{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB 5_5.png' },
 						].map((product) => (
 							<Link key={product.id} href={`/products/${product.id}`}>
 								<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">

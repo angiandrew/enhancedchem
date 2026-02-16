@@ -14,7 +14,7 @@ const allProducts = [
     description: 'Body Protection Compound-157 in higher concentration for extended research applications.',
     price: 41.99,
     originalPrice: 46.99,
-    image: '/products/bpc-157/BPC 10mgnew-new.png',
+    image: '/products/bpc-157/BPC-157 10mg.png',
     rating: 5,
     reviews: 94,
     inStock: true,
@@ -49,7 +49,7 @@ const allProducts = [
     image: '/products/ghk-cu/GHK-Cu 50mg.png',
     rating: 4.8,
     reviews: 64,
-    badge: 'Popular',
+    inStock: false,
   },
   {
     id: 'ghk-cu-100mg',
@@ -60,6 +60,7 @@ const allProducts = [
     image: '/products/ghk-cu/GHK-Cu 100mg.png',
     rating: 4.9,
     reviews: 42,
+    badge: 'Popular',
   },
   {
     id: 'kpv-5mg',
@@ -90,6 +91,7 @@ const allProducts = [
     image: '/products/Semax/Semax 10mg.png',
     rating: 5,
     reviews: 38,
+    inStock: false,
   },
   {
     id: 'selank',
@@ -100,6 +102,7 @@ const allProducts = [
     image: '/products/Selank/Selank 10mg.png',
     rating: 5,
     reviews: 35,
+    inStock: false,
   },
   {
     id: 'bpc-tb-mix',
@@ -107,7 +110,7 @@ const allProducts = [
     description: 'Premium peptide blend combining BPC-157 and TB-500 for comprehensive research applications.',
     price: 64.99,
     originalPrice: 72.99,
-    image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png',
+    image: '/products/bpc-tb-mix/BPC_TB 5_5.png',
     rating: 5,
     reviews: 32,
   },
@@ -117,7 +120,7 @@ const allProducts = [
     description: 'Premium peptide blend in higher concentration for extended research studies.',
     price: 94.99,
     originalPrice: 105.99,
-    image: '/products/bpc-tb-mix/BPC_TB Blend 10_10.png',
+    image: '/products/bpc-tb-mix/BPC_TB 10_10.png',
     rating: 5,
     reviews: 28,
   },
@@ -144,7 +147,7 @@ const allProducts = [
   },
   {
     id: 'retatrutide',
-    name: 'Retatrutide 10mg',
+    name: 'Reta 10mg',
     description: 'Triple agonist peptide in higher concentration for extended research studies.',
     price: 79.99,
     originalPrice: 89.99,
@@ -154,7 +157,7 @@ const allProducts = [
   },
   {
     id: 'retatrutide-15mg',
-    name: 'Retatrutide 15mg',
+    name: 'Reta 15mg',
     description: 'Triple agonist peptide in higher concentration for extended research studies.',
     price: 109.99,
     originalPrice: 121.99,
@@ -165,7 +168,7 @@ const allProducts = [
   },
   {
     id: 'retatrutide-20mg',
-    name: 'Retatrutide 20mg',
+    name: 'Reta 20mg',
     description: 'Triple agonist peptide in highest concentration for extended research studies.',
     price: 139.99,
     originalPrice: 155.99,
@@ -239,7 +242,7 @@ const allProducts = [
   },
   {
     id: 'retatrutide-5mg',
-    name: 'Retatrutide 5mg',
+    name: 'Reta 5mg',
     description: 'Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications.',
     price: 39.99,
     originalPrice: 43.99,
@@ -271,6 +274,17 @@ const allProducts = [
     badge: 'Popular',
     inStock: false,
   },
+  {
+    id: 'bpc-157-20mg',
+    name: 'BPC-157 20mg',
+    description: 'Body Protection Compound-157 in 20mg concentration for extended research applications.',
+    price: 54.99,
+    originalPrice: 59.99,
+    image: '/products/bpc-157/BPC-157 20mg.png',
+    rating: 5,
+    reviews: 0,
+    inStock: true,
+  },
 ]
 
 export default function Products() {
@@ -293,14 +307,16 @@ export default function Products() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-32 md:pt-36 pb-16">
-        <div className="container mx-auto px-4 sm:px-6">
-          {/* Page Header */}
-          <div className="text-center mb-6 sm:mb-8">
+        {/* Full-bleed product section: same white → light gray as product photos for a seamless look */}
+        <section className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[60vh] bg-gradient-to-b from-white via-[#fafaf8] to-[#f2f1ed]">
+          <div className="container mx-auto px-4 sm:px-6 py-8 md:py-10">
+            {/* Page Header */}
+            <div className="text-center mb-6 sm:mb-8">
             <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3 sm:mb-4 block font-sans">
               Our Products
             </span>
             <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 sm:mb-4">
-              Research Peptides: Retatrutide, BPC-157, TB-500 & More
+              Research Peptides: Reta, BPC-157, TB-500 & More
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-2">
               Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.
@@ -358,14 +374,15 @@ export default function Products() {
             )}
           </div>
 
-          {/* Research Disclaimer */}
-          <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-card rounded-lg border border-border/50 shadow-sm text-center">
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only. 
-              Not for human consumption. Please ensure compliance with local regulations.
-            </p>
+            {/* Research Disclaimer */}
+            <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-lg border border-border/30 shadow-sm text-center">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only. 
+                Not for human consumption. Please ensure compliance with local regulations.
+              </p>
+            </div>
           </div>
-        </div>
+        </section>
       </main>
       <Footer />
     </div>

@@ -26,6 +26,7 @@ export const productOrder = [
   'ipamorelin-cjc-1295-5mg',
   'bpc-157-5mg',
   'bpc-157-10mg',
+  'bpc-157-20mg',
 ]
 
 export function getPreviousProduct(currentId: string): string | null {

@@ -34,7 +34,7 @@ export default function Retatrutide5mgPage() {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
 				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
-				name: `Retatrutide ${selectedMG}`,
+				name: `Reta ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
 			})
@@ -46,8 +46,8 @@ export default function Retatrutide5mgPage() {
 		<div className="min-h-screen bg-background">
 			<ProductStructuredData
 				product={{
-					name: 'Retatrutide 5mg',
-					description: 'Retatrutide 5mg - Triple agonist peptide (GLP-1, GIP, glucagon) for research. Premium quality, third-party tested.',
+					name: 'Reta 5mg',
+					description: 'Reta 5mg - Triple agonist peptide (GLP-1, GIP, glucagon) for research. Premium quality, third-party tested.',
 					price: currentPrice,
 					originalPrice: currentOriginalPrice,
 					image: currentImage,
@@ -67,7 +67,7 @@ export default function Retatrutide5mgPage() {
 							<li className="whitespace-nowrap">/</li>
 							<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li className="whitespace-nowrap">/</li>
-							<li className="text-foreground font-medium whitespace-nowrap">Retatrutide {selectedMG}</li>
+							<li className="text-foreground font-medium whitespace-nowrap">Reta {selectedMG}</li>
 						</ol>
 					</nav>
 
@@ -77,7 +77,7 @@ export default function Retatrutide5mgPage() {
 							<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
 								<Image
 									src={currentImage}
-									alt={`Retatrutide ${selectedMG}`}
+									alt={`Reta ${selectedMG}`}
 									fill
 									className="object-contain p-4 sm:p-8"
 									priority
@@ -109,7 +109,7 @@ export default function Retatrutide5mgPage() {
 
 							{/* Product Name */}
 							<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
-								Retatrutide {selectedMG}
+								Reta {selectedMG}
 							</h1>
 
 							{/* Strength Selector */}
@@ -292,7 +292,7 @@ export default function Retatrutide5mgPage() {
 					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
-							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 							{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
 							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },

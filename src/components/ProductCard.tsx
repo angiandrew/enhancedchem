@@ -49,16 +49,16 @@ export default function ProductCard({
   }
 
   return (
-    <div className="group bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm active:shadow-md transition-shadow h-full flex flex-col backdrop-blur-sm">
-      {/* Image Container */}
-      <div className="relative aspect-square bg-gradient-to-br from-secondary/30 to-secondary/10 overflow-hidden">
-        <Link href={`/products/${id}`}>
+    <div className="group bg-white/90 backdrop-blur-sm rounded-lg border border-border/30 overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] active:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow h-full flex flex-col">
+      {/* Image container: fixed height, cover fill, rounded top, hover zoom clipped */}
+      <div className="relative w-full h-[220px] rounded-t-lg overflow-hidden">
+        <Link href={`/products/${id}`} className="block w-full h-full">
           <Image
             src={image}
             alt={name}
-            width={200}
-            height={200}
-            className={`w-full h-full object-contain p-1 sm:p-2 md:p-3 ${
+            fill
+            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 220px"
+            className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
               !inStock ? 'opacity-75' : ''
             }`}
             unoptimized
@@ -83,7 +83,7 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-2 sm:p-3 md:p-4 flex flex-col bg-card">
+      <div className="p-2 sm:p-3 md:p-4 flex flex-col bg-white/90">
         <Link href={`/products/${id}`} className="group/link">
           <h3 className="font-serif text-xs sm:text-sm font-medium mb-0.5 sm:mb-1 text-foreground line-clamp-1">{name}</h3>
           <p className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground mb-1 sm:mb-2 line-clamp-2 leading-tight">{description}</p>

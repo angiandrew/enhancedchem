@@ -8,29 +8,31 @@ import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
+import ProductImageCarousel from '@/components/ProductImageCarousel'
 
-export default function CJC1295Page() {
-	const [selectedMG, setSelectedMG] = useState('10mg')
+export default function BPC15720mgPage() {
+	const [selectedMG, setSelectedMG] = useState('20mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 54.99, originalPrice: 61.99, image: '/products/CJC-1295 (With DAC)/CJC DAC 5mg.png', inStock: true },
-		{ value: '10mg', price: 94.99, originalPrice: 105.99, image: '/products/CJC-1295 (With DAC)/CJC DAC 10mg.png', inStock: true }
+		{ value: '5mg', price: 34.99, originalPrice: 38.99, image: '/products/bpc-157/BPC-157 5mg.png', inStock: false },
+		{ value: '10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png', inStock: true },
+		{ value: '20mg', price: 54.99, originalPrice: 59.99, image: '/products/bpc-157/BPC-157 20mg.png', inStock: true },
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 94.99
-	const currentOriginalPrice = currentOption?.originalPrice || 105.99
-	const currentImage = currentOption?.image || '/products/CJC-1295 (With DAC)/CJC DAC 10mg.png'
+	const currentPrice = currentOption?.price || 54.99
+	const currentOriginalPrice = currentOption?.originalPrice || 59.99
+	const currentImage = currentOption?.image || '/products/bpc-157/BPC-157 20mg.png'
 	const isInStock = currentOption?.inStock ?? true
 
 	const handleAddToCart = () => {
 		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `cjc-1295-${selectedMG === '5mg' ? '5mg' : ''}`,
-				name: `CJC-1295 w/ DAC (${selectedMG})`,
+				id: `bpc-157-${selectedMG}`,
+				name: `BPC-157 ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
 			})
@@ -40,38 +42,43 @@ export default function CJC1295Page() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
-			<ProductNavigation currentProductId="cjc-1295" />
+			<ProductNavigation currentProductId="bpc-157-20mg" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
 					<nav className="mb-6 pt-4">
-						<ol className="flex items-center space-x-2 text-sm text-muted-foreground flex-wrap gap-y-1">
+					<ol className="flex items-center space-x-2 text-sm text-muted-foreground flex-wrap gap-y-1">
 							<li className="whitespace-nowrap"><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
 							<li className="whitespace-nowrap">/</li>
 							<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li className="whitespace-nowrap">/</li>
-							<li className="text-foreground font-medium whitespace-nowrap">{`CJC-1295 w/ DAC (${selectedMG})`}</li>
+							<li className="text-foreground font-medium whitespace-nowrap">BPC-157 {selectedMG}</li>
 						</ol>
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Image */}
+						{/* Product Images */}
 						<div className="lg:sticky lg:top-28">
-							
-								<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-									<Image
-										src={currentImage}
-										alt={`CJC-1295 w/ DAC (${selectedMG})`}
-										fill
-										className="object-contain p-4 sm:p-8"
-										priority
-										unoptimized
-									/>
-								</div>
+							<ProductImageCarousel
+								slides={
+									selectedMG === '5mg'
+										? [
+												{ src: currentImage, alt: `BPC-157 ${selectedMG}` },
+												{ src: '/COAs/3rd party testing/bpc5.jpg', alt: 'BPC-157 5mg Certificate of Analysis', isCoa: true },
+											]
+										: selectedMG === '10mg'
+											? [
+													{ src: currentImage, alt: `BPC-157 ${selectedMG}` },
+													{ src: '/COAs/3rd party testing/BPC10.jpg', alt: 'BPC-157 10mg Certificate of Analysis', isCoa: true },
+												]
+											: [{ src: currentImage, alt: `BPC-157 ${selectedMG}` }]
+								}
+								priority
+							/>
 						</div>
 
 						{/* Product Info */}
-						<div className="space-y-4">
+						<div className="space-y-4 sm:space-y-6">
 							{/* Availability */}
 							<div className="flex items-center gap-2">
 								{isInStock ? (
@@ -93,7 +100,7 @@ export default function CJC1295Page() {
 
 							{/* Product Name */}
 							<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
-								CJC-1295 w/ DAC ({selectedMG})
+								BPC-157 {selectedMG}
 							</h1>
 
 							{/* Price */}
@@ -106,16 +113,11 @@ export default function CJC1295Page() {
 										${currentOriginalPrice.toFixed(2)}
 									</span>
 								)}
-								{currentOriginalPrice > currentPrice && (
-									<span className="px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-full text-xs font-medium border border-border/50">
-										Save {Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)}%
-									</span>
-								)}
 							</div>
 
 							{/* MG Selection */}
 							<div>
-								<label className="block text-xs font-medium text-foreground mb-3">
+								<label className="block text-xs sm:text-sm font-medium text-foreground mb-3">
 									Select Strength:
 								</label>
 								<div className="flex flex-wrap gap-3">
@@ -123,9 +125,13 @@ export default function CJC1295Page() {
 									<button
 										type="button"
 										key={option.value}
-										onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedMG(option.value); }}
+										onClick={(e) => {
+											e.preventDefault()
+											e.stopPropagation()
+											setSelectedMG(option.value)
+										}}
 										disabled={!option.inStock && selectedMG !== option.value}
-										className={`px-5 py-3 rounded-lg border-2 text-sm font-medium transition-colors relative ${
+										className={`min-w-[80px] px-5 py-3 rounded-lg border-2 text-sm font-semibold transition-colors relative touch-manipulation ${
 											selectedMG === option.value
 												? option.inStock
 													? 'border-primary bg-primary/10 text-primary'
@@ -149,7 +155,7 @@ export default function CJC1295Page() {
 							{/* Quantity Selector */}
 							<div>
 								<label className="block text-xs font-medium text-foreground mb-3">
-									Quantity:
+						Quantity:
 								</label>
 								<div className="flex items-center gap-2">
 									<button
@@ -189,7 +195,7 @@ export default function CJC1295Page() {
 							<button type="button"
 								onClick={handleAddToCart}
 								disabled={!isInStock}
-								className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 ${
+								className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-colors flex items-center justify-center gap-3 ${
 									isInStock
 										? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
 										: 'bg-muted text-muted-foreground cursor-not-allowed'
@@ -240,11 +246,11 @@ export default function CJC1295Page() {
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Cas No:</span>
-									<span className="text-muted-foreground">863288-34-0</span>
+									<span className="text-muted-foreground">137525-51-0</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Molecular Formula:</span>
-									<span className="text-muted-foreground">C₁₅₂H₂₅₂N₄₄O₄₂</span>
+									<span className="text-muted-foreground">C₆₂H₉₈N₁₆O₂₂</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border/50">
 									<span className="font-medium text-foreground">Physical State:</span>
@@ -252,7 +258,7 @@ export default function CJC1295Page() {
 								</div>
 								<div className="flex justify-between py-2">
 									<span className="font-medium text-foreground">Storage:</span>
-									<span className="text-muted-foreground">Store at -20°C</span>
+									<span className="text-muted-foreground">Room Temperature</span>
 								</div>
 							</div>
 						</div>
@@ -260,64 +266,61 @@ export default function CJC1295Page() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. 
-								For research purposes only.
+								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture.
 							</p>
-							<p className="text-muted-foreground leading-relaxed">
-								CJC-1295 with DAC (Drug Affinity Complex) is a growth hormone-releasing hormone (GHRH) analog 
-								designed for extended release. This research-grade peptide is designed for scientific studies 
-								and laboratory research purposes only.
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from body protection compound found in gastric juice. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+							</p>
+							<p className="text-muted-foreground leading-relaxed text-sm">
+								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.
 							</p>
 						</div>
 					</div>
 
 					{/* Frequently Bought Together */}
-					<div className="mt-16">
-						<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
-						<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-							{[
-								{ id: 'cjc-1295-no-dac', name: 'CJC-1295 No DAC 10mg', price: 74.99, originalPrice: 83.99, image: '/products/CJC-1295 (No DAC)/CJC No DAC 10mg.png' },
-								{ id: 'ipamorelin-cjc-1295-5mg', name: 'Ipamorelin/CJC-1295 5mg', price: 54.99, originalPrice: 61.99, image: '/products/Ipamorelin-CJC-1295/Ipamorelin-CJC-1295 5mg.png' },
-								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
-								{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
-								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
-							].map((product) => (
-								<Link key={product.id} href={`/products/${product.id}`}>
-									<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">
-										<div className="relative aspect-square bg-secondary/30 p-3">
-											<Image
-												src={product.image}
-												alt={product.name}
-												fill
-												className="object-contain"
-												unoptimized
-											/>
-										</div>
-										<div className="p-3 flex flex-col flex-1">
-											<h3 className="font-serif text-sm font-medium text-foreground mb-1 line-clamp-2">{product.name}</h3>
-											<div className="flex items-baseline gap-1.5 mt-auto pt-2">
-												<span className="text-sm font-semibold text-primary">${product.price.toFixed(2)}</span>
-												{product.originalPrice > product.price && (
-													<span className="text-xs text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>
-												)}
-											</div>
+				<div className="mt-16">
+					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
+					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+						{[
+							{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
+							{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
+							{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
+							{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
+							{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
+						].map((product) => (
+							<Link key={product.id} href={`/products/${product.id}`}>
+								<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">
+									<div className="relative aspect-square bg-secondary/30 p-3">
+										<Image
+											src={product.image}
+											alt={product.name}
+											fill
+											className="object-contain"
+											unoptimized
+										/>
+									</div>
+									<div className="p-3 flex flex-col flex-1">
+										<h3 className="font-serif text-sm font-medium text-foreground mb-1 line-clamp-2">{product.name}</h3>
+										<div className="flex items-baseline gap-1.5 mt-auto pt-2">
+											<span className="text-sm font-semibold text-primary">${product.price.toFixed(2)}</span>
+											{product.originalPrice > product.price && (
+												<span className="text-xs text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>
+											)}
 										</div>
 									</div>
-								</Link>
-							))}
-						</div>
+								</div>
+							</Link>
+						))}
 					</div>
+				</div>
 
-					{/* Research Disclaimer */}
+				{/* Research Disclaimer */}
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
-							⚠️ Research Purposes Only
+							Research Use Only
 						</h3>
 						<p className="text-destructive/90 leading-relaxed">
-							This product is sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-							you certify that you are 18+ years of age and agree to use this product only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
+							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 18+ and will use only for lawful research in accordance with applicable laws.
 						</p>
 					</div>
 				</div>

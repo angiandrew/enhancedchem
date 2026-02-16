@@ -270,11 +270,11 @@ export default function KPVPage() {
 						<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 						<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 							{[
-								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 								{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
 								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 								{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%2B%20500mg.png' },
-								{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png' },
+								{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB 5_5.png' },
 							].map((product) => (
 								<Link key={product.id} href={`/products/${product.id}`}>
 									<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">

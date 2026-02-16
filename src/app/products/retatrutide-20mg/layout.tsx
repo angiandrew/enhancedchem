@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
 
 export const metadata: Metadata = {
-  title: 'Retatrutide 20mg | Buy Retatrutide Research Peptide | Enhanced Chem',
-  description: 'Buy Retatrutide 20mg research peptide. Triple agonist (GLP-1, GIP, glucagon). Premium quality, third-party tested. For research use only. Fast shipping.',
-  keywords: 'retatrutide 20mg, buy retatrutide 20mg, retatrutide peptide, research peptide, Enhanced Chem',
+  title: 'Reta 20mg | Buy Reta Research Peptide | Enhanced Chem',
+  description: 'Buy Reta 20mg research peptide. Triple agonist (GLP-1, GIP, glucagon). Premium quality, third-party tested. For research use only. Fast shipping.',
+  keywords: 'reta 20mg, retatrutide 20mg, buy reta 20mg, research peptide, Enhanced Chem',
   openGraph: {
-    title: 'Retatrutide 20mg | Research Peptide | Enhanced Chem',
-    description: 'Retatrutide 20mg - Triple agonist research peptide. Third-party tested. Fast shipping.',
+    title: 'Reta 20mg | Research Peptide | Enhanced Chem',
+    description: 'Reta 20mg - Triple agonist research peptide. Third-party tested. Fast shipping.',
     url: `${baseUrl}/products/retatrutide-20mg`,
     type: 'website',
   },

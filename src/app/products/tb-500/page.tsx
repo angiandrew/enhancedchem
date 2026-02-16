@@ -276,10 +276,10 @@ export default function TB500Page() {
 						<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 						<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 							{[
-								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC 10mgnew-new.png' },
+								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 								{ id: 'kpv', name: 'KPV 10mg', price: 54.99, originalPrice: 61.99, image: '/products/KPV/KPV 10mg.png' },
-								{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB Blend 5_5.png' },
+								{ id: 'bpc-tb-mix', name: 'BPC-157 + TB-500 Mix', price: 64.99, originalPrice: 72.99, image: '/products/bpc-tb-mix/BPC_TB 5_5.png' },
 								{ id: 'mix-peptide', name: 'GLOW 70mg', price: 88.99, originalPrice: 98.99, image: '/products/bpc-tb-ghk-mix/GLOW70mg.png' },
 							].map((product) => (
 								<Link key={product.id} href={`/products/${product.id}`}>
