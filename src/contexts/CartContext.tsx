@@ -35,6 +35,14 @@ const IMAGE_PATH_MIGRATIONS: Record<string, string> = {
 	'/products/bpc-tb-mix/BPC_TB Blend 10_10.png': '/products/bpc-tb-mix/BPC_TB 10_10.png',
 }
 
+// Cart product id migration: old retatrutide URLs → reta
+const CART_ID_MIGRATIONS: Record<string, string> = {
+	'retatrutide': 'reta',
+	'retatrutide-5mg': 'reta-5mg',
+	'retatrutide-15mg': 'reta-15mg',
+	'retatrutide-20mg': 'reta-20mg',
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
 	const [items, setItems] = useState<CartItem[]>([])
 	const [lastAddedItem, setLastAddedItem] = useState<CartItem | null>(null)
@@ -57,11 +65,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
 								typeof (item as CartItem).price === 'number'
 							)
 							.map((item: CartItem) => {
+								let migrated = item
 								// Migrate old image paths to new ones
 								if (item.image && IMAGE_PATH_MIGRATIONS[item.image]) {
-									return { ...item, image: IMAGE_PATH_MIGRATIONS[item.image] }
+									migrated = { ...migrated, image: IMAGE_PATH_MIGRATIONS[item.image] }
 								}
-								return item
+								// Migrate old retatrutide product ids to reta
+								if (item.id && CART_ID_MIGRATIONS[item.id]) {
+									migrated = { ...migrated, id: CART_ID_MIGRATIONS[item.id] }
+								}
+								return migrated
 							})
 						setItems(migratedCart)
 						// Save migrated cart back to localStorage if changed

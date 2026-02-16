@@ -33,7 +33,7 @@ export default function Retatrutide20mgPage() {
 		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
+				id: selectedMG === '10mg' ? 'reta' : `reta-${selectedMG}`,
 				name: `Reta ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
@@ -53,11 +53,11 @@ export default function Retatrutide20mgPage() {
 					image: currentImage,
 					inStock: isInStock,
 					brand: 'Enhanced Chem',
-					url: `${baseUrl}/products/retatrutide-20mg`,
+					url: `${baseUrl}/products/reta-20mg`,
 				}}
 			/>
 			<Header />
-			<ProductNavigation currentProductId="retatrutide-20mg" />
+			<ProductNavigation currentProductId="reta-20mg" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}

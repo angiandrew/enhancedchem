@@ -50,12 +50,12 @@ const coaTests = [
 	{
 		name: 'Reta 10mg',
 		image: '/COAs/3rd party testing/reta10.jpg',
-		product: 'retatrutide'
+		product: 'reta'
 	},
 	{
 		name: 'Reta 15mg',
 		image: '/COAs/3rd party testing/reta15.jpg',
-		product: 'retatrutide-15mg'
+		product: 'reta-15mg'
 	},
 	{
 		name: 'Selank 10mg',

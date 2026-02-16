@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Reta | Buy Reta Research Peptide | Enhanced Chem',
     description: 'Reta research peptide. In vitro and laboratory use only. Third-party tested.',
-    url: `${baseUrl}/products/retatrutide`,
+    url: `${baseUrl}/products/reta`,
     type: 'website',
   },
-  alternates: { canonical: `${baseUrl}/products/retatrutide` },
+  alternates: { canonical: `${baseUrl}/products/reta` },
 }
 
 export default function RetatrutideLayout({

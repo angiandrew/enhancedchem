@@ -146,7 +146,7 @@ const allProducts = [
     reviews: 42,
   },
   {
-    id: 'retatrutide',
+    id: 'reta',
     name: 'Reta 10mg',
     description: 'Triple agonist peptide in higher concentration for extended research studies.',
     price: 79.99,
@@ -156,7 +156,7 @@ const allProducts = [
     reviews: 45,
   },
   {
-    id: 'retatrutide-15mg',
+    id: 'reta-15mg',
     name: 'Reta 15mg',
     description: 'Triple agonist peptide in higher concentration for extended research studies.',
     price: 109.99,
@@ -167,7 +167,7 @@ const allProducts = [
     badge: 'Limited Time Offer',
   },
   {
-    id: 'retatrutide-20mg',
+    id: 'reta-20mg',
     name: 'Reta 20mg',
     description: 'Triple agonist peptide in highest concentration for extended research studies.',
     price: 139.99,
@@ -241,7 +241,7 @@ const allProducts = [
     inStock: false,
   },
   {
-    id: 'retatrutide-5mg',
+    id: 'reta-5mg',
     name: 'Reta 5mg',
     description: 'Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications.',
     price: 39.99,

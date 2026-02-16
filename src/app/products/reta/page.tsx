@@ -4,14 +4,16 @@ import { useState } from 'react'
 import { ShoppingCart, Truck, Award, Lock, Headphones, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import ProductImageCarousel from '@/components/ProductImageCarousel'
 import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
 import ProductStructuredData from '@/components/ProductStructuredData'
+import ProductSEO from '@/components/ProductSEO'
 
-export default function Retatrutide5mgPage() {
-	const [selectedMG, setSelectedMG] = useState('5mg')
+export default function RetatrutidePage() {
+	const [selectedMG, setSelectedMG] = useState('10mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
@@ -24,16 +26,16 @@ export default function Retatrutide5mgPage() {
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 39.99
-	const currentOriginalPrice = currentOption?.originalPrice || 43.99
-	const currentImage = currentOption?.image || '/products/Reta/Reta 5mg.png'
-	const isInStock = currentOption?.inStock ?? false
+	const currentPrice = currentOption?.price || 79.99
+	const currentOriginalPrice = currentOption?.originalPrice || 89.99
+	const currentImage = currentOption?.image || '/products/Reta/Reta 10mg.png'
+	const isInStock = currentOption?.inStock ?? true
 
 	const handleAddToCart = () => {
 		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
+				id: selectedMG === '10mg' ? 'reta' : `reta-${selectedMG}`,
 				name: `Reta ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
@@ -42,22 +44,33 @@ export default function Retatrutide5mgPage() {
 	}
 
 	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://enhancedchem.com'
+	const productName = `Reta ${selectedMG}`
+	const productDescription = `Buy ${productName} - Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications. Premium quality research peptides from Enhanced Chem with fast shipping. Price: $${currentPrice.toFixed(2)}.`
+
 	return (
 		<div className="min-h-screen bg-background">
-			<ProductStructuredData
+			<ProductSEO
+				title={productName}
+				description={productDescription}
+				price={currentPrice}
+				image={currentImage}
+				url={`${baseUrl}/products/reta`}
+				brand="Enhanced Chem"
+			/>
+			<Header />
+			<ProductNavigation currentProductId="reta" />
+			<ProductStructuredData 
 				product={{
-					name: 'Reta 5mg',
-					description: 'Reta 5mg - Triple agonist peptide (GLP-1, GIP, glucagon) for research. Premium quality, third-party tested.',
+					name: productName,
+					description: 'Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications.',
 					price: currentPrice,
 					originalPrice: currentOriginalPrice,
 					image: currentImage,
 					inStock: isInStock,
 					brand: 'Enhanced Chem',
-					url: `${baseUrl}/products/retatrutide-5mg`,
+					url: `${baseUrl}/products/reta`
 				}}
 			/>
-			<Header />
-			<ProductNavigation currentProductId="retatrutide-5mg" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
@@ -72,22 +85,23 @@ export default function Retatrutide5mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Image */}
+						{/* Product Images - carousel with dots when product + COA */}
 						<div className="lg:sticky lg:top-28">
-							<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
-								<Image
-									src={currentImage}
-									alt={`Reta ${selectedMG}`}
-									fill
-									className="object-contain p-4 sm:p-8"
-									priority
-									unoptimized
-								/>
-							</div>
+							<ProductImageCarousel
+								slides={
+									selectedMG === '10mg'
+										? [
+												{ src: currentImage, alt: `Reta ${selectedMG}` },
+												{ src: '/COAs/3rd party testing/reta10.jpg', alt: 'Reta 10mg Certificate of Analysis', isCoa: true },
+											]
+										: [{ src: currentImage, alt: `Reta ${selectedMG}` }]
+								}
+								priority
+							/>
 						</div>
 
 						{/* Product Info */}
-						<div className="space-y-4">
+						<div className="space-y-4 sm:space-y-6">
 							{/* Availability */}
 							<div className="flex items-center gap-2">
 								{isInStock ? (
@@ -112,45 +126,6 @@ export default function Retatrutide5mgPage() {
 								Reta {selectedMG}
 							</h1>
 
-							{/* Strength Selector */}
-							<div>
-								<label className="block text-xs font-medium text-foreground mb-3">
-									Select Strength:
-								</label>
-								<div className="flex flex-wrap gap-2 items-end">
-									{mgOptions.map((option) => (
-										<div key={option.value} className="relative flex flex-col items-center gap-1.5">
-											{option.badge && option.inStock && (
-												<span className="bg-primary text-primary-foreground text-[9px] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
-													{option.badge}
-												</span>
-											)}
-									<button
-										type="button"
-										onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedMG(option.value); }}
-												disabled={!option.inStock && selectedMG !== option.value}
-												className={`relative min-w-[80px] px-5 py-3 rounded-lg border-2 text-sm font-semibold transition-colors touch-manipulation ${
-													selectedMG === option.value
-														? option.inStock
-															? 'border-primary bg-primary/10 text-primary'
-															: 'border-border bg-muted/50 text-muted-foreground'
-														: option.inStock
-														? 'border-border bg-card text-foreground active:border-primary active:bg-primary/5'
-														: 'border-border bg-muted/30 text-muted-foreground opacity-50 cursor-not-allowed'
-												}`}
-											>
-												{option.value}
-												{!option.inStock && (
-													<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
-														OUT
-													</span>
-												)}
-											</button>
-										</div>
-									))}
-								</div>
-							</div>
-
 							{/* Price */}
 							<div className="flex items-baseline gap-3">
 								<span className="text-3xl md:text-4xl font-serif font-medium text-primary">
@@ -163,7 +138,50 @@ export default function Retatrutide5mgPage() {
 								)}
 							</div>
 
-							{/* Quantity Selector */}
+							{/* MG Selection */}
+							<div>
+								<label className="block text-xs sm:text-sm font-medium text-foreground mb-3">
+									Select Strength:
+								</label>
+								<div className="flex flex-wrap gap-3 items-end">
+									{mgOptions.map((option) => (
+									<div key={option.value} className="relative flex flex-col items-center gap-1.5">
+										{option.badge && option.inStock && (
+											<span className="bg-primary text-primary-foreground text-[9px] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
+												{option.badge}
+											</span>
+										)}
+										<button
+											type="button"
+											onClick={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												setSelectedMG(option.value)
+											}}
+											disabled={!option.inStock && selectedMG !== option.value}
+											className={`min-w-[80px] px-5 py-3 rounded-lg border-2 text-sm font-semibold transition-colors relative touch-manipulation ${
+												selectedMG === option.value
+													? option.inStock
+														? 'border-primary bg-primary/10 text-primary'
+														: 'border-border bg-muted/50 text-muted-foreground'
+													: option.inStock
+														? 'border-border bg-card text-foreground active:border-primary active:bg-primary/5'
+														: 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+											}`}
+										>
+											{option.value}
+											{!option.inStock && (
+												<span className="absolute -top-1.5 -right-1.5 bg-muted-foreground/60 text-background text-[9px] px-1.5 py-0.5 rounded-full font-medium">
+													OUT
+												</span>
+											)}
+										</button>
+									</div>
+									))}
+								</div>
+							</div>
+
+						{/* Quantity Selector */}
 						<div>
 							<label className="block text-xs font-medium text-foreground mb-3">
 						Quantity:
@@ -206,10 +224,10 @@ export default function Retatrutide5mgPage() {
 						<button type="button"
 							onClick={handleAddToCart}
 							disabled={!isInStock}
-							className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2 shadow-md ${
+							className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-colors flex items-center justify-center gap-3 ${
 								isInStock
-									? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg'
-									: 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+									? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
+									: 'bg-muted text-muted-foreground cursor-not-allowed'
 							}`}
 						>
 							<ShoppingCart className="h-4 w-4" />
@@ -277,18 +295,19 @@ export default function Retatrutide5mgPage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. 
-								For research purposes only.
+								Store in a freezer at -20°C. Keep away from direct sunlight and moisture.
 							</p>
-							<p className="text-muted-foreground leading-relaxed">
-								Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+							<p className="text-muted-foreground leading-relaxed mb-4">
+								Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+							</p>
+							<p className="text-muted-foreground leading-relaxed text-sm">
+								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.
 							</p>
 						</div>
 					</div>
 
 					{/* Frequently Bought Together */}
-				<div className="mt-16">
+					<div className="mt-16">
 					<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Frequently Bought Together</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{[
@@ -327,13 +346,10 @@ export default function Retatrutide5mgPage() {
 					{/* Research Disclaimer */}
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">
-							⚠️ Research Purposes Only
+							Research Use Only
 						</h3>
 						<p className="text-destructive/90 leading-relaxed">
-							This product is sold for research purposes only. Not for human consumption, 
-							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-							you certify that you are 18+ years of age and agree to use this product only for 
-							legitimate research purposes in accordance with applicable laws and regulations.
+							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 18+ and will use only for lawful research in accordance with applicable laws.
 						</p>
 					</div>
 				</div>

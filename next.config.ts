@@ -53,6 +53,16 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // Redirect old retatrutide URLs to reta (SEO + bookmarks)
+  async redirects() {
+    return [
+      { source: '/products/retatrutide', destination: '/products/reta', permanent: true },
+      { source: '/products/retatrutide-5mg', destination: '/products/reta-5mg', permanent: true },
+      { source: '/products/retatrutide-15mg', destination: '/products/reta-15mg', permanent: true },
+      { source: '/products/retatrutide-20mg', destination: '/products/reta-20mg', permanent: true },
+    ]
+  },
+
   // Rate limiting and security
   serverExternalPackages: [],
 

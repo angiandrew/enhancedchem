@@ -8,11 +8,10 @@ import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
-import ProductImageCarousel from '@/components/ProductImageCarousel'
 import ProductStructuredData from '@/components/ProductStructuredData'
 
-export default function Retatrutide15mgPage() {
-	const [selectedMG, setSelectedMG] = useState('15mg')
+export default function Retatrutide5mgPage() {
+	const [selectedMG, setSelectedMG] = useState('5mg')
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
@@ -25,16 +24,16 @@ export default function Retatrutide15mgPage() {
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 109.99
-	const currentOriginalPrice = currentOption?.originalPrice || 121.99
-	const currentImage = currentOption?.image || '/products/Reta/Reta 15mg.png'
+	const currentPrice = currentOption?.price || 39.99
+	const currentOriginalPrice = currentOption?.originalPrice || 43.99
+	const currentImage = currentOption?.image || '/products/Reta/Reta 5mg.png'
 	const isInStock = currentOption?.inStock ?? false
 
 	const handleAddToCart = () => {
 		if (!isInStock) return
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: `retatrutide-${selectedMG === '5mg' ? '5mg' : selectedMG === '10mg' ? '' : selectedMG}`,
+				id: selectedMG === '10mg' ? 'reta' : `reta-${selectedMG}`,
 				name: `Reta ${selectedMG}`,
 				price: currentPrice,
 				image: currentImage
@@ -47,18 +46,18 @@ export default function Retatrutide15mgPage() {
 		<div className="min-h-screen bg-background">
 			<ProductStructuredData
 				product={{
-					name: 'Reta 15mg',
-					description: 'Reta 15mg - Triple agonist peptide (GLP-1, GIP, glucagon) for research. Premium quality, third-party tested.',
+					name: 'Reta 5mg',
+					description: 'Reta 5mg - Triple agonist peptide (GLP-1, GIP, glucagon) for research. Premium quality, third-party tested.',
 					price: currentPrice,
 					originalPrice: currentOriginalPrice,
 					image: currentImage,
 					inStock: isInStock,
 					brand: 'Enhanced Chem',
-					url: `${baseUrl}/products/retatrutide-15mg`,
+					url: `${baseUrl}/products/reta-5mg`,
 				}}
 			/>
 			<Header />
-			<ProductNavigation currentProductId="retatrutide-15mg" />
+			<ProductNavigation currentProductId="reta-5mg" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					{/* Breadcrumb */}
@@ -73,23 +72,22 @@ export default function Retatrutide15mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Images - carousel with dots when product + COA */}
+						{/* Product Image */}
 						<div className="lg:sticky lg:top-28">
-							<ProductImageCarousel
-								slides={
-									selectedMG === '15mg'
-										? [
-												{ src: currentImage, alt: `Reta ${selectedMG}` },
-												{ src: '/COAs/3rd party testing/reta15.jpg', alt: 'Reta 15mg Certificate of Analysis', isCoa: true },
-											]
-										: [{ src: currentImage, alt: `Reta ${selectedMG}` }]
-								}
-								priority
-							/>
+							<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
+								<Image
+									src={currentImage}
+									alt={`Reta ${selectedMG}`}
+									fill
+									className="object-contain p-4 sm:p-8"
+									priority
+									unoptimized
+								/>
+							</div>
 						</div>
 
 						{/* Product Info */}
-						<div className="space-y-4 sm:space-y-6">
+						<div className="space-y-4">
 							{/* Availability */}
 							<div className="flex items-center gap-2">
 								{isInStock ? (
@@ -116,10 +114,10 @@ export default function Retatrutide15mgPage() {
 
 							{/* Strength Selector */}
 							<div>
-								<label className="block text-xs sm:text-sm font-medium text-foreground mb-3">
+								<label className="block text-xs font-medium text-foreground mb-3">
 									Select Strength:
 								</label>
-								<div className="flex flex-wrap gap-3 items-end">
+								<div className="flex flex-wrap gap-2 items-end">
 									{mgOptions.map((option) => (
 										<div key={option.value} className="relative flex flex-col items-center gap-1.5">
 											{option.badge && option.inStock && (
@@ -127,15 +125,11 @@ export default function Retatrutide15mgPage() {
 													{option.badge}
 												</span>
 											)}
-											<button
-												type="button"
-												onClick={(e) => {
-													e.preventDefault()
-													e.stopPropagation()
-													setSelectedMG(option.value)
-												}}
+									<button
+										type="button"
+										onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedMG(option.value); }}
 												disabled={!option.inStock && selectedMG !== option.value}
-												className={`min-w-[80px] px-5 py-3 rounded-lg border-2 text-sm font-semibold transition-colors relative touch-manipulation ${
+												className={`relative min-w-[80px] px-5 py-3 rounded-lg border-2 text-sm font-semibold transition-colors touch-manipulation ${
 													selectedMG === option.value
 														? option.inStock
 															? 'border-primary bg-primary/10 text-primary'

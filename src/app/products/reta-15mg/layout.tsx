@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Reta 15mg | Research Peptide | Enhanced Chem',
     description: 'Reta 15mg - Triple agonist research peptide. Third-party tested. Fast shipping.',
-    url: `${baseUrl}/products/retatrutide-15mg`,
+    url: `${baseUrl}/products/reta-15mg`,
     type: 'website',
   },
-  alternates: { canonical: `${baseUrl}/products/retatrutide-15mg` },
+  alternates: { canonical: `${baseUrl}/products/reta-15mg` },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
