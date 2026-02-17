@@ -1,6 +1,5 @@
 // Product order for navigation - matches the order in /products/page.tsx
 export const productOrder = [
-  'bpc-157-5mg',
   'bpc-157',
   'bpc-157-20mg',
   'tb-500',
@@ -29,6 +28,7 @@ export const productOrder = [
   'cjc-1295-5mg',
   'reta-5mg',
   'ipamorelin-cjc-1295-5mg',
+  'bpc-157-5mg',
 ]
 
 export function getPreviousProduct(currentId: string): string | null {

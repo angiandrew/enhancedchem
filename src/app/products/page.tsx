@@ -9,18 +9,6 @@ import { Input } from '@/components/ui/input'
 
 const allProducts = [
   {
-    id: 'bpc-157-5mg',
-    name: 'BPC-157 5mg',
-    description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
-    price: 34.99,
-    originalPrice: 38.99,
-    image: '/products/bpc-157/BPC-157 5mg.png',
-    rating: 5,
-    reviews: 127,
-    badge: 'Popular',
-    inStock: false,
-  },
-  {
     id: 'bpc-157',
     name: 'BPC-157 10mg',
     description: 'Body Protection Compound-157 in higher concentration for extended research applications.',
@@ -316,6 +304,18 @@ const allProducts = [
     image: '/products/cjc-no-dac-ipa/IPA_CJC 5_5.png',
     rating: 5,
     reviews: 39,
+    inStock: false,
+  },
+  {
+    id: 'bpc-157-5mg',
+    name: 'BPC-157 5mg',
+    description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
+    price: 34.99,
+    originalPrice: 38.99,
+    image: '/products/bpc-157/BPC-157 5mg.png',
+    rating: 5,
+    reviews: 127,
+    badge: 'Popular',
     inStock: false,
   },
 ]
