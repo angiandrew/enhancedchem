@@ -43,6 +43,8 @@ const IMAGE_PATH_MIGRATIONS: Record<string, string> = {
 	'/products/CJC no dac IPA/IPA_CJC 5_5.png': '/products/cjc-no-dac-ipa/IPA_CJC 5_5.png',
 	'/products/CJC no dac IPA/IPA_CJC 10_10.png': '/products/cjc-no-dac-ipa/IPA_CJC 10_10.png',
 	'/products/CJC-1295 (With DAC)/CJC DAC 5mg.png': '/products/CJC-1295 (With DAC)/CJC-1295 DAC 5mg.png',
+	'/products/CJC NO DAC/CJC1295 5mg NO DAC.png': '/products/CJC NO DAC/CJC-1295 5mg.png',
+	'/products/CJC NO DAC/CJC NO DAC 10mg.png': '/products/CJC NO DAC/CJC-1295 10mg.png',
 }
 
 // Cart product id migration: old retatrutide URLs → reta

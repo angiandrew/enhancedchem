@@ -15,14 +15,14 @@ export default function CJC1295NoDACPage() {
 	const { addItem } = useCart()
 
 	const mgOptions = [
-		{ value: '5mg', price: 44.99, originalPrice: 49.99, image: '/products/CJC NO DAC/CJC1295 5mg NO DAC.png', inStock: true },
-		{ value: '10mg', price: 74.99, originalPrice: 83.99, image: '/products/CJC NO DAC/CJC NO DAC 10mg.png', inStock: true }
+		{ value: '5mg', price: 44.99, originalPrice: 49.99, image: '/products/CJC NO DAC/CJC-1295 5mg.png', inStock: true },
+		{ value: '10mg', price: 74.99, originalPrice: 83.99, image: '/products/CJC NO DAC/CJC-1295 10mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
 	const currentPrice = currentOption?.price || 74.99
 	const currentOriginalPrice = currentOption?.originalPrice || 83.99
-	const currentImage = currentOption?.image || '/products/CJC NO DAC/CJC NO DAC 10mg.png'
+	const currentImage = currentOption?.image || '/products/CJC NO DAC/CJC-1295 10mg.png'
 	const isInStock = currentOption?.inStock ?? true
 
 	const handleAddToCart = () => {

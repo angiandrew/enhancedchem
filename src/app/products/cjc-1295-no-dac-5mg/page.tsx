@@ -16,7 +16,7 @@ export default function CJC1295NoDAC5mgPage() {
 
 	const currentPrice = 44.99
 	const currentOriginalPrice = 49.99
-	const currentImage = '/products/CJC NO DAC/CJC1295 5mg NO DAC.png'
+	const currentImage = '/products/CJC NO DAC/CJC-1295 5mg.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
