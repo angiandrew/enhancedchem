@@ -73,13 +73,13 @@ export default function Retatrutide5mgPage() {
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
 						{/* Product Image */}
-						<div className="lg:sticky lg:top-28">
-							<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
+						<div className="lg:sticky lg:top-28 overflow-hidden rounded-lg">
+							<div className="relative aspect-square overflow-hidden">
 								<Image
 									src={currentImage}
 									alt={`Reta ${selectedMG}`}
 									fill
-									className="object-contain p-4 sm:p-8"
+									className="object-cover object-center"
 									priority
 									unoptimized
 								/>

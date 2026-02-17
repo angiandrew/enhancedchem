@@ -13,12 +13,10 @@ export type CarouselSlide = {
 
 type ProductImageCarouselProps = {
 	slides: CarouselSlide[]
-	/** First slide (product) padding; COA slides often use less */
-	productPadding?: string
 	priority?: boolean
 }
 
-export default function ProductImageCarousel({ slides = [], productPadding = 'p-4 sm:p-8', priority }: ProductImageCarouselProps) {
+export default function ProductImageCarousel({ slides = [], priority }: ProductImageCarouselProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const safeSlides = Array.isArray(slides) ? slides : []
 	const hasMultiple = safeSlides.length > 1
@@ -48,9 +46,9 @@ export default function ProductImageCarousel({ slides = [], productPadding = 'p-
 	if (safeSlides.length === 0) return null
 
 	return (
-		<div className="relative w-full">
+		<div className="relative w-full overflow-hidden rounded-lg">
 			{/* Single aspect-square container with overflow for sliding */}
-			<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
+			<div className="relative aspect-square overflow-hidden">
 				{/* Slide track */}
 				<div
 					className="flex h-full transition-transform duration-300 ease-out"
@@ -66,7 +64,7 @@ export default function ProductImageCarousel({ slides = [], productPadding = 'p-
 								src={slide.src}
 								alt={slide.alt}
 								fill
-								className={`object-contain ${i === 0 ? productPadding : 'p-4'}`}
+								className={slide.isCoa ? 'object-contain p-4' : 'object-cover object-center'}
 								priority={priority && i === 0}
 								unoptimized
 								sizes="(max-width: 768px) 100vw, 50vw"
