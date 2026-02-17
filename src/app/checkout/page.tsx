@@ -45,7 +45,6 @@ export default function CheckoutPage() {
 	const shippingMethods = [
 		{ id: 'ground', name: 'USPS Ground', price: 9.78, days: '3-5 business days' },
 		{ id: '2day', name: 'USPS Priority', price: 11.39, days: '2-3 business days' },
-		{ id: 'nextday', name: 'USPS Priority Mail Express', price: 40.00, days: '1-2 business days' }
 	]
 	const [selectedShippingMethod, setSelectedShippingMethod] = useState('ground')
 	const selectedShipping = shippingMethods.find(m => m.id === selectedShippingMethod) || shippingMethods[0]
