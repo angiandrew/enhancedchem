@@ -60,6 +60,7 @@ const nextConfig: NextConfig = {
       { source: '/products/retatrutide-5mg', destination: '/products/reta-5mg', permanent: true },
       { source: '/products/retatrutide-15mg', destination: '/products/reta-15mg', permanent: true },
       { source: '/products/retatrutide-20mg', destination: '/products/reta-20mg', permanent: true },
+      { source: '/products/cjc-1295', destination: '/products', permanent: true },
     ]
   },
 

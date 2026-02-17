@@ -27,10 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'melanotan-2',
     'klow-80mg',
     'cjc-1295-5mg',
-    'cjc-1295',
     'cjc-1295-no-dac-5mg',
     'cjc-1295-no-dac',
+    'ipamorelin-5mg',
+    'ipamorelin',
     'ipamorelin-cjc-1295-5mg',
+    'ipamorelin-cjc-1295-10mg',
   ]
 
   const routes = [

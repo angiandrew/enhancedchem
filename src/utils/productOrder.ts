@@ -1,6 +1,7 @@
 // Product order for navigation - matches the order in /products/page.tsx
 export const productOrder = [
   'bpc-157',
+  'bpc-157-20mg',
   'tb-500',
   'tb-500-5mg',
   'ghk-cu',
@@ -20,13 +21,14 @@ export const productOrder = [
   'klow-80mg',
   'cjc-1295-no-dac-5mg',
   'cjc-1295-5mg',
-  'cjc-1295',
   'cjc-1295-no-dac',
   'reta-5mg',
+  'ipamorelin-5mg',
+  'ipamorelin',
   'ipamorelin-cjc-1295-5mg',
+  'ipamorelin-cjc-1295-10mg',
   'bpc-157-5mg',
   'bpc-157-10mg',
-  'bpc-157-20mg',
 ]
 
 export function getPreviousProduct(currentId: string): string | null {

@@ -28,11 +28,18 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 const IMAGE_PATH_MIGRATIONS: Record<string, string> = {
 	'/products/bpc-157/BPC-157_5MG_new.png': '/products/bpc-157/BPC-157 5mg.png',
 	'/products/bpc-157/BPC-157_5mg.png': '/products/bpc-157/BPC-157 5mg.png',
-	'/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png': '/products/bpc-tb-ghk-mix/GLOW70mg.png',
+	'/products/bpc-tb-ghk-mix/bpc-tb-ghk-mix.png': '/products/bpc-tb-ghk-mix/GLOW 70mg.png',
+	'/products/bpc-tb-ghk-mix/GLOW70mg.png': '/products/bpc-tb-ghk-mix/GLOW 70mg.png',
+	'/products/KLOW 80mg/KLOW80mg.png': '/products/KLOW 80mg/KLOW 80mg.png',
 	'/products/bpc-tb-mix/BPC:Tb_10MG mix.png': '/products/bpc-tb-mix/BPC_TB 10_10.png',
 	'/products/bpc-tb-mix/BPC Tb 10MG mix.png': '/products/bpc-tb-mix/BPC_TB 10_10.png',
 	'/products/bpc-tb-mix/BPC_TB Blend 5_5.png': '/products/bpc-tb-mix/BPC_TB 5_5.png',
 	'/products/bpc-tb-mix/BPC_TB Blend 10_10.png': '/products/bpc-tb-mix/BPC_TB 10_10.png',
+	'/products/Melanotan 2 10mg/Melanotan 2 10mg.png': '/products/Melanotan 2 10mg/MT2 10mg.png',
+	'/products/Semax/Semax10mg.png': '/products/Semax/Semax 10mg.png',
+	'/products/Selank/Selank10mg.png': '/products/Selank/Selank 10mg.png',
+	'/products/NAD%2B%20500MG/NAD%2B%20500mg.png': '/products/NAD%2B%20500MG/NAD%20500mg.png',
+	'/products/CJC no dac IPA/CJC(NO DAC)_IPA 5mg_5mgpng.png': '/products/CJC no dac IPA/IPA_CJC 5_5.png',
 }
 
 // Cart product id migration: old retatrutide URLs → reta
