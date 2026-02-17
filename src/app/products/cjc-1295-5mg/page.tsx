@@ -13,9 +13,9 @@ export default function CJC12955mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const currentPrice = 54.99
-	const currentOriginalPrice = 61.99
-	const currentImage = '/products/CJC-1295 (With DAC)/CJC DAC 5mg.png'
+	const currentPrice = 59.99
+	const currentOriginalPrice = 65.99
+	const currentImage = '/products/CJC-1295 (With DAC)/CJC-1295 DAC 5mg.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {

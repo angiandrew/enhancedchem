@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'reta-20mg',
     'melanotan-2',
     'klow-80mg',
+    'cjc-1295-2mg',
     'cjc-1295-5mg',
     'cjc-1295-no-dac-5mg',
     'cjc-1295-no-dac',

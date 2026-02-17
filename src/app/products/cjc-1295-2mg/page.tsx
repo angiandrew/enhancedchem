@@ -9,19 +9,19 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
 
-export default function IpamorelinCJC129510mgPage() {
+export default function CJC12952mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const currentPrice = 149.99
-	const currentOriginalPrice = 165.99
-	const currentImage = '/products/cjc-no-dac-ipa/IPA_CJC 10_10.png'
+	const currentPrice = 34.99
+	const currentOriginalPrice = 38.99
+	const currentImage = '/products/CJC-1295 (With DAC)/CJC-1295 DAC 2mg.png'
 
 	const handleAddToCart = () => {
 		for (let i = 0; i < quantity; i++) {
 			addItem({
-				id: 'ipamorelin-cjc-1295-10mg',
-				name: 'Ipamorelin/CJC-1295 (no DAC) 10mg',
+				id: 'cjc-1295-2mg',
+				name: 'CJC-1295 w/ DAC (2mg)',
 				price: currentPrice,
 				image: currentImage
 			})
@@ -31,7 +31,7 @@ export default function IpamorelinCJC129510mgPage() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Header />
-			<ProductNavigation currentProductId="ipamorelin-cjc-1295-10mg" />
+			<ProductNavigation currentProductId="cjc-1295-2mg" />
 			<main className="pt-36 pb-16">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<nav className="mb-6 pt-4">
@@ -40,7 +40,7 @@ export default function IpamorelinCJC129510mgPage() {
 							<li className="whitespace-nowrap">/</li>
 							<li className="whitespace-nowrap"><Link href="/products" className="hover:text-primary transition-colors">Products</Link></li>
 							<li className="whitespace-nowrap">/</li>
-							<li className="text-foreground font-medium whitespace-nowrap">Ipamorelin/CJC-1295 (no DAC) 10mg</li>
+							<li className="text-foreground font-medium whitespace-nowrap">CJC-1295 w/ DAC (2mg)</li>
 						</ol>
 					</nav>
 
@@ -49,7 +49,7 @@ export default function IpamorelinCJC129510mgPage() {
 							<div className="relative aspect-square bg-secondary/30 rounded-lg border border-border overflow-hidden">
 								<Image
 									src={currentImage}
-									alt="Ipamorelin/CJC-1295 (no DAC) 10mg"
+									alt="CJC-1295 w/ DAC (2mg)"
 									fill
 									className="object-contain p-4 sm:p-8"
 									priority
@@ -66,7 +66,7 @@ export default function IpamorelinCJC129510mgPage() {
 								</p>
 							</div>
 							<h1 className="font-serif text-3xl md:text-4xl font-medium text-foreground">
-								Ipamorelin/CJC-1295 (no DAC) 10mg
+								CJC-1295 w/ DAC (2mg)
 							</h1>
 							<div className="flex items-baseline gap-3">
 								<span className="text-3xl md:text-4xl font-serif font-medium text-primary">
@@ -116,7 +116,8 @@ export default function IpamorelinCJC129510mgPage() {
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Description</h2>
 							<div className="space-y-4">
 								<div className="flex justify-between py-2 border-b border-border/50"><span className="font-medium text-foreground">Appearance:</span><span className="text-muted-foreground">White powder</span></div>
-								<div className="flex justify-between py-2 border-b border-border/50"><span className="font-medium text-foreground">Cas No:</span><span className="text-muted-foreground">Multiple compounds</span></div>
+								<div className="flex justify-between py-2 border-b border-border/50"><span className="font-medium text-foreground">Cas No:</span><span className="text-muted-foreground">863288-34-0</span></div>
+								<div className="flex justify-between py-2 border-b border-border/50"><span className="font-medium text-foreground">Molecular Formula:</span><span className="text-muted-foreground">C₁₅₂H₂₅₂N₄₄O₄₂</span></div>
 								<div className="flex justify-between py-2 border-b border-border/50"><span className="font-medium text-foreground">Physical State:</span><span className="text-muted-foreground">Lyophilized powder</span></div>
 								<div className="flex justify-between py-2"><span className="font-medium text-foreground">Storage:</span><span className="text-muted-foreground">Store at -20°C</span></div>
 							</div>
@@ -124,7 +125,7 @@ export default function IpamorelinCJC129510mgPage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">Store in a freezer at -20°C. Keep away from direct sunlight and moisture. For research purposes only.</p>
-							<p className="text-muted-foreground leading-relaxed">This premium peptide blend combines Ipamorelin and CJC-1295 (no DAC) 10mg each for synergistic growth hormone release. This research-grade peptide blend is designed for scientific studies and laboratory research purposes only.</p>
+							<p className="text-muted-foreground leading-relaxed">CJC-1295 with DAC (Drug Affinity Complex) is a growth hormone-releasing hormone (GHRH) analog designed for extended release. This 2mg research-grade peptide is designed for scientific studies and laboratory research purposes only.</p>
 						</div>
 					</div>
 

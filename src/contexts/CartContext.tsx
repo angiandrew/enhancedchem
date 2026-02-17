@@ -39,7 +39,10 @@ const IMAGE_PATH_MIGRATIONS: Record<string, string> = {
 	'/products/Semax/Semax10mg.png': '/products/Semax/Semax 10mg.png',
 	'/products/Selank/Selank10mg.png': '/products/Selank/Selank 10mg.png',
 	'/products/NAD%2B%20500MG/NAD%2B%20500mg.png': '/products/NAD%2B%20500MG/NAD%20500mg.png',
-	'/products/CJC no dac IPA/CJC(NO DAC)_IPA 5mg_5mgpng.png': '/products/CJC no dac IPA/IPA_CJC 5_5.png',
+	'/products/CJC no dac IPA/CJC(NO DAC)_IPA 5mg_5mgpng.png': '/products/cjc-no-dac-ipa/IPA_CJC 5_5.png',
+	'/products/CJC no dac IPA/IPA_CJC 5_5.png': '/products/cjc-no-dac-ipa/IPA_CJC 5_5.png',
+	'/products/CJC no dac IPA/IPA_CJC 10_10.png': '/products/cjc-no-dac-ipa/IPA_CJC 10_10.png',
+	'/products/CJC-1295 (With DAC)/CJC DAC 5mg.png': '/products/CJC-1295 (With DAC)/CJC-1295 DAC 5mg.png',
 }
 
 // Cart product id migration: old retatrutide URLs → reta
