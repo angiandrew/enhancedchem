@@ -106,11 +106,8 @@ export default function DisclaimerPage() {
 						</h2>
 						<p className="text-gray-600">
 							If you have any questions about this research disclaimer or our products, 
-							please contact us at:
-							<br />
-							Email: research@enhancedchem.com
-							<br />
-							Phone: 1-800-ENHANCED
+							please contact us at:{' '}
+							<a href="mailto:contact@enhancedchem.com" className="text-primary hover:underline">contact@enhancedchem.com</a>
 						</p>
 					</div>
 				</div>
