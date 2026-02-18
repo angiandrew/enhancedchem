@@ -162,7 +162,7 @@ export default function Ipamorelin5mgPage() {
 
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3">Research Purposes Only</h3>
-						<p className="text-destructive/90 leading-relaxed">This product is sold for research purposes only. Not for human consumption. By purchasing, you certify you are 18+ and will use only for lawful research.</p>
+						<p className="text-destructive/90 leading-relaxed">This product is sold for research purposes only. Not for human consumption. By purchasing, you certify you are 21+ and will use only for lawful research.</p>
 					</div>
 				</div>
 			</main>

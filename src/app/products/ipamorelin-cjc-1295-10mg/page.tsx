@@ -158,7 +158,7 @@ export default function IpamorelinCJC129510mgPage() {
 
 					<div className="mt-12 bg-destructive/10 border-2 border-destructive/20 rounded-2xl p-6 lg:p-4 sm:p-8">
 						<h3 className="font-serif text-lg font-semibold text-destructive mb-3 flex items-center gap-2">⚠️ Research Purposes Only</h3>
-						<p className="text-destructive/90 leading-relaxed">This product is sold for research purposes only. Not for human consumption, diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, you certify that you are 18+ years of age and agree to use this product only for legitimate research purposes in accordance with applicable laws and regulations.</p>
+						<p className="text-destructive/90 leading-relaxed">This product is sold for research purposes only. Not for human consumption, diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, you certify that you are 21+ years of age and agree to use this product only for legitimate research purposes in accordance with applicable laws and regulations.</p>
 					</div>
 				</div>
 			</main>

@@ -349,7 +349,7 @@ export default function RetatrutidePage() {
 							Research Use Only
 						</h3>
 						<p className="text-destructive/90 leading-relaxed">
-							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 18+ and will use only for lawful research in accordance with applicable laws.
+							This product is intended as a research chemical only. For in vitro testing and laboratory experimentation only. Educational and scientific research purposes only. Not for introduction into humans or animals. By purchasing, you certify that you are 21+ and will use only for lawful research in accordance with applicable laws.
 						</p>
 					</div>
 				</div>

@@ -829,7 +829,7 @@ export default function CheckoutPage() {
 										<label className="block text-base sm:text-lg font-semibold text-foreground mb-2">
 											Your Email Address <span className="text-primary">*</span>
 										</label>
-										<p className="text-sm text-muted-foreground mb-3">
+										<p className="text-sm text-muted-foreground mb-3 font-semibold">
 											Payment instructions will be sent here — double-check it&apos;s correct.
 										</p>
 										<Input
@@ -851,7 +851,7 @@ export default function CheckoutPage() {
 											</p>
 										)}
 										{!customerEmail && (
-											<p className="text-xs text-muted-foreground mt-2">
+											<p className="text-xs text-muted-foreground mt-2 font-semibold">
 												We&apos;ll send payment instructions to this email address
 											</p>
 										)}

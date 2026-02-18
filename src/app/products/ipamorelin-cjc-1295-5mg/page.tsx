@@ -247,7 +247,7 @@ export default function IpamorelinCJC12955mgPage() {
 						<p className="text-destructive/90 leading-relaxed">
 							This product is sold for research purposes only. Not for human consumption, 
 							diagnosis, treatment, cure, or prevention of any disease. By purchasing this product, 
-							you certify that you are 18+ years of age and agree to use this product only for 
+							you certify that you are 21+ years of age and agree to use this product only for 
 							legitimate research purposes in accordance with applicable laws and regulations.
 						</p>
 					</div>
