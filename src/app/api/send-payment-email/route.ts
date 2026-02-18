@@ -39,7 +39,8 @@ function getPaymentInstructions(
 		state: string
 		zipCode: string
 		country: string
-	}
+	},
+	opts?: { shippingCost?: number; shippingMethod?: string; tax?: number; promoDiscount?: number; bitcoinSurcharge?: number }
 ) {
 	const formatPrice = (price: number) => price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	const totalFormatted = formatPrice(orderTotal)
@@ -47,6 +48,11 @@ function getPaymentInstructions(
 	const usdcQrCodeUrl = `${baseUrl}/logos/USDC%20QR.png`
 	const usdtQrCodeUrl = `${baseUrl}/logos/USDT%20QR%20.png`
 	const btcQrCodeUrl = `${baseUrl}/logos/BTC%20QR.png`
+	const shippingCost = opts?.shippingCost ?? 0
+	const shippingMethod = opts?.shippingMethod ?? ''
+	const tax = opts?.tax ?? 0
+	const promoDiscount = opts?.promoDiscount ?? 0
+	const bitcoinSurcharge = opts?.bitcoinSurcharge ?? 0
 	
 	// Build order items list HTML
 	const itemsListHTML = items.map(item => {
@@ -59,6 +65,14 @@ function getPaymentInstructions(
 			</tr>
 		`
 	}).join('')
+	
+	// Cost breakdown (shipping, tax, promo, bitcoin) — smaller, last before total
+	const costBreakdownRows: string[] = []
+	costBreakdownRows.push(`<tr style="border-bottom: 1px solid #e5e7eb;"><td colspan="2" style="padding: 6px 0 2px 0; color: #666; font-size: 12px;">${shippingCost === 0 ? 'Shipping' : (shippingMethod ? `Shipping (${shippingMethod})` : 'Shipping')}</td><td style="padding: 6px 0 2px 0; text-align: right; color: #666; font-size: 12px;">${shippingCost === 0 ? 'Free shipping' : `$${formatPrice(shippingCost)}`}</td></tr>`)
+	costBreakdownRows.push(`<tr style="border-bottom: 1px solid #e5e7eb;"><td colspan="2" style="padding: 2px 0 6px 0; color: #666; font-size: 12px;">Sales tax</td><td style="padding: 2px 0 6px 0; text-align: right; color: #666; font-size: 12px;">$${formatPrice(tax)}</td></tr>`)
+	if (promoDiscount > 0) costBreakdownRows.push(`<tr style="border-bottom: 1px solid #e5e7eb;"><td colspan="2" style="padding: 2px 0 6px 0; color: #666; font-size: 12px;">Promo discount</td><td style="padding: 2px 0 6px 0; text-align: right; color: #666; font-size: 12px;">-$${formatPrice(promoDiscount)}</td></tr>`)
+	if (bitcoinSurcharge > 0) costBreakdownRows.push(`<tr style="border-bottom: 1px solid #e5e7eb;"><td colspan="2" style="padding: 2px 0 6px 0; color: #666; font-size: 12px;">Bitcoin processing</td><td style="padding: 2px 0 6px 0; text-align: right; color: #666; font-size: 12px;">$${formatPrice(bitcoinSurcharge)}</td></tr>`)
+	const costBreakdownHTML = costBreakdownRows.join('')
 	
 	// Build shipping address HTML
 	const shippingAddressHTML = shippingAddress ? `
@@ -97,6 +111,7 @@ function getPaymentInstructions(
 							</thead>
 							<tbody>
 								${itemsListHTML}
+							${costBreakdownHTML}
 							</tbody>
 						</table>
 						<div style="border-top: 2px solid #9333ea; padding-top: 12px; margin-top: 12px;">
@@ -155,6 +170,7 @@ function getPaymentInstructions(
 							</thead>
 							<tbody>
 								${itemsListHTML}
+							${costBreakdownHTML}
 							</tbody>
 						</table>
 						<div style="border-top: 2px solid #2775ca; padding-top: 12px; margin-top: 12px;">
@@ -224,6 +240,7 @@ function getPaymentInstructions(
 							</thead>
 							<tbody>
 								${itemsListHTML}
+							${costBreakdownHTML}
 							</tbody>
 						</table>
 						<div style="border-top: 2px solid #26a17b; padding-top: 12px; margin-top: 12px;">
@@ -298,6 +315,7 @@ function getPaymentInstructions(
 							</thead>
 							<tbody>
 								${itemsListHTML}
+							${costBreakdownHTML}
 							</tbody>
 						</table>
 						<div style="border-top: 2px solid #f97316; padding-top: 12px; margin-top: 12px;">
@@ -379,6 +397,7 @@ function getPaymentInstructions(
 							</thead>
 							<tbody>
 								${itemsListHTML}
+							${costBreakdownHTML}
 							</tbody>
 						</table>
 						<div style="border-top: 2px solid #00d632; padding-top: 12px; margin-top: 12px;">
@@ -437,6 +456,7 @@ function getPaymentInstructions(
 							</thead>
 							<tbody>
 								${itemsListHTML}
+							${costBreakdownHTML}
 							</tbody>
 						</table>
 						<div style="border-top: 2px solid #008CFF; padding-top: 12px; margin-top: 12px;">
@@ -492,7 +512,7 @@ export async function POST(request: NextRequest) {
 			)
 		}
 		
-		const { email, paymentMethod, orderTotal, items, shippingAddress } = body
+		const { email, paymentMethod, orderTotal, items, shippingAddress, shippingCost = 0, shippingMethod = '', tax = 0, promoDiscount = 0, bitcoinSurcharge = 0 } = body
 
 		if (!email || !paymentMethod) {
 			return NextResponse.json(
@@ -529,7 +549,13 @@ export async function POST(request: NextRequest) {
 
 		// Get payment instructions template
 		const methodKey = (paymentMethod || '').toLowerCase()
-		const { subject, html } = getPaymentInstructions(methodKey, orderNumber, orderTotal, items, shippingAddress)
+		const { subject, html } = getPaymentInstructions(methodKey, orderNumber, orderTotal, items, shippingAddress, {
+			shippingCost: Number(shippingCost),
+			shippingMethod: typeof shippingMethod === 'string' ? shippingMethod : '',
+			tax: Number(tax),
+			promoDiscount: Number(promoDiscount),
+			bitcoinSurcharge: Number(bitcoinSurcharge),
+		})
 
 		// Get Resend client
 		const resend = await getResendClient()

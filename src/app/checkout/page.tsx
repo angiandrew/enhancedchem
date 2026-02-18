@@ -244,9 +244,11 @@ export default function CheckoutPage() {
 					orderTotal: finalTotal,
 					shippingMethod: selectedShipping.name,
 					shippingCost: shippingCost,
+					tax: totalPrice * 0.07,
+					promoDiscount: promoApplied ? promoDiscountCalc : 0,
+					bitcoinSurcharge: selectedCryptoType === 'bitcoin' ? bitcoinSurchargeCalc : 0,
 					emailOptIn: emailOptIn,
 					promoCode: promoApplied && promoCode?.trim() ? promoCode.trim().toUpperCase() : null,
-					promoDiscount: promoApplied ? promoDiscountCalc : 0,
 					items: items.map(item => ({
 						name: item.name,
 						quantity: item.quantity,
