@@ -178,7 +178,6 @@ export default function AdminOrdersPage() {
 					</form>
 				</div>
 			</div>
-		</div>
 		)
 	}
 
