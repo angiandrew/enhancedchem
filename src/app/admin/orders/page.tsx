@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CheckCircle, Clock, Truck, Package } from 'lucide-react'
+import { CheckCircle, Clock, Truck, Package, Lock } from 'lucide-react'
 
 interface Order {
 	orderNumber: string
@@ -15,20 +15,33 @@ interface Order {
 
 export default function AdminOrdersPage() {
 	const [orders, setOrders] = useState<Order[]>([])
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
+	const [password, setPassword] = useState('')
+	const [authenticated, setAuthenticated] = useState(false)
+	const [loginError, setLoginError] = useState('')
 
 	useEffect(() => {
-		fetchOrders()
-	}, [])
+		if (authenticated && password) fetchOrders()
+	}, [authenticated])
 
 	const fetchOrders = async () => {
+		if (!password) return
 		setError(null)
+		setLoading(true)
 		try {
-			const response = await fetch('/api/admin/orders')
+			const response = await fetch('/api/admin/orders', {
+				headers: { Authorization: `Bearer ${password}` },
+			})
+			if (response.status === 401) {
+				setAuthenticated(false)
+				setLoginError('Incorrect password')
+				return
+			}
 			if (response.ok) {
 				const data = await response.json()
 				setOrders(data.orders || [])
+				setLoginError('')
 			} else {
 				const body = await response.json().catch(() => ({}))
 				const msg = body.details || body.error || `HTTP ${response.status}`
@@ -43,19 +56,35 @@ export default function AdminOrdersPage() {
 		}
 	}
 
+	const handleLogin = (e: React.FormEvent) => {
+		e.preventDefault()
+		setLoginError('')
+		if (!password.trim()) {
+			setLoginError('Please enter the admin password')
+			return
+		}
+		setAuthenticated(true)
+	}
+
 	const updateOrderStatus = async (orderNumber: string, newStatus: Order['status']) => {
+		if (!password) return
 		setError(null)
 		try {
 			const response = await fetch('/api/admin/orders', {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${password}`,
 				},
 				body: JSON.stringify({ orderNumber, status: newStatus }),
 			})
-
+			if (response.status === 401) {
+				setAuthenticated(false)
+				setLoginError('Session expired. Please log in again.')
+				return
+			}
 			if (response.ok) {
-				fetchOrders() // Refresh orders list
+				fetchOrders()
 			} else {
 				const errorData = await response.json().catch(() => ({ error: 'Failed to update' }))
 				const msg = errorData.details || errorData.error || 'Unknown error'
@@ -112,6 +141,47 @@ export default function AdminOrdersPage() {
 		}
 	}
 
+	// Login gate – require admin password
+	if (!authenticated) {
+		return (
+			<div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+				<div className="w-full max-w-sm bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+					<div className="flex items-center gap-2 mb-6">
+						<Lock className="w-8 h-8 text-gray-600" />
+						<h1 className="text-xl font-bold text-gray-900">Admin Orders</h1>
+					</div>
+					<p className="text-gray-600 text-sm mb-4">Enter the admin password to view and manage orders.</p>
+					<form onSubmit={handleLogin} className="space-y-4">
+						<div>
+							<label htmlFor="admin-password" className="block text-sm font-medium text-gray-700 mb-1">
+								Password
+							</label>
+							<input
+								id="admin-password"
+								type="password"
+								value={password}
+								onChange={(e) => { setPassword(e.target.value); setLoginError(''); }}
+								className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								placeholder="Admin password"
+								autoFocus
+							/>
+						</div>
+						{loginError && (
+							<p className="text-sm text-red-600">{loginError}</p>
+						)}
+						<button
+							type="submit"
+							className="w-full py-2 px-4 bg-gray-900 text-white rounded-md hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+						>
+							Log in
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		)
+	}
+
 	if (loading) {
 		return (
 			<div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -124,9 +194,18 @@ export default function AdminOrdersPage() {
 		<div className="min-h-screen bg-gray-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 				{/* Header */}
-				<div className="mb-8">
-					<h1 className="text-3xl font-bold text-gray-900 mb-2">Order Management</h1>
-					<p className="text-gray-600">View and manage all customer orders</p>
+				<div className="mb-8 flex items-center justify-between flex-wrap gap-4">
+					<div>
+						<h1 className="text-3xl font-bold text-gray-900 mb-2">Order Management</h1>
+						<p className="text-gray-600">View and manage all customer orders</p>
+					</div>
+					<button
+						type="button"
+						onClick={() => { setAuthenticated(false); setPassword(''); setLoginError(''); }}
+						className="text-sm text-gray-500 hover:text-gray-700"
+					>
+						Log out
+					</button>
 				</div>
 
 				{error && (

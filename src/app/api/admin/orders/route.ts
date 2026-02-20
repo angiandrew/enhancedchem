@@ -6,8 +6,22 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 export const fetchCache = 'force-no-store'
 
+const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+
+function isAuthorized(request: NextRequest): boolean {
+	const authHeader = request.headers.get('authorization')
+	const providedPassword = authHeader?.replace('Bearer ', '')
+	return !!providedPassword && providedPassword === adminPassword
+}
+
 // GET - Fetch all orders
-export async function GET() {
+export async function GET(request: NextRequest) {
+	if (!isAuthorized(request)) {
+		return NextResponse.json(
+			{ error: 'Unauthorized - Admin password required' },
+			{ status: 401 }
+		)
+	}
 	try {
 		const orders = await getAllOrders()
 		return NextResponse.json({ success: true, orders })
@@ -26,6 +40,12 @@ export async function GET() {
 
 // PATCH - Update order status
 export async function PATCH(request: NextRequest) {
+	if (!isAuthorized(request)) {
+		return NextResponse.json(
+			{ error: 'Unauthorized - Admin password required' },
+			{ status: 401 }
+		)
+	}
 	try {
 		const body = await request.json()
 		const { orderNumber, status } = body
