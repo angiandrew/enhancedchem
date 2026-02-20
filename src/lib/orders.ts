@@ -71,7 +71,7 @@ export interface Order {
 	}
 	timestamp: string
 	status: 'pending' | 'paid' | 'shipped' | 'completed'
-	/** 0 = none sent, 1–5 = last reminder stage sent, 999 = stopped (e.g. paid) */
+	/** 0 = none sent, 1–4 = last reminder stage sent (1d, 2d, 3d, 7d), 999 = stopped (e.g. paid) */
 	reminderStage?: number
 	/** ISO timestamp of last reminder sent */
 	lastReminderSentAt?: string
@@ -419,79 +419,4 @@ export async function updateReminderStage(
 	inMemoryOrders.orders[orderIndex].reminderStage = nextStage
 	inMemoryOrders.orders[orderIndex].lastReminderSentAt = nowIso
 	return true
-}
-
-/**
- * One-time bulk: set reminderStage=999 for all pending orders (stops future reminder emails).
- * Use before enabling the payment-reminders cron so existing/test orders are not spammed.
- * Returns the number of orders updated.
- */
-export async function setReminderStageForAllPending(stage: number): Promise<number> {
-	// Redis
-	if (redisConfigured) {
-		const redis = await getRedisClient()
-		if (redis) {
-			try {
-				const ordersStr = await redis.get('orders')
-				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
-				let count = 0
-				for (let i = 0; i < orders.length; i++) {
-					if (orders[i].status === 'pending') {
-						orders[i].reminderStage = stage
-						count++
-					}
-				}
-				if (count > 0) {
-					await redis.set('orders', JSON.stringify(orders))
-				}
-				return count
-			} catch (error) {
-				console.warn('Error setting reminder stage for all pending in Redis:', error)
-				return 0
-			}
-		}
-	}
-
-	// File
-	if (!isServerless && ORDERS_FILE) {
-		initializeOrdersFile()
-		try {
-			if (!fs.existsSync(ORDERS_FILE)) {
-				let count = 0
-				for (let i = 0; i < inMemoryOrders.orders.length; i++) {
-					if (inMemoryOrders.orders[i].status === 'pending') {
-						inMemoryOrders.orders[i].reminderStage = stage
-						count++
-					}
-				}
-				return count
-			}
-			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
-			const orders: Order[] = data.orders || []
-			let count = 0
-			for (let i = 0; i < orders.length; i++) {
-				if (orders[i].status === 'pending') {
-					orders[i].reminderStage = stage
-					count++
-				}
-			}
-			if (count > 0) {
-				fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
-			}
-			return count
-		} catch (error) {
-			console.warn('Error setting reminder stage for all pending in file:', error)
-			return 0
-		}
-	}
-
-	// In-memory
-	let count = 0
-	for (let i = 0; i < inMemoryOrders.orders.length; i++) {
-		if (inMemoryOrders.orders[i].status === 'pending') {
-			inMemoryOrders.orders[i].reminderStage = stage
-			count++
-		}
-	}
-	return count
 }

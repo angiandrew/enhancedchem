@@ -17,7 +17,7 @@ function paymentMethodLabel(method: string): string {
 
 /**
  * Build subject and HTML for a payment reminder email by stage.
- * Stage 1 = 2h (gentle), 2 = 24h, 3 = 48h, 4 = 72h, 5 = 7d (final).
+ * Stage 1 = 1 day, 2 = 2 days, 3 = 3 days, 4 = 7 days (final). No 2h reminder (Hobby cron is once/day).
  */
 export function buildPaymentReminderEmail(
 	order: Order,
@@ -29,22 +29,18 @@ export function buildPaymentReminderEmail(
 
 	const stageCopy: Record<number, { subjectLine: string; intro: string }> = {
 		1: {
-			subjectLine: 'Complete your payment',
-			intro: 'You started an order with us. Your order is ready — we just need payment to proceed.',
-		},
-		2: {
 			subjectLine: 'Reminder: payment pending for your order',
 			intro: 'A quick reminder: your order is still awaiting payment.',
 		},
-		3: {
+		2: {
 			subjectLine: 'Your order is still waiting',
 			intro: 'Your order is still pending payment. Complete payment to avoid delays.',
 		},
-		4: {
+		3: {
 			subjectLine: 'Payment needed for your Enhanced Chem order',
 			intro: 'We haven’t received payment yet. Please complete payment to avoid delays.',
 		},
-		5: {
+		4: {
 			subjectLine: 'Last reminder: complete your payment',
 			intro: 'This is a final reminder. Please complete payment to avoid delays.',
 		},
