@@ -71,6 +71,10 @@ export interface Order {
 	}
 	timestamp: string
 	status: 'pending' | 'paid' | 'shipped' | 'completed'
+	/** 0 = none sent, 1–5 = last reminder stage sent, 999 = stopped (e.g. paid) */
+	reminderStage?: number
+	/** ISO timestamp of last reminder sent */
+	lastReminderSentAt?: string
 }
 
 // Initialize orders file if it doesn't exist (local only)
@@ -161,7 +165,8 @@ export async function saveOrder(order: Omit<Order, 'timestamp' | 'status'>): Pro
 	const newOrder: Order = {
 		...order,
 		timestamp: new Date().toISOString(),
-		status: 'pending'
+		status: 'pending',
+		reminderStage: 0
 	}
 	
 	// Try Redis first (for production/serverless)
@@ -278,6 +283,9 @@ export async function updateOrderStatus(orderNumber: string, status: Order['stat
 				
 				if (orderIndex !== -1) {
 					orders[orderIndex].status = status
+					if (status === 'paid') {
+						orders[orderIndex].reminderStage = 999
+					}
 					await redis.set('orders', JSON.stringify(orders))
 					return true
 				}
@@ -299,6 +307,9 @@ export async function updateOrderStatus(orderNumber: string, status: Order['stat
 				const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
 				if (orderIndex !== -1) {
 					inMemoryOrders.orders[orderIndex].status = status
+					if (status === 'paid') {
+						inMemoryOrders.orders[orderIndex].reminderStage = 999
+					}
 					return true
 				}
 				return false
@@ -309,6 +320,9 @@ export async function updateOrderStatus(orderNumber: string, status: Order['stat
 			
 			if (orderIndex !== -1) {
 				data.orders[orderIndex].status = status
+				if (status === 'paid') {
+					data.orders[orderIndex].reminderStage = 999
+				}
 				fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
 				return true
 			}
@@ -323,7 +337,161 @@ export async function updateOrderStatus(orderNumber: string, status: Order['stat
 	const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
 	if (orderIndex !== -1) {
 		inMemoryOrders.orders[orderIndex].status = status
+		if (status === 'paid') {
+			inMemoryOrders.orders[orderIndex].reminderStage = 999
+		}
 		return true
 	}
 	return false
+}
+
+/**
+ * Idempotent update of reminder stage. Only updates if order is pending and current stage matches.
+ * Returns true if updated, false if no-op (e.g. already paid or stage changed by another process).
+ */
+export async function updateReminderStage(
+	orderNumber: string,
+	expectedStage: number,
+	nextStage: number,
+	nowIso: string
+): Promise<boolean> {
+	// Redis
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
+			try {
+				const ordersStr = await redis.get('orders')
+				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
+				const orderIndex = orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+				if (orderIndex === -1) return false
+				const order = orders[orderIndex]
+				const currentStage = order.reminderStage ?? 0
+				if (order.status !== 'pending' || currentStage !== expectedStage) {
+					return false
+				}
+				orders[orderIndex].reminderStage = nextStage
+				orders[orderIndex].lastReminderSentAt = nowIso
+				await redis.set('orders', JSON.stringify(orders))
+				return true
+			} catch (error) {
+				console.warn('Error updating reminder stage in Redis:', error)
+				return false
+			}
+		}
+	}
+
+	// File
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) {
+				const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+				if (orderIndex === -1) return false
+				const order = inMemoryOrders.orders[orderIndex]
+				const currentStage = order.reminderStage ?? 0
+				if (order.status !== 'pending' || currentStage !== expectedStage) return false
+				inMemoryOrders.orders[orderIndex].reminderStage = nextStage
+				inMemoryOrders.orders[orderIndex].lastReminderSentAt = nowIso
+				return true
+			}
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			const orderIndex = data.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+			if (orderIndex === -1) return false
+			const order = data.orders[orderIndex]
+			const currentStage = order.reminderStage ?? 0
+			if (order.status !== 'pending' || currentStage !== expectedStage) return false
+			data.orders[orderIndex].reminderStage = nextStage
+			data.orders[orderIndex].lastReminderSentAt = nowIso
+			fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+			return true
+		} catch (error) {
+			console.warn('Error updating reminder stage in file:', error)
+			return false
+		}
+	}
+
+	// In-memory
+	const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+	if (orderIndex === -1) return false
+	const order = inMemoryOrders.orders[orderIndex]
+	const currentStage = order.reminderStage ?? 0
+	if (order.status !== 'pending' || currentStage !== expectedStage) return false
+	inMemoryOrders.orders[orderIndex].reminderStage = nextStage
+	inMemoryOrders.orders[orderIndex].lastReminderSentAt = nowIso
+	return true
+}
+
+/**
+ * One-time bulk: set reminderStage=999 for all pending orders (stops future reminder emails).
+ * Use before enabling the payment-reminders cron so existing/test orders are not spammed.
+ * Returns the number of orders updated.
+ */
+export async function setReminderStageForAllPending(stage: number): Promise<number> {
+	// Redis
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
+			try {
+				const ordersStr = await redis.get('orders')
+				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
+				let count = 0
+				for (let i = 0; i < orders.length; i++) {
+					if (orders[i].status === 'pending') {
+						orders[i].reminderStage = stage
+						count++
+					}
+				}
+				if (count > 0) {
+					await redis.set('orders', JSON.stringify(orders))
+				}
+				return count
+			} catch (error) {
+				console.warn('Error setting reminder stage for all pending in Redis:', error)
+				return 0
+			}
+		}
+	}
+
+	// File
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) {
+				let count = 0
+				for (let i = 0; i < inMemoryOrders.orders.length; i++) {
+					if (inMemoryOrders.orders[i].status === 'pending') {
+						inMemoryOrders.orders[i].reminderStage = stage
+						count++
+					}
+				}
+				return count
+			}
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			const orders: Order[] = data.orders || []
+			let count = 0
+			for (let i = 0; i < orders.length; i++) {
+				if (orders[i].status === 'pending') {
+					orders[i].reminderStage = stage
+					count++
+				}
+			}
+			if (count > 0) {
+				fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+			}
+			return count
+		} catch (error) {
+			console.warn('Error setting reminder stage for all pending in file:', error)
+			return 0
+		}
+	}
+
+	// In-memory
+	let count = 0
+	for (let i = 0; i < inMemoryOrders.orders.length; i++) {
+		if (inMemoryOrders.orders[i].status === 'pending') {
+			inMemoryOrders.orders[i].reminderStage = stage
+			count++
+		}
+	}
+	return count
 }
