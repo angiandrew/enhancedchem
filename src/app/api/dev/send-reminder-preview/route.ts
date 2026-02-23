@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOrderByNumber } from '@/lib/orders'
 import { buildPaymentReminderEmail } from '@/lib/reminder-email'
+import type { Resend } from 'resend'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -46,10 +47,10 @@ export async function GET(request: NextRequest) {
 	const { subject, html } = buildPaymentReminderEmail(order, stage)
 	const toEmail = overrideTo?.trim() || order.email
 
-	let resend: { emails: { send: (opts: unknown) => Promise<{ data?: { id: string }; error?: unknown }> } } | null = null
+	let resend: Resend | null = null
 	try {
-		const { Resend } = await import('resend')
-		resend = new Resend(process.env.RESEND_API_KEY || '')
+		const { Resend: ResendClass } = await import('resend')
+		resend = new ResendClass(process.env.RESEND_API_KEY || '')
 	} catch {
 		// ignore
 	}
