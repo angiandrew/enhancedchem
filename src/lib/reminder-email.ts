@@ -17,7 +17,7 @@ function paymentMethodLabel(method: string): string {
 
 /**
  * Build subject and HTML for a payment reminder email by stage.
- * Stage 1 = 1 day, 2 = 2 days, 3 = 3 days, 4 = 7 days (final). No 2h reminder (Hobby cron is once/day).
+ * Stage 1 = 1 day, 2 = 2 days, 3 = 3 days, 4 = 7 days (final). Includes customer name, order summary, and shipping address.
  */
 export function buildPaymentReminderEmail(
 	order: Order,
@@ -26,23 +26,55 @@ export function buildPaymentReminderEmail(
 	const orderNumber = order.orderNumber
 	const totalFormatted = formatPrice(order.orderTotal)
 	const methodLabel = paymentMethodLabel(order.paymentMethod)
+	const customerName = order.shippingAddress?.fullName?.trim() || 'there'
 
-	const stageCopy: Record<number, { subjectLine: string; intro: string }> = {
+	// Order items table
+	const itemsRows = (order.items || []).map((item) => {
+		const lineTotal = item.price * item.quantity
+		return `
+			<tr style="border-bottom: 1px solid #e5e7eb;">
+				<td style="padding: 8px 0; color: #333;">${item.name}</td>
+				<td style="padding: 8px 0; text-align: center; color: #666;">${item.quantity}</td>
+				<td style="padding: 8px 0; text-align: right; color: #333; font-weight: 600;">$${formatPrice(lineTotal)}</td>
+			</tr>
+		`
+	}).join('')
+
+	const shippingAddressBlock = order.shippingAddress
+		? `
+	<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+		<h2 style="color: #9333ea; margin-top: 0; margin-bottom: 15px; font-size: 16px;">Shipping address</h2>
+		<div style="color: #333; line-height: 1.7;">
+			<div style="font-weight: 600; margin-bottom: 6px;">${order.shippingAddress.fullName}</div>
+			<div>${order.shippingAddress.addressLine1}</div>
+			${order.shippingAddress.addressLine2 ? `<div>${order.shippingAddress.addressLine2}</div>` : ''}
+			<div>${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}</div>
+			<div>${order.shippingAddress.country}</div>
+		</div>
+	</div>
+	`
+		: ''
+
+	const stageCopy: Record<number, { subjectLine: string; intro: string; cta: string }> = {
 		1: {
-			subjectLine: 'Reminder: payment pending for your order',
-			intro: 'A quick reminder: your order is still awaiting payment.',
+			subjectLine: 'Quick reminder: complete your payment',
+			intro: `Hi ${customerName}, you started an order with us and we're still holding it — we just need payment to ship it. Your order summary is below.`,
+			cta: 'Complete your payment using the instructions from the email we sent when you placed the order. If you need those instructions again, reply to this email and we\'ll resend them right away.',
 		},
 		2: {
-			subjectLine: 'Your order is still waiting',
-			intro: 'Your order is still pending payment. Complete payment to avoid delays.',
+			subjectLine: 'Your order is still awaiting payment',
+			intro: `Hi ${customerName}, we haven't received payment for your order yet. Your items and total are below so you have everything in one place.`,
+			cta: 'Please complete payment as soon as you can so we can ship your order. Use the payment details from your original order confirmation email, or contact us and we\'ll send them again.',
 		},
 		3: {
-			subjectLine: 'Payment needed for your Enhanced Chem order',
-			intro: 'We haven’t received payment yet. Please complete payment to avoid delays.',
+			subjectLine: 'Payment needed – your order is waiting',
+			intro: `Hi ${customerName}, your order is still pending payment. We'd like to get it out to you — please complete payment when you can.`,
+			cta: 'Pay using the method you chose (see below). If you\'ve already paid, please reply to this email with the date and method so we can match it and update your order.',
 		},
 		4: {
-			subjectLine: 'Last reminder: complete your payment',
-			intro: 'This is a final reminder. Please complete payment to avoid delays.',
+			subjectLine: 'Last reminder: complete payment for your order',
+			intro: `Hi ${customerName}, this is our final reminder about your unpaid order. We'll keep your order on file for a short time, but we need payment to ship it.`,
+			cta: `If you still want to complete this order, please pay using the instructions from your original email or contact us at ${SUPPORT_EMAIL} and we'll resend them. We're here to help.`,
 		},
 	}
 
@@ -53,26 +85,44 @@ export function buildPaymentReminderEmail(
 	<h1 style="color: #111; border-bottom: 2px solid #00d632; padding-bottom: 10px;">
 		Payment reminder – Enhanced Chem
 	</h1>
-	<p style="font-size: 16px; color: #333; margin-top: 20px;">
+	<p style="font-size: 16px; color: #333; margin-top: 20px; line-height: 1.6;">
 		${copy.intro}
 	</p>
-	<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 20px 0;">
-		<p style="margin: 0 0 8px 0; color: #333;"><strong>Order:</strong> ${orderNumber}</p>
-		<p style="margin: 0 0 8px 0; color: #333;"><strong>Amount due:</strong> $${totalFormatted}</p>
-		<p style="margin: 0; color: #333;"><strong>Payment method:</strong> ${methodLabel}</p>
+	<div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+		<h2 style="color: #00d632; margin-top: 0; margin-bottom: 15px; font-size: 16px;">Order ${orderNumber}</h2>
+		<table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
+			<thead>
+				<tr style="border-bottom: 2px solid #00d632;">
+					<th style="padding: 8px 0; text-align: left; color: #666; font-size: 13px; font-weight: 600;">Item</th>
+					<th style="padding: 8px 0; text-align: center; color: #666; font-size: 13px; font-weight: 600;">Qty</th>
+					<th style="padding: 8px 0; text-align: right; color: #666; font-size: 13px; font-weight: 600;">Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				${itemsRows}
+			</tbody>
+		</table>
+		<div style="border-top: 2px solid #00d632; padding-top: 12px; margin-top: 12px;">
+			<div style="display: flex; justify-content: space-between; font-size: 17px; font-weight: bold; color: #00d632;">
+				<span>Total due</span>
+				<span>$${totalFormatted}</span>
+			</div>
+			<p style="margin: 8px 0 0 0; color: #666; font-size: 13px;">Payment method: ${methodLabel}</p>
+		</div>
 	</div>
-	<p style="font-size: 16px; color: #333;">
-		Please complete payment to avoid delays. Use the payment instructions from our original email, or contact us if you need them again.
+	${shippingAddressBlock}
+	<p style="font-size: 15px; color: #333; line-height: 1.6;">
+		${copy.cta}
 	</p>
 	<p style="color: #666; font-size: 14px; margin-top: 24px;">
-		Questions? Contact us at <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>
+		Questions? Reply to this email or contact us at <a href="mailto:${SUPPORT_EMAIL}" style="color: #00d632;">${SUPPORT_EMAIL}</a>.
 	</p>
 	<p style="color: #999; font-size: 12px; margin-top: 16px;">
-		<a href="${SITE_URL}">Enhanced Chem</a>
+		<a href="${SITE_URL}" style="color: #999;">Enhanced Chem</a>
 	</p>
 </div>
 `.trim()
 
-	const subject = `${copy.subjectLine} – ${orderNumber} – Enhanced Chem`
+	const subject = `${copy.subjectLine} – ${orderNumber}`
 	return { subject, html }
 }
