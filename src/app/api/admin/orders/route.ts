@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAllOrders, updateOrderStatus } from '@/lib/orders'
+import { getAllOrders, updateOrderStatus, setOrderTestFlag } from '@/lib/orders'
 
 // Disable caching for this route
 export const dynamic = 'force-dynamic'
@@ -48,33 +48,43 @@ export async function PATCH(request: NextRequest) {
 	}
 	try {
 		const body = await request.json()
-		const { orderNumber, status } = body
+		const { orderNumber, status, isTest } = body
 
-		if (!orderNumber || !status) {
+		if (!orderNumber || (status === undefined && isTest === undefined)) {
 			return NextResponse.json(
-				{ error: 'Order number and status are required' },
+				{ error: 'Order number and at least one of status or isTest are required' },
 				{ status: 400 }
 			)
 		}
 
-		const validStatuses = ['pending', 'paid', 'shipped', 'completed']
-		if (!validStatuses.includes(status)) {
-			return NextResponse.json(
-				{ error: 'Invalid status' },
-				{ status: 400 }
-			)
+		if (status !== undefined) {
+			const validStatuses = ['pending', 'paid', 'shipped', 'completed']
+			if (!validStatuses.includes(status)) {
+				return NextResponse.json(
+					{ error: 'Invalid status' },
+					{ status: 400 }
+				)
+			}
+			const success = await updateOrderStatus(orderNumber, status)
+			if (!success) {
+				return NextResponse.json(
+					{ error: 'Order not found' },
+					{ status: 404 }
+				)
+			}
 		}
 
-		const success = await updateOrderStatus(orderNumber, status)
-		
-		if (success) {
-			return NextResponse.json({ success: true })
-		} else {
-			return NextResponse.json(
-				{ error: 'Order not found' },
-				{ status: 404 }
-			)
+		if (isTest !== undefined) {
+			const success = await setOrderTestFlag(orderNumber, !!isTest)
+			if (!success) {
+				return NextResponse.json(
+					{ error: 'Order not found' },
+					{ status: 404 }
+				)
+			}
 		}
+
+		return NextResponse.json({ success: true })
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown error'
 		console.error('Error updating order status:', error)

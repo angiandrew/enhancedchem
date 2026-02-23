@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CheckCircle, Clock, Truck, Package, Lock } from 'lucide-react'
+import { CheckCircle, Clock, Truck, Package, Lock, FlaskConical } from 'lucide-react'
 
 interface Order {
 	orderNumber: string
@@ -11,6 +11,7 @@ interface Order {
 	items: Array<{ name: string; quantity: number; price: number }>
 	timestamp: string
 	status: 'pending' | 'paid' | 'shipped' | 'completed'
+	isTest?: boolean
 }
 
 export default function AdminOrdersPage() {
@@ -94,6 +95,37 @@ export default function AdminOrdersPage() {
 			const msg = err instanceof Error ? err.message : 'Unknown error'
 			setError(msg)
 			console.error('Error updating order status:', err)
+		}
+	}
+
+	const toggleTestOrder = async (orderNumber: string, currentIsTest: boolean) => {
+		if (!password) return
+		setError(null)
+		try {
+			const response = await fetch('/api/admin/orders', {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${password}`,
+				},
+				body: JSON.stringify({ orderNumber, isTest: !currentIsTest }),
+			})
+			if (response.status === 401) {
+				setAuthenticated(false)
+				setLoginError('Session expired. Please log in again.')
+				return
+			}
+			if (response.ok) {
+				fetchOrders()
+			} else {
+				const errorData = await response.json().catch(() => ({ error: 'Failed to update' }))
+				const msg = errorData.details || errorData.error || 'Unknown error'
+				setError(msg)
+			}
+		} catch (err) {
+			const msg = err instanceof Error ? err.message : 'Unknown error'
+			setError(msg)
+			console.error('Error toggling test flag:', err)
 		}
 	}
 
@@ -295,7 +327,7 @@ export default function AdminOrdersPage() {
 													<span className="ml-1 capitalize">{order.status}</span>
 												</span>
 											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-2 flex-wrap">
 												<select
 													value={order.status}
 													onChange={(e) => updateOrderStatus(order.orderNumber, e.target.value as Order['status'])}
@@ -306,6 +338,19 @@ export default function AdminOrdersPage() {
 													<option value="shipped">Shipped</option>
 													<option value="completed">Completed</option>
 												</select>
+												<button
+													type="button"
+													onClick={() => toggleTestOrder(order.orderNumber, !!order.isTest)}
+													className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border ${
+														order.isTest
+															? 'bg-amber-100 text-amber-800 border-amber-200'
+															: 'bg-gray-100 text-gray-600 border-gray-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200'
+													}`}
+													title={order.isTest ? 'Excluded from Total Revenue. Click to include.' : 'Exclude from Total Revenue (mark as test)'}
+												>
+													<FlaskConical className="w-3 h-3" />
+													{order.isTest ? 'Test' : 'Mark test'}
+												</button>
 											</td>
 										</tr>
 									))}
@@ -331,8 +376,13 @@ export default function AdminOrdersPage() {
 						<div className="bg-white rounded-lg shadow-sm p-6">
 							<div className="text-sm text-gray-600">Total Revenue</div>
 							<div className="text-2xl font-bold text-gray-900 mt-1">
-								${formatPrice(orders.reduce((sum, o) => sum + o.orderTotal, 0))}
+								${formatPrice(
+									orders
+										.filter((o) => !o.isTest && ['paid', 'shipped', 'completed'].includes(o.status))
+										.reduce((sum, o) => sum + o.orderTotal, 0)
+								)}
 							</div>
+							<p className="text-xs text-gray-500 mt-1">Excludes orders marked as Test</p>
 						</div>
 						<div className="bg-white rounded-lg shadow-sm p-6">
 							<div className="text-sm text-gray-600">Completed</div>

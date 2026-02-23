@@ -57,7 +57,10 @@ export async function GET(request: NextRequest) {
 	try {
 		const orders = await getAllOrders()
 		const pending = orders.filter(
-			(o: Order) => o.status === 'pending' && ((o.reminderStage ?? 0) < 4)
+			(o: Order) =>
+				o.status === 'pending' &&
+				((o.reminderStage ?? 0) < 4) &&
+				!o.isTest
 		)
 		processed = pending.length
 

@@ -75,6 +75,8 @@ export interface Order {
 	reminderStage?: number
 	/** ISO timestamp of last reminder sent */
 	lastReminderSentAt?: string
+	/** If true, exclude from Total Revenue in admin */
+	isTest?: boolean
 }
 
 // Initialize orders file if it doesn't exist (local only)
@@ -343,6 +345,51 @@ export async function updateOrderStatus(orderNumber: string, status: Order['stat
 		return true
 	}
 	return false
+}
+
+/** Set isTest flag for an order (exclude from Total Revenue when true). */
+export async function setOrderTestFlag(orderNumber: string, isTest: boolean): Promise<boolean> {
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
+			try {
+				const ordersStr = await redis.get('orders')
+				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
+				const orderIndex = orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+				if (orderIndex === -1) return false
+				orders[orderIndex].isTest = isTest
+				await redis.set('orders', JSON.stringify(orders))
+				return true
+			} catch (error) {
+				console.warn('Error setting isTest in Redis:', error)
+				return false
+			}
+		}
+	}
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) {
+				const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+				if (orderIndex === -1) return false
+				inMemoryOrders.orders[orderIndex].isTest = isTest
+				return true
+			}
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			const orderIndex = (data.orders || []).findIndex((o: Order) => o.orderNumber === orderNumber)
+			if (orderIndex === -1) return false
+			data.orders[orderIndex].isTest = isTest
+			fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+			return true
+		} catch (error) {
+			console.warn('Error setting isTest in file:', error)
+			return false
+		}
+	}
+	const orderIndex = inMemoryOrders.orders.findIndex((o: Order) => o.orderNumber === orderNumber)
+	if (orderIndex === -1) return false
+	inMemoryOrders.orders[orderIndex].isTest = isTest
+	return true
 }
 
 /**
