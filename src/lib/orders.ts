@@ -420,3 +420,86 @@ export async function updateReminderStage(
 	inMemoryOrders.orders[orderIndex].lastReminderSentAt = nowIso
 	return true
 }
+
+/** Parse order number to numeric (e.g. "#4510" or "4510" -> 4510). Returns NaN if invalid. */
+function parseOrderNumberNumeric(orderNumber: string): number {
+	const s = String(orderNumber).trim().replace(/^#/, '')
+	return parseInt(s, 10)
+}
+
+/**
+ * One-time bulk: mark all orders with order number <= maxOrderNumber as paid and set reminderStage = 999.
+ * Returns how many orders were updated. Uses Redis in production.
+ */
+export async function markOrdersAsPaidUpTo(maxOrderNumber: number): Promise<{ updated: number }> {
+	const maxNum = Math.floor(Number(maxOrderNumber))
+	if (!Number.isFinite(maxNum) || maxNum < 0) {
+		return { updated: 0 }
+	}
+
+	// Redis (production)
+	if (redisConfigured) {
+		const redis = await getRedisClient()
+		if (redis) {
+			try {
+				const ordersStr = await redis.get('orders')
+				const orders: Order[] = ordersStr ? JSON.parse(ordersStr) : []
+				let updated = 0
+				for (let i = 0; i < orders.length; i++) {
+					const num = parseOrderNumberNumeric(orders[i].orderNumber)
+					if (!Number.isFinite(num) || num > maxNum) continue
+					if (orders[i].status === 'paid') continue
+					orders[i].status = 'paid'
+					orders[i].reminderStage = 999
+					updated++
+				}
+				if (updated > 0) {
+					await redis.set('orders', JSON.stringify(orders))
+				}
+				return { updated }
+			} catch (error) {
+				console.warn('Error in markOrdersAsPaidUpTo (Redis):', error)
+				return { updated: 0 }
+			}
+		}
+	}
+
+	// File (local)
+	if (!isServerless && ORDERS_FILE) {
+		initializeOrdersFile()
+		try {
+			if (!fs.existsSync(ORDERS_FILE)) return { updated: 0 }
+			const data = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'))
+			const orders: Order[] = data.orders || []
+			let updated = 0
+			for (let i = 0; i < orders.length; i++) {
+				const num = parseOrderNumberNumeric(orders[i].orderNumber)
+				if (!Number.isFinite(num) || num > maxNum) continue
+				if (orders[i].status === 'paid') continue
+				orders[i].status = 'paid'
+				orders[i].reminderStage = 999
+				updated++
+			}
+			if (updated > 0) {
+				fs.writeFileSync(ORDERS_FILE, JSON.stringify(data, null, 2))
+			}
+			return { updated }
+		} catch (error) {
+			console.warn('Error in markOrdersAsPaidUpTo (file):', error)
+			return { updated: 0 }
+		}
+	}
+
+	// In-memory
+	const orders = inMemoryOrders.orders
+	let updated = 0
+	for (let i = 0; i < orders.length; i++) {
+		const num = parseOrderNumberNumeric(orders[i].orderNumber)
+		if (!Number.isFinite(num) || num > maxNum) continue
+		if (orders[i].status === 'paid') continue
+		orders[i].status = 'paid'
+		orders[i].reminderStage = 999
+		updated++
+	}
+	return { updated }
+}
