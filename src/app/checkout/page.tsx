@@ -162,14 +162,13 @@ export default function CheckoutPage() {
 		}
 	}
 
-	// Calculate totals with promo discount
+	// Calculate totals with promo discount (EC20 = 20%, CHETTO = 10%, etc.)
 	const subtotal = totalPrice
 	const tax = totalPrice * 0.07
 	const orderSubtotal = subtotal + shippingCost + tax
 	const promoCodeUpper = normalizePromoCode(promoCode?.trim() || '')
-	const promoDiscount = promoApplied && promoCodeUpper && VALID_PROMO_CODES[promoCodeUpper] != null
-		? orderSubtotal * VALID_PROMO_CODES[promoCodeUpper]
-		: 0
+	const appliedPromoRate = promoApplied && promoCodeUpper ? (VALID_PROMO_CODES[promoCodeUpper] ?? 0) : 0
+	const promoDiscount = orderSubtotal * appliedPromoRate
 	// Add 10% increase for Bitcoin
 	const bitcoinSurcharge = selectedCryptoType === 'bitcoin' ? (orderSubtotal - promoDiscount) * 0.10 : 0
 	const finalTotal = orderSubtotal - promoDiscount + bitcoinSurcharge
@@ -202,10 +201,9 @@ export default function CheckoutPage() {
 
 		// Calculate and save order total before clearing cart (with promo discount)
 		const subtotalCalc = totalPrice + shippingCost + (totalPrice * 0.07)
-		const promoCodeUpper = normalizePromoCode(promoCode?.trim() || '')
-		const promoDiscountCalc = promoApplied && promoCodeUpper && VALID_PROMO_CODES[promoCodeUpper] != null 
-			? subtotalCalc * VALID_PROMO_CODES[promoCodeUpper]
-			: 0
+		const promoCodeUpperCalc = normalizePromoCode(promoCode?.trim() || '')
+		const rateCalc = promoApplied && promoCodeUpperCalc ? (VALID_PROMO_CODES[promoCodeUpperCalc] ?? 0) : 0
+		const promoDiscountCalc = subtotalCalc * rateCalc
 		// Add 10% increase for Bitcoin
 		const bitcoinSurchargeCalc = selectedCryptoType === 'bitcoin' ? (subtotalCalc - promoDiscountCalc) * 0.10 : 0
 		const finalTotal = subtotalCalc - promoDiscountCalc + bitcoinSurchargeCalc
@@ -1304,7 +1302,7 @@ export default function CheckoutPage() {
 											{promoApplied && (
 												<p className="text-xs text-green-600 mt-1 font-medium flex items-center gap-1">
 													<CheckCircle className="w-3 h-3" />
-													Promo code applied! {promoCode?.trim() && VALID_PROMO_CODES[normalizePromoCode(promoCode.trim())] != null ? Math.round(VALID_PROMO_CODES[normalizePromoCode(promoCode.trim())] * 100) : 10}% discount
+													Promo code applied! {Math.round(appliedPromoRate * 100)}% discount
 												</p>
 											)}
 										</div>
