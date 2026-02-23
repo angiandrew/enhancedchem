@@ -116,7 +116,11 @@ export default function AdminOrdersPage() {
 				return
 			}
 			if (response.ok) {
-				fetchOrders()
+				setOrders((prev) =>
+					prev.map((o) =>
+						o.orderNumber === orderNumber ? { ...o, isTest: !currentIsTest } : o
+					)
+				)
 			} else {
 				const errorData = await response.json().catch(() => ({ error: 'Failed to update' }))
 				const msg = errorData.details || errorData.error || 'Unknown error'
