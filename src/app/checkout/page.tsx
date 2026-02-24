@@ -15,9 +15,7 @@ import AddressAutocomplete from '@/components/AddressAutocomplete'
 // Promo codes: key = uppercase normalized code, value = discount (0.10 = 10%). Matching is case-insensitive.
 const VALID_PROMO_CODES: Record<string, number> = {
 	'CAM': 0.10,
-	'CHETTO': 0.10,
 	'DULY': 0.10,
-	'EC20': 0.20,
 	'ECNA10': 0.10,
 	'GINGER20': 0.10,
 	'GYMSTORM': 0.10,
@@ -29,7 +27,6 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'NICK10': 0.10,
 	'NICKTEST': 0.05,
 	'ORBITROPIN': 0.10,
-	'SAVE15': 0.15,
 }
 
 function normalizePromoCode(input: string): string {
@@ -163,13 +160,14 @@ export default function CheckoutPage() {
 		}
 	}
 
-	// Calculate totals with promo discount (EC20 = 20%, CHETTO = 10%, etc.)
+	// Calculate totals with promo discount
 	const subtotal = totalPrice
 	const tax = totalPrice * 0.07
 	const orderSubtotal = subtotal + shippingCost + tax
 	const promoCodeUpper = normalizePromoCode(promoCode?.trim() || '')
-	const appliedPromoRate = promoApplied && promoCodeUpper ? (VALID_PROMO_CODES[promoCodeUpper] ?? 0) : 0
-	const promoDiscount = orderSubtotal * appliedPromoRate
+	const promoDiscount = promoApplied && promoCodeUpper && VALID_PROMO_CODES[promoCodeUpper] != null
+		? orderSubtotal * VALID_PROMO_CODES[promoCodeUpper]
+		: 0
 	// Add 10% increase for Bitcoin
 	const bitcoinSurcharge = selectedCryptoType === 'bitcoin' ? (orderSubtotal - promoDiscount) * 0.10 : 0
 	const finalTotal = orderSubtotal - promoDiscount + bitcoinSurcharge
@@ -202,9 +200,10 @@ export default function CheckoutPage() {
 
 		// Calculate and save order total before clearing cart (with promo discount)
 		const subtotalCalc = totalPrice + shippingCost + (totalPrice * 0.07)
-		const promoCodeUpperCalc = normalizePromoCode(promoCode?.trim() || '')
-		const rateCalc = promoApplied && promoCodeUpperCalc ? (VALID_PROMO_CODES[promoCodeUpperCalc] ?? 0) : 0
-		const promoDiscountCalc = subtotalCalc * rateCalc
+		const promoCodeUpper = normalizePromoCode(promoCode?.trim() || '')
+		const promoDiscountCalc = promoApplied && promoCodeUpper && VALID_PROMO_CODES[promoCodeUpper] != null 
+			? subtotalCalc * VALID_PROMO_CODES[promoCodeUpper]
+			: 0
 		// Add 10% increase for Bitcoin
 		const bitcoinSurchargeCalc = selectedCryptoType === 'bitcoin' ? (subtotalCalc - promoDiscountCalc) * 0.10 : 0
 		const finalTotal = subtotalCalc - promoDiscountCalc + bitcoinSurchargeCalc
@@ -1303,7 +1302,7 @@ export default function CheckoutPage() {
 											{promoApplied && (
 												<p className="text-xs text-green-600 mt-1 font-medium flex items-center gap-1">
 													<CheckCircle className="w-3 h-3" />
-													Promo code applied! {Math.round(appliedPromoRate * 100)}% discount
+													Promo code applied! {promoCode?.trim() && VALID_PROMO_CODES[normalizePromoCode(promoCode.trim())] != null ? Math.round(VALID_PROMO_CODES[normalizePromoCode(promoCode.trim())] * 100) : 10}% discount
 												</p>
 											)}
 										</div>
