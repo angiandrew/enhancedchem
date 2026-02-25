@@ -14,8 +14,11 @@ import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 // Promo codes: key = uppercase normalized code, value = discount (0.10 = 10%). Matching is case-insensitive.
 const VALID_PROMO_CODES: Record<string, number> = {
+	'BESTDEAL88': 0.10,
 	'CAM': 0.10,
+	'CHETTO': 0.10,
 	'DULY': 0.10,
+	'EC20': 0.20,
 	'ECNA10': 0.10,
 	'GINGER20': 0.10,
 	'GYMSTORM': 0.10,
@@ -27,6 +30,8 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'NICK10': 0.10,
 	'NICKTEST': 0.05,
 	'ORBITROPIN': 0.10,
+	'SAVE15': 0.15,
+	'SIMPLYCODES': 0.10,
 }
 
 function normalizePromoCode(input: string): string {
