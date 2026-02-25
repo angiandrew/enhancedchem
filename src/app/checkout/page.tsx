@@ -17,6 +17,7 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'BESTDEAL88': 0.10,
 	'CAM': 0.10,
 	'CHETTO': 0.10,
+	'COMPLETE5': 0.05,
 	'DULY': 0.10,
 	'EC20': 0.20,
 	'ECNA10': 0.10,
@@ -75,8 +76,25 @@ export default function CheckoutPage() {
 	const [promoApplied, setPromoApplied] = useState(false)
 	const [promoError, setPromoError] = useState('')
 	const [apiErrorDev, setApiErrorDev] = useState<string | null>(null)
+	const [showExitModal, setShowExitModal] = useState(false)
 
-	// In development, show API error on success page if the server returned an error
+	// Exit intent popup: once per session, desktop only, when mouse leaves top of viewport
+	useEffect(() => {
+		if (typeof window === 'undefined') return
+		const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+		if (isMobile) return
+
+		const handleMouseOut = (e: MouseEvent) => {
+			if (sessionStorage.getItem('exitPopupShown') === 'true') return
+			if (e.relatedTarget != null) return
+			if (e.clientY >= 0) return
+			sessionStorage.setItem('exitPopupShown', 'true')
+			setShowExitModal(true)
+		}
+
+		document.addEventListener('mouseout', handleMouseOut)
+		return () => document.removeEventListener('mouseout', handleMouseOut)
+	}, [])
 	useEffect(() => {
 		if (typeof window === 'undefined' || process.env.NODE_ENV !== 'development') return
 		const stored = sessionStorage.getItem('checkout_api_error')
@@ -171,6 +189,13 @@ export default function CheckoutPage() {
 	const isAlternativeComplete = isEmailValid && selectedAlternativeMethod !== '' && isCryptoComplete
 	const isAddressComplete = fullName.trim() !== '' && addressLine1.trim() !== '' && city.trim() !== '' && state.trim() !== '' && zipCode.trim() !== ''
 	const canProceed = termsAccepted && isAlternativeComplete && isAddressComplete
+
+	const applyExitDiscount = () => {
+		setPromoCode('COMPLETE5')
+		setPromoApplied(true)
+		setPromoError('')
+		setShowExitModal(false)
+	}
 
 	const handleCompletePurchase = async () => {
 		if (!canProceed || isSubmitting) {
@@ -319,6 +344,47 @@ export default function CheckoutPage() {
 
 	return (
 		<div className="min-h-screen bg-background">
+			{/* Exit intent modal - checkout only, once per session, desktop only */}
+			{showExitModal && (
+				<div
+					className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+					style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+					role="dialog"
+					aria-modal="true"
+					aria-labelledby="exit-modal-heading"
+					onClick={() => setShowExitModal(false)}
+				>
+					<div
+						className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 sm:p-8 text-center"
+						style={{ boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}
+						onClick={(e) => e.stopPropagation()}
+					>
+						<h2 id="exit-modal-heading" className="font-serif text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+							Wait, don&apos;t miss this
+						</h2>
+						<p className="text-sm sm:text-base text-gray-600 mb-6">
+							Complete your order now and take 5% off as a thank you.
+						</p>
+						<Button
+							type="button"
+							variant="elegant"
+							size="lg"
+							className="w-full mb-3"
+							onClick={applyExitDiscount}
+						>
+							Apply 5% Discount
+						</Button>
+						<button
+							type="button"
+							onClick={() => setShowExitModal(false)}
+							className="text-sm text-gray-500 hover:text-gray-700 underline"
+						>
+							No thanks
+						</button>
+					</div>
+				</div>
+			)}
+
 			<Header />
 			<main className="pt-32 md:pt-36 pb-8 sm:pb-16">
 				<div className="container mx-auto px-4 sm:px-6">
