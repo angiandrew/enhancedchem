@@ -639,13 +639,13 @@ export default function CheckoutPage() {
 							</div>
 
 							{/* Payment Method */}
-							<div className={`bg-card rounded-lg border-2 shadow-[var(--shadow-elevated)] p-4 sm:p-6 md:p-8 transition-all ${
+							<div className={`rounded-lg border-2 shadow-[var(--shadow-elevated)] p-4 sm:p-6 md:p-8 transition-all ${
 								isAlternativeComplete 
-									? 'border-blue-500 bg-blue-100 shadow-blue-200/50' 
-									: 'border-border'
+									? 'border-blue-500 bg-blue-50 shadow-blue-200/50' 
+									: 'border-border bg-white'
 							}`}>
 								<h2 className={`font-serif text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 ${
-									isAlternativeComplete ? 'text-blue-900' : ''
+									isAlternativeComplete ? 'text-blue-900' : 'text-foreground'
 								}`}>
 									Payment Method
 									{isAlternativeComplete && (
@@ -654,15 +654,15 @@ export default function CheckoutPage() {
 										</span>
 									)}
 								</h2>
-								<p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">Select your preferred payment method.</p>
+								<p className="text-sm text-foreground mb-4 sm:mb-6">Select your preferred payment method.</p>
 								
 								<div className="space-y-4">
 									{/* Email Input - prominent so customers don't miss it */}
-									<div className="bg-primary/10 border-2 border-primary/30 rounded-lg p-4 sm:p-5">
+									<div className="bg-white border-2 border-primary rounded-lg p-4 sm:p-5 shadow-sm">
 										<label className="block text-base sm:text-lg font-semibold text-foreground mb-2">
 											Your Email Address <span className="text-primary">*</span>
 										</label>
-										<p className="text-sm text-muted-foreground mb-3 font-semibold">
+										<p className="text-sm text-foreground mb-3 font-medium">
 											Payment instructions will be sent here — double-check it&apos;s correct.
 										</p>
 										<Input
@@ -671,7 +671,7 @@ export default function CheckoutPage() {
 											onChange={(e) => setCustomerEmail(e.target.value)}
 											placeholder="you@example.com"
 											required
-											className={`h-12 text-base border-2 ${customerEmail && !isEmailValid ? 'border-red-500 focus-visible:ring-red-500 bg-red-50/50' : 'border-primary/40 focus-visible:ring-primary bg-background'}`}
+											className={`h-12 text-base border-2 bg-white text-foreground placeholder:text-muted-foreground ${customerEmail && !isEmailValid ? 'border-red-500 focus-visible:ring-red-500' : 'border-input focus-visible:ring-primary'}`}
 										/>
 										{customerEmail && !isEmailValid && (
 											<p className="text-xs text-red-600 mt-2 font-medium">
@@ -684,29 +684,13 @@ export default function CheckoutPage() {
 											</p>
 										)}
 										{!customerEmail && (
-											<p className="text-xs text-muted-foreground mt-2 font-semibold">
+											<p className="text-xs text-muted-foreground mt-2 font-medium">
 												We&apos;ll send payment instructions to this email address
 											</p>
 										)}
 									</div>
 
-									{/* Email Opt-In */}
-									<div className="bg-secondary/30 rounded-lg border border-border p-4 sm:p-5">
-										<h3 className="font-semibold text-sm sm:text-base text-foreground mb-3">
-											Opt-In
-										</h3>
-										<label className="flex items-start gap-3 cursor-pointer">
-											<Checkbox
-												id="emailOptIn"
-												checked={emailOptIn}
-												onCheckedChange={(checked) => setEmailOptIn(checked === true)}
-												className="mt-0.5"
-											/>
-											<span className="text-sm text-foreground leading-relaxed flex-1">
-												I would like to receive exclusive emails with discounts and product information
-											</span>
-										</label>
-									</div>
+									<div className="h-6" aria-hidden="true" />
 
 									{/* Zelle */}
 									<div 
@@ -1196,26 +1180,39 @@ export default function CheckoutPage() {
 													</Link>
 												</label>
 											</div>
+
+											{!canProceed && (
+												<p className="text-sm text-amber-700 font-medium pt-2">
+													Please fill out all required fields and agree to the Terms above.
+												</p>
+											)}
 										</div>
 									</div>
 
 									<div className="mt-4 sm:mt-6">
-										<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-											<Button 
-												onClick={handleCompletePurchase}
-												disabled={!canProceed || isSubmitting}
-												variant="elegant"
-												size="lg"
-												className="w-full sm:flex-1"
-											>
-												{isSubmitting ? 'Processing...' : 'Complete Purchase'}
-											</Button>
-											{!canProceed && (
-												<p className="text-xs text-muted-foreground text-center sm:text-left sm:whitespace-nowrap">
-													Please fill out all required fields and agree to the Terms
-												</p>
-											)}
-										</div>
+										<Button 
+											onClick={handleCompletePurchase}
+											disabled={!canProceed || isSubmitting}
+											variant="elegant"
+											size="lg"
+											className="w-full"
+										>
+											{isSubmitting ? 'Processing...' : 'Complete Purchase'}
+										</Button>
+									</div>
+
+									<div className="mt-8 pt-6 border-t border-border">
+										<label className="flex items-start gap-3 cursor-pointer">
+											<Checkbox
+												id="emailOptIn"
+												checked={emailOptIn}
+												onCheckedChange={(checked) => setEmailOptIn(checked === true)}
+												className="mt-0.5"
+											/>
+											<span className="text-sm text-foreground leading-relaxed flex-1">
+												I would like to receive exclusive emails with discounts and product information
+											</span>
+										</label>
 									</div>
 								</div>
 							</div>
