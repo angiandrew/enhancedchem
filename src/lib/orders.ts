@@ -75,7 +75,7 @@ export interface Order {
 	reminderStage?: number
 	/** ISO timestamp of last reminder sent */
 	lastReminderSentAt?: string
-	/** If true, exclude from Total Revenue in admin */
+	/** If true, exclude from Total Revenue and reminder emails in admin */
 	isTest?: boolean
 }
 
@@ -347,7 +347,7 @@ export async function updateOrderStatus(orderNumber: string, status: Order['stat
 	return false
 }
 
-/** Set isTest flag for an order (exclude from Total Revenue when true). */
+/** Set isTest flag for an order (exclude from Total Revenue and reminder emails when true). */
 export async function setOrderTestFlag(orderNumber: string, isTest: boolean): Promise<boolean> {
 	if (redisConfigured) {
 		const redis = await getRedisClient()
@@ -484,7 +484,6 @@ export async function markOrdersAsPaidUpTo(maxOrderNumber: number): Promise<{ up
 		return { updated: 0 }
 	}
 
-	// Redis (production)
 	if (redisConfigured) {
 		const redis = await getRedisClient()
 		if (redis) {
@@ -511,7 +510,6 @@ export async function markOrdersAsPaidUpTo(maxOrderNumber: number): Promise<{ up
 		}
 	}
 
-	// File (local)
 	if (!isServerless && ORDERS_FILE) {
 		initializeOrdersFile()
 		try {
@@ -537,7 +535,6 @@ export async function markOrdersAsPaidUpTo(maxOrderNumber: number): Promise<{ up
 		}
 	}
 
-	// In-memory
 	const orders = inMemoryOrders.orders
 	let updated = 0
 	for (let i = 0; i < orders.length; i++) {

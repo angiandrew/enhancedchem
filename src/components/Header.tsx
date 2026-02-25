@@ -12,7 +12,6 @@ import DiscountBanner from './DiscountBanner'
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Products' },
-  { href: '/3rd-party-testing', label: '3rd Party Testing' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
   { href: '/affiliate', label: 'Become an Affiliate' },

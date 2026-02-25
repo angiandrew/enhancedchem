@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/contexts/CartContext'
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp, Edit3, CheckCircle, AlertCircle, ArrowUp, Tag, X } from 'lucide-react'
+import { Minus, Plus, Trash2, CheckCircle, AlertCircle, ArrowUp, Tag, X } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Header from '@/components/Header'
@@ -61,16 +61,11 @@ export default function CheckoutPage() {
 	const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice)
 	const progressPercentage = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)
 	const hasFreeShipping = totalPrice >= FREE_SHIPPING_THRESHOLD
-	const [selectedInstitution, setSelectedInstitution] = useState('')
-	const [ageVerified, setAgeVerified] = useState(false)
-	const [researchPurposesVerified, setResearchPurposesVerified] = useState(false)
-	const [researchLimitationsVerified, setResearchLimitationsVerified] = useState(false)
 	const [termsAccepted, setTermsAccepted] = useState(false)
 	const [customerEmail, setCustomerEmail] = useState('')
 	const [emailOptIn, setEmailOptIn] = useState(false)
 	const [selectedAlternativeMethod, setSelectedAlternativeMethod] = useState('')
 	const [selectedCryptoType, setSelectedCryptoType] = useState<'usdc' | 'usdt' | 'bitcoin' | ''>('')
-	const [isVerificationCollapsed, setIsVerificationCollapsed] = useState(false)
 	const [orderCompleted, setOrderCompleted] = useState(false)
 	const [orderNumber, setOrderNumber] = useState('')
 	const [orderTotal, setOrderTotal] = useState(0)
@@ -136,13 +131,6 @@ export default function CheckoutPage() {
 	const [state, setState] = useState('')
 	const [zipCode, setZipCode] = useState('')
 
-	const institutionOptions = [
-		'University laboratory',
-		'Independent research facility', 
-		'Contract Research Organization (CRO)',
-		'Government or public research institute'
-	]
-
 	// Email validation function
 	const isValidEmail = (email: string) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -181,19 +169,8 @@ export default function CheckoutPage() {
 	const isCryptoSelected = selectedAlternativeMethod === 'crypto'
 	const isCryptoComplete = isCryptoSelected ? selectedCryptoType !== '' : true
 	const isAlternativeComplete = isEmailValid && selectedAlternativeMethod !== '' && isCryptoComplete
-	const isVerificationComplete = selectedInstitution && ageVerified && researchPurposesVerified && researchLimitationsVerified && termsAccepted
 	const isAddressComplete = fullName.trim() !== '' && addressLine1.trim() !== '' && city.trim() !== '' && state.trim() !== '' && zipCode.trim() !== ''
-	const canProceed = isVerificationComplete && isAlternativeComplete && isAddressComplete
-	
-	// Auto-collapse verification when completed (only once)
-	useEffect(() => {
-		if (isVerificationComplete && !isVerificationCollapsed) {
-			const timer = setTimeout(() => {
-				setIsVerificationCollapsed(true)
-			}, 500)
-			return () => clearTimeout(timer)
-		}
-	}, [isVerificationComplete, isVerificationCollapsed])
+	const canProceed = termsAccepted && isAlternativeComplete && isAddressComplete
 
 	const handleCompletePurchase = async () => {
 		if (!canProceed || isSubmitting) {
@@ -436,158 +413,6 @@ export default function CheckoutPage() {
 							<div className="grid lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
 						{/* Main Checkout Form */}
 						<div className="lg:col-span-2 space-y-6 sm:space-y-8">
-							{/* Institutional Verification Notice */}
-							{!isVerificationComplete && (
-								<div className="bg-amber-100 border-2 border-amber-500 rounded-lg p-4 sm:p-6 shadow-md">
-									<div className="flex items-start gap-3 sm:gap-4">
-										<AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 shrink-0 mt-0.5" />
-										<div className="min-w-0 flex-1">
-											<h3 className="font-serif text-base sm:text-lg font-semibold mb-2 text-amber-950">
-												Institutional Verification Required
-											</h3>
-											<p className="text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
-												You must complete institutional verification before proceeding with your order. 
-												Please verify your affiliation and agree to all terms below.
-											</p>
-										</div>
-									</div>
-								</div>
-							)}
-
-							{/* Institutional Verification */}
-							<div className={`rounded-lg border-2 shadow-[var(--shadow-elevated)] p-4 sm:p-6 md:p-8 transition-all ${
-								isVerificationComplete 
-									? 'bg-green-100 border-green-500 shadow-green-200/50' 
-									: 'bg-card border-border'
-							}`}>
-								<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
-									<h2 className={`font-serif text-xl sm:text-2xl font-semibold ${
-										isVerificationComplete ? 'text-green-900' : ''
-									}`}>
-										Institutional Verification
-									</h2>
-									{isVerificationComplete && (
-										<button
-											onClick={() => setIsVerificationCollapsed(!isVerificationCollapsed)}
-											className="flex items-center gap-2 text-green-700 hover:text-green-800 transition-colors text-xs sm:text-sm font-medium self-start sm:self-auto"
-										>
-											{isVerificationCollapsed ? (
-												<>
-													<ChevronDown className="h-4 w-4" />
-													<span>Show Details</span>
-												</>
-											) : (
-												<>
-													<ChevronUp className="h-4 w-4" />
-													<span>Hide Details</span>
-												</>
-											)}
-										</button>
-									)}
-								</div>
-
-								{isVerificationCollapsed ? (
-									<div className="bg-green-200 border-2 border-green-600 rounded-lg p-3 sm:p-4 shadow-md">
-										<div className="flex items-start gap-2 sm:gap-3">
-											<CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-700 shrink-0 mt-0.5" />
-											<div className="flex-1 min-w-0">
-												<p className="text-xs sm:text-sm font-bold text-green-950">Verification Complete</p>
-												<p className="text-[10px] sm:text-xs text-green-900 mt-1 font-medium break-words">
-													{selectedInstitution} • Age 21+ • Research Purposes Only • Not for Human/Animal Use
-												</p>
-											</div>
-											<button
-												onClick={() => setIsVerificationCollapsed(false)}
-												className="text-green-800 hover:text-green-900 transition-colors shrink-0"
-											>
-												<Edit3 className="h-4 w-4" />
-											</button>
-										</div>
-									</div>
-								) : (
-									<div className="space-y-4 sm:space-y-6">
-										<p className="text-muted-foreground leading-relaxed">
-											To complete checkout, you must verify your institutional affiliation and agree that all purchases are strictly for in-vitro laboratory research purposes only. These products are not for human or animal use.
-										</p>
-
-										<div>
-											<label className="block text-sm font-medium mb-2">
-												I verify that I am affiliated with or purchasing on behalf of:
-											</label>
-											<select
-												value={selectedInstitution}
-												onChange={(e) => setSelectedInstitution(e.target.value)}
-												className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-											>
-												<option value="">Select your institution type...</option>
-												{institutionOptions.map((option, index) => (
-													<option key={index} value={option}>
-														{option}
-													</option>
-												))}
-											</select>
-										</div>
-
-										<div className="space-y-4 pt-4 border-t border-border">
-											<div className="flex items-start gap-3">
-												<Checkbox
-													id="ageVerification"
-													checked={ageVerified}
-													onCheckedChange={(checked) => setAgeVerified(checked === true)}
-													className="mt-0.5"
-												/>
-												<label htmlFor="ageVerification" className="text-sm leading-relaxed cursor-pointer flex-1">
-													I certify that I am 21+ years of age
-												</label>
-											</div>
-
-											<div className="flex items-start gap-3">
-												<Checkbox
-													id="researchPurposes"
-													checked={researchPurposesVerified}
-													onCheckedChange={(checked) => setResearchPurposesVerified(checked === true)}
-													className="mt-0.5"
-												/>
-												<label htmlFor="researchPurposes" className="text-sm leading-relaxed cursor-pointer flex-1">
-													I agree that all purchases are strictly for in-vitro laboratory research purposes only.
-												</label>
-											</div>
-
-											<div className="flex items-start gap-3">
-												<Checkbox
-													id="researchLimitations"
-													checked={researchLimitationsVerified}
-													onCheckedChange={(checked) => setResearchLimitationsVerified(checked === true)}
-													className="mt-0.5"
-												/>
-												<label htmlFor="researchLimitations" className="text-sm leading-relaxed cursor-pointer flex-1">
-													These products are not for human or animal use, diagnosis, treatment, cure, or prevention of any disease.
-												</label>
-											</div>
-
-											<div className="flex items-start gap-3">
-												<Checkbox
-													id="termsAccepted"
-													checked={termsAccepted}
-													onCheckedChange={(checked) => setTermsAccepted(checked === true)}
-													className="mt-0.5"
-												/>
-												<label htmlFor="termsAccepted" className="text-sm leading-relaxed cursor-pointer flex-1">
-													I have read and agree to the{' '}
-													<Link href="/terms" className="text-primary underline hover:text-primary/80">
-														Terms of Service
-													</Link>
-													{' '}and{' '}
-													<Link href="/privacy" className="text-primary underline hover:text-primary/80">
-														Privacy Policy
-													</Link>
-												</label>
-											</div>
-										</div>
-									</div>
-								)}
-							</div>
-
 							{/* Order Items */}
 							<div className="bg-card rounded-lg border-2 border-border shadow-[var(--shadow-elevated)] p-4 sm:p-6 md:p-8">
 								<h2 className="font-serif text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
@@ -1352,6 +1177,25 @@ export default function CheckoutPage() {
 													<span>${formatPrice(finalTotal)}</span>
 												</div>
 											</div>
+
+											<div className="flex items-start gap-3 pt-4 border-t border-border mt-3">
+												<Checkbox
+													id="termsAccepted"
+													checked={termsAccepted}
+													onCheckedChange={(checked) => setTermsAccepted(checked === true)}
+													className="mt-0.5"
+												/>
+												<label htmlFor="termsAccepted" className="text-sm leading-relaxed cursor-pointer flex-1">
+													I have read and agree to the{' '}
+													<Link href="/terms" className="text-primary underline hover:text-primary/80">
+														Terms of Service
+													</Link>
+													{' '}and{' '}
+													<Link href="/privacy" className="text-primary underline hover:text-primary/80">
+														Privacy Policy
+													</Link>
+												</label>
+											</div>
 										</div>
 									</div>
 
@@ -1368,7 +1212,7 @@ export default function CheckoutPage() {
 											</Button>
 											{!canProceed && (
 												<p className="text-xs text-muted-foreground text-center sm:text-left sm:whitespace-nowrap">
-													Please fill out all fields
+													Please fill out all required fields and agree to the Terms
 												</p>
 											)}
 										</div>
