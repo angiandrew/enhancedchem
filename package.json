@@ -6,6 +6,8 @@
     "dev": "next dev -p 3002",
     "dev:clean": "./restart-dev.sh",
     "build": "next build",
+    "build:safe": "node scripts/check-critical-features.mjs && next build",
+    "check:critical": "node scripts/check-critical-features.mjs",
     "start": "next start",
     "lint": "eslint",
     "deploy:trigger": "node scripts/trigger-vercel-deploy.mjs"
