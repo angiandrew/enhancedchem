@@ -388,11 +388,11 @@ export default function AdminOrdersPage() {
 							<div className="text-2xl font-bold text-gray-900 mt-1">
 								${formatPrice(
 									orders
-										.filter((o) => !o.isTest && ['paid', 'shipped', 'completed'].includes(o.status))
+										.filter((o) => !o.isTest && o.status !== 'pending')
 										.reduce((sum, o) => sum + o.orderTotal, 0)
 								)}
 							</div>
-							<p className="text-xs text-gray-500 mt-1">Excludes test orders</p>
+							<p className="text-xs text-gray-500 mt-1">Excludes test orders and pending orders</p>
 						</div>
 						<div className="bg-white rounded-lg shadow-sm p-6">
 							<div className="text-sm text-gray-600">Completed</div>
