@@ -15,6 +15,7 @@ import AddressAutocomplete from '@/components/AddressAutocomplete'
 // Promo codes: key = uppercase normalized code, value = discount (0.10 = 10%). Matching is case-insensitive.
 const VALID_PROMO_CODES: Record<string, number> = {
 	'BESTDEAL88': 0.10,
+	'BENASC': 0.10,
 	'CAM': 0.10,
 	'CHETTO': 0.10,
 	'COMPLETE5': 0.05,
@@ -1247,6 +1248,18 @@ export default function CheckoutPage() {
 												</label>
 											</div>
 
+											<label className="flex items-start gap-3 cursor-pointer mt-4">
+												<Checkbox
+													id="emailOptIn"
+													checked={emailOptIn}
+													onCheckedChange={(checked) => setEmailOptIn(checked === true)}
+													className="mt-0.5"
+												/>
+												<span className="text-sm text-foreground leading-relaxed flex-1">
+													I would like to receive exclusive emails with discounts and product information
+												</span>
+											</label>
+
 											{!canProceed && (
 												<p className="text-sm text-amber-700 font-medium pt-2">
 													Please fill out all required fields and agree to the Terms above.
@@ -1265,20 +1278,6 @@ export default function CheckoutPage() {
 										>
 											{isSubmitting ? 'Processing...' : 'Complete Purchase'}
 										</Button>
-									</div>
-
-									<div className="mt-8 pt-6 border-t border-border">
-										<label className="flex items-start gap-3 cursor-pointer">
-											<Checkbox
-												id="emailOptIn"
-												checked={emailOptIn}
-												onCheckedChange={(checked) => setEmailOptIn(checked === true)}
-												className="mt-0.5"
-											/>
-											<span className="text-sm text-foreground leading-relaxed flex-1">
-												I would like to receive exclusive emails with discounts and product information
-											</span>
-										</label>
 									</div>
 								</div>
 							</div>
