@@ -1,0 +1,30 @@
+# When repo is PRIVATE: trigger Vercel deploy via Deploy Hook (Git integration often doesn't work for private repos).
+# When repo is PUBLIC: skip the hook so Vercel's native Git integration deploys (avoids double deploy).
+# Setup: Vercel → Project → Settings → Git → Deploy Hooks → create hook → copy URL.
+#        GitHub → repo Settings → Secrets and variables → Actions → add secret VERCEL_DEPLOY_HOOK_URL.
+name: Trigger Vercel deploy on push (private repo)
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy (only if private repo)
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ -z "$VERCEL_DEPLOY_HOOK_URL" ]; then
+            echo "VERCEL_DEPLOY_HOOK_URL not set. Skipping. Add it in repo Settings → Secrets → Actions to enable."
+            exit 0
+          fi
+          VISIBILITY=$(curl -sS -H "Authorization: bearer $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}" | grep -o '"private":[^,]*' | cut -d: -f2)
+          if [ "$VISIBILITY" = "false" ]; then
+            echo "Repo is public. Relying on Vercel Git integration; skipping deploy hook."
+            exit 0
+          fi
+          echo "Repo is private. Triggering Vercel deploy via hook..."
+          curl -sS -X POST "$VERCEL_DEPLOY_HOOK_URL"
+          echo "Deploy hook sent. Check Vercel dashboard."
