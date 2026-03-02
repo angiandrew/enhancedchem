@@ -36,6 +36,7 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'ORBITROPIN': 0.10,
 	'SAVE15': 0.15,
 	'SIMPLYCODES': 0.10,
+	'TRTBONE': 0.10,
 }
 
 function normalizePromoCode(input: string): string {
