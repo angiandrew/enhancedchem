@@ -265,9 +265,7 @@ export default function BPC1575mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								BPC-157 (Body Protection Compound-157) is a synthetic peptide derived from 
-								body protection compound found in gastric juice. This research-grade peptide 
-								is designed for scientific studies and laboratory research purposes only.
+								BPC-157 is a synthetic pentadecapeptide composed of 15 amino acids arranged in a defined linear sequence. It is produced through controlled laboratory synthesis for analytical and experimental research applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

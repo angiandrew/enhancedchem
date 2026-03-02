@@ -200,8 +200,7 @@ export default function KPV5mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								KPV (Lysine-Proline-Valine) is a tripeptide known for its anti-inflammatory properties. 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+								KPV is a synthetic tripeptide consisting of the amino acid sequence Lys-Pro-Val. It has a molecular weight of approximately 342.45 g/mol and is prepared through controlled synthesis processes. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

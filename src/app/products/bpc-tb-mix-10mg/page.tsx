@@ -263,8 +263,7 @@ export default function BpcTbMix10mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								This premium peptide blend combines BPC-157 and TB-500 for comprehensive research applications. 
-								Each component is carefully selected for its research-grade quality and scientific properties.
+								The BPC/TB blend is a laboratory reference mixture containing synthetic BPC-157 and synthetic TB-500. It combines a 15-amino-acid peptide and a 43-amino-acid peptide fragment prepared under controlled conditions. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

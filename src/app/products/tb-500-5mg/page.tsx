@@ -247,8 +247,7 @@ export default function TB5005mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								TB-500 (Thymosin Beta-4) is a synthetic peptide fragment derived from thymosin beta-4. 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+								TB-500 is a synthetic peptide fragment corresponding to a segment of thymosin beta-4. It is an acetylated and amidated 43-amino-acid sequence produced through laboratory synthesis. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

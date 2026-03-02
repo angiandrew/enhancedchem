@@ -198,8 +198,7 @@ export default function Melanotan2Page() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								Melanotan 2 is a synthetic analog of the peptide hormone alpha-melanocyte-stimulating hormone (α-MSH). 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+								Melanotan 2 is a synthetic cyclic heptapeptide analog featuring a lactam bridge between Asp and Lys residues for structural cyclization. It is produced through controlled peptide synthesis for analytical and experimental laboratory applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

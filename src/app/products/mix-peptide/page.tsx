@@ -206,7 +206,7 @@ export default function MixPeptidePage() {
 								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								This peptide blend combines GHK-Cu, BPC-157, and TB-500 for in vitro testing and laboratory experimentation only. It is intended as a research chemical for educational and scientific research purposes only.
+								The GHK/BPC/TB blend (Glow) is a laboratory reference mixture containing synthetic GHK-Cu, BPC-157, and TB-500. It incorporates a copper-coordinated tripeptide, a 15-amino-acid peptide, and a 43-amino-acid peptide fragment prepared under controlled synthesis conditions. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mt-4 font-medium">
 								<strong>Product Composition:</strong> GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) Mix

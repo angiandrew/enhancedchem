@@ -298,7 +298,7 @@ export default function RetatrutidePage() {
 								Store in a freezer at -20°C. Keep away from direct sunlight and moisture.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+								Reta is a synthetic multi-agonist peptide analog composed of a defined amino acid sequence with specific structural modifications introduced during laboratory synthesis. It is manufactured for analytical characterization and experimental research applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 							<p className="text-muted-foreground leading-relaxed text-sm">
 								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.

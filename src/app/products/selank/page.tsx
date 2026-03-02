@@ -213,8 +213,7 @@ export default function SelankPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								Selank is a synthetic peptide analog of tuftsin. 
-								This research-grade peptide is designed for scientific studies and laboratory research purposes only.
+								Selank is a synthetic heptapeptide composed of the sequence Thr-Lys-Pro-Arg-Pro-Gly-Pro with N-terminal acetylation. It is produced through laboratory synthesis for analytical and research applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

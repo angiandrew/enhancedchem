@@ -264,7 +264,7 @@ export default function GHKCuPage() {
 								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper) is a copper-binding peptide. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+								GHK-Cu is a synthetic copper-binding tripeptide complex composed of glycyl-L-histidyl-L-lysine coordinated with Cu²⁺ ions. It is manufactured for biochemical and analytical research purposes. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 							<p className="text-muted-foreground leading-relaxed text-sm">
 								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.

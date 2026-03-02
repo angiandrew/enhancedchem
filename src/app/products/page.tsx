@@ -11,7 +11,7 @@ const allProducts = [
   {
     id: 'bpc-157',
     name: 'BPC-157 10mg',
-    description: 'Body Protection Compound-157 in higher concentration for extended research applications.',
+    description: 'BPC-157 is a synthetic pentadecapeptide composed of 15 amino acids. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 41.99,
     originalPrice: 46.99,
     image: '/products/bpc-157/BPC-157 10mg.png',
@@ -22,7 +22,7 @@ const allProducts = [
   {
     id: 'bpc-157-20mg',
     name: 'BPC-157 20mg',
-    description: 'Body Protection Compound-157 in 20mg concentration for extended research applications.',
+    description: 'BPC-157 is a synthetic pentadecapeptide composed of 15 amino acids. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 54.99,
     originalPrice: 59.99,
     image: '/products/bpc-157/BPC-157 20mg.png',
@@ -33,7 +33,7 @@ const allProducts = [
   {
     id: 'tb-500',
     name: 'TB-500 10mg',
-    description: 'Thymosin Beta-4 fragment for research applications. Premium quality peptide.',
+    description: 'TB-500 is a synthetic 43-amino-acid peptide fragment of thymosin beta-4. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 49.99,
     originalPrice: 54.99,
     image: '/products/tb-500/TB-500 10mg.png',
@@ -44,7 +44,7 @@ const allProducts = [
   {
     id: 'tb-500-5mg',
     name: 'TB-500 5mg',
-    description: 'Thymosin Beta-4 fragment in smaller concentration for research applications. Premium quality peptide.',
+    description: 'TB-500 is a synthetic 43-amino-acid peptide fragment of thymosin beta-4. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 37.99,
     originalPrice: 42.99,
     image: '/products/tb-500/TB-500 5mg.png',
@@ -54,7 +54,7 @@ const allProducts = [
   {
     id: 'ghk-cu',
     name: 'GHK-CU 50mg',
-    description: 'Copper peptide complex for advanced research. Laboratory-grade purity.',
+    description: 'GHK-Cu is a synthetic copper-binding tripeptide (glycyl-L-histidyl-L-lysine with Cu²⁺). Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 34.99,
     originalPrice: 38.99,
     image: '/products/ghk-cu/GHK-Cu 50mg.png',
@@ -65,7 +65,7 @@ const allProducts = [
   {
     id: 'ghk-cu-100mg',
     name: 'GHK-CU 100mg',
-    description: 'Copper peptide complex in bulk quantity for extended research protocols.',
+    description: 'GHK-Cu is a synthetic copper-binding tripeptide (glycyl-L-histidyl-L-lysine with Cu²⁺). Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 48.99,
     originalPrice: 54.99,
     image: '/products/ghk-cu/GHK-Cu 100mg.png',
@@ -76,7 +76,7 @@ const allProducts = [
   {
     id: 'kpv-5mg',
     name: 'KPV 5mg',
-    description: 'Lysine-Proline-Valine peptide for research applications. Known for its anti-inflammatory properties.',
+    description: 'KPV is a synthetic tripeptide (Lys-Pro-Val). Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 31.99,
     originalPrice: 35.99,
     image: '/products/KPV/KPV 5mg.png',
@@ -86,7 +86,7 @@ const allProducts = [
   {
     id: 'kpv',
     name: 'KPV 10mg',
-    description: 'Lysine-Proline-Valine peptide for research applications. Known for its anti-inflammatory properties.',
+    description: 'KPV is a synthetic tripeptide (Lys-Pro-Val). Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 54.99,
     originalPrice: 61.99,
     image: '/products/KPV/KPV 10mg.png',
@@ -96,7 +96,7 @@ const allProducts = [
   {
     id: 'semax',
     name: 'Semax 10mg',
-    description: 'Synthetic peptide for research applications. Known for its neuroprotective properties.',
+    description: 'Semax is a synthetic heptapeptide (Met-Glu-His-Phe-Pro-Gly-Pro). Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 41.99,
     originalPrice: 46.99,
     image: '/products/Semax/Semax 10mg.png',
@@ -107,7 +107,7 @@ const allProducts = [
   {
     id: 'selank',
     name: 'Selank 10mg',
-    description: 'Synthetic peptide analog of tuftsin for research applications. Laboratory-grade peptide for scientific studies.',
+    description: 'Selank is a synthetic heptapeptide (Thr-Lys-Pro-Arg-Pro-Gly-Pro). Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 37.99,
     originalPrice: 42.99,
     image: '/products/Selank/Selank 10mg.png',
@@ -118,7 +118,7 @@ const allProducts = [
   {
     id: 'bpc-tb-mix',
     name: 'BPC-157 (5MG) + TB-500 (5MG) Mix',
-    description: 'Premium peptide blend combining BPC-157 and TB-500 for comprehensive research applications.',
+    description: 'Laboratory reference mixture of synthetic BPC-157 and TB-500. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 64.99,
     originalPrice: 72.99,
     image: '/products/bpc-tb-mix/BPC_TB 5_5.png',
@@ -128,7 +128,7 @@ const allProducts = [
   {
     id: 'bpc-tb-mix-10mg',
     name: 'BPC-157 (10MG) + TB-500 (10MG) Mix',
-    description: 'Premium peptide blend in higher concentration for extended research studies.',
+    description: 'Laboratory reference mixture of synthetic BPC-157 and TB-500. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 94.99,
     originalPrice: 105.99,
     image: '/products/bpc-tb-mix/BPC_TB 10_10.png',
@@ -138,7 +138,7 @@ const allProducts = [
   {
     id: 'mix-peptide',
     name: 'GLOW 70mg',
-    description: 'Premium peptide blend combining GHK-Cu, BPC-157, and TB-500 for comprehensive research.',
+    description: 'GHK/BPC/TB blend (Glow): laboratory reference mixture of synthetic GHK-Cu, BPC-157, and TB-500. Supplied strictly for laboratory research use.',
     price: 88.99,
     originalPrice: 98.99,
     image: '/products/bpc-tb-ghk-mix/GLOW 70mg.png',
@@ -149,7 +149,7 @@ const allProducts = [
   {
     id: 'nad-500mg',
     name: 'NAD+ 500mg',
-    description: 'Nicotinamide Adenine Dinucleotide coenzyme for research applications. Essential cellular cofactor.',
+    description: 'NAD+ is a redox-active dinucleotide. Utilized in biochemical and analytical research. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 64.99,
     originalPrice: 72.99,
     image: '/products/NAD%2B%20500MG/NAD%20500mg.png',
@@ -159,7 +159,7 @@ const allProducts = [
   {
     id: 'reta',
     name: 'Reta 10mg',
-    description: 'Triple agonist peptide in higher concentration for extended research studies.',
+    description: 'Reta is a synthetic multi-agonist peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 79.99,
     originalPrice: 89.99,
     image: '/products/Reta/Reta 10mg.png',
@@ -169,7 +169,7 @@ const allProducts = [
   {
     id: 'reta-15mg',
     name: 'Reta 15mg',
-    description: 'Triple agonist peptide in higher concentration for extended research studies.',
+    description: 'Reta is a synthetic multi-agonist peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 109.99,
     originalPrice: 121.99,
     image: '/products/Reta/Reta 15mg.png',
@@ -180,7 +180,7 @@ const allProducts = [
   {
     id: 'reta-20mg',
     name: 'Reta 20mg',
-    description: 'Triple agonist peptide in highest concentration for extended research studies.',
+    description: 'Reta is a synthetic multi-agonist peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 134.99,
     originalPrice: 149.99,
     image: '/products/Reta/Reta 20mg.png',
@@ -190,7 +190,7 @@ const allProducts = [
   {
     id: 'melanotan-2',
     name: 'Melanotan 2 10mg',
-    description: 'Synthetic analog of alpha-melanocyte-stimulating hormone for research applications.',
+    description: 'Melanotan 2 is a synthetic cyclic heptapeptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 37.99,
     originalPrice: 42.99,
     image: '/products/Melanotan 2 10mg/MT2 10mg.png',
@@ -200,7 +200,7 @@ const allProducts = [
   {
     id: 'klow-80mg',
     name: 'KLOW 80mg',
-    description: 'Premium peptide blend combining GHK-Cu, BPC-157, TB-500, and KPV for comprehensive research.',
+    description: 'GHK/KPV/BPC/TB blend (Klow): laboratory reference mixture of synthetic GHK-Cu, KPV, BPC-157, and TB-500. Supplied strictly for laboratory research use.',
     price: 119.99,
     originalPrice: 133.99,
     image: '/products/KLOW 80mg/KLOW 80mg.png',
@@ -211,7 +211,7 @@ const allProducts = [
   {
     id: 'cjc-1295-no-dac-5mg',
     name: 'CJC-1295 No DAC (5mg)',
-    description: 'Growth hormone-releasing hormone analog without DAC for shorter-acting research applications.',
+    description: 'CJC-1295 is a synthetic 29-amino-acid peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 44.99,
     originalPrice: 49.99,
     image: '/products/CJC NO DAC/CJC-1295 5mg.png',
@@ -221,7 +221,7 @@ const allProducts = [
   {
     id: 'cjc-1295-no-dac',
     name: 'CJC-1295 No DAC (10mg)',
-    description: 'Growth hormone-releasing hormone analog without DAC in higher concentration for research studies.',
+    description: 'CJC-1295 is a synthetic 29-amino-acid peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 64.99,
     originalPrice: 71.99,
     image: '/products/CJC NO DAC/CJC-1295 10mg.png',
@@ -232,7 +232,7 @@ const allProducts = [
   {
     id: 'cjc-1295-2mg',
     name: 'CJC-1295 w/ DAC (2mg)',
-    description: 'Growth hormone-releasing hormone analog with Drug Affinity Complex in 2mg concentration for research applications.',
+    description: 'CJC-1295 is a synthetic 29-amino-acid peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 34.99,
     originalPrice: 38.99,
     image: '/products/CJC-1295 (With DAC)/CJC-1295 DAC 2mg.png',
@@ -265,7 +265,7 @@ const allProducts = [
   {
     id: 'ipamorelin-cjc-1295-10mg',
     name: 'Ipamorelin/CJC-1295 (no DAC) 10mg',
-    description: 'Premium peptide blend combining Ipamorelin and CJC-1295 (no DAC) 10mg each for synergistic growth hormone release.',
+    description: 'Peptide blend of synthetic CJC-1295 (no DAC) and Ipamorelin, 10 mg each. Supplied for analytical and experimental laboratory applications.',
     price: 104.99,
     originalPrice: 115.99,
     image: '/products/cjc-no-dac-ipa/IPA_CJC 10_10.png',
@@ -276,7 +276,7 @@ const allProducts = [
   {
     id: 'cjc-1295-5mg',
     name: 'CJC-1295 w/ DAC (5mg)',
-    description: 'Growth hormone-releasing hormone analog with Drug Affinity Complex for extended release research applications.',
+    description: 'CJC-1295 is a synthetic 29-amino-acid peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 59.99,
     originalPrice: 65.99,
     image: '/products/CJC-1295 (With DAC)/CJC-1295 DAC 5mg.png',
@@ -287,7 +287,7 @@ const allProducts = [
   {
     id: 'reta-5mg',
     name: 'Reta 5mg',
-    description: 'Triple agonist peptide targeting GLP-1, GIP, and glucagon receptors for research applications.',
+    description: 'Reta is a synthetic multi-agonist peptide analog. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 39.99,
     originalPrice: 43.99,
     image: '/products/Reta/Reta 5mg.png',
@@ -298,7 +298,7 @@ const allProducts = [
   {
     id: 'ipamorelin-cjc-1295-5mg',
     name: 'Ipamorelin/CJC-1295 (no DAC) 5mg',
-    description: 'Premium peptide blend combining Ipamorelin and CJC-1295 (no DAC) for synergistic growth hormone release.',
+    description: 'Peptide blend of synthetic CJC-1295 (no DAC) and Ipamorelin, 5 mg each. Supplied for analytical and experimental laboratory applications.',
     price: 64.99,
     originalPrice: 71.99,
     image: '/products/cjc-no-dac-ipa/IPA_CJC 5_5.png',
@@ -309,7 +309,7 @@ const allProducts = [
   {
     id: 'bpc-157-5mg',
     name: 'BPC-157 5mg',
-    description: 'Body Protection Compound-157 for research purposes. High purity peptide for scientific studies.',
+    description: 'BPC-157 is a synthetic pentadecapeptide composed of 15 amino acids. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 34.99,
     originalPrice: 38.99,
     image: '/products/bpc-157/BPC-157 5mg.png',

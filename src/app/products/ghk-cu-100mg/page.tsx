@@ -249,9 +249,7 @@ export default function GHKCu100mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper) is a copper peptide known for its regenerative 
-								properties. This research-grade peptide is designed for scientific studies and laboratory 
-								research purposes only.
+								GHK-Cu is a synthetic copper-binding tripeptide complex composed of glycyl-L-histidyl-L-lysine coordinated with Cu²⁺ ions. It is manufactured for biochemical and analytical research purposes. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

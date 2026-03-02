@@ -263,7 +263,7 @@ export default function TB500Page() {
 								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								TB-500 (Thymosin Beta-4 fragment) is a synthetic peptide representing a fragment of thymosin beta-4. It is supplied for in vitro testing and laboratory experimentation only. This product is intended as a research chemical for educational and scientific research purposes only.
+								TB-500 is a synthetic peptide fragment corresponding to a segment of thymosin beta-4. It is an acetylated and amidated 43-amino-acid sequence produced through laboratory synthesis. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 							<p className="text-muted-foreground leading-relaxed text-sm">
 								Product use: For in vitro research and laboratory use only. Not for introduction into humans or animals. Educational purposes only.

@@ -124,7 +124,7 @@ export default function IpamorelinCJC129510mgPage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">Store in a freezer at -20°C. Keep away from direct sunlight and moisture. For research purposes only.</p>
-							<p className="text-muted-foreground leading-relaxed">This premium peptide blend combines Ipamorelin and CJC-1295 (no DAC) 10mg each for synergistic growth hormone release. This research-grade peptide blend is designed for scientific studies and laboratory research purposes only.</p>
+							<p className="text-muted-foreground leading-relaxed">This peptide blend contains synthetic CJC-1295 (no DAC) and synthetic Ipamorelin, 10 mg each, prepared under controlled laboratory conditions. The components are defined amino acid sequences manufactured for analytical characterization and experimental laboratory applications.</p>
 						</div>
 					</div>
 

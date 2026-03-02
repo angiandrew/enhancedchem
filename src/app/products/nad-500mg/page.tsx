@@ -198,8 +198,7 @@ export default function NAD500mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								NAD+ (Nicotinamide Adenine Dinucleotide) is a crucial coenzyme found in all living cells. 
-								This research-grade NAD+ is designed for scientific studies and laboratory research purposes only.
+								NAD+ (Nicotinamide Adenine Dinucleotide) is a redox-active dinucleotide composed of two nucleotides linked through their phosphate groups, containing nicotinamide and adenine bases. It is utilized in biochemical and analytical research settings. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

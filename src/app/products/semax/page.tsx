@@ -220,9 +220,7 @@ export default function SemaxPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								Semax is a synthetic peptide analog of adrenocorticotropic hormone (ACTH) known for its 
-								neuroprotective properties. This research-grade peptide is designed for scientific studies 
-								and laboratory research purposes only.
+								Semax is a synthetic heptapeptide composed of the sequence Met-Glu-His-Phe-Pro-Gly-Pro with N-terminal acetylation. It is manufactured for analytical and experimental laboratory applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>

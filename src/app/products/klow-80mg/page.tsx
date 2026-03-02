@@ -199,9 +199,7 @@ export default function KLOW80mgPage() {
 								For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								This premium peptide blend combines GHK-Cu (50MG), BPC-157 (10MG), TB-500 (10MG), and KPV (10MG) 
-								for comprehensive research applications. Each component is carefully selected for 
-								its research-grade quality and scientific properties.
+								The GHK/KPV/BPC/TB blend (Klow) is a laboratory reference mixture containing synthetic GHK-Cu, KPV, BPC-157, and TB-500. It combines defined peptide sequences and peptide complexes prepared under controlled laboratory conditions. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 							<p className="text-muted-foreground leading-relaxed font-medium">
 								<strong>Product Composition:</strong> GHK-Cu (50MG) + BPC-157 (10MG) + TB-500 (10MG) + KPV (10MG) MIX

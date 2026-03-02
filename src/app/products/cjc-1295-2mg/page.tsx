@@ -125,7 +125,7 @@ export default function CJC12952mgPage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">Store in a freezer at -20°C. Keep away from direct sunlight and moisture. For research purposes only.</p>
-							<p className="text-muted-foreground leading-relaxed">CJC-1295 with DAC (Drug Affinity Complex) is a growth hormone-releasing hormone (GHRH) analog designed for extended release. This 2mg research-grade peptide is designed for scientific studies and laboratory research purposes only.</p>
+							<p className="text-muted-foreground leading-relaxed">CJC-1295 is a synthetic 29-amino-acid peptide analog incorporating structural modifications designed to extend stability in research settings. It is prepared through controlled peptide synthesis for analytical and experimental laboratory use. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.</p>
 						</div>
 					</div>
 
