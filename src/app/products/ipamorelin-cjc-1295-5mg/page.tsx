@@ -13,8 +13,8 @@ export default function IpamorelinCJC12955mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const currentPrice = 99.00
-	const currentOriginalPrice = 110.00
+	const currentPrice = 64.99
+	const currentOriginalPrice = 71.99
 	const currentImage = '/products/cjc-no-dac-ipa/IPA_CJC 5_5.png'
 
 	const handleAddToCart = () => {

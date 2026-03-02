@@ -16,12 +16,12 @@ export default function IpamorelinPage() {
 
 	const mgOptions = [
 		{ value: '5mg', price: 39.99, originalPrice: 44.99, image: '/products/Ipamorelin/Ipamorelin 5mg.png', inStock: true },
-		{ value: '10mg', price: 69.99, originalPrice: 77.99, image: '/products/Ipamorelin/Ipamorelin 10mg.png', inStock: true }
+		{ value: '10mg', price: 59.99, originalPrice: 66.99, image: '/products/Ipamorelin/Ipamorelin 10mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 69.99
-	const currentOriginalPrice = currentOption?.originalPrice || 77.99
+	const currentPrice = currentOption?.price || 59.99
+	const currentOriginalPrice = currentOption?.originalPrice || 66.99
 	const currentImage = currentOption?.image || '/products/Ipamorelin/Ipamorelin 10mg.png'
 	const isInStock = currentOption?.inStock ?? true
 
@@ -138,7 +138,7 @@ export default function IpamorelinPage() {
 							{[
 								{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, originalPrice: 46.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 								{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, originalPrice: 54.99, image: '/products/tb-500/TB-500 10mg.png' },
-								{ id: 'cjc-1295-no-dac', name: 'CJC-1295 No DAC 10mg', price: 74.99, originalPrice: 83.99, image: '/products/CJC NO DAC/CJC-1295 10mg.png' },
+								{ id: 'cjc-1295-no-dac', name: 'CJC-1295 No DAC 10mg', price: 64.99, originalPrice: 71.99, image: '/products/CJC NO DAC/CJC-1295 10mg.png' },
 								{ id: 'ghk-cu', name: 'GHK-Cu 50mg', price: 34.99, originalPrice: 38.99, image: '/products/ghk-cu/GHK-Cu 50mg.png' },
 								{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, originalPrice: 72.99, image: '/products/NAD%2B%20500MG/NAD%20500mg.png' },
 							].map((product) => (

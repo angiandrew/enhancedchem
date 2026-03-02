@@ -20,12 +20,12 @@ export default function Retatrutide20mgPage() {
 		{ value: '5mg', price: 39.99, originalPrice: 43.99, image: '/products/Reta/Reta 5mg.png', inStock: false },
 		{ value: '10mg', price: 79.99, originalPrice: 89.99, image: '/products/Reta/Reta 10mg.png', inStock: true },
 		{ value: '15mg', price: 109.99, originalPrice: 121.99, image: '/products/Reta/Reta 15mg.png', inStock: true, badge: 'Limited Time Offer' },
-		{ value: '20mg', price: 139.99, originalPrice: 155.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
+		{ value: '20mg', price: 134.99, originalPrice: 149.99, image: '/products/Reta/Reta 20mg.png', inStock: true }
 	]
 
 	const currentOption = mgOptions.find(option => option.value === selectedMG)
-	const currentPrice = currentOption?.price || 139.99
-	const currentOriginalPrice = currentOption?.originalPrice || 155.99
+	const currentPrice = currentOption?.price || 134.99
+	const currentOriginalPrice = currentOption?.originalPrice || 149.99
 	const currentImage = currentOption?.image || '/products/Reta/Reta 20mg.png'
 	const isInStock = currentOption?.inStock ?? false
 
