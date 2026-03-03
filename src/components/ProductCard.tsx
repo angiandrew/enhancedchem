@@ -61,7 +61,6 @@ export default function ProductCard({
             className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
               !inStock ? 'opacity-75' : ''
             }`}
-            unoptimized
           />
         </Link>
         

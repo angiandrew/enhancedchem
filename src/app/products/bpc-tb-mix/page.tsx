@@ -291,7 +291,6 @@ export default function BpcTbMixPage() {
 											alt={product.name}
 											fill
 											className="object-contain"
-											unoptimized
 										/>
 									</div>
 									<div className="p-3 flex flex-col flex-1">

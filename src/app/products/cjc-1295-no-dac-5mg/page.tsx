@@ -222,7 +222,6 @@ export default function CJC1295NoDAC5mgPage() {
 											alt={product.name}
 											fill
 											className="object-contain"
-											unoptimized
 										/>
 									</div>
 									<div className="p-3 flex flex-col flex-1">

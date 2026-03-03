@@ -64,7 +64,6 @@ export default function TB5005mgPage() {
 										fill
 										className="object-cover object-center"
 										priority
-										unoptimized
 									/>
 								</div>
 						</div>
@@ -271,7 +270,6 @@ export default function TB5005mgPage() {
 											alt={product.name}
 											fill
 											className="object-contain"
-											unoptimized
 										/>
 									</div>
 									<div className="p-3 flex flex-col flex-1">

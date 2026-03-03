@@ -17,7 +17,12 @@ function paymentMethodLabel(method: string): string {
 
 /**
  * Build subject and HTML for a payment reminder email by stage.
- * Stage 1 = 1 day, 2 = 2 days, 3 = 3 days, 4 = 7 days (final). Includes customer name, order summary, and shipping address.
+ * Current schedule (order age since creation):
+ * - Stage 1: ~12 hours
+ * - Stage 2: ~2 days
+ * - Stage 3: ~3 days
+ * - Stage 4: ~4 days
+ * - Stage 5: ~7 days (final, includes SAVE15 discount offer)
  */
 export function buildPaymentReminderEmail(
 	order: Order,
@@ -72,9 +77,14 @@ export function buildPaymentReminderEmail(
 			cta: 'Pay using the method you chose (see below). If you\'ve already paid, please reply to this email with the date and method so we can match it and update your order.',
 		},
 		4: {
-			subjectLine: 'Last reminder: complete payment for your order',
-			intro: `Hi ${customerName}, this is our final reminder about your unpaid order. We'll keep your order on file for a short time, but we need payment to ship it.`,
-			cta: `If you still want to complete this order, please pay using the instructions from your original email or contact us at ${SUPPORT_EMAIL} and we'll resend them. We're here to help.`,
+			subjectLine: 'Payment needed – your order will be closed soon',
+			intro: `Hi ${customerName}, your order has been pending payment for several days. We\'ll need to close it soon if payment isn\'t received.`,
+			cta: `If you'd like us to keep this order active, please complete payment using the instructions from your original email or contact us at ${SUPPORT_EMAIL} so we can help.`,
+		},
+		5: {
+			subjectLine: 'Final check-in: 15% off if you still want your order',
+			intro: `Hi ${customerName}, we haven’t seen your payment come through and we’re not sure where you went — but if you still want to move forward, we’d love to help you finish on a better note.`,
+			cta: `As a one-time courtesy, you can place a **new** order on our website and get **15% off** by using the promo code **SAVE15** at checkout. Your original pending order may be closed soon, but you’re welcome to reorder anytime at ${SITE_URL} with this code.`,
 		},
 	}
 

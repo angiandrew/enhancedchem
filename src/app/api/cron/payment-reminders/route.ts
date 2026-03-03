@@ -7,20 +7,25 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 export const fetchCache = 'force-no-store'
 
-/** Thresholds in ms: stage 0→1 at 1d, 1→2 at 2d, 2→3 at 3d, 3→4 at 7d (no 2h; Hobby cron runs once/day) */
+/**
+ * Thresholds in ms for sending reminders by stage (absolute age since order timestamp):
+ * stage 0→1 at 12h, 1→2 at 2d, 2→3 at 3d, 3→4 at 4d, 4→5 at 7d.
+ */
 const THRESHOLDS_MS = [
-	24 * 60 * 60 * 1000,      // 1 day
-	48 * 60 * 60 * 1000,      // 2 days
-	72 * 60 * 60 * 1000,      // 3 days
-	7 * 24 * 60 * 60 * 1000, // 7 days
+	12 * 60 * 60 * 1000,      // 12 hours
+	2 * 24 * 60 * 60 * 1000,  // 2 days
+	3 * 24 * 60 * 60 * 1000,  // 3 days
+	4 * 24 * 60 * 60 * 1000,  // 4 days
+	7 * 24 * 60 * 60 * 1000,  // 7 days
 ]
 
-/** Dev override: same 4 stages in minutes (2m, 5m, 8m, 15m) */
+/** Dev override: faster schedule in minutes (approx 12m, 30m, 45m, 60m, 90m) */
 const THRESHOLDS_MS_DEV = [
-	2 * 60 * 1000,   // 2m
-	5 * 60 * 1000,   // 5m
-	8 * 60 * 1000,   // 8m
-	15 * 60 * 1000, // 15m
+	12 * 60 * 1000,  // 12m
+	30 * 60 * 1000,  // 30m
+	45 * 60 * 1000,  // 45m
+	60 * 60 * 1000,  // 60m
+	90 * 60 * 1000,  // 90m
 ]
 
 async function getResendClient() {
@@ -56,11 +61,10 @@ export async function GET(request: NextRequest) {
 
 	try {
 		const orders = await getAllOrders()
-		const pending = orders.filter(
-			(o: Order) =>
-				o.status === 'pending' &&
-				((o.reminderStage ?? 0) < 4) &&
-				!o.isTest
+		const pending = orders.filter((o: Order) =>
+			o.status === 'pending' &&
+			((o.reminderStage ?? 0) < 5) && // stages 0–4 eligible; stage 5 is final
+			!o.isTest
 		)
 		processed = pending.length
 
@@ -82,7 +86,7 @@ export async function GET(request: NextRequest) {
 		for (const order of pending) {
 			const currentStage = order.reminderStage ?? 0
 			const nextStage = currentStage + 1
-			if (nextStage > 4) continue
+			if (nextStage > 5) continue
 
 			const createdAt = new Date(order.timestamp).getTime()
 			const ageMs = now - createdAt

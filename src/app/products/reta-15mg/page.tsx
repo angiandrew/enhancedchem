@@ -311,7 +311,6 @@ export default function Retatrutide15mgPage() {
 											alt={product.name}
 											fill
 											className="object-contain"
-											unoptimized
 										/>
 									</div>
 									<div className="p-3 flex flex-col flex-1">

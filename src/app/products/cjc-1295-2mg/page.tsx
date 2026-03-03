@@ -53,7 +53,6 @@ export default function CJC12952mgPage() {
 									fill
 									className="object-cover object-center"
 									priority
-									unoptimized
 								/>
 							</div>
 						</div>
@@ -142,7 +141,7 @@ export default function CJC12952mgPage() {
 								<Link key={product.id} href={`/products/${product.id}`}>
 									<div className="bg-card rounded-lg border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-colors cursor-pointer h-full flex flex-col">
 										<div className="relative aspect-square bg-secondary/30 p-3">
-											<Image src={product.image} alt={product.name} fill className="object-contain" unoptimized />
+											<Image src={product.image} alt={product.name} fill className="object-contain" />
 										</div>
 										<div className="p-3 flex flex-col flex-1">
 											<h3 className="font-serif text-sm font-medium text-foreground mb-1 line-clamp-2">{product.name}</h3>
