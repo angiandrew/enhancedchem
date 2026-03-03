@@ -32,6 +32,7 @@ export function buildPaymentReminderEmail(
 	const totalFormatted = formatPrice(order.orderTotal)
 	const methodLabel = paymentMethodLabel(order.paymentMethod)
 	const customerName = order.shippingAddress?.fullName?.trim() || 'there'
+	const paymentMethod = (order.paymentMethod || '').toLowerCase()
 
 	// Order items table
 	const itemsRows = (order.items || []).map((item) => {
@@ -79,7 +80,7 @@ export function buildPaymentReminderEmail(
 		4: {
 			subjectLine: 'Payment needed – your order will be closed soon',
 			intro: `Hi ${customerName}, your order has been pending payment for several days. We\'ll need to close it soon if payment isn\'t received.`,
-			cta: `If you'd like us to keep this order active, please complete payment using the instructions from your original email or contact us at ${SUPPORT_EMAIL} so we can help.`,
+			cta: `If you'd like us to keep this order active, please complete payment using the instructions in this email or contact us at ${SUPPORT_EMAIL} so we can help.`,
 		},
 		5: {
 			subjectLine: 'Final check-in: 15% off if you still want your order',
@@ -89,6 +90,70 @@ export function buildPaymentReminderEmail(
 	}
 
 	const copy = stageCopy[stage] || stageCopy[1]
+
+	// Payment method–specific instructions (short version, no QR codes)
+	let paymentInstructions = ''
+	if (paymentMethod === 'zelle') {
+		paymentInstructions = `
+	<div style="background-color: #f3f4f6; border-left: 4px solid #9333ea; padding: 15px; margin: 20px 0; border-radius: 6px;">
+		<h2 style="color: #9333ea; margin-top: 0; margin-bottom: 10px; font-size: 15px;">How to complete your Zelle payment</h2>
+		<ol style="color: #333; line-height: 1.7; font-size: 14px; padding-left: 20px; margin: 0;">
+			<li>Open your Zelle app or your bank&apos;s Zelle section.</li>
+			<li>Send payment to: <strong>enhancedchem4@gmail.com</strong>.</li>
+			<li>Send the exact amount: <strong style="color: #9333ea;">$${totalFormatted}</strong>.</li>
+			<li>In the memo/note field, include only your order number <strong>${orderNumber}</strong>. <strong style="color: #dc2626;">Do not include product names or any sensitive keywords.</strong></li>
+		</ol>
+	</div>`
+	} else if (paymentMethod === 'cashapp') {
+		paymentInstructions = `
+	<div style="background-color: #f3f4f6; border-left: 4px solid #00d632; padding: 15px; margin: 20px 0; border-radius: 6px;">
+		<h2 style="color: #00d632; margin-top: 0; margin-bottom: 10px; font-size: 15px;">How to complete your CashApp payment</h2>
+		<ol style="color: #333; line-height: 1.7; font-size: 14px; padding-left: 20px; margin: 0;">
+			<li>Open your CashApp app.</li>
+			<li>Send payment to: <strong>$enhancedchem</strong>.</li>
+			<li>Send the exact amount: <strong style="color: #00d632;">$${totalFormatted}</strong>.</li>
+			<li>In the &quot;For&quot; field, include only your order number <strong>${orderNumber}</strong>. <strong style="color: #dc2626;">Do not include product names or any sensitive keywords.</strong></li>
+		</ol>
+	</div>`
+	} else if (paymentMethod === 'usdc') {
+		paymentInstructions = `
+	<div style="background-color: #f3f4f6; border-left: 4px solid #2775ca; padding: 15px; margin: 20px 0; border-radius: 6px;">
+		<h2 style="color: #2775ca; margin-top: 0; margin-bottom: 10px; font-size: 15px;">How to complete your USDC payment</h2>
+		<ol style="color: #333; line-height: 1.7; font-size: 14px; padding-left: 20px; margin: 0;">
+			<li>Open your crypto wallet (MetaMask, Coinbase Wallet, Trust Wallet, etc.).</li>
+			<li>Send <strong>$${totalFormatted} USDC</strong> to this address:<br /><span style="font-family: monospace; font-size: 13px;">2GLM4Z18kCNSYb3stFoquDeQeK97gnPVE8LhikCS4sxH</span></li>
+			<li>In the memo/note field, include only your order number <strong>${orderNumber}</strong>. <strong style="color: #dc2626;">Do not include product names or any sensitive keywords.</strong></li>
+		</ol>
+	</div>`
+	} else if (paymentMethod === 'usdt') {
+		paymentInstructions = `
+	<div style="background-color: #f3f4f6; border-left: 4px solid #26a17b; padding: 15px; margin: 20px 0; border-radius: 6px;">
+		<h2 style="color: #26a17b; margin-top: 0; margin-bottom: 10px; font-size: 15px;">How to complete your USDT payment</h2>
+		<ol style="color: #333; line-height: 1.7; font-size: 14px; padding-left: 20px; margin: 0;">
+			<li>Open your crypto wallet (MetaMask, Coinbase Wallet, Trust Wallet, etc.).</li>
+			<li>Send <strong>$${totalFormatted} USDT</strong> to this address:<br /><span style="font-family: monospace; font-size: 13px;">0xFca3deb5b7AF0558d5CE6acE6C47AF2C2d4EAe97</span></li>
+			<li>In the memo/note field, include only your order number <strong>${orderNumber}</strong>. <strong style="color: #dc2626;">Do not include product names or any sensitive keywords.</strong></li>
+		</ol>
+	</div>`
+	} else if (paymentMethod === 'bitcoin') {
+		paymentInstructions = `
+	<div style="background-color: #f3f4f6; border-left: 4px solid #f97316; padding: 15px; margin: 20px 0; border-radius: 6px;">
+		<h2 style="color: #f97316; margin-top: 0; margin-bottom: 10px; font-size: 15px;">How to complete your Bitcoin payment</h2>
+		<ol style="color: #333; line-height: 1.7; font-size: 14px; padding-left: 20px; margin: 0;">
+			<li>Open your Bitcoin wallet (Coinbase, Blockchain.com, Electrum, etc.).</li>
+			<li>Send Bitcoin equal to <strong>$${totalFormatted}</strong> (including any surcharge) to:<br /><span style="font-family: monospace; font-size: 13px;">bc1qvrc9ls2kq2f2x9clva84n89qxe550k7e9r0lhl</span></li>
+			<li>In the memo/note field, include only your order number <strong>${orderNumber}</strong>. <strong style="color: #dc2626;">Do not include product names or any sensitive keywords.</strong></li>
+		</ol>
+	</div>`
+	} else {
+		paymentInstructions = `
+	<div style="background-color: #f3f4f6; border-left: 4px solid #6b7280; padding: 15px; margin: 20px 0; border-radius: 6px;">
+		<h2 style="color: #111827; margin-top: 0; margin-bottom: 10px; font-size: 15px;">How to complete your payment</h2>
+		<p style="color: #333; font-size: 14px; line-height: 1.7; margin: 0;">
+			Use your selected payment method to send exactly <strong>$${totalFormatted}</strong> and include only your order number <strong>${orderNumber}</strong> in the memo/note field. If you need help, reply to this email and we&apos;ll walk you through it.
+		</p>
+	</div>`
+	}
 
 	const html = `
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -121,6 +186,7 @@ export function buildPaymentReminderEmail(
 		</div>
 	</div>
 	${shippingAddressBlock}
+	${paymentInstructions}
 	<p style="font-size: 15px; color: #333; line-height: 1.6;">
 		${copy.cta}
 	</p>
