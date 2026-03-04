@@ -44,7 +44,7 @@ function normalizePromoCode(input: string): string {
 }
 
 export default function CheckoutPage() {
-	const { items, updateQuantity, removeItem, totalPrice, totalItems, clearCart } = useCart()
+	const { items, updateQuantity, removeItem, addItem, totalPrice, totalItems, clearCart } = useCart()
 
 	// Helper function to format numbers with commas
 	const formatPrice = (price: number) => {
@@ -1281,6 +1281,41 @@ export default function CheckoutPage() {
 										>
 											{isSubmitting ? 'Processing...' : 'Complete Purchase'}
 										</Button>
+									</div>
+
+									{/* Frequently Bought Together */}
+									<div className="mt-6 pt-6 border-t border-border">
+										<h3 className="font-serif text-sm font-semibold text-foreground mb-3">Frequently Bought Together</h3>
+										<ul className="space-y-2">
+											{[
+												{ id: 'tesamorelin-10mg', name: 'Tesamorelin 10mg', price: 44.99, image: '/products/Tesamorelin/Tesa10mg.png' },
+												{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, image: '/products/bpc-157/BPC-157 10mg.png' },
+												{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, image: '/products/tb-500/TB-500 10mg.png' },
+												{ id: 'ipamorelin', name: 'Ipamorelin 10mg', price: 59.99, image: '/products/ipamorelin/Ipamorelin 10mg.png' },
+												{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, image: '/products/NAD%2B%20500MG/NAD%20500mg.png' },
+											].map((p) => (
+												<li key={p.id} className="flex items-center gap-2 text-sm">
+													<div className="w-10 h-10 rounded bg-secondary/30 border border-border overflow-hidden shrink-0 relative">
+														<Image src={p.image} alt={p.name} width={40} height={40} className="object-contain p-0.5" />
+													</div>
+													<div className="flex-1 min-w-0">
+														<Link href={`/products/${p.id}`} className="font-medium text-foreground hover:text-primary truncate block">
+															{p.name}
+														</Link>
+														<span className="text-muted-foreground text-xs">${formatPrice(p.price)}</span>
+													</div>
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														className="shrink-0"
+														onClick={() => addItem({ id: p.id, name: p.name, price: p.price, image: p.image })}
+													>
+														Add
+													</Button>
+												</li>
+											))}
+										</ul>
 									</div>
 								</div>
 							</div>

@@ -49,7 +49,7 @@ export default function KLOW80mgPage() {
 						{/* Product Image */}
 						<div className="lg:sticky lg:top-28 overflow-hidden rounded-lg">
 							<div className="relative aspect-square overflow-hidden">
-									Image
+								<Image
 									src={currentImage}
 									alt="KLOW 80mg"
 									fill

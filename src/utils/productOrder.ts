@@ -18,6 +18,7 @@ export const productOrder = [
   'reta-15mg',
   'reta-20mg',
   'melanotan-2',
+  'tesamorelin-10mg',
   'klow-80mg',
   'cjc-1295-no-dac-5mg',
   'cjc-1295-no-dac',

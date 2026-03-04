@@ -198,6 +198,17 @@ const allProducts = [
     reviews: 52,
   },
   {
+    id: 'tesamorelin-10mg',
+    name: 'Tesamorelin 10mg',
+    description: 'Tesamorelin is a synthetic peptide analog for analytical characterization and experimental laboratory applications. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
+    price: 44.99,
+    originalPrice: 49.99,
+    image: '/products/Tesamorelin/Tesa10mg.png',
+    rating: 5,
+    reviews: 0,
+    inStock: true,
+  },
+  {
     id: 'klow-80mg',
     name: 'KLOW 80mg',
     description: 'GHK/KPV/BPC/TB blend (Klow): laboratory reference mixture of synthetic GHK-Cu, KPV, BPC-157, and TB-500. Supplied strictly for laboratory research use.',
