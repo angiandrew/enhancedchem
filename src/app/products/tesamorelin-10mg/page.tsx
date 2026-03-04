@@ -14,7 +14,7 @@ export default function Tesamorelin10mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const currentPrice = 44.99
+	const currentPrice = 79.99
 	const currentOriginalPrice = 49.99
 	const currentImage = '/products/Tesamorelin/Tesa10mg.png'
 

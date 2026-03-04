@@ -201,7 +201,7 @@ const allProducts = [
     id: 'tesamorelin-10mg',
     name: 'Tesamorelin 10mg',
     description: 'Tesamorelin is a synthetic peptide analog for analytical characterization and experimental laboratory applications. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
-    price: 44.99,
+    price: 79.99,
     originalPrice: 49.99,
     image: '/products/Tesamorelin/Tesa10mg.png',
     rating: 5,

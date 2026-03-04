@@ -1288,7 +1288,7 @@ export default function CheckoutPage() {
 										<h3 className="font-serif text-sm font-semibold text-foreground mb-3">Frequently Bought Together</h3>
 										<ul className="space-y-2">
 											{[
-												{ id: 'tesamorelin-10mg', name: 'Tesamorelin 10mg', price: 44.99, image: '/products/Tesamorelin/Tesa10mg.png' },
+												{ id: 'tesamorelin-10mg', name: 'Tesamorelin 10mg', price: 79.99, image: '/products/Tesamorelin/Tesa10mg.png' },
 												{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 												{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, image: '/products/tb-500/TB-500 10mg.png' },
 												{ id: 'ipamorelin', name: 'Ipamorelin 10mg', price: 59.99, image: '/products/ipamorelin/Ipamorelin 10mg.png' },
