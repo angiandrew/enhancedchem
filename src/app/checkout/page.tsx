@@ -34,8 +34,10 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'NICK10': 0.10,
 	'NICKTEST': 0.05,
 	'ORBITROPIN': 0.10,
+	'SAM10': 0.10,
 	'SAVE15': 0.15,
 	'SIMPLYCODES': 0.10,
+	'SUSAN': 0.10,
 	'TRTBONE': 0.10,
 }
 
