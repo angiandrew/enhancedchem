@@ -49,15 +49,14 @@ export default function ProductCard({
   }
 
   return (
-    <div className="group bg-white/90 backdrop-blur-sm rounded-lg border border-border/30 overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] active:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow h-full flex flex-col">
-      {/* Image container: fixed height, cover fill, rounded top, hover zoom clipped */}
-      <div className="relative w-full h-[220px] rounded-t-lg overflow-hidden">
+    <div className="group bg-white/90 backdrop-blur-sm rounded-lg border border-border/30 border-t-0 overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] active:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow h-full flex flex-col">
+      <div className="relative w-full aspect-[3/3.4] min-h-0 rounded-t-lg overflow-hidden">
         <Link href={`/products/${id}`} className="block w-full h-full">
           <Image
             src={image}
             alt={name}
             fill
-            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 220px"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
             className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
               !inStock ? 'opacity-75' : ''
             }`}
@@ -81,15 +80,13 @@ export default function ProductCard({
         )}
       </div>
 
-      {/* Content */}
-      <div className="p-2 sm:p-3 md:p-4 flex flex-col bg-white/90">
+      <div className="p-2 sm:p-2.5 md:p-3 flex flex-col bg-white/90">
         <Link href={`/products/${id}`} className="group/link">
-          <h3 className="font-serif text-xs sm:text-sm font-medium mb-0.5 sm:mb-1 text-foreground line-clamp-1">{name}</h3>
-          <p className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground mb-1 sm:mb-2 line-clamp-2 leading-tight">{description}</p>
+          <h3 className="font-serif text-xs sm:text-sm font-medium mb-0.5 text-foreground line-clamp-1">{name}</h3>
+          <p className="text-[9px] sm:text-[10px] text-muted-foreground mb-1 line-clamp-2 leading-tight">{description}</p>
         </Link>
 
-        {/* Price & Action */}
-        <div className="flex items-center justify-between gap-1 sm:gap-2 mt-auto pt-1.5 sm:pt-2 border-t border-border/30">
+        <div className="flex items-center justify-between gap-1 sm:gap-2 mt-auto pt-1 sm:pt-1.5 border-t border-border/30">
           <div className="flex items-baseline gap-1">
             <span className="text-xs sm:text-sm md:text-base font-semibold text-foreground">${price.toFixed(2)}</span>
             {originalPrice && (

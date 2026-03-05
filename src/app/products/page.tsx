@@ -1,11 +1,64 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { Search } from 'lucide-react'
+import { useState, useMemo, useEffect } from 'react'
+import { Search, ChevronDown } from 'lucide-react'
+import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+
+const ITEMS_PER_PAGE = 12
+const POPULARITY_ORDER = [
+  'reta',
+  'reta-20mg',
+  'ghk-cu-100mg',
+  'mix-peptide',
+  'melanotan-2',
+  'klow-80mg',
+  'reta-15mg',
+  'cjc-1295-no-dac',
+  'nad-500mg',
+]
+// Page 1: BPC 10/20, Reta 10/20 (top row), TB-5 then TB-10; GLOW/KLOW in former KPV spots; Semax/Selank at end of page 2
+const DEFAULT_ORDER = [
+  'bpc-157',
+  'bpc-157-20mg',
+  'reta',
+  'reta-20mg',
+  'tb-500-5mg',
+  'tb-500',
+  'ghk-cu',
+  'ghk-cu-100mg',
+  // Swap: GLOW blend (mix-peptide) where KPV 5mg was
+  'mix-peptide',
+  // Swap: KLOW blend where KPV 10mg was
+  'klow-80mg',
+  'bpc-tb-mix',
+  'bpc-tb-mix-10mg',
+  'nad-500mg',
+  'reta-15mg',
+  'melanotan-2',
+  'tesamorelin-10mg',
+  'glp-2tz',
+  'cjc-1295-no-dac-5mg',
+  'cjc-1295-no-dac',
+  'cjc-1295-2mg',
+  'semax',
+  'selank',
+  // KPV 5mg/10mg now occupy the former GLOW/KLOW positions
+  'kpv-5mg',
+  'kpv',
+  'ipamorelin-5mg',
+  'ipamorelin',
+  'ipamorelin-cjc-1295-10mg',
+  'cjc-1295-5mg',
+  'reta-5mg',
+  'ipamorelin-cjc-1295-5mg',
+  'bpc-157-5mg',
+]
 
 const allProducts = [
   {
@@ -31,6 +84,16 @@ const allProducts = [
     inStock: true,
   },
   {
+    id: 'tb-500-5mg',
+    name: 'TB-500 5mg',
+    description: 'TB-500 is a synthetic 43-amino-acid peptide fragment of thymosin beta-4. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
+    price: 37.99,
+    originalPrice: 42.99,
+    image: '/products/tb-500/TB-500 5mg.png',
+    rating: 5,
+    reviews: 34,
+  },
+  {
     id: 'tb-500',
     name: 'TB-500 10mg',
     description: 'TB-500 is a synthetic 43-amino-acid peptide fragment of thymosin beta-4. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
@@ -40,16 +103,6 @@ const allProducts = [
     rating: 5,
     reviews: 89,
     badge: 'Popular',
-  },
-  {
-    id: 'tb-500-5mg',
-    name: 'TB-500 5mg',
-    description: 'TB-500 is a synthetic 43-amino-acid peptide fragment of thymosin beta-4. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
-    price: 37.99,
-    originalPrice: 42.99,
-    image: '/products/tb-500/TB-500 5mg.png',
-    rating: 5,
-    reviews: 34,
   },
   {
     id: 'ghk-cu',
@@ -342,99 +395,248 @@ const allProducts = [
   },
 ]
 
+type SortOption = 'default' | 'popularity' | 'price-low' | 'price-high'
+type StatusFilter = 'all' | 'in' | 'out'
+
 export default function Products() {
   const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [sortBy, setSortBy] = useState<SortOption>('default')
+  const [sortOpen, setSortOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const filteredProducts = useMemo(() => {
-    if (!searchTerm.trim()) {
-      return allProducts
+    let list = allProducts
+
+    if (searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase()
+      list = list.filter((p) => {
+        const nameMatch = p.name.toLowerCase().includes(searchLower)
+        const descMatch = p.description.toLowerCase().includes(searchLower)
+        return nameMatch || descMatch
+      })
     }
 
-    const searchLower = searchTerm.toLowerCase()
-    return allProducts.filter((product) => {
-      const nameMatch = product.name.toLowerCase().includes(searchLower)
-      const descriptionMatch = product.description.toLowerCase().includes(searchLower)
-      return nameMatch || descriptionMatch
-    })
-  }, [searchTerm])
+    if (statusFilter === 'in') list = list.filter((p) => p.inStock !== false)
+    if (statusFilter === 'out') list = list.filter((p) => p.inStock === false)
+
+    if (sortBy === 'default') {
+      const orderMap = new Map(DEFAULT_ORDER.map((id, i) => [id, i]))
+      list = [...list].sort((a, b) => {
+        const ai = orderMap.has(a.id) ? orderMap.get(a.id)! : 9999
+        const bi = orderMap.has(b.id) ? orderMap.get(b.id)! : 9999
+        return ai - bi
+      })
+    } else if (sortBy === 'popularity') {
+      const orderSet = new Set(POPULARITY_ORDER)
+      const ordered = POPULARITY_ORDER.map((id) => list.find((p) => p.id === id)).filter(Boolean) as typeof list
+      const rest = list.filter((p) => !orderSet.has(p.id))
+      list = [...ordered, ...rest]
+    } else if (sortBy === 'price-low') {
+      list = [...list].sort((a, b) => a.price - b.price)
+    } else if (sortBy === 'price-high') {
+      list = [...list].sort((a, b) => b.price - a.price)
+    }
+
+    return list
+  }, [searchTerm, statusFilter, sortBy])
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE))
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE
+    return filteredProducts.slice(start, start + ITEMS_PER_PAGE)
+  }, [filteredProducts, currentPage])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, statusFilter, sortBy])
+
+  const sortLabel =
+    sortBy === 'default'
+      ? 'Default sorting'
+      : sortBy === 'popularity'
+        ? 'Sort by popularity'
+        : sortBy === 'price-low'
+          ? 'Sort by price: low to high'
+          : 'Sort by price: high to low'
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-32 md:pt-36 pb-16">
-        {/* Full-bleed product section: same white → light gray as product photos for a seamless look */}
         <section className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[60vh] bg-gradient-to-b from-white via-[#fafaf8] to-[#f2f1ed]">
-          <div className="container mx-auto px-4 sm:px-6 py-8 md:py-10">
-            {/* Page Header */}
-            <div className="text-center mb-6 sm:mb-8">
-            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3 sm:mb-4 block font-sans">
-              Our Products
-            </span>
-            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 sm:mb-4">
-              Research Peptides: Reta, BPC-157, TB-500 & More
-            </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-2">
-              Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.
-            </p>
-          </div>
-
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <Input
-                type="text"
-                placeholder="Search products by name or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 pr-4 py-6 text-base sm:text-sm bg-card border-border/50 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 rounded-lg shadow-sm"
-              />
-            </div>
-          </div>
-
-          {/* Search Results Count */}
-          {searchTerm && (
-            <div className="mb-4 text-center sm:text-left">
-              <p className="text-sm sm:text-base text-muted-foreground">
-                {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found{searchTerm && ` for "${searchTerm}"`}
-              </p>
-            </div>
-          )}
-
-          {/* Products Grid */}
-          <div className="max-w-7xl mx-auto">
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 px-1 sm:px-2">
-                {filteredProducts.map((product) => (
-                  <div key={product.id}>
-                    <ProductCard {...product} />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-lg text-muted-foreground mb-3">No products found</p>
-                <p className="text-sm text-muted-foreground">
-                  Try adjusting your search terms or{' '}
-                  <button
-                    onClick={() => setSearchTerm('')}
-                    className="text-primary underline hover:text-primary/80"
-                  >
-                    clear the search
-                  </button>
+          <div className="container mx-auto px-4 sm:px-6 py-6 md:py-8">
+            {/* Breadcrumb left; title + description centered */}
+            <div className="mb-6">
+              <nav className="text-sm text-muted-foreground mb-2">
+                <Link href="/" className="hover:text-primary">Home</Link>
+                <span className="mx-1">/</span>
+                <span className="text-foreground font-medium">Shop</span>
+              </nav>
+              <div className="text-center">
+                <h1 className="font-serif text-2xl md:text-3xl font-medium text-foreground">Research Peptides</h1>
+                <p className="text-muted-foreground text-sm mt-1 max-w-2xl mx-auto">
+                  Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.
                 </p>
               </div>
-            )}
-          </div>
+            </div>
 
-            {/* Research Disclaimer */}
-            <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-lg border border-border/30 shadow-sm text-center">
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only. 
-                Not for human consumption. Please ensure compliance with local regulations.
-              </p>
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+              {/* Left Sidebar: Search + Status */}
+              <aside className="lg:w-64 shrink-0 space-y-6">
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Search</h3>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-9 h-9 text-sm bg-card border-border rounded-md"
+                      />
+                    </div>
+                    <Button type="button" size="sm" className="h-9 px-3 bg-primary text-primary-foreground hover:bg-primary/90">
+                      Search
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Status</h3>
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 cursor-pointer text-sm">
+                      <Checkbox
+                        checked={statusFilter === 'all'}
+                        onCheckedChange={() => setStatusFilter('all')}
+                      />
+                      <span>All</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer text-sm">
+                      <Checkbox
+                        checked={statusFilter === 'in'}
+                        onCheckedChange={() => setStatusFilter('in')}
+                      />
+                      <span>In stock</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer text-sm">
+                      <Checkbox
+                        checked={statusFilter === 'out'}
+                        onCheckedChange={() => setStatusFilter('out')}
+                      />
+                      <span>Out of stock</span>
+                    </label>
+                  </div>
+                </div>
+              </aside>
+
+              {/* Right: Results + Sort + Grid + Pagination */}
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                  <p className="text-sm text-muted-foreground">
+                    Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} results
+                  </p>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setSortOpen((o) => !o)}
+                      className="flex items-center gap-1.5 px-3 py-2 text-sm bg-card border border-border rounded-md hover:border-primary/50"
+                    >
+                      <span>{sortLabel}</span>
+                      <ChevronDown className={`h-4 w-4 transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {sortOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" aria-hidden onClick={() => setSortOpen(false)} />
+                        <ul className="absolute right-0 top-full mt-1 py-1 w-56 bg-card border border-border rounded-md shadow-lg z-20">
+                          {(['default', 'popularity', 'price-low', 'price-high'] as const).map((opt) => (
+                            <li key={opt}>
+                              <button
+                                type="button"
+                                className="w-full text-left px-3 py-2 text-sm hover:bg-muted"
+                                onClick={() => {
+                                  setSortBy(opt)
+                                  setSortOpen(false)
+                                }}
+                              >
+                                {opt === 'default' && 'Default sorting'}
+                                {opt === 'popularity' && 'Sort by popularity'}
+                                {opt === 'price-low' && 'Sort by price: low to high'}
+                                {opt === 'price-high' && 'Sort by price: high to low'}
+                                {sortBy === opt && ' ✓'}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {paginatedProducts.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
+                      {paginatedProducts.map((product) => (
+                        <div key={product.id}>
+                          <ProductCard {...product} />
+                        </div>
+                      ))}
+                    </div>
+
+                    {totalPages > 1 && (
+                      <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={currentPage === 1}
+                          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                        >
+                          Previous
+                        </Button>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <Button
+                            key={page}
+                            variant={currentPage === page ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                          >
+                            {page}
+                          </Button>
+                        ))}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={currentPage === totalPages}
+                          onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                        >
+                          Next
+                        </Button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-lg text-muted-foreground mb-3">No products found</p>
+                    <p className="text-sm text-muted-foreground">
+                      Try adjusting your search or filters, or{' '}
+                      <button
+                        type="button"
+                        onClick={() => { setSearchTerm(''); setStatusFilter('all') }}
+                        className="text-primary underline hover:text-primary/80"
+                      >
+                        clear
+                      </button>
+                    </p>
+                  </div>
+                )}
+
+                <div className="mt-8 sm:mt-10 p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-lg border border-border/30 shadow-sm text-center">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only.
+                    Not for human consumption. Please ensure compliance with local regulations.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>

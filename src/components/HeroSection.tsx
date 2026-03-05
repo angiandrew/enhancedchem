@@ -4,12 +4,15 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Shield, Truck, Award, CalendarCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import ShippingTicker from '@/components/ShippingTicker'
 
 export function HeroSection() {
   return (
-    <section className="relative w-full mt-[3.25rem] md:mt-24">
-      {/* Hero Image - clean on mobile, no overlay */}
+    <section className="relative w-full mt-[4.75rem] md:mt-[7.25rem]">
       <div className="relative w-full bg-background">
+        <div className="absolute top-0 left-0 right-0 z-10">
+          <ShippingTicker />
+        </div>
         <img
           src="/logos/banner3.png"
           alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
