@@ -9,18 +9,19 @@ import ShippingTicker from '@/components/ShippingTicker'
 export function HeroSection() {
   return (
     <section className="relative w-full mt-[4.75rem] md:mt-[7.25rem]">
-      {/* Taller hero banner for stronger brand identity */}
+      <ShippingTicker />
       <div className="relative w-full bg-background">
-        <div className="absolute top-0 left-0 right-0 z-10">
-          <ShippingTicker />
-        </div>
-        <div className="w-full h-[220px] sm:h-[260px] md:h-[360px] lg:h-[420px] xl:h-[460px]">
-          <img
-            src="/logos/banner3.png"
-            alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
-            className="w-full h-full object-cover object-center block"
-          />
-        </div>
+        <img
+          src="/logos/banner3.png"
+          alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
+          className="w-full h-auto object-contain object-center block"
+          style={{ 
+            maxHeight: 'none', 
+            height: 'auto',
+            width: '100%',
+            display: 'block'
+          }}
+        />
       </div>
 
       {/* Mobile only: buttons + trust badges BELOW the photo (no overlay) */}
