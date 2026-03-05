@@ -174,12 +174,38 @@ export default function AffiliatePage() {
 						</div>
 					</motion.div>
 
-					{/* Affiliate Dashboard Section */}
+					{/* CTA Section - go here first */}
 					<motion.div
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: 0.4 }}
-						className="mb-16"
+						transition={{ delay: 0.5 }}
+						className="text-center"
+					>
+						<div className="bg-primary/5 rounded-lg border-2 border-primary/20 p-8 md:p-12 max-w-2xl mx-auto">
+							<Shield className="w-12 h-12 text-primary mx-auto mb-4" />
+							<h2 className="font-serif text-3xl font-medium mb-4">Ready to Get Started?</h2>
+							<p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+								Join our affiliate program today and start earning commissions by promoting premium research peptides to qualified researchers.
+							</p>
+							<a
+								href="https://www.affiliatly.com/af-1074129/affiliate.panel?mode=register"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<Button variant="elegant" size="lg" className="gap-2">
+									Apply to Become an Affiliate
+									<ArrowRight className="w-4 h-4" />
+								</Button>
+							</a>
+						</div>
+					</motion.div>
+
+					{/* Affiliate Dashboard Section - now comes after CTA */}
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.6 }}
+						className="mt-16"
 					>
 						<div className="bg-card rounded-lg border border-border p-8 md:p-12 max-w-3xl mx-auto">
 							<h2 className="font-serif text-3xl font-medium mb-6 text-center">Affiliate Dashboard</h2>
@@ -207,32 +233,6 @@ export default function AffiliatePage() {
 									</Button>
 								</a>
 							</div>
-						</div>
-					</motion.div>
-
-					{/* CTA Section */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: 0.5 }}
-						className="text-center"
-					>
-						<div className="bg-primary/5 rounded-lg border-2 border-primary/20 p-8 md:p-12 max-w-2xl mx-auto">
-							<Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-							<h2 className="font-serif text-3xl font-medium mb-4">Ready to Get Started?</h2>
-							<p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-								Join our affiliate program today and start earning commissions by promoting premium research peptides to qualified researchers.
-							</p>
-							<a
-								href="https://www.affiliatly.com/af-1074129/affiliate.panel?mode=register"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<Button variant="elegant" size="lg" className="gap-2">
-									Apply to Become an Affiliate
-									<ArrowRight className="w-4 h-4" />
-								</Button>
-							</a>
 						</div>
 					</motion.div>
 
