@@ -62,3 +62,11 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+@keyframes shipping-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-shipping-ticker {
+  animation: shipping-ticker 25s linear infinite;
+}

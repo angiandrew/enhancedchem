@@ -209,6 +209,17 @@ const allProducts = [
     inStock: true,
   },
   {
+    id: 'glp-2tz',
+    name: 'GLP-2TZ 10mg',
+    description: 'Synthetic peptide composed of a 39-amino-acid sequence with specific structural modifications. Dual incretin receptor agonist analog for analytical characterization and experimental biochemical research. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
+    price: 79.99,
+    originalPrice: 88.99,
+    image: '/products/GLP-2TZ/GLP2TZ.jpeg',
+    rating: 5,
+    reviews: 0,
+    inStock: true,
+  },
+  {
     id: 'klow-80mg',
     name: 'KLOW 80mg',
     description: 'GHK/KPV/BPC/TB blend (Klow): laboratory reference mixture of synthetic GHK-Cu, KPV, BPC-157, and TB-500. Supplied strictly for laboratory research use.',

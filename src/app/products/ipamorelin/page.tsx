@@ -127,7 +127,7 @@ export default function IpamorelinPage() {
 						<div className="bg-card rounded-2xl p-4 sm:p-8 border border-border shadow-sm">
 							<h2 className="font-serif text-2xl font-medium text-foreground mb-6">Storage & Information</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">Store in a freezer at -20°C or refrigerated. Keep away from direct sunlight and moisture.</p>
-							<p className="text-muted-foreground leading-relaxed">Ipamorelin is a growth hormone-releasing peptide (GHRP) used in research. This product is supplied for in vitro testing and laboratory use only. Not for human consumption.</p>
+							<p className="text-muted-foreground leading-relaxed">Ipamorelin is a synthetic peptide analog composed of a defined amino acid sequence produced through controlled laboratory synthesis. It is manufactured for analytical characterization and experimental laboratory applications involving peptide structure and biochemical research.</p>
 						</div>
 					</div>
 
