@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: "Enhanced Chem - Premium Research Peptides",
     template: "%s | Enhanced Chem",
   },
-  description: "Buy peptides for scientific research and development. Highly purified research peptides: BPC-157, TB-500, Retatrutide, GHK-Cu. USA. Third-party tested. For in vitro and laboratory use only.",
+  description: "Buy research compounds for scientific research and development. 99% purity. Highly purified reference materials including BPC-157, TB-500, Reta, GHK-Cu. 10% off storewide. USA. Third-party tested. For in vitro and laboratory use only.",
   keywords: ["buy peptides", "research peptides", "retatrutide", "buy retatrutide", "BPC-157", "TB-500", "GHK-Cu", "peptide research", "laboratory peptides", "scientific research", "research peptides USA", "Enhanced Chem", "peptides for research"],
   authors: [{ name: "Enhanced Chem" }],
   creator: "Enhanced Chem",
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: "Enhanced Chem",
-    title: "Enhanced Chem - Buy Peptides for Scientific Research",
-    description: "Buy peptides for scientific research and development. Highly purified BPC-157, TB-500, Retatrutide, GHK-Cu. USA. For laboratory and in vitro research only.",
+    title: "Enhanced Chem - Buy Research Compounds for Scientific Use",
+    description: "Buy research compounds for scientific research and development. 99% purity. Highly purified BPC-157, TB-500, Reta, GHK-Cu. 10% off storewide. USA. For laboratory and in vitro research only.",
     images: [
       {
         url: `${baseUrl}/logos/Logo%20w:%20circle%20background.png`,
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Enhanced Chem - Premium Research Peptides",
-    description: "High-quality research peptides for scientific purposes. BPC-157, TB-500, and specialized peptide blends available.",
+    description: "High-quality research compounds for scientific purposes. 99% purity. 10% off storewide. BPC-157, TB-500, and specialized reference blends available.",
     images: [`${baseUrl}/logos/Logo%20w:%20circle%20background.png`],
   },
   robots: {
