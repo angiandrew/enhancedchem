@@ -11,7 +11,7 @@ export function HeroSection() {
       {/* Hero Image - clean on mobile, no overlay */}
       <div className="relative w-full bg-background">
         <img
-          src="/logos/NEW NEW banner new.png"
+          src="/logos/banner3.png"
           alt="Premium research peptides - BPC-157, TB-500, GHK-Cu, and NAD+ vials"
           className="w-full h-auto object-contain object-center block"
           style={{ 
