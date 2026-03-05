@@ -1292,9 +1292,9 @@ export default function CheckoutPage() {
 											{[
 												{ id: 'tesamorelin-10mg', name: 'Tesamorelin 10mg', price: 79.99, image: '/products/Tesamorelin/Tesa10mg.png' },
 												{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, image: '/products/bpc-157/BPC-157 10mg.png' },
-												{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, image: '/products/tb-500/TB-500 10mg.png' },
+												{ id: 'glp-2tz', name: 'GLP-2TZ 10mg', price: 79.99, image: '/products/GLP-2TZ/GLP2TZ.jpeg' },
 												{ id: 'ipamorelin', name: 'Ipamorelin 10mg', price: 59.99, image: '/products/Ipamorelin/Ipamorelin 10mg.png' },
-												{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, image: '/products/NAD%2B%20500MG/NAD%20500mg.png' },
+												{ id: 'reta-15mg', name: 'Reta 15mg', price: 109.99, image: '/products/Reta/Reta 15mg.png' },
 											].map((p) => (
 												<li key={p.id} className="flex items-center gap-2 text-sm">
 													<div className="w-10 h-10 rounded bg-secondary/30 border border-border overflow-hidden shrink-0 relative">
