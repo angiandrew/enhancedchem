@@ -1293,7 +1293,7 @@ export default function CheckoutPage() {
 												{ id: 'tesamorelin-10mg', name: 'Tesamorelin 10mg', price: 79.99, image: '/products/Tesamorelin/Tesa10mg.png' },
 												{ id: 'bpc-157', name: 'BPC-157 10mg', price: 41.99, image: '/products/bpc-157/BPC-157 10mg.png' },
 												{ id: 'tb-500', name: 'TB-500 10mg', price: 49.99, image: '/products/tb-500/TB-500 10mg.png' },
-												{ id: 'ipamorelin', name: 'Ipamorelin 10mg', price: 59.99, image: '/products/ipamorelin/Ipamorelin 10mg.png' },
+												{ id: 'ipamorelin', name: 'Ipamorelin 10mg', price: 59.99, image: '/products/Ipamorelin/Ipamorelin 10mg.png' },
 												{ id: 'nad-500mg', name: 'NAD+ 500mg', price: 64.99, image: '/products/NAD%2B%20500MG/NAD%20500mg.png' },
 											].map((p) => (
 												<li key={p.id} className="flex items-center gap-2 text-sm">
