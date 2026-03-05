@@ -50,13 +50,13 @@ export default function ProductCard({
 
   return (
     <div className="group bg-white/90 backdrop-blur-sm rounded-lg border border-border/30 border-t-0 overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] active:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow h-full flex flex-col">
-      <div className="relative w-full aspect-[3/3.4] min-h-0 rounded-t-lg overflow-hidden">
+      <div className="relative w-full aspect-[3/4] sm:aspect-[3/3.4] min-h-0 rounded-t-lg overflow-hidden">
         <Link href={`/products/${id}`} className="block w-full h-full">
           <Image
             src={image}
             alt={name}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
+            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 33vw, 280px"
             className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
               !inStock ? 'opacity-75' : ''
             }`}
@@ -80,17 +80,17 @@ export default function ProductCard({
         )}
       </div>
 
-      <div className="p-2 sm:p-2.5 md:p-3 flex flex-col bg-white/90">
+      <div className="p-1.5 sm:p-2.5 md:p-3 flex flex-col bg-white/90">
         <Link href={`/products/${id}`} className="group/link">
-          <h3 className="font-serif text-xs sm:text-sm font-medium mb-0.5 text-foreground line-clamp-1">{name}</h3>
-          <p className="text-[9px] sm:text-[10px] text-muted-foreground mb-1 line-clamp-2 leading-tight">{description}</p>
+          <h3 className="font-serif text-[10px] sm:text-sm font-medium mb-0.5 text-foreground line-clamp-1">{name}</h3>
+          <p className="text-[8px] sm:text-[10px] text-muted-foreground mb-0.5 sm:mb-1 line-clamp-2 leading-tight">{description}</p>
         </Link>
 
-        <div className="flex items-center justify-between gap-1 sm:gap-2 mt-auto pt-1 sm:pt-1.5 border-t border-border/30">
-          <div className="flex items-baseline gap-1">
-            <span className="text-xs sm:text-sm md:text-base font-semibold text-foreground">${price.toFixed(2)}</span>
+        <div className="flex items-center justify-between gap-0.5 sm:gap-2 mt-auto pt-0.5 sm:pt-1.5 border-t border-border/30">
+          <div className="flex items-baseline gap-0.5 min-w-0">
+            <span className="text-[10px] sm:text-sm md:text-base font-semibold text-foreground truncate">${price.toFixed(2)}</span>
             {originalPrice && (
-              <span className="text-[8px] sm:text-[9px] md:text-[10px] text-muted-foreground line-through font-medium">
+              <span className="text-[7px] sm:text-[9px] md:text-[10px] text-muted-foreground line-through font-medium shrink-0">
                 ${originalPrice.toFixed(2)}
               </span>
             )}
@@ -100,7 +100,7 @@ export default function ProductCard({
             size="sm" 
             onClick={handleAddToCart} 
             disabled={!inStock}
-            className={`text-[8px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-1.5 font-medium transition-colors touch-manipulation ${
+            className={`text-[8px] sm:text-[9px] md:text-xs px-1 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-1.5 font-medium transition-colors touch-manipulation shrink-0 ${
               !inStock ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >

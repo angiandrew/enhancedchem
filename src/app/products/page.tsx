@@ -463,19 +463,19 @@ export default function Products() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-32 md:pt-36 pb-16">
+      <main className="pt-28 sm:pt-32 md:pt-36 pb-16">
         <section className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[60vh] bg-gradient-to-b from-white via-[#fafaf8] to-[#f2f1ed]">
-          <div className="container mx-auto px-4 sm:px-6 py-6 md:py-8">
+          <div className="container mx-auto px-3 sm:px-6 py-4 sm:py-6 md:py-8">
             {/* Breadcrumb left; title + description centered */}
-            <div className="mb-6">
-              <nav className="text-sm text-muted-foreground mb-2">
+            <div className="mb-4 sm:mb-6">
+              <nav className="text-xs sm:text-sm text-muted-foreground mb-1 sm:mb-2">
                 <Link href="/" className="hover:text-primary">Home</Link>
                 <span className="mx-1">/</span>
                 <span className="text-foreground font-medium">Shop</span>
               </nav>
               <div className="text-center">
-                <h1 className="font-serif text-2xl md:text-3xl font-medium text-foreground">Research Peptides</h1>
-                <p className="text-muted-foreground text-sm mt-1 max-w-2xl mx-auto">
+                <h1 className="font-serif text-xl sm:text-2xl md:text-3xl font-medium text-foreground">Research Peptides</h1>
+                <p className="text-muted-foreground text-xs sm:text-sm mt-1 max-w-2xl mx-auto px-1">
                   Premium quality peptides for scientific research. All products come with certificates of analysis and are manufactured in GMP-compliant facilities.
                 </p>
               </div>
@@ -483,27 +483,27 @@ export default function Products() {
 
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
               {/* Left Sidebar: Search + Status */}
-              <aside className="lg:w-64 shrink-0 space-y-6">
+              <aside className="lg:w-64 shrink-0 space-y-4 sm:space-y-6">
                 <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Search</h3>
-                  <div className="flex gap-2">
-                    <div className="relative flex-1">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <h3 className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 sm:mb-3">Search</h3>
+                  <div className="flex gap-1.5 sm:gap-2">
+                    <div className="relative flex-1 min-w-0">
+                      <Search className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                       <Input
                         type="text"
-                        placeholder="Search products..."
+                        placeholder="Search..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-9 h-9 text-sm bg-card border-border rounded-md"
+                        className="pl-7 sm:pl-9 h-8 sm:h-9 text-xs sm:text-sm bg-card border-border rounded-md"
                       />
                     </div>
-                    <Button type="button" size="sm" className="h-9 px-3 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Button type="button" size="sm" className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm bg-primary text-primary-foreground hover:bg-primary/90 shrink-0">
                       Search
                     </Button>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Status</h3>
+                  <h3 className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 sm:mb-3">Status</h3>
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 cursor-pointer text-sm">
                       <Checkbox
@@ -532,15 +532,15 @@ export default function Products() {
 
               {/* Right: Results + Sort + Grid + Pagination */}
               <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 mb-3 sm:mb-4">
+                  <p className="text-xs sm:text-sm text-muted-foreground truncate min-w-0">
                     Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} results
                   </p>
                   <div className="relative">
                     <button
                       type="button"
                       onClick={() => setSortOpen((o) => !o)}
-                      className="flex items-center gap-1.5 px-3 py-2 text-sm bg-card border border-border rounded-md hover:border-primary/50"
+                      className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm bg-card border border-border rounded-md hover:border-primary/50 shrink-0"
                     >
                       <span>{sortLabel}</span>
                       <ChevronDown className={`h-4 w-4 transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
@@ -575,7 +575,7 @@ export default function Products() {
 
                 {paginatedProducts.length > 0 ? (
                   <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
+                    <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-2 md:gap-3">
                       {paginatedProducts.map((product) => (
                         <div key={product.id}>
                           <ProductCard {...product} />
@@ -584,12 +584,13 @@ export default function Products() {
                     </div>
 
                     {totalPages > 1 && (
-                      <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+                      <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8">
                         <Button
                           variant="outline"
                           size="sm"
                           disabled={currentPage === 1}
                           onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                          className="text-xs px-2 py-1 h-8"
                         >
                           Previous
                         </Button>
@@ -599,6 +600,7 @@ export default function Products() {
                             variant={currentPage === page ? 'default' : 'outline'}
                             size="sm"
                             onClick={() => setCurrentPage(page)}
+                            className="text-xs min-w-[2rem] h-8 px-2"
                           >
                             {page}
                           </Button>
@@ -608,6 +610,7 @@ export default function Products() {
                           size="sm"
                           disabled={currentPage === totalPages}
                           onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                          className="text-xs px-2 py-1 h-8"
                         >
                           Next
                         </Button>
@@ -630,8 +633,8 @@ export default function Products() {
                   </div>
                 )}
 
-                <div className="mt-8 sm:mt-10 p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-lg border border-border/30 shadow-sm text-center">
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                <div className="mt-6 sm:mt-10 p-3 sm:p-6 bg-white/80 backdrop-blur-sm rounded-lg border border-border/30 shadow-sm text-center">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                     <strong className="text-foreground font-semibold">Research Use Only:</strong> These products are intended for laboratory research purposes only.
                     Not for human consumption. Please ensure compliance with local regulations.
                   </p>
