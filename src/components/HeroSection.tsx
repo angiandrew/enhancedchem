@@ -114,7 +114,7 @@ export function FeaturesStrip() {
     { icon: Shield, label: '99.9%+ Purity Certified' },
     { icon: Award, label: 'GMP Compliant' },
     { icon: Truck, label: 'Fast & Secure Shipping' },
-    { icon: CalendarCheck, label: 'Trusted Since 2019' },
+    { icon: CalendarCheck, label: 'Trusted Since 2024' },
   ]
 
   return (

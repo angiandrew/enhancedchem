@@ -175,7 +175,7 @@ export default function Glp2TzPage() {
 								Store in a freezer at -20°C. Keep away from direct sunlight and moisture. For research purposes only.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								It is a synthetic peptide composed of a 39-amino-acid sequence with specific structural modifications introduced during controlled laboratory synthesis. It is a dual incretin receptor agonist analog engineered for analytical characterization and experimental biochemical research. This material is produced under controlled synthesis conditions for laboratory reference and investigational applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
+								GLP-2TZ is a synthetic peptide composed of a 39-amino-acid sequence with specific structural modifications introduced during controlled laboratory synthesis. It is a dual incretin receptor agonist analog engineered for analytical characterization and experimental biochemical research. This material is produced under controlled synthesis conditions for laboratory reference and investigational applications. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
 							</p>
 						</div>
 					</div>
