@@ -67,6 +67,7 @@ export default function ProductImageCarousel({ slides = [], priority }: ProductI
 								className={slide.isCoa ? 'object-contain p-4' : 'object-cover object-center'}
 								priority={priority && i === 0}
 								sizes="(max-width: 768px) 100vw, 50vw"
+								unoptimized={!!slide.isCoa}
 							/>
 							{slide.isCoa && (
 								<div className="absolute bottom-2 left-2 bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
