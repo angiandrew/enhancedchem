@@ -52,7 +52,7 @@ export default function KLOW80mgPage() {
 							<ProductImageCarousel
 								slides={[
 									{ src: currentImage, alt: 'KLOW 80mg' },
-									{ src: '/COAs/3rd%20party%20testing/KLOW%20COA.jpg', alt: 'KLOW 80mg Certificate of Analysis', isCoa: true },
+									{ src: '/COAs/3rd party testing/KLOW COA.jpg', alt: 'KLOW 80mg Certificate of Analysis', isCoa: true },
 								]}
 								priority
 							/>
