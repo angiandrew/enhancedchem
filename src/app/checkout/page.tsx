@@ -19,6 +19,7 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'CAM': 0.10,
 	'CHETTO': 0.10,
 	'COMPLETE5': 0.05,
+	'DOM': 0.10,
 	'DOMBUILDS': 0.10,
 	'DULY': 0.10,
 	'EC20': 0.20,
