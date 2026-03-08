@@ -639,6 +639,22 @@ export default function Products() {
                     Not for human consumption. Please ensure compliance with local regulations.
                   </p>
                 </div>
+
+                {/* Request a research peptide CTA */}
+                <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-primary/5 border border-primary/20 rounded-xl text-center">
+                  <h3 className="font-serif text-base sm:text-lg font-medium text-foreground mb-1 sm:mb-2">
+                    Don&apos;t see a research peptide?
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 max-w-xl mx-auto">
+                    We&apos;re always expanding our research-use-only inventory. Request a peptide and we&apos;ll get back to you.
+                  </p>
+                  <a
+                    href="mailto:contact@enhancedchem.com?subject=Research%20Peptide%20Request&body=I%20would%20like%20to%20request%20the%20following%20research%20peptide%20or%20product%3A%20"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    Request a research peptide
+                  </a>
+                </div>
               </div>
             </div>
           </div>

@@ -47,13 +47,10 @@ export default function KLOW80mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Images - carousel with product + COA */}
+						{/* Product image only (no COA for this blend) */}
 						<div className="lg:sticky lg:top-28">
 							<ProductImageCarousel
-								slides={[
-									{ src: currentImage, alt: 'KLOW 80mg' },
-									{ src: '/COAs/klow-coa.jpg', alt: 'KLOW 80mg Certificate of Analysis', isCoa: true },
-								]}
+								slides={[{ src: currentImage, alt: 'KLOW 80mg' }]}
 								priority
 							/>
 						</div>
