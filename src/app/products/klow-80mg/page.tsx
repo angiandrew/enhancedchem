@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductNavigation from '@/components/ProductNavigation'
+import ProductImageCarousel from '@/components/ProductImageCarousel'
 
 export default function KLOW80mgPage() {
 	const [quantity, setQuantity] = useState(1)
@@ -46,17 +47,15 @@ export default function KLOW80mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product Image */}
-						<div className="lg:sticky lg:top-28 overflow-hidden rounded-lg">
-							<div className="relative aspect-square overflow-hidden">
-								<Image
-									src={currentImage}
-									alt="KLOW 80mg"
-									fill
-									className="object-cover object-center"
-									priority
-								/>
-							</div>
+						{/* Product Images - carousel with product + COA */}
+						<div className="lg:sticky lg:top-28">
+							<ProductImageCarousel
+								slides={[
+									{ src: currentImage, alt: 'KLOW 80mg' },
+									{ src: '/COAs/3rd%20party%20testing/KLOW%20COA.jpg', alt: 'KLOW 80mg Certificate of Analysis', isCoa: true },
+								]}
+								priority
+							/>
 						</div>
 
 						{/* Product Info */}
