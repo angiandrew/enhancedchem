@@ -9,6 +9,7 @@ import ProductCard from '@/components/ProductCard'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Textarea } from '@/components/ui/textarea'
 
 const ITEMS_PER_PAGE = 12
 const POPULARITY_ORDER = [
@@ -276,12 +277,12 @@ const allProducts = [
     id: 'klow-80mg',
     name: 'KLOW 80mg',
     description: 'GHK/KPV/BPC/TB blend (Klow): laboratory reference mixture of synthetic GHK-Cu, KPV, BPC-157, and TB-500. Supplied strictly for laboratory research use.',
-    price: 119.99,
+    price: 104.99,
     originalPrice: 133.99,
     image: '/products/KLOW 80mg/KLOW 80mg.png',
     rating: 5,
     reviews: 48,
-    badge: 'New',
+    badge: 'Huge Sale',
   },
   {
     id: 'cjc-1295-no-dac-5mg',
@@ -404,6 +405,10 @@ export default function Products() {
   const [sortBy, setSortBy] = useState<SortOption>('default')
   const [sortOpen, setSortOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
+  const [peptideRequest, setPeptideRequest] = useState('')
+  const [peptideRequestEmail, setPeptideRequestEmail] = useState('')
+  const [peptideSubmitStatus, setPeptideSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [peptideError, setPeptideError] = useState('')
 
   const filteredProducts = useMemo(() => {
     let list = allProducts
@@ -459,6 +464,34 @@ export default function Products() {
         : sortBy === 'price-low'
           ? 'Sort by price: low to high'
           : 'Sort by price: high to low'
+
+  const handlePeptideRequestSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setPeptideError('')
+    setPeptideSubmitStatus('loading')
+    try {
+      const res = await fetch('/api/request-peptide', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          request: peptideRequest,
+          email: peptideRequestEmail || undefined,
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setPeptideSubmitStatus('error')
+        setPeptideError(data.error || 'Failed to send. Please try again.')
+        return
+      }
+      setPeptideSubmitStatus('success')
+      setPeptideRequest('')
+      setPeptideRequestEmail('')
+    } catch {
+      setPeptideSubmitStatus('error')
+      setPeptideError('Something went wrong. Please try again.')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -640,20 +673,48 @@ export default function Products() {
                   </p>
                 </div>
 
-                {/* Request a research peptide CTA */}
-                <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-primary/5 border border-primary/20 rounded-xl text-center">
-                  <h3 className="font-serif text-base sm:text-lg font-medium text-foreground mb-1 sm:mb-2">
+                {/* Request a research peptide form */}
+                <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-primary/5 border border-primary/20 rounded-xl">
+                  <h3 className="font-serif text-base sm:text-lg font-medium text-foreground mb-1 sm:mb-2 text-center">
                     Don&apos;t see a research peptide?
                   </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 max-w-xl mx-auto">
-                    We&apos;re always expanding our research-use-only inventory. Request a peptide and we&apos;ll get back to you.
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-4 max-w-xl mx-auto text-center">
+                    We&apos;re always expanding our research-use-only inventory. Tell us what you&apos;re looking for and we&apos;ll get back to you.
                   </p>
-                  <a
-                    href="mailto:contact@enhancedchem.com?subject=Research%20Peptide%20Request&body=I%20would%20like%20to%20request%20the%20following%20research%20peptide%20or%20product%3A%20"
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
-                  >
-                    Request a research peptide
-                  </a>
+                  {peptideSubmitStatus === 'success' ? (
+                    <p className="text-sm text-green-600 font-medium text-center py-4">
+                      Request sent. We&apos;ll be in touch soon.
+                    </p>
+                  ) : (
+                    <form onSubmit={handlePeptideRequestSubmit} className="max-w-xl mx-auto space-y-3">
+                      <Textarea
+                        placeholder="e.g. Epithalon 10mg, PT-141 10mg, or describe what you need..."
+                        value={peptideRequest}
+                        onChange={(e) => setPeptideRequest(e.target.value)}
+                        className="min-h-[100px] text-sm resize-y"
+                        required
+                        disabled={peptideSubmitStatus === 'loading'}
+                      />
+                      <Input
+                        type="email"
+                        placeholder="Your email (optional, so we can reply)"
+                        value={peptideRequestEmail}
+                        onChange={(e) => setPeptideRequestEmail(e.target.value)}
+                        className="text-sm"
+                        disabled={peptideSubmitStatus === 'loading'}
+                      />
+                      {peptideError && (
+                        <p className="text-sm text-destructive">{peptideError}</p>
+                      )}
+                      <Button
+                        type="submit"
+                        disabled={peptideSubmitStatus === 'loading' || !peptideRequest.trim()}
+                        className="w-full sm:w-auto"
+                      >
+                        {peptideSubmitStatus === 'loading' ? 'Sending...' : 'Submit request'}
+                      </Button>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>

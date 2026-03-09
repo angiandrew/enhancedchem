@@ -14,7 +14,7 @@ export default function KLOW80mgPage() {
 	const [quantity, setQuantity] = useState(1)
 	const { addItem } = useCart()
 
-	const currentPrice = 119.99
+	const currentPrice = 104.99
 	const currentOriginalPrice = 133.99
 	const currentImage = '/products/KLOW 80mg/KLOW 80mg.png'
 
@@ -47,8 +47,13 @@ export default function KLOW80mgPage() {
 					</nav>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start">
-						{/* Product image only (no COA for this blend) */}
-						<div className="lg:sticky lg:top-28">
+						{/* Product image + sale badge (no COA for this blend) */}
+						<div className="lg:sticky lg:top-28 relative">
+							<div className="absolute -top-3 -left-3 z-10">
+								<span className="inline-flex items-center rounded-full bg-destructive text-destructive-foreground px-3 py-1 text-xs font-semibold shadow-md">
+									Huge Sale
+								</span>
+							</div>
 							<ProductImageCarousel
 								slides={[{ src: currentImage, alt: 'KLOW 80mg' }]}
 								priority
