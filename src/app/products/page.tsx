@@ -172,7 +172,7 @@ const allProducts = [
   {
     id: 'bpc-tb-mix',
     name: 'BPC-157 (5MG) + TB-500 (5MG) Mix',
-    description: 'Laboratory reference mixture of synthetic BPC-157 and TB-500. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
+    description: 'Laboratory reference mixture of synthetic BPC-157 and TB-500, also known as the Wolverine Blend. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 64.99,
     originalPrice: 72.99,
     image: '/products/bpc-tb-mix/BPC_TB 5_5.png',
@@ -182,7 +182,7 @@ const allProducts = [
   {
     id: 'bpc-tb-mix-10mg',
     name: 'BPC-157 (10MG) + TB-500 (10MG) Mix',
-    description: 'Laboratory reference mixture of synthetic BPC-157 and TB-500. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
+    description: 'Laboratory reference mixture of synthetic BPC-157 and TB-500, also known as the Wolverine Blend. Supplied strictly for laboratory research use in controlled, non-clinical environments.',
     price: 94.99,
     originalPrice: 105.99,
     image: '/products/bpc-tb-mix/BPC_TB 10_10.png',

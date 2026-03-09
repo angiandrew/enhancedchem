@@ -266,8 +266,11 @@ export default function BpcTbMixPage() {
 								Store in a cool, dry place at room temperature. Keep away from direct sunlight and moisture. 
 								For research purposes only.
 							</p>
-							<p className="text-muted-foreground leading-relaxed">
+							<p className="text-muted-foreground leading-relaxed mb-2">
 								The BPC/TB blend is a laboratory reference mixture containing synthetic BPC-157 and synthetic TB-500. It combines a 15-amino-acid peptide and a 43-amino-acid peptide fragment prepared under controlled conditions. This material is supplied strictly for laboratory research use in controlled, non-clinical environments.
+							</p>
+							<p className="text-muted-foreground leading-relaxed">
+								This product is also known as the <span className="font-medium">Wolverine Blend</span>, and may appear under that name in research discussions or comparison lists.
 							</p>
 						</div>
 					</div>
