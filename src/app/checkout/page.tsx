@@ -40,6 +40,8 @@ const VALID_PROMO_CODES: Record<string, number> = {
 	'SIMPLYCODES': 0.10,
 	'SUSAN': 0.10,
 	'TRTBONE': 0.10,
+	'KAI': 0.10,
+	'BRIAN10': 0.10,
 	'PEPPER': 0.15,
 }
 
